@@ -21,6 +21,17 @@ ivNetShoppingCart.controller('RegistrationController', function($scope, $http) {
 
         $scope.members = [];
         $scope.juniors = [];
+        
+        //Private Key:	6LfU2fASAAAAAOFTDH3lehppnQPH2eVhbH54aQYy
+
+        Recaptcha.create("6LfU2fASAAAAAIbgxLxe3BjwRXA6xEbjCVq7iJke",
+            "recaptcha",
+            {
+                theme: "clean",
+                callback: Recaptcha.focus_response_field
+            }
+        );
+
     }
 
     $scope.registrationTypeSelection = function() {
