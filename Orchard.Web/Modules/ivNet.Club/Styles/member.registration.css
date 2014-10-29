@@ -1,0 +1,7 @@
+﻿div#NewMemberRegistration div.form-group {
+  /*display: none;*/
+}
+div#NewMemberRegistration div.junior {
+  display: inherit;
+}
+/*# sourceMappingURL=member.registration.css.map */

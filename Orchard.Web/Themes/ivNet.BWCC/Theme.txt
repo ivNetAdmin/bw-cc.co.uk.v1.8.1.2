@@ -1,0 +1,8 @@
+Name: ivNet.BWCC
+Author: The Orchard Team
+Website: http://www.ivnet.co.uk
+Description: Ballinger Waggoners Club theme based on PJS.BootstrapVersion: 3.2.0.1
+BaseTheme: PJS.Bootstrap
+Version: 1.0
+Tags: Bootstrap
+Zones: Header, Navigation, Featured, BeforeMain, AsideFirst, Messages, BeforeContent, Content, AfterContent, AsideSecond, AfterMain, TripelFirst, TripelSecond, TripelThird, FooterQuadFirst, FooterQuadSecond, FooterQuadThird, FooterQuadFourth, Footer

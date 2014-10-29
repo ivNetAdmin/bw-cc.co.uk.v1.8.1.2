@@ -1,0 +1,605 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CB70A642-8CEC-4DDE-8C9F-AD08900EC98D}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Themes</RootNamespace>
+    <AssemblyName>Themes</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkProfile />
+    <UseIISExpress>false</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>..\..\OrchardBasicCorrectness.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\lib\aspnetmvc\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="PJS.Bootstrap\Controllers\ValidateController.cs" />
+    <Compile Include="PJS.Bootstrap\Gravatar\Gravatar.cs" />
+    <Compile Include="PJS.Bootstrap\Gravatar\Gremail.cs" />
+    <Compile Include="PJS.Bootstrap\Gravatar\Grofile.cs" />
+    <Compile Include="PJS.Bootstrap\Gravatar\GrofileInfo.cs" />
+    <Compile Include="PJS.Bootstrap\Gravatar\Html\HtmlHelperExtensions.cs" />
+    <Compile Include="PJS.Bootstrap\Gravatar\Html\UrlHelperExtensions.cs" />
+    <Compile Include="PJS.Bootstrap\Handlers\BootstrapThemeSettingsPartHandler.cs" />
+    <Compile Include="PJS.Bootstrap\MainMenu.cs" />
+    <Compile Include="PJS.Bootstrap\Models\BootstrapThemeSettingsPart.cs" />
+    <Compile Include="PJS.Bootstrap\ResourceManifest.cs" />
+    <Compile Include="PJS.Bootstrap\Routes.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="PJS.Bootstrap\Content\apple-touch-icon.png" />
+    <Content Include="PJS.Bootstrap\Content\favicon.ico" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\dark_rounded\btnNext.png" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\dark_rounded\btnPrevious.png" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\dark_rounded\contentPattern.png" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\dark_rounded\default_thumbnail.gif" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\dark_rounded\loader.gif" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\dark_rounded\sprite.png" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\dark_square\btnNext.png" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\dark_square\btnPrevious.png" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\dark_square\contentPattern.png" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\dark_square\default_thumbnail.gif" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\dark_square\loader.gif" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\dark_square\sprite.png" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\default\default_thumb.png" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\default\loader.gif" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\default\sprite.png" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\default\sprite_next.png" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\default\sprite_prev.png" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\default\sprite_x.png" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\default\sprite_y.png" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\facebook\btnNext.png" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\facebook\btnPrevious.png" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\facebook\contentPatternBottom.png" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\facebook\contentPatternLeft.png" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\facebook\contentPatternRight.png" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\facebook\contentPatternTop.png" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\facebook\default_thumbnail.gif" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\facebook\loader.gif" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\facebook\sprite.png" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\light_rounded\btnNext.png" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\light_rounded\btnPrevious.png" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\light_rounded\default_thumbnail.gif" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\light_rounded\loader.gif" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\light_rounded\sprite.png" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\light_square\btnNext.png" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\light_square\btnPrevious.png" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\light_square\default_thumbnail.gif" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\light_square\loader.gif" />
+    <Content Include="PJS.Bootstrap\Content\prettyPhoto\light_square\sprite.png" />
+    <Content Include="PJS.Bootstrap\PJS.Bootstrap.csproj" />
+    <Content Include="PJS.Bootstrap\Scripts\bootstrap-3.2.0\js\affix.js" />
+    <Content Include="PJS.Bootstrap\Scripts\bootstrap-3.2.0\js\alert.js" />
+    <Content Include="PJS.Bootstrap\Scripts\bootstrap-3.2.0\js\bootstrap.js" />
+    <Content Include="PJS.Bootstrap\Scripts\bootstrap-3.2.0\js\bootstrap.min.js" />
+    <Content Include="PJS.Bootstrap\Scripts\bootstrap-3.2.0\js\button.js" />
+    <Content Include="PJS.Bootstrap\Scripts\bootstrap-3.2.0\js\carousel.js" />
+    <Content Include="PJS.Bootstrap\Scripts\bootstrap-3.2.0\js\collapse.js" />
+    <Content Include="PJS.Bootstrap\Scripts\bootstrap-3.2.0\js\dropdown.js" />
+    <Content Include="PJS.Bootstrap\Scripts\bootstrap-3.2.0\js\modal.js" />
+    <Content Include="PJS.Bootstrap\Scripts\bootstrap-3.2.0\js\popover.js" />
+    <Content Include="PJS.Bootstrap\Scripts\bootstrap-3.2.0\js\scrollspy.js" />
+    <Content Include="PJS.Bootstrap\Scripts\bootstrap-3.2.0\js\tab.js" />
+    <Content Include="PJS.Bootstrap\Scripts\bootstrap-3.2.0\js\tooltip.js" />
+    <Content Include="PJS.Bootstrap\Scripts\bootstrap-3.2.0\js\transition.js" />
+    <Content Include="PJS.Bootstrap\Scripts\custom.js" />
+    <Content Include="PJS.Bootstrap\Scripts\hover-dropdown.js" />
+    <Content Include="PJS.Bootstrap\Scripts\isotope\jquery.isotope.min.js" />
+    <Content Include="PJS.Bootstrap\Scripts\jquery.styler.js" />
+    <Content Include="PJS.Bootstrap\Scripts\prettyPhoto\jquery.prettyPhoto.min.js" />
+    <Content Include="PJS.Bootstrap\Scripts\rs-plugin\jquery.themepunch.plugins.min.js" />
+    <Content Include="PJS.Bootstrap\Scripts\rs-plugin\jquery.themepunch.revolution.js" />
+    <Content Include="PJS.Bootstrap\Scripts\rs-plugin\jquery.themepunch.revolution.min.js" />
+    <Content Include="PJS.Bootstrap\Scripts\validationEngine\jquery.validationEngine-en.js" />
+    <Content Include="PJS.Bootstrap\Scripts\validationEngine\jquery.validationEngine.js" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="PJS.Bootstrap\Styles\font-awesome-4.2.0\fonts\fontawesome-webfont.svg" />
+    <Content Include="PJS.Bootstrap\Styles\prettyPhoto\prettyPhoto.css" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\arrowleft.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\arrowright.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\arrow_large_left.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\arrow_large_right.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\arrow_left.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\arrow_left2.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\arrow_right.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\arrow_right2.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\black50.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\boxed_bgtile.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\bullet.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\bullets.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\bullets2.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\bullet_boxed.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\coloredbg.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\grain.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\gridtile.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\gridtile_3x3.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\gridtile_3x3_white.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\gridtile_white.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\large_left.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\large_right.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\loader.gif" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\loader2.gif" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\navigdots.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\navigdots_bgtile.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\shadow1.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\shadow2.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\shadow3.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\small_left.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\small_left_boxed.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\small_right.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\small_right_boxed.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\timer.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\timerdot.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\transparent.jpg" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\white50.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\css\captions-original.css" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\css\dynamic-captions.css" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\css\settings.css" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\css\static-captions.css" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\font\revicons.svg" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\images\decor_inside.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\images\decor_inside_white.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\images\decor_testimonial.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\images\gradient\g30.png" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\images\gradient\g40.png" />
+    <Content Include="PJS.Bootstrap\Styles\site-cerulean.css" />
+    <Content Include="PJS.Bootstrap\Styles\site-cerulean.min.css" />
+    <Content Include="PJS.Bootstrap\Styles\site-cosmo.css" />
+    <Content Include="PJS.Bootstrap\Styles\site-cosmo.min.css" />
+    <Content Include="PJS.Bootstrap\Styles\site-cyborg.css" />
+    <Content Include="PJS.Bootstrap\Styles\site-cyborg.min.css" />
+    <Content Include="PJS.Bootstrap\Styles\site-darkly.css" />
+    <Content Include="PJS.Bootstrap\Styles\site-darkly.min.css" />
+    <Content Include="PJS.Bootstrap\Styles\site-default.css" />
+    <Content Include="PJS.Bootstrap\Styles\site-default.min.css" />
+    <Content Include="PJS.Bootstrap\Styles\site-flatly.css" />
+    <Content Include="PJS.Bootstrap\Styles\site-flatly.min.css" />
+    <Content Include="PJS.Bootstrap\Styles\site-journal.css" />
+    <Content Include="PJS.Bootstrap\Styles\site-journal.min.css" />
+    <Content Include="PJS.Bootstrap\Styles\site-lumen.css" />
+    <Content Include="PJS.Bootstrap\Styles\site-lumen.min.css" />
+    <Content Include="PJS.Bootstrap\Styles\site-paper.css" />
+    <Content Include="PJS.Bootstrap\Styles\site-paper.min.css" />
+    <Content Include="PJS.Bootstrap\Styles\site-readable.css" />
+    <Content Include="PJS.Bootstrap\Styles\site-readable.min.css" />
+    <Content Include="PJS.Bootstrap\Styles\site-sandstone.css" />
+    <Content Include="PJS.Bootstrap\Styles\site-sandstone.min.css" />
+    <Content Include="PJS.Bootstrap\Styles\site-simplex.css" />
+    <Content Include="PJS.Bootstrap\Styles\site-simplex.min.css" />
+    <Content Include="PJS.Bootstrap\Styles\site-slate.css" />
+    <Content Include="PJS.Bootstrap\Styles\site-slate.min.css" />
+    <Content Include="PJS.Bootstrap\Styles\site-spacelab.css" />
+    <Content Include="PJS.Bootstrap\Styles\site-spacelab.min.css" />
+    <Content Include="PJS.Bootstrap\Styles\site-superhero.css" />
+    <Content Include="PJS.Bootstrap\Styles\site-superhero.min.css" />
+    <Content Include="PJS.Bootstrap\Styles\site-united.css" />
+    <Content Include="PJS.Bootstrap\Styles\site-united.min.css" />
+    <Content Include="PJS.Bootstrap\Styles\site-yeti.css" />
+    <Content Include="PJS.Bootstrap\Styles\site-yeti.min.css" />
+    <Content Include="PJS.Bootstrap\Theme.png" />
+    <Content Include="PJS.Bootstrap\Theme.txt" />
+    <Content Include="TheAdmin\Scripts\admin.js" />
+    <Content Include="TheAdmin\Styles\ie.css" />
+    <Content Include="TheAdmin\Styles\ie7.css" />
+    <Content Include="TheAdmin\Styles\ie8.css" />
+    <Content Include="TheAdmin\Styles\images\adminNavBackground.gif" />
+    <Content Include="TheAdmin\Styles\images\icon-advisory.png" />
+    <Content Include="TheAdmin\Styles\images\icon-contribute.png" />
+    <Content Include="TheAdmin\Styles\images\icon-docs.png" />
+    <Content Include="TheAdmin\Styles\images\icon-friends.png" />
+    <Content Include="TheAdmin\Styles\images\icon-gallery.png" />
+    <Content Include="TheAdmin\Styles\images\icon-settings.png" />
+    <Content Include="TheAdmin\Styles\images\info.gif" />
+    <Content Include="TheAdmin\Styles\images\menu-default.png" />
+    <Content Include="TheAdmin\Styles\images\menu-glyph.png" />
+    <Content Include="TheAdmin\Styles\images\menuClosed.gif" />
+    <Content Include="TheAdmin\Styles\images\menuClosedHover.gif" />
+    <Content Include="TheAdmin\Styles\images\menuOpen.gif" />
+    <Content Include="TheAdmin\Styles\images\menuOpenHover.gif" />
+    <Content Include="TheAdmin\Styles\images\vinesBackgroundBottom.gif" />
+    <Content Include="TheThemeMachine\Styles\Site.css" />
+    <Content Include="TheThemeMachine\Theme.png" />
+    <Content Include="TheThemeMachine\Theme.txt" />
+    <Content Include="SafeMode\Content\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="SafeMode\Styles\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="TheAdmin\Views\Pager.cshtml" />
+    <Content Include="TheAdmin\Views\OrchardVersion.cshtml" />
+    <Content Include="TheThemeMachine\ThemeZonePreview.png" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="TheAdmin\Views\Menu.cshtml" />
+    <Content Include="TheThemeMachine\Views\Branding.cshtml" />
+    <Content Include="TheThemeMachine\Views\BadgeOfHonor.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TheAdmin\Styles\images\icons.png" />
+    <Content Include="TheAdmin\Styles\images\tableHeaderBackgroundRed.gif" />
+    <Content Include="TheAdmin\Styles\site.css" />
+    <Content Include="TheAdmin\Theme.txt" />
+    <Content Include="SafeMode\Views\Document.cshtml" />
+    <Content Include="TheAdmin\Views\Layout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TheAdmin\Styles\images\icons.psd" />
+    <Content Include="SafeMode\Content\orchard.ico" />
+    <Content Include="SafeMode\Styles\ie6.css" />
+    <Content Include="SafeMode\Styles\images\backgroundHeader.gif" />
+    <Content Include="SafeMode\Styles\images\backgroundVines.gif" />
+    <Content Include="SafeMode\Styles\images\orchardLogo.gif" />
+    <Content Include="SafeMode\Styles\site.css" />
+    <Content Include="SafeMode\Theme.png" />
+    <Content Include="SafeMode\Theme.txt" />
+    <Content Include="SafeMode\Views\Layout.cshtml" />
+    <Content Include="TheAdmin\Styles\images\backgroundGradient.gif" />
+    <Content Include="TheAdmin\Styles\images\backgroundHeader.gif" />
+    <Content Include="TheAdmin\Styles\images\orchardLogo.gif" />
+    <Content Include="TheAdmin\Theme.png" />
+    <Content Include="TheAdmin\Views\User.cshtml" />
+    <Content Include="TheAdmin\Views\Header.cshtml" />
+    <Content Include="TheThemeMachine\Views\Layout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TheThemeMachine\Styles\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TheAdmin\Scripts\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TheAdmin\Styles\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TheThemeMachine\Placement.info" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TheAdmin\Views\LocalMenu.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TheAdmin\Views\Title.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Orchard\Orchard.Framework.csproj">
+      <Project>{2D1D92BB-4555-4CBE-8D0E-63563D6CE4C6}</Project>
+      <Name>Orchard.Framework</Name>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Core\Orchard.Core.csproj">
+      <Project>{9916839c-39fc-4ceb-a5af-89ca7e87119f}</Project>
+      <Name>Orchard.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Modules\Orchard.Users\Orchard.Users.csproj">
+      <Project>{79aed36e-abd0-4747-93d3-8722b042454b}</Project>
+      <Name>Orchard.Users</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TheThemeMachine\Views\Pager.cshtml" />
+    <Content Include="TheThemeMachine\Views\Pager.First.cshtml" />
+    <Content Include="TheThemeMachine\Views\Pager.Last.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TheAdmin\Views\ErrorPage.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="PJS.Bootstrap\Content\Web.config" />
+    <Content Include="PJS.Bootstrap\Placement.info" />
+    <Content Include="PJS.Bootstrap\Scripts\Web.config" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\alerts.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\badges.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\bootstrap.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\breadcrumbs.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\button-groups.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\buttons.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\carousel.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\close.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\code.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\component-animations.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\dropdowns.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\forms.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\glyphicons.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\grid.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\input-groups.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\jumbotron.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\labels.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\list-group.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\media.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\mixins.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\mixins\alerts.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\mixins\background-variant.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\mixins\border-radius.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\mixins\buttons.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\mixins\center-block.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\mixins\clearfix.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\mixins\forms.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\mixins\gradients.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\mixins\grid-framework.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\mixins\grid.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\mixins\hide-text.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\mixins\image.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\mixins\labels.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\mixins\list-group.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\mixins\nav-divider.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\mixins\nav-vertical-align.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\mixins\opacity.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\mixins\pagination.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\mixins\panels.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\mixins\progress-bar.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\mixins\reset-filter.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\mixins\resize.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\mixins\responsive-visibility.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\mixins\size.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\mixins\tab-focus.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\mixins\table-row.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\mixins\text-emphasis.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\mixins\text-overflow.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\mixins\vendor-prefixes.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\modals.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\navbar.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\navs.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\normalize.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\pager.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\pagination.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\panels.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\popovers.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\print.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\progress-bars.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\responsive-embed.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\responsive-utilities.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\scaffolding.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\tables.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\theme.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\thumbnails.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\tooltip.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\type.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\utilities.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\variables.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootstrap-3.2.0\less\wells.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootswatch\cerulean-bootswatch.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootswatch\cerulean-variables.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootswatch\cosmo-bootswatch.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootswatch\cosmo-variables.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootswatch\cyborg-bootswatch.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootswatch\cyborg-variables.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootswatch\darkly-bootswatch.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootswatch\darkly-variables.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootswatch\flatly-bootswatch.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootswatch\flatly-variables.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootswatch\journal-bootswatch.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootswatch\journal-variables.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootswatch\lumen-bootswatch.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootswatch\lumen-variables.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootswatch\paper-bootswatch.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootswatch\paper-variables.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootswatch\readable-bootswatch.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootswatch\readable-variables.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootswatch\sandstone-bootswatch.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootswatch\sandstone-variables.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootswatch\simplex-bootswatch.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootswatch\simplex-variables.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootswatch\slate-bootswatch.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootswatch\slate-variables.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootswatch\spacelab-bootswatch.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootswatch\spacelab-variables.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootswatch\superhero-bootswatch.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootswatch\superhero-variables.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootswatch\united-bootswatch.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootswatch\united-variables.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootswatch\yeti-bootswatch.less" />
+    <Content Include="PJS.Bootstrap\Styles\bootswatch\yeti-variables.less" />
+    <Content Include="PJS.Bootstrap\Styles\font-awesome-4.2.0\fonts\fontawesome-webfont.eot" />
+    <Content Include="PJS.Bootstrap\Styles\font-awesome-4.2.0\fonts\fontawesome-webfont.ttf" />
+    <Content Include="PJS.Bootstrap\Styles\font-awesome-4.2.0\fonts\fontawesome-webfont.woff" />
+    <Content Include="PJS.Bootstrap\Styles\font-awesome-4.2.0\fonts\FontAwesome.otf" />
+    <Content Include="PJS.Bootstrap\Styles\font-awesome-4.2.0\less\bordered-pulled.less" />
+    <Content Include="PJS.Bootstrap\Styles\font-awesome-4.2.0\less\core.less" />
+    <Content Include="PJS.Bootstrap\Styles\font-awesome-4.2.0\less\fixed-width.less" />
+    <Content Include="PJS.Bootstrap\Styles\font-awesome-4.2.0\less\font-awesome.less" />
+    <Content Include="PJS.Bootstrap\Styles\font-awesome-4.2.0\less\icons.less" />
+    <Content Include="PJS.Bootstrap\Styles\font-awesome-4.2.0\less\larger.less" />
+    <Content Include="PJS.Bootstrap\Styles\font-awesome-4.2.0\less\list.less" />
+    <Content Include="PJS.Bootstrap\Styles\font-awesome-4.2.0\less\mixins.less" />
+    <Content Include="PJS.Bootstrap\Styles\font-awesome-4.2.0\less\path.less" />
+    <Content Include="PJS.Bootstrap\Styles\font-awesome-4.2.0\less\rotated-flipped.less" />
+    <Content Include="PJS.Bootstrap\Styles\font-awesome-4.2.0\less\spinning.less" />
+    <Content Include="PJS.Bootstrap\Styles\font-awesome-4.2.0\less\stacked.less" />
+    <Content Include="PJS.Bootstrap\Styles\font-awesome-4.2.0\less\variables.less" />
+    <Content Include="PJS.Bootstrap\Styles\forms.less" />
+    <Content Include="PJS.Bootstrap\Styles\latest-twitter.less" />
+    <Content Include="PJS.Bootstrap\Styles\layout.less" />
+    <Content Include="PJS.Bootstrap\Styles\navigation.less" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\arrows.psd" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\bullets.psd" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\assets\small_arrows.psd" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\font\revicons.eot" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\font\revicons.ttf" />
+    <Content Include="PJS.Bootstrap\Styles\rs-plugin\font\revicons.woff" />
+    <Content Include="PJS.Bootstrap\Styles\site-cerulean.css.map" />
+    <Content Include="PJS.Bootstrap\Styles\site-cerulean.less" />
+    <Content Include="PJS.Bootstrap\Styles\site-cosmo.css.map" />
+    <Content Include="PJS.Bootstrap\Styles\site-cosmo.less" />
+    <Content Include="PJS.Bootstrap\Styles\site-cyborg.css.map" />
+    <Content Include="PJS.Bootstrap\Styles\site-cyborg.less" />
+    <Content Include="PJS.Bootstrap\Styles\site-darkly.css.map" />
+    <Content Include="PJS.Bootstrap\Styles\site-darkly.less" />
+    <Content Include="PJS.Bootstrap\Styles\site-default.css.map" />
+    <Content Include="PJS.Bootstrap\Styles\site-default.less" />
+    <Content Include="PJS.Bootstrap\Styles\site-flatly.css.map" />
+    <Content Include="PJS.Bootstrap\Styles\site-flatly.less" />
+    <Content Include="PJS.Bootstrap\Styles\site-journal.css.map" />
+    <Content Include="PJS.Bootstrap\Styles\site-journal.less" />
+    <Content Include="PJS.Bootstrap\Styles\site-lumen.css.map" />
+    <Content Include="PJS.Bootstrap\Styles\site-lumen.less" />
+    <Content Include="PJS.Bootstrap\Styles\site-paper.css.map" />
+    <Content Include="PJS.Bootstrap\Styles\site-paper.less" />
+    <Content Include="PJS.Bootstrap\Styles\site-readable.css.map" />
+    <Content Include="PJS.Bootstrap\Styles\site-readable.less" />
+    <Content Include="PJS.Bootstrap\Styles\site-sandstone.css.map" />
+    <Content Include="PJS.Bootstrap\Styles\site-sandstone.less" />
+    <Content Include="PJS.Bootstrap\Styles\site-simplex.css.map" />
+    <Content Include="PJS.Bootstrap\Styles\site-simplex.less" />
+    <Content Include="PJS.Bootstrap\Styles\site-slate.css.map" />
+    <Content Include="PJS.Bootstrap\Styles\site-slate.less" />
+    <Content Include="PJS.Bootstrap\Styles\site-spacelab.css.map" />
+    <Content Include="PJS.Bootstrap\Styles\site-spacelab.less" />
+    <Content Include="PJS.Bootstrap\Styles\site-superhero.css.map" />
+    <Content Include="PJS.Bootstrap\Styles\site-superhero.less" />
+    <Content Include="PJS.Bootstrap\Styles\site-united.css.map" />
+    <Content Include="PJS.Bootstrap\Styles\site-united.less" />
+    <Content Include="PJS.Bootstrap\Styles\site-yeti.css.map" />
+    <Content Include="PJS.Bootstrap\Styles\site-yeti.less" />
+    <Content Include="PJS.Bootstrap\Styles\type.less" />
+    <Content Include="PJS.Bootstrap\Styles\validationEngine\validationEngine.jquery.less" />
+    <Content Include="PJS.Bootstrap\Styles\Web.config" />
+    <Content Include="PJS.Bootstrap\Styles\zen-gallery.less" />
+    <Content Include="PJS.Bootstrap\Views\BadgeOfHonor.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\Branding.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\CommentAuthor.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\CommentGravatar.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\CommentMetadata.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\CommentReplyButton.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\CommentText.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\Content-Blog.Detail.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\Content-BlogPost.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\Content-BlogPost.Summary.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\Document.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\EditorTemplates\Parts.Comment.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\EditorTemplates\Parts\BootstrapThemeSettings.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\Insertions.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\Layout.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\LogOn.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\Menu.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\MenuItem.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\MenuItemLinkdd.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\Message.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\NavSearch.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\Orchard.Users\Account\AccessDenied.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\Orchard.Users\Account\ChallengeEmailFail.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\Orchard.Users\Account\ChallengeEmailSent.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\Orchard.Users\Account\ChallengeEmailSuccess.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\Orchard.Users\Account\ChangePassword.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\Orchard.Users\Account\ChangePasswordSuccess.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\Orchard.Users\Account\LostPassword.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\Orchard.Users\Account\RegistrationPending.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\Orchard.Users\Account\RequestLostPassword.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\Pager.CurrentPage.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\Pager.First.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\Pager.Gap.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\Pager.Last.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\Pager.Next.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\Pager.Previous.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\Parts.Blogs.RecentBlogPosts.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\Parts.Comment.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\Parts.ListOfComments.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\Parts.Search.SearchForm.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\Parts.Tags.ShowTags.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\Parts.TwitterWidget.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\Parts.ZenGallery.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\Register.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\Resources.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\Slider.cshtml" />
+    <Content Include="PJS.Bootstrap\Views\Styler.cshtml" />
+    <Content Include="PJS.Bootstrap\Web.config" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target> -->
+  <Target Name="AfterBuild" DependsOnTargets="AfterBuildCompiler">
+    <PropertyGroup>
+      <AreasManifestDir>$(ProjectDir)\..\Manifests</AreasManifestDir>
+    </PropertyGroup>
+  </Target>
+  <Target Name="AfterBuildCompiler" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(ProjectDir)\..\$(ProjectName)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>False</AutoAssignPort>
+          <DevelopmentServerPort>30320</DevelopmentServerPort>
+          <DevelopmentServerVPath>/OrchardLocal</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://orchard.codeplex.com</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

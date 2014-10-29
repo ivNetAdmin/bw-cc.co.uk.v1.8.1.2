@@ -1,0 +1,11 @@
+﻿Name: ivNet.Club
+AntiForgery: enabled
+Author: ivNet Ltd
+Website: http://www.ivnet.co.uk
+Version: 1.0
+OrchardVersion: 1.8.1
+Description: Club Function Tools
+Category: ivNet
+Features:
+    ivNet.Club:
+        Description: Description for feature ivNet.Club.

@@ -1,0 +1,95 @@
+﻿@{
+    Style.Require("Slider-Revolution-Settings");
+    Style.Require("Slider-Revolution-Dynamic-Captions");
+    Style.Require("Slider-Revolution-Static-Captions");
+
+    Script.Require("Slider-Revolution-Plugins");
+    Script.Require("Slider-Revolution");
+}
+
+<div id="fullwidthbanner-container" class="fullwidthbanner-container">
+    <div id="slider1" class="fullwidthbanner">
+        <ul>
+            <li data-transition="fade" data-slotamount="7" data-masterspeed="300">
+                <img src="@Href(Html.ThemePath(WorkContext.CurrentTheme, "/Content/slider/dummy.png"))" alt="" data-bgposition="center top" data-lazyload="@Href(Html.ThemePath(WorkContext.CurrentTheme, "/Content/slider/slider_01.jpg"))" data-bgfit="cover" data-bgrepeat="no-repeat" />
+            </li>
+            <li data-transition="fade" data-slotamount="7" data-masterspeed="300">
+                <img src="@Href(Html.ThemePath(WorkContext.CurrentTheme, "/Content/slider/dummy.png"))" alt="" data-bgposition="center top" data-lazyload="@Href(Html.ThemePath(WorkContext.CurrentTheme, "/Content/slider/slider_02.jpg"))" data-bgfit="cover" data-bgrepeat="no-repeat" />
+            </li>
+            <li data-transition="fade" data-slotamount="7" data-masterspeed="300">
+                <img src="@Href(Html.ThemePath(WorkContext.CurrentTheme, "/Content/slider/dummy.png"))" alt="" data-bgposition="center top" data-lazyload="@Href(Html.ThemePath(WorkContext.CurrentTheme, "/Content/slider/slider_03.jpg"))" data-bgfit="cover" data-bgrepeat="no-repeat" />
+            </li>
+            <li data-transition="fade" data-slotamount="7" data-masterspeed="300">
+                <img src="@Href(Html.ThemePath(WorkContext.CurrentTheme, "/Content/slider/dummy.png"))" alt="" data-bgposition="center top" data-lazyload="@Href(Html.ThemePath(WorkContext.CurrentTheme, "/Content/slider/slider_04.jpg"))" data-bgfit="cover" data-bgrepeat="no-repeat" />
+            </li>
+            <li data-transition="fade" data-slotamount="7" data-masterspeed="300">
+                <img src="@Href(Html.ThemePath(WorkContext.CurrentTheme, "/Content/slider/dummy.png"))" alt="" data-bgposition="center top" data-lazyload="@Href(Html.ThemePath(WorkContext.CurrentTheme, "/Content/slider/slider_05.jpg"))" data-bgfit="cover" data-bgrepeat="no-repeat" />
+            </li>
+        </ul>
+        <div class="tp-bannertimer tp-bottom"></div>
+    </div>
+</div>
+
+@using (Script.Foot()) {
+    <script type="text/javascript">
+        $(function () {
+            $('#slider1').revolution({
+                dottedOverlay: "none",
+                delay: 9000,
+                startwidth: 1170,
+                startheight: 400,
+                hideThumbs: 200,
+
+                thumbWidth: 100,
+                thumbHeight: 50,
+                thumbAmount: 4,
+
+                navigationType: "both",
+                navigationArrows: "solo",
+                navigationStyle: "round",
+
+                touchenabled: "on",
+                onHoverStop: "on",
+
+                navigationHAlign: "center",
+                navigationVAlign: "bottom",
+                navigationHOffset: 0,
+                navigationVOffset: 20,
+
+                soloArrowLeftHalign: "left",
+                soloArrowLeftValign: "center",
+                soloArrowLeftHOffset: 0,
+                soloArrowLeftVOffset: 0,
+
+                soloArrowRightHalign: "right",
+                soloArrowRightValign: "center",
+                soloArrowRightHOffset: 0,
+                soloArrowRightVOffset: 0,
+
+                shadow: 0,
+                fullWidth: "on",
+                fullScreen: "off",
+
+                stopLoop: "off",
+                stopAfterLoops: -1,
+                stopAtSlide: -1,
+
+                shuffle: "off",
+
+                autoHeight: "off",
+                forceFullWidth: "off",
+
+                hideThumbsOnMobile: "off",
+                hideBulletsOnMobile: "off",
+                hideArrowsOnMobile: "off",
+                hideThumbsUnderResolution: 0,
+
+                hideSliderAtLimit: 0,
+                hideCaptionAtLimit: 0,
+                hideAllCaptionAtLilmit: 0,
+                startWithSlide: 0,
+                fullScreenOffsetContainer: ""
+            });
+        });
+    </script>
+}
