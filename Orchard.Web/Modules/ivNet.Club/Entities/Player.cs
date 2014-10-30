@@ -1,7 +1,6 @@
 ﻿
 using System.Collections.Generic;
 using FluentNHibernate.Mapping;
-using NHibernate.Mapping;
 
 namespace ivNet.Club.Entities
 {
@@ -11,6 +10,12 @@ namespace ivNet.Club.Entities
         public virtual string Team { get; set; }
         public virtual Kit Kit { get; set; }
         public virtual List<Fee> Fees { get; set; }
+
+        public virtual void Init()
+        {
+           // Fees = new List<Fee>();
+            Kit = new Kit();
+        }
     }
 
     public class PlayerMap : ClassMap<Player>

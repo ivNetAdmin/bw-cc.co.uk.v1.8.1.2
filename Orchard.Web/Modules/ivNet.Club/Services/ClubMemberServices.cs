@@ -115,15 +115,19 @@ namespace ivNet.Club.Services
                             SetAudit(junior.ClubMember);
                             session.SaveOrUpdate(junior.ClubMember);
                             SetAudit(junior.JuniorInfo);
-                            session.SaveOrUpdate(junior.JuniorInfo);
-                            SetAudit(junior.Kit);
-                            session.SaveOrUpdate(junior.Kit);
+                            session.SaveOrUpdate(junior.JuniorInfo);                       
 
                             //var player = new Player();
                             //player = DuplicateCheck(session, player, junior.ClubMember);
 
-                            MapperHelper.Map(junior.Kit, juniorViewModel);
+                            
                             junior.Player = new Player { Number = junior.ClubMember.Id.ToString(CultureInfo.InvariantCulture).PadLeft(6, '0') };
+                            
+                            junior.Player.Init();
+                            MapperHelper.Map(junior.Player.Kit, juniorViewModel);
+
+                            SetAudit(junior.Player.Kit);
+                            session.SaveOrUpdate(junior.Player.Kit);         
 
                             SetAudit(junior.Player);
                             session.SaveOrUpdate(junior.Player);

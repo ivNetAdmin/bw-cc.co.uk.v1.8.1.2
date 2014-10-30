@@ -1,13 +1,12 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Web.Mvc;
-using ivNet.Club.Entities;
+using System.Web.Routing;
 using ivNet.Club.Helpers;
 using ivNet.Club.Services;
 using ivNet.Club.ViewModel;
@@ -37,6 +36,7 @@ namespace ivNet.Club.Controllers
         [Themed]
         public ActionResult New()
         {
+
             return View();
         }
 
@@ -85,7 +85,9 @@ namespace ivNet.Club.Controllers
                     _clubMemberServices.CreateGuardian(registrationList);
                 }
 
-                return View();
+                var model = new PaymentRegistreationViewModel();
+                return RedirectToAction("Registration", "Payment", new { viewModel = model });
+               
             }
             catch (Exception ex)
             {

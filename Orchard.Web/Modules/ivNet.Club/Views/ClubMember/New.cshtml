@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     Script.Require("Club.Member.Registration");
     Style.Require("Club.Member.Registration");
 }
@@ -7,21 +6,20 @@
     <div data-ng-controller="RegistrationController">
         @using (Html.BeginFormAntiForgeryPost(Url.Action("New", "ClubMember", new { area = "ivNet.Club" }), FormMethod.Post, new { @class = "form-horizontal", id = "newMemberForm" }))
         {
-            <fieldset>              
+            <fieldset>
                 @Html.Partial("_Instruction")
                 @Html.Partial("_RegistrationType")
-                
+
                 @Html.Partial("_GuardianCount")
                 @Html.Partial("_Member")
-         
+
                 @Html.Partial("_JuniorCount")
                 @Html.Partial("_Junior")
-                
+
                 @Html.Partial("_Other")
-         
+
                 @Html.Partial("_Button")
             </fieldset>
-        }       
+        }
     </div>
 </div>
-

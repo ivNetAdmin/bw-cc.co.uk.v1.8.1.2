@@ -1,13 +1,13 @@
 ﻿var ivNetShoppingCart = angular.module("ivNet.Member.Registration.App", []);
-var invalidCaptcha = false;
-ivNetShoppingCart.controller('RegistrationController', function($scope, $http) {
+var invalidCaptcha = true;
+ivNetShoppingCart.controller('RegistrationController', function ($scope, $http) {
 
     init();
 
     function init() {
         $('div#NewMemberRegistration').find('div.reg-form').hide();
         $('p#error').hide();
-    
+
         $.ajax({
             url: 'http://www.google.com/recaptcha/api/js/recaptcha_ajax.js',
             dataType: 'script',
@@ -18,17 +18,17 @@ ivNetShoppingCart.controller('RegistrationController', function($scope, $http) {
             error: function (xmlhttprequest, status, error) {
                 $('#captcha').html('Cannot create captcha');
             }
-        });              
+        });
     }
 
-    $scope.registrationTypeSelection = function() {
+    $scope.registrationTypeSelection = function () {
 
         $scope.members = [];
         $scope.juniors = [];
 
         var selection = [];
 
-        $('div.registration-type input:checked').each(function(index, element) {
+        $('div.registration-type input:checked').each(function (index, element) {
             selection.push(element.value);
         });
 
@@ -40,7 +40,7 @@ ivNetShoppingCart.controller('RegistrationController', function($scope, $http) {
             $('div.button').show();
         }
 
-        if (selection.indexOf("Guardian")!=-1) {
+        if (selection.indexOf("Guardian") != -1) {
             $scope.juniorcount = 1;
             $scope.juniors = [];
             $scope.juniors.push(1);
@@ -56,14 +56,14 @@ ivNetShoppingCart.controller('RegistrationController', function($scope, $http) {
         }
     }
 
-    $scope.adjustJuniorCount = function() {
+    $scope.adjustJuniorCount = function () {
         $scope.juniors = [];
         for (var i = 0; i < $scope.juniorcount; i++) {
             $scope.juniors.push(i);
         }
     };
 
-    $scope.adjustMemberCount = function() {
+    $scope.adjustMemberCount = function () {
         $scope.members = [];
         for (var i = 0; i < $scope.membercount; i++) {
             $scope.members.push(i);
@@ -82,7 +82,7 @@ ivNetShoppingCart.controller('RegistrationController', function($scope, $http) {
                 url: '/club/member/validate',
                 type: 'POST',
                 data: $('form#newMemberForm').serialize(),
-                success: function(data) {
+                success: function (data) {
                     if (!data.Success) {
 
                         $('p#error').show();
@@ -93,7 +93,7 @@ ivNetShoppingCart.controller('RegistrationController', function($scope, $http) {
                         $('form#newMemberForm').submit();
                     }
                 },
-                error: function(jqXhr, textStatus, errorThrown) {
+                error: function (jqXhr, textStatus, errorThrown) {
                     alert("Error '" + jqXhr.status + "' (textStatus: '" + textStatus + "', errorThrown: '" + errorThrown + "')");
                 }
             });

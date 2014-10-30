@@ -154,6 +154,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ClubMemberController.cs" />
     <Compile Include="Controllers\Documentation.cs" />
+    <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Entities\BaseEntity.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -196,6 +197,7 @@
     <Compile Include="ViewModel\MemberViewModel.cs" />
     <Compile Include="ViewModel\JuniorViewModel.cs" />
     <Compile Include="ViewModel\NewMembershipViewModel.cs" />
+    <Compile Include="ViewModel\PaymentRegistreationViewModel.cs" />
     <Compile Include="ViewModel\RecaptchaViewModel.cs" />
     <Compile Include="ViewModel\RegistrationViewModel.cs" />
   </ItemGroup>

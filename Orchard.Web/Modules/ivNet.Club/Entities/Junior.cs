@@ -12,8 +12,7 @@ namespace ivNet.Club.Entities
 
         public virtual ClubMember ClubMember { get; set; }    
         public virtual Player Player { get; set; }
-        public virtual JuniorInfo JuniorInfo { get; set; }
-        public virtual Kit Kit { get; set; }
+        public virtual JuniorInfo JuniorInfo { get; set; }        
 
         public virtual IList<Guardian> Guardians { get; protected set; }
 
@@ -22,8 +21,7 @@ namespace ivNet.Club.Entities
             Guardians = new List<Guardian>();
             ClubMember = new ClubMember();
             Player = new Player();
-            JuniorInfo= new JuniorInfo();
-            Kit = new Kit();
+            JuniorInfo= new JuniorInfo();            
         }
 
     }
@@ -40,7 +38,7 @@ namespace ivNet.Club.Entities
             References(x => x.Player);
             References(x => x.ClubMember);
             References(x => x.JuniorInfo);
-            References(x => x.Kit);
+            
             HasManyToMany(x => x.Guardians)
                 .Inverse()
                 .Cascade.SaveUpdate()
