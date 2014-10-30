@@ -1,42 +1,30 @@
 ﻿var ivNetShoppingCart = angular.module("ivNet.Member.Registration.App", []);
-
+var invalidCaptcha = false;
 ivNetShoppingCart.controller('RegistrationController', function($scope, $http) {
 
     init();
 
     function init() {
         $('div#NewMemberRegistration').find('div.reg-form').hide();
-        //reg-form
-        //$('div.guardian-count').hide();
-        //$('div.junior-count').hide();
-
-        //$('div.member').hide();
-        //$('div.junior').hide();
-        //$('div.officer').hide();
-
-        //$('div.button').hide();
-
-        //$('div.instruction').show();
-        //$('div.registration-type').show();
-
-        $scope.members = [];
-        $scope.juniors = [];
-        
-        //Private Key:	6LfU2fASAAAAAOFTDH3lehppnQPH2eVhbH54aQYy
-
-        Recaptcha.create("6LfU2fASAAAAAIbgxLxe3BjwRXA6xEbjCVq7iJke",
-            "recaptcha",
-            {
-                theme: "clean",
-                callback: Recaptcha.focus_response_field
+        $('p#error').hide();
+    
+        $.ajax({
+            url: 'http://www.google.com/recaptcha/api/js/recaptcha_ajax.js',
+            dataType: 'script',
+            success: function (result) {
+                CreateCaptcha();
+                newCaptcha = true;
+            },
+            error: function (xmlhttprequest, status, error) {
+                $('#captcha').html('Cannot create captcha');
             }
-        );
-
+        });              
     }
 
     $scope.registrationTypeSelection = function() {
 
-        init();
+        $scope.members = [];
+        $scope.juniors = [];
 
         var selection = [];
 
@@ -68,37 +56,6 @@ ivNetShoppingCart.controller('RegistrationController', function($scope, $http) {
         }
     }
 
-
-    //switch (element.value) {});
-        //    case "Guardian":
-        //        selection.push("guardian");
-
-        //        //$scope.membercount = 1;
-        //        //$scope.members = [];
-        //        //$scope.members.push(1);
-
-        //        $scope.juniorcount = 1;                   
-        //        $scope.juniors = [];
-        //        $scope.juniors.push(1);
-
-        //        $('div.member-count').show();
-
-
-        //        $('div.junior-count').show();
-
-        //        break;
-        //    default:
-        //        $('div.member-count').hide();
-        //       // $('div.name').show();
-        //       // $('div.address').show();
-        //       // $('div.contact').show();
-
-        //        break;
-        //}
-
-        // $('div.junior').show();
-        // $('div.button').show();
-
     $scope.adjustJuniorCount = function() {
         $scope.juniors = [];
         for (var i = 0; i < $scope.juniorcount; i++) {
@@ -113,5 +70,44 @@ ivNetShoppingCart.controller('RegistrationController', function($scope, $http) {
         }
     };
 
-    
+    $('form#newMemberForm').submit(function (event) {
+
+        if (invalidCaptcha) {
+            event.preventDefault();
+
+            $('input[name="Challenge"]').val(Recaptcha.get_challenge());
+            $('input[name="Response"]').val(Recaptcha.get_response());
+
+            $.ajax({
+                url: '/club/member/validate',
+                type: 'POST',
+                data: $('form#newMemberForm').serialize(),
+                success: function(data) {
+                    if (!data.Success) {
+
+                        $('p#error').show();
+                        CreateCaptcha();
+                    } else {
+                        invalidCaptcha = false;
+                        $('p#error').hide();
+                        $('form#newMemberForm').submit();
+                    }
+                },
+                error: function(jqXhr, textStatus, errorThrown) {
+                    alert("Error '" + jqXhr.status + "' (textStatus: '" + textStatus + "', errorThrown: '" + errorThrown + "')");
+                }
+            });
+        }
+    });
+
+    //Private Key:	6LfU2fASAAAAAOFTDH3lehppnQPH2eVhbH54aQYy
+    function CreateCaptcha() {
+        Recaptcha.create("6LfU2fASAAAAAIbgxLxe3BjwRXA6xEbjCVq7iJke",
+            "captcha",
+            {
+                theme: "clean",
+                callback: Recaptcha.focus_response_field
+            }
+        );
+    }
 });

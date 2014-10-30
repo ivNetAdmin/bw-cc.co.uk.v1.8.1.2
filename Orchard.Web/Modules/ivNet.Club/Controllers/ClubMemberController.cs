@@ -2,7 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text;
 using System.Web.Mvc;
 using ivNet.Club.Entities;
 using ivNet.Club.Helpers;
@@ -92,10 +95,8 @@ namespace ivNet.Club.Controllers
                     _clubMemberServices.CreateGuardian(registrationList);
                 }
 
+                var viewModel = new RecaptchaViewModel {PublicKey = "6LfU2fASAAAAAIbgxLxe3BjwRXA6xEbjCVq7iJke"};
 
-                var cakes = memberCount;
-                //Logger.Debug(ActionName);
-               
                 return View();
             }
             catch (Exception ex)
@@ -105,6 +106,41 @@ namespace ivNet.Club.Controllers
                     ex.InnerException == null ? string.Empty : string.Format(" - {0}", ex.InnerException), errorId));
                 return View("Error", errorId);
             }            
-        }        
+        }
+
+        [HttpPost]
+        public ActionResult ValidateCaptcha(FormCollection form)
+        {
+            var cientIP = Request.ServerVariables["REMOTE_ADDR"];
+            var privateKey = "6LfU2fASAAAAAOFTDH3lehppnQPH2eVhbH54aQYy"; //ConfigurationManager.AppSettings["ReCaptchaPrivateKey"];
+
+            var data = string.Format("privatekey={0}&remoteip={1}&challenge={2}&response={3}",
+                privateKey, cientIP, form["recaptcha_challenge_field"], form["recaptcha_response_field"]);
+
+            var byteArray = new ASCIIEncoding().GetBytes(data);
+
+            var request = WebRequest.Create("http://www.google.com/recaptcha/api/verify");
+            request.Credentials = CredentialCache.DefaultCredentials;
+            request.Method = "POST";
+            request.ContentType = "application/x-www-form-urlencoded";
+            request.ContentLength = byteArray.Length;
+            Stream dataStream = request.GetRequestStream();
+            dataStream.Write(byteArray, 0, byteArray.Length);
+            dataStream.Close();
+
+            var response = request.GetResponse();
+            var status = (((HttpWebResponse)response).StatusCode);
+            dataStream = response.GetResponseStream();
+            var reader = new StreamReader(dataStream);
+            var responseFromServer = reader.ReadToEnd();
+            reader.Close();
+            dataStream.Close();
+            response.Close();
+
+            var responseLines = responseFromServer.Split(new string[] { "\n" }, StringSplitOptions.None);
+            var success = responseLines[0].Equals("true");
+
+            return Json(new { Success = success });
+        }       
     }
 }

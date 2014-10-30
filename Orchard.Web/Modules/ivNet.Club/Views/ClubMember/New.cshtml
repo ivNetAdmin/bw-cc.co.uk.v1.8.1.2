@@ -1,11 +1,11 @@
-﻿<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
+﻿
 @{
     Script.Require("Club.Member.Registration");
     Style.Require("Club.Member.Registration");
 }
 <div id="NewMemberRegistration" data-ng-app="ivNet.Member.Registration.App">
     <div data-ng-controller="RegistrationController">
-        @using (Html.BeginFormAntiForgeryPost(Url.Action("New", "ClubMember", new { area = "ivNet.Club" }), FormMethod.Post, new { @class = "form-horizontal" }))
+        @using (Html.BeginFormAntiForgeryPost(Url.Action("New", "ClubMember", new { area = "ivNet.Club" }), FormMethod.Post, new { @class = "form-horizontal", id = "newMemberForm" }))
         {
             <fieldset>              
                 @Html.Partial("_Instruction")

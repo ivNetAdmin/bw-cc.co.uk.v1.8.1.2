@@ -196,6 +196,7 @@
     <Compile Include="ViewModel\MemberViewModel.cs" />
     <Compile Include="ViewModel\JuniorViewModel.cs" />
     <Compile Include="ViewModel\NewMembershipViewModel.cs" />
+    <Compile Include="ViewModel\RecaptchaViewModel.cs" />
     <Compile Include="ViewModel\RegistrationViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -68,6 +68,23 @@ namespace ivNet.Club
                             {"area", "ivNet.Club"}
                         },
                         new MvcRouteHandler())
+                },
+                new RouteDescriptor
+                {
+                    Route = new Route(
+                        "club/member/validate",
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Club"},
+                            {"controller", "ClubMember"},
+                            {"action", "ValidateCaptcha"}
+                        },
+                        new RouteValueDictionary(),
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Club"}
+                        },
+                        new MvcRouteHandler())
                 }
             };
         }
