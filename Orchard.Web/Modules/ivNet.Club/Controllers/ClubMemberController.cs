@@ -41,7 +41,6 @@ namespace ivNet.Club.Controllers
         }
 
         [HttpPost] 
-        //public ActionResult New(NewMembershipViewModel viewModel)
         public ActionResult New(FormCollection form)
         {
             try
@@ -52,22 +51,14 @@ namespace ivNet.Club.Controllers
                 var memberTypes = form["checkboxes"].Split(',');
                 var isGuardian = memberTypes.Contains("Guardian");
 
-             //   var memberList = new List<ClubMember>();
-             //   var contactList = new List<ContactDetail>();
-
                 var registrationList = new List<RegistrationViewModel>();
 
                 for (var i = 1; i <= memberCount; i++)
                 {
                     var registrationViewModel = new RegistrationViewModel();
 
-                   // var member = new ClubMember();
-                    MapperHelper.MapNewClubMember(registrationViewModel.MemberViewModel, form, i, "Adult");
-                   // memberList.Add(member);
-
-                   // var contact = new ContactDetail();
-                    MapperHelper.MapNewContactDetail(registrationViewModel.ContactViewModel, form, i);
-                   // contactList.Add(contact);
+                    MapperHelper.MapNewClubMember(registrationViewModel.MemberViewModel, form, i, "Adult");                
+                    MapperHelper.MapNewContactDetail(registrationViewModel.ContactViewModel, form, i);        
 
                     registrationList.Add(registrationViewModel);
                 }
@@ -75,8 +66,7 @@ namespace ivNet.Club.Controllers
                 if (isGuardian)
                 {
                     var juniorCount = Convert.ToInt32(form["JuniorCount"]);
-                   // var juniorList = new List<Junior>();
-              
+                 
                     // get junior club member details
                     for (var i = 1; i <= juniorCount; i++)
                     {
@@ -94,8 +84,6 @@ namespace ivNet.Club.Controllers
 
                     _clubMemberServices.CreateGuardian(registrationList);
                 }
-
-                var viewModel = new RecaptchaViewModel {PublicKey = "6LfU2fASAAAAAIbgxLxe3BjwRXA6xEbjCVq7iJke"};
 
                 return View();
             }

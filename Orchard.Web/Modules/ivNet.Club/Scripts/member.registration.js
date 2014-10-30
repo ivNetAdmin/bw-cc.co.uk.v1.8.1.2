@@ -100,7 +100,6 @@ ivNetShoppingCart.controller('RegistrationController', function($scope, $http) {
         }
     });
 
-    //Private Key:	6LfU2fASAAAAAOFTDH3lehppnQPH2eVhbH54aQYy
     function CreateCaptcha() {
         Recaptcha.create("6LfU2fASAAAAAIbgxLxe3BjwRXA6xEbjCVq7iJke",
             "captcha",
