@@ -36,7 +36,6 @@ namespace ivNet.Club.Controllers
         [Themed]
         public ActionResult New()
         {
-
             return View();
         }
         

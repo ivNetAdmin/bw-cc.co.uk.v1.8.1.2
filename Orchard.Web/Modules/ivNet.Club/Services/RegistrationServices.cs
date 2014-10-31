@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using ivNet.Club.Entities;
 using ivNet.Club.Helpers;
+using ivNet.Club.ViewModel;
 using Orchard;
 
 namespace ivNet.Club.Services
@@ -11,7 +12,7 @@ namespace ivNet.Club.Services
     public interface IRegistrationServices : IDependency
     {
         void Add(int memberId);
-        List<Junior> Get();
+        List<JuniorRegistrationViewModel> Get();
         void Clear();
     }
 
@@ -29,12 +30,29 @@ namespace ivNet.Club.Services
             ItemsInternal.Add(memberId);
         }
 
-        public List<Junior> Get()
+        public List<JuniorRegistrationViewModel> Get()
         {
             using (var session = NHibernateHelper.OpenSession())
             {
-                var memberList = session.CreateCriteria(typeof(Junior)).List<Junior>();
-                return memberList.ToList();
+                var memberIdList = ItemsInternal;
+                var juniorRegistrationList = new List<JuniorRegistrationViewModel>();
+
+                var juniorList = session.CreateCriteria(typeof(Junior)).List<Junior>();
+
+                foreach (var junior in juniorList)
+                {
+                    foreach (var memberId in memberIdList)
+                    {
+                        if (junior.ClubMember.Id == memberId)
+                        {
+                            var juniorRegistrationViewModel = new JuniorRegistrationViewModel();
+                            juniorRegistrationList.Add(MapperHelper.Map(juniorRegistrationViewModel, junior));       
+                        }
+                    }
+
+                    
+                }
+                return juniorRegistrationList;
             }
             
             // return list of members who have just been registered and their fee details

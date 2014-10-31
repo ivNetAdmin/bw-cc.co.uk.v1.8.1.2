@@ -18,6 +18,7 @@ namespace ivNet.Club
             var rdl = new List<RouteDescriptor>();
             rdl.AddRange(DocumentationRoutes());
             rdl.AddRange(MembershipRoutes());
+            rdl.AddRange(ConfigurationRoutes());
             return rdl;
         }
 
@@ -35,6 +36,49 @@ namespace ivNet.Club
                             {"area", "ivNet.Club"},
                             {"controller", "Documentation"},
                             {"action", "UserStories"}
+                        },
+                        new RouteValueDictionary(),
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Club"}
+                        },
+                        new MvcRouteHandler())
+                }
+            };
+        }
+        #endregion 
+        
+        #region configuration
+        private IEnumerable<RouteDescriptor> ConfigurationRoutes()
+        {
+            return new[]
+            {
+                new RouteDescriptor
+                {
+                    Route = new Route(
+                        "club/configuration",
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Club"},
+                            {"controller", "Configuration"},
+                            {"action", "Index"}
+                        },
+                        new RouteValueDictionary(),
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Club"}
+                        },
+                        new MvcRouteHandler())
+                }, 
+                new RouteDescriptor
+                {
+                    Route = new Route(
+                        "club/configuration/new",
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Club"},
+                            {"controller", "Configuration"},
+                            {"action", "New"}
                         },
                         new RouteValueDictionary(),
                         new RouteValueDictionary

@@ -20,7 +20,7 @@ namespace ivNet.Club.Controllers.Api
             var registrationIdList = _registrationServices.Get();
            
             return Request.CreateResponse(HttpStatusCode.OK,
-                registrationIdList);
+                "Success");
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Globalization;
 using ivNet.Club.Entities;
 using ivNet.Club.Helpers;
 using ivNet.Club.ViewModel;
+using NHibernate;
 using Orchard;
 using Orchard.Data;
 using Orchard.Roles.Models;
@@ -93,6 +94,8 @@ namespace ivNet.Club.Services
                         {
                             var junior = new Junior();
                             junior.Init();
+                            junior.Player.Init();
+
                             junior = DuplicateCheck(session, junior, juniorViewModel.MemberViewModel.ClubMemberKey);
 
                             if (junior.Id == 0)
@@ -120,15 +123,12 @@ namespace ivNet.Club.Services
                             SetAudit(junior.ClubMember);
                             session.SaveOrUpdate(junior.ClubMember);
                             SetAudit(junior.JuniorInfo);
-                            session.SaveOrUpdate(junior.JuniorInfo);                       
+                            session.SaveOrUpdate(junior.JuniorInfo);
 
-                            //var player = new Player();
-                            //player = DuplicateCheck(session, player, junior.ClubMember);
 
-                            
-                            junior.Player = new Player { Number = junior.ClubMember.Id.ToString(CultureInfo.InvariantCulture).PadLeft(6, '0') };
-                            
-                            junior.Player.Init();
+                            junior.Player.Number = junior.ClubMember.Id.ToString(CultureInfo.InvariantCulture)
+                                .PadLeft(6, '0');
+                                            
                             MapperHelper.Map(junior.Player.Kit, juniorViewModel);
 
                             SetAudit(junior.Player.Kit);
@@ -154,6 +154,6 @@ namespace ivNet.Club.Services
                     transaction.Commit();
                 }
             }
-        }
+        }       
     }
 }

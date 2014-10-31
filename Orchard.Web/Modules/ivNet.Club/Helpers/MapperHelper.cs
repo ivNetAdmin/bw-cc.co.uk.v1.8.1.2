@@ -10,25 +10,7 @@ namespace ivNet.Club.Helpers
 {
     public static class MapperHelper
     {
-        public static ContactDetail MapContactDetail(ContactDetail entity, NewMembershipViewModel viewModel)
-        {
-            return Mapper.Map(viewModel, entity);
-        }
-
-        public static ContactDetail MapContactDetail(ContactDetail entity, ContactDetail model)
-        {
-            return Mapper.Map(model, entity);
-        }
-
-        public static ClubMember MapClubMember(ClubMember entity, NewMembershipViewModel viewModel)
-        {
-            return Mapper.Map(viewModel, entity);
-        }
-
-        public static ClubMember MapClubMember(ClubMember entity, ClubMember model)
-        {
-            return Mapper.Map(model, entity);
-        }
+        #region form->models
 
         public static void MapNewClubMember(MemberViewModel viewModel, FormCollection form, int counter,
             string memberType)
@@ -41,7 +23,8 @@ namespace ivNet.Club.Helpers
                 viewModel.ClubMemberKey =
                     CustomStringHelper.BuildKey(new[]
                     {
-                        form[string.Format("Email-{0}", counter)],
+                        // primary (first) guardian
+                        form[string.Format("Email-{0}", 1)],
                         form[string.Format("{0}-Firstname-{1}", memberType, counter)]
                     });
             }
@@ -82,12 +65,9 @@ namespace ivNet.Club.Helpers
             viewModel.ShortSize = form[string.Format("Shorts-{0}", counter)];
         }
 
-        //public static void MapNewKit(Kit kit, FormCollection form, int counter)
-        //{
-        //    kit.BootSize = form[string.Format("Boot-{0}", counter)];
-        //    kit.ShirtSize = form[string.Format("Shirt-{0}", counter)];
-        //    kit.ShortSize = form[string.Format("Shorts-{0}", counter)];
-        //}
+        #endregion
+
+        #region models->entities
 
         public static ClubMember Map(ClubMember entity, MemberViewModel viewModel)
         {
@@ -108,5 +88,19 @@ namespace ivNet.Club.Helpers
         {
             return Mapper.Map(viewModel, entity);
         }
+
+        #endregion
+
+        #region entities->models
+
+        public static JuniorRegistrationViewModel Map(JuniorRegistrationViewModel viewModel, Junior entity)
+        {
+            viewModel.Surname = entity.ClubMember.Surname;
+            viewModel.Firstname = entity.ClubMember.Firstname;
+            viewModel.Dob = entity.Dob;
+            return viewModel;
+        }
+
+        #endregion
     }
 }
