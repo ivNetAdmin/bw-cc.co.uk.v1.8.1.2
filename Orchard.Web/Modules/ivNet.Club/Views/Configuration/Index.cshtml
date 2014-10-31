@@ -7,6 +7,32 @@
 
 <div id="ClubConfiguration" data-ng-app="ivNet.Club.Configuration.App">
     <div data-ng-controller="ConfigurationController">
-        <table tr-ng-grid='' items='myItems'></table>
+        <table tr-ng-grid='' items='myItems'>
+            <thead>
+                <tr>
+                    <th field-name="Id" display-name="Id" enable-filtering="false" enable-sorting="false" cell-width="10em" display-align="right">
+                    </th>
+                    <th field-name="Name" display-name="Name" display-format="uppercase">
+                    </th>
+                    <th field-name="Date" display-name="Date" display-format="dateField:gridItem">
+                    </th>
+                    <th field-name="Number" display-name="Number" display-format="uppercase">
+                    </th>
+                   
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td field-name="Id"></td>
+               
+                   
+                    <td>
+                        <button class="btn btn-default" ng-click="editItem(gridItem)">
+                            Edit
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
