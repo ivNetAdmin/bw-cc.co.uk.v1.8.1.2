@@ -8,7 +8,7 @@ namespace ivNet.Club.Controllers.Api
 {
     public class PaymentController : ApiController
     {
-        private IRegistrationServices _registrationServices;
+        private readonly IRegistrationServices _registrationServices;
 
         public PaymentController(IRegistrationServices registrationServices)
         {

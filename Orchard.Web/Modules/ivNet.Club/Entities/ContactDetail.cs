@@ -11,7 +11,8 @@ namespace ivNet.Club.Entities
         public virtual string Town { get; set; }
         public virtual string Postcode { get; set; }
         public virtual string Email { get; set; }
-        public virtual string Telephone { get; set; }
+        public virtual string Mobile { get; set; }
+        public virtual string OtherTelephone { get; set; }
     }
 
     public class ContactDetailMap : ClassMap<ContactDetail>
@@ -25,7 +26,8 @@ namespace ivNet.Club.Entities
             Map(x => x.Postcode).Not.Nullable().Length(12);
             Map(x => x.Town).Nullable().Length(50);
             Map(x => x.Email).Not.Nullable().Length(50);
-            Map(x => x.Telephone).Not.Nullable().Length(50);
+            Map(x => x.Mobile).Not.Nullable().Length(50);
+            Map(x => x.OtherTelephone).Not.Nullable().Length(50);
 
             Map(x => x.IsActive);
 

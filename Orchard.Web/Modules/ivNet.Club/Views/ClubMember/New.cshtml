@@ -3,7 +3,7 @@
     Style.Require("Club.Member.Registration");
 }
 <div id="NewMemberRegistration" data-ng-app="ivNet.Member.Registration.App">
-    <div data-ng-controller="RegistrationController">
+    <div data-ng-controller="RegistrationController">        
         @using (Html.BeginFormAntiForgeryPost(Url.Action("New", "ClubMember", new { area = "ivNet.Club" }), FormMethod.Post, new { @class = "form-horizontal", id = "newMemberForm" }))
         {
             <fieldset>

@@ -41,9 +41,8 @@ namespace ivNet.Club.Helpers
                 viewModel.ClubMemberKey =
                     CustomStringHelper.BuildKey(new[]
                     {
-                        form[string.Format("{0}-Surname-{1}", memberType, counter)],
-                        form[string.Format("{0}-Firstname-{1}", memberType, counter)],
-                        form[string.Format("DOB-{0}", counter)]
+                        form[string.Format("Email-{0}", counter)],
+                        form[string.Format("{0}-Firstname-{1}", memberType, counter)]
                     });
             }
             else
@@ -62,8 +61,9 @@ namespace ivNet.Club.Helpers
             viewModel.Postcode = form[string.Format("Postcode-{0}", counter)];
             viewModel.Town = form[string.Format("Town-{0}", counter)];
             viewModel.Email = form[string.Format("Email-{0}", counter)];
-            viewModel.Telephone = form[string.Format("Telephone-{0}", counter)];
-            viewModel.ContactDetailKey = CustomStringHelper.BuildKey(new[] { viewModel.Email, viewModel.Telephone });
+            viewModel.Mobile = form[string.Format("Mobile-{0}", counter)];
+            viewModel.OtherTelephone = form[string.Format("OtherTelephone-{0}", counter)];
+            viewModel.ContactDetailKey = CustomStringHelper.BuildKey(new[] { viewModel.Address,viewModel.Postcode });
         }
 
         public static DateTime MapNewDob(FormCollection form, int counter)

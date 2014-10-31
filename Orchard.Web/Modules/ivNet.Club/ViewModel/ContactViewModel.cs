@@ -9,6 +9,7 @@ namespace ivNet.Club.ViewModel
         public string Town { get; set; }
         public string Postcode { get; set; }
         public string Email { get; set; }
-        public string Telephone { get; set; }
+        public string Mobile { get; set; }
+        public string OtherTelephone { get; set; }
     }
 }

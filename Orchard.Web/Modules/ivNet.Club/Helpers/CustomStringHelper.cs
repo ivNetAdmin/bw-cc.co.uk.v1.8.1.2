@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Text.RegularExpressions;
 
 namespace ivNet.Club.Helpers
 {
@@ -7,9 +8,8 @@ namespace ivNet.Club.Helpers
     {
         public static string BuildKey(string[] items)
         {
-            return String.Join(string.Empty, items)
-                .Replace(" ", string.Empty)
-                .Replace("-", string.Empty).ToLowerInvariant();            
+            var key = String.Join(string.Empty, items).ToLowerInvariant();
+            return Regex.Replace(key, "[^0-9a-z]", string.Empty);                      
         }
     }
 }

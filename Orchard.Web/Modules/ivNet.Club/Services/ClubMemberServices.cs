@@ -141,7 +141,7 @@ namespace ivNet.Club.Services
                             SetAudit(junior);
                             session.SaveOrUpdate(junior);
 
-                            _registrationServices.Add(junior.ClubMember);
+                            _registrationServices.Add(junior.ClubMember.Id);
 
                             guardian.AddJunior(junior);
                         }
