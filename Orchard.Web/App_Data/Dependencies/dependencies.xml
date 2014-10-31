@@ -89,8 +89,8 @@
   </Dependency>
   <Dependency>
     <ModuleName>ivNet.Club</ModuleName>
-    <VirtualPath>~/Modules/ivNet.Club/ivNet.Club.csproj</VirtualPath>
-    <LoaderName>DynamicExtensionLoader</LoaderName>
+    <VirtualPath>~/Modules/ivNet.Club/bin/ivNet.Club.dll</VirtualPath>
+    <LoaderName>PrecompiledExtensionLoader</LoaderName>
     <References>
       <Reference>
         <Name>AutoMapper</Name>
@@ -233,6 +233,16 @@
         <VirtualPath>~/Modules/Orchard.Azure/bin/Microsoft.ApplicationServer.Caching.Core.dll</VirtualPath>
       </Reference>
       <Reference>
+        <Name>Microsoft.Data.Edm</Name>
+        <LoaderName>PrecompiledExtensionLoader</LoaderName>
+        <VirtualPath>~/Modules/Orchard.Azure/bin/Microsoft.Data.Edm.dll</VirtualPath>
+      </Reference>
+      <Reference>
+        <Name>Microsoft.Data.OData</Name>
+        <LoaderName>PrecompiledExtensionLoader</LoaderName>
+        <VirtualPath>~/Modules/Orchard.Azure/bin/Microsoft.Data.OData.dll</VirtualPath>
+      </Reference>
+      <Reference>
         <Name>Microsoft.Data.Services.Client</Name>
         <LoaderName>PrecompiledExtensionLoader</LoaderName>
         <VirtualPath>~/Modules/Orchard.Azure/bin/Microsoft.Data.Services.Client.dll</VirtualPath>
@@ -283,6 +293,11 @@
         <VirtualPath>~/Modules/Orchard.TaskLease/bin/Orchard.TaskLease.dll</VirtualPath>
       </Reference>
       <Reference>
+        <Name>System.Spatial</Name>
+        <LoaderName>PrecompiledExtensionLoader</LoaderName>
+        <VirtualPath>~/Modules/Orchard.Azure/bin/System.Spatial.dll</VirtualPath>
+      </Reference>
+      <Reference>
         <Name>WindowsAzureEventSource</Name>
         <LoaderName>PrecompiledExtensionLoader</LoaderName>
         <VirtualPath>~/Modules/Orchard.Azure/bin/WindowsAzureEventSource.dll</VirtualPath>
@@ -325,12 +340,12 @@
       <Reference>
         <Name>Microsoft.Data.Edm</Name>
         <LoaderName>PrecompiledExtensionLoader</LoaderName>
-        <VirtualPath>~/Modules/Orchard.Azure.MediaServices/bin/Microsoft.Data.Edm.dll</VirtualPath>
+        <VirtualPath>~/Modules/Orchard.Azure/bin/Microsoft.Data.Edm.dll</VirtualPath>
       </Reference>
       <Reference>
         <Name>Microsoft.Data.OData</Name>
         <LoaderName>PrecompiledExtensionLoader</LoaderName>
-        <VirtualPath>~/Modules/Orchard.Azure.MediaServices/bin/Microsoft.Data.OData.dll</VirtualPath>
+        <VirtualPath>~/Modules/Orchard.Azure/bin/Microsoft.Data.OData.dll</VirtualPath>
       </Reference>
       <Reference>
         <Name>Microsoft.Data.Services.Client</Name>
@@ -395,7 +410,7 @@
       <Reference>
         <Name>System.Spatial</Name>
         <LoaderName>PrecompiledExtensionLoader</LoaderName>
-        <VirtualPath>~/Modules/Orchard.Azure.MediaServices/bin/System.Spatial.dll</VirtualPath>
+        <VirtualPath>~/Modules/Orchard.Azure/bin/System.Spatial.dll</VirtualPath>
       </Reference>
       <Reference>
         <Name>WindowsAzureEventSource</Name>

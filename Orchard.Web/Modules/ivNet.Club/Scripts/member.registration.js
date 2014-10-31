@@ -1,6 +1,6 @@
-﻿var ivNetShoppingCart = angular.module("ivNet.Member.Registration.App", []);
-var invalidCaptcha = true;
-ivNetShoppingCart.controller('RegistrationController', function ($scope, $http) {
+﻿var ivNetMemberRegistration = angular.module("ivNet.Member.Registration.App", []);
+var invalidCaptcha = false; // debug : false
+ivNetMemberRegistration.controller('RegistrationController', function ($scope, $http) {
 
     init();
 
@@ -8,17 +8,19 @@ ivNetShoppingCart.controller('RegistrationController', function ($scope, $http) 
         $('div#NewMemberRegistration').find('div.reg-form').hide();
         $('p#error').hide();
 
-        $.ajax({
-            url: 'http://www.google.com/recaptcha/api/js/recaptcha_ajax.js',
-            dataType: 'script',
-            success: function (result) {
-                CreateCaptcha();
-                newCaptcha = true;
-            },
-            error: function (xmlhttprequest, status, error) {
-                $('#captcha').html('Cannot create captcha');
-            }
-        });
+        if (invalidCaptcha) {
+            $.ajax({
+                url: 'http://www.google.com/recaptcha/api/js/recaptcha_ajax.js',
+                dataType: 'script',
+                success: function(result) {
+                    CreateCaptcha();
+                    newCaptcha = true;
+                },
+                error: function(xmlhttprequest, status, error) {
+                    $('#captcha').html('Cannot create captcha');
+                }
+            });
+        }
     }
 
     $scope.registrationTypeSelection = function () {

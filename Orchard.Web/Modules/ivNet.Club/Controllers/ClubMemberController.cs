@@ -39,6 +39,13 @@ namespace ivNet.Club.Controllers
 
             return View();
         }
+        
+        [Themed]
+        public ActionResult RegistrationPayment()
+        {
+
+            return View();
+        }
 
         [HttpPost] 
         public ActionResult New(FormCollection form)
@@ -85,8 +92,8 @@ namespace ivNet.Club.Controllers
                     _clubMemberServices.CreateGuardian(registrationList);
                 }
 
-                var model = new PaymentRegistreationViewModel();
-                return RedirectToAction("Registration", "Payment", new { viewModel = model });
+              
+                return RedirectToAction("RegistrationPayment");
                
             }
             catch (Exception ex)

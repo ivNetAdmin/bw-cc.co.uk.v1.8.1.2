@@ -21,14 +21,17 @@ namespace ivNet.Club.Services
 
     public class ClubMemberServices : BaseService, IClubMemberServices
     {
+        private readonly IRegistrationServices _registrationServices;
 
         public ClubMemberServices(
             IMembershipService membershipService,
             IAuthenticationService authenticationService,
             IRoleService roleService,
-            IRepository<UserRolesPartRecord> userRolesRepository)
+            IRepository<UserRolesPartRecord> userRolesRepository,
+            IRegistrationServices registrationServices)
             : base(membershipService, authenticationService, roleService, userRolesRepository)
         {
+            _registrationServices = registrationServices;
         }
 
         public void CreateNewMember(NewMembershipViewModel viewModel)
@@ -49,6 +52,8 @@ namespace ivNet.Club.Services
             {
                 using (var transaction = session.BeginTransaction())
                 {
+                    _registrationServices.Clear();
+
                     foreach (var registrationViewModel in registrationList)
                     {
                         var guardian = new Guardian();
@@ -135,6 +140,8 @@ namespace ivNet.Club.Services
                             // save or update junior
                             SetAudit(junior);
                             session.SaveOrUpdate(junior);
+
+                            _registrationServices.Add(junior.ClubMember);
 
                             guardian.AddJunior(junior);
                         }
