@@ -3,11 +3,17 @@
         return function (combinedFieldValueUnused, item) {
             var d = item.Date;
             
-            var curr_date = d.substr(8, 2);
-            var curr_month = d.substr(5, 2);
+            var curr_month = d.substr(8, 2);
+            var curr_date = d.substr(5, 2);
             var curr_year = d.substr(0, 4);
           
-            return curr_date + "/" + curr_month + "/" + curr_year;
+            //return curr_date + "/" + curr_month + "/" + curr_year;
+            return curr_year + "-" + curr_month + "-" + curr_date;
+        };
+    })
+    .filter("editField", function () {
+        return function (combinedFieldValueUnused, item) {          
+            return "<input type='text' value='" + item.Name + "'/>";
         };
 });
 

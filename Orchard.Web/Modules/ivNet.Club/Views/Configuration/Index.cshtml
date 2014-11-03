@@ -24,8 +24,9 @@
             <tbody>
                 <tr>
                     <td field-name="Id"></td>
-               
-                   
+                    <td field-name="Name"><input type="text" value="{{gridDisplayItem.Name}}" /></td>
+                    <td field-name="Date"><input type="date"  value="{{gridDisplayItem.Date}}" /></td>
+                    <td field-name="Number"><input type="number" value="{{gridDisplayItem.Number}}" /></td>
                     <td>
                         <button class="btn btn-default" ng-click="editItem(gridItem)">
                             Edit
