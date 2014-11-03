@@ -7,7 +7,22 @@
 
 <div id="NewMemberRegistration" data-ng-app="ivNet.Member.Registration.Payment.App">
     <div data-ng-controller="PaymentController">
-        <table tr-ng-grid='' items='items'></table>
+        <table tr-ng-grid='' items='items'>
+            <thead>
+                <tr>
+                    <th field-name="Surname" display-name="Surname" enable-filtering="false" enable-sorting="false">
+                    </th>
+                    <th field-name="Firstname" display-name="Firstname" enable-filtering="false" enable-sorting="false">
+                    </th>
+                    <th field-name="Dob" display-name="DOB" display-format="dobField:gridItem" enable-filtering="false" enable-sorting="false">
+                    </th>
+                    <th field-name="Season" display-name="Season" enable-filtering="false" enable-sorting="false">
+                    </th>
+                    <th field-name="Fee" display-name="Fee" enable-filtering="false" enable-sorting="false">
+                    </th>
+                </tr>
+            </thead>
+        </table>
     </div>
 </div>
 

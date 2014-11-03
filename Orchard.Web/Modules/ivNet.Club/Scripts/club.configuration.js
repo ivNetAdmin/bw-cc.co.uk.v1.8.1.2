@@ -7,7 +7,6 @@
             var curr_date = d.substr(5, 2);
             var curr_year = d.substr(0, 4);
 
-            //return curr_date + "/" + curr_month + "/" + curr_year;
             return curr_year + "-" + curr_month + "-" + curr_date;
         };
     });
@@ -17,22 +16,12 @@ ivNetClubConfiguration.factory('configuration', function ($resource) {
     {
         'update': { method: 'PUT' }
     });
-    //return $resource("/api/posts/:id");  
 });
-
-//ivNetClubConfiguration.factory("Items", function ($resource) {
-//    return $resource("/api/club/configuration");
-//    //return $resource("/api/posts/:id");  
-//});
 
 ivNetClubConfiguration.controller('ConfigurationController', function ($scope, configuration) {
     configuration.query(function (data) {
         $scope.myItems = data;
     });
-
-    //configFactory.get({ id: 1 }, function (data) {
-    //    $scope.post = data;
-    //});
 
     $scope.saveItem = function (item) {
 
@@ -60,8 +49,5 @@ ivNetClubConfiguration.controller('ConfigurationController', function ($scope, c
                );
             }
         });
-
-       
-        
     };
 });
