@@ -89,6 +89,11 @@ namespace ivNet.Club.Helpers
             return Mapper.Map(viewModel, entity);
         }
 
+        public static ConfigurationItem Map(ConfigurationItem entity, ConfigurationItemViewModel viewModel)
+        {
+            return Mapper.Map(viewModel, entity);
+        }
+
         #endregion
 
         #region entities->models
@@ -101,6 +106,11 @@ namespace ivNet.Club.Helpers
             return viewModel;
         }
 
-        #endregion
+        public static ConfigurationItemViewModel Map(ConfigurationItemViewModel viewModel, ConfigurationItem entity)
+        {
+            return Mapper.Map(entity, viewModel);
+        }
+
+        #endregion        
     }
 }

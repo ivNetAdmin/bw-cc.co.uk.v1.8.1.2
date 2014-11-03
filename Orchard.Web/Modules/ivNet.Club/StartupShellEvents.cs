@@ -11,13 +11,23 @@ namespace ivNet.Club
         public void Activated()
         {
 
+            #region models->entities
+
             Mapper.CreateMap<MemberViewModel, ClubMember>();
             Mapper.CreateMap<ContactViewModel, ContactDetail>();
 
             Mapper.CreateMap<JuniorViewModel, JuniorInfo>();
             Mapper.CreateMap<JuniorViewModel, Kit>();
 
-            
+            Mapper.CreateMap<ConfigurationItemViewModel, ConfigurationItem>();     
+
+            #endregion
+
+            #region entities->models
+
+            Mapper.CreateMap<ConfigurationItem, ConfigurationItemViewModel>();          
+
+            #endregion
 
             //Mapper.CreateMap<ClubMember, ClubMember>();
             //Mapper.CreateMap<ContactDetail, ContactDetail>();

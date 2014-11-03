@@ -229,6 +229,7 @@
     <Compile Include="Services\ConfigurationServices.cs" />
     <Compile Include="Services\RegistrationServices.cs" />
     <Compile Include="StartupShellEvents.cs" />
+    <Compile Include="ViewModel\ConfigurationItemViewModel.cs" />
     <Compile Include="ViewModel\ContactViewModel.cs" />
     <Compile Include="ViewModel\JuniorRegistrationViewModel.cs" />
     <Compile Include="ViewModel\MemberViewModel.cs" />
