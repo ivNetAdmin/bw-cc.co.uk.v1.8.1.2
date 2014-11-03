@@ -10,7 +10,7 @@
         <table tr-ng-grid='' items='myItems'>
             <thead>
                 <tr>
-                    <th field-name="Id" display-name="Id" enable-filtering="false" enable-sorting="false" cell-width="10em" display-align="right">
+                    <th field-name="Id" display-name="Id" enable-filtering="false" enable-sorting="false"  display-align="right">
                     </th>
                     <th field-name="Name" display-name="Name">
                     </th>
@@ -18,7 +18,8 @@
                     </th>
                     <th field-name="Number" display-name="Number">
                     </th>
-                   
+                    <th field-name="IsActive" display-name="Active" enable-filtering="false" >
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -27,6 +28,8 @@
                     <td field-name="Name"><input type="text" value="{{gridDisplayItem.Name}}" /></td>
                     <td field-name="Date"><input type="date"  value="{{gridDisplayItem.Date}}" /></td>
                     <td field-name="Number"><input type="number" value="{{gridDisplayItem.Number}}" /></td>
+                    <td field-name="IsActive"><input type="checkbox" value="{{gridDisplayItem.IsActive}}" ng-checked="{{gridDisplayItem.IsActive}}" /></td>
+
                     <td>
                         <button class="btn btn-default" ng-click="saveItem(gridItem)">
                             <span>{{gridDisplayItem.Id==0?"Add":"Save"}}</span>

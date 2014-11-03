@@ -5,7 +5,7 @@ namespace ivNet.Club.Entities
 {
     public class Fee : BaseEntity
     {      
-        public virtual DateTime PaidDate { get; set; }
+        public virtual DateTime? PaidDate { get; set; }
         public virtual Decimal Amount { get; set; }
         public virtual int FeeType { get; set; }
         public virtual string Season { get; set; }
@@ -19,11 +19,13 @@ namespace ivNet.Club.Entities
         public FeeMap()
         {
             Id(x => x.Id);
-            Map(x => x.PaidDate).Not.Nullable();
-            Map(x => x.Amount).Not.Nullable();
-            Map(x => x.FeeType).Not.Nullable();
+            Map(x => x.PaidDate);
+            Map(x => x.Amount);
+            Map(x => x.FeeType);
             Map(x => x.Season).Not.Nullable();
             Map(x => x.Notes);
+
+            References(x => x.Player);
 
             Map(x => x.IsActive);
 

@@ -9,11 +9,11 @@ namespace ivNet.Club.Entities
         public virtual string Number { get; set; }
         public virtual string Team { get; set; }
         public virtual Kit Kit { get; set; }
-        public virtual List<Fee> Fees { get; set; }
+        public virtual IList<Fee> Fees { get; set; }
 
         public virtual void Init()
         {
-           // Fees = new List<Fee>();
+            Fees = new List<Fee>();
             Kit = new Kit();
         }
     }
@@ -27,9 +27,10 @@ namespace ivNet.Club.Entities
             Map(x => x.Team).Nullable().Length(50);
 
             References(x => x.Kit);
+
             HasMany(x => x.Fees)
-                .Inverse();
-               // .Cascade.All();
+                .Inverse()
+                .Cascade.All();
 
             Map(x => x.IsActive);
 

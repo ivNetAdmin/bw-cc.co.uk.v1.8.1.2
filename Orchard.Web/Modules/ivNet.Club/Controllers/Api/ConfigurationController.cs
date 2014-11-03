@@ -40,8 +40,13 @@ namespace ivNet.Club.Controllers.Api
             }
             catch (Exception ex)
             {
+                var errorId = Guid.NewGuid();
+                Logger.Error(string.Format("{0}: {1}{2} [{3}]", Request.RequestUri, ex.Message,
+                    ex.InnerException == null ? string.Empty : string.Format(" - {0}", ex.InnerException), errorId));
+
                 return Request.CreateResponse(HttpStatusCode.InternalServerError,
-                    ex.Message);
+                    "An Error has occurred. Report to bp@ivnet.co.uk quoting: " + errorId);
+              
             }
         }
 

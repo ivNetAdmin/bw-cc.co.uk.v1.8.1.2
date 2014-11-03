@@ -43,6 +43,7 @@ ivNetClubConfiguration.controller('ConfigurationController', function ($scope, c
                item.Name = $(tr).find('td[field-name="Name"]').find('input').val();
                item.Date = $(tr).find('td[field-name="Date"]').find('input').val();
                item.Number = $(tr).find('td[field-name="Number"]').find('input').val();
+               item.IsActive = $(tr).find('td[field-name="IsActive"]').find('input:checked').length;
 
                configuration.update({ id: item.Id }, item,
                    function () {                   

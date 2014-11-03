@@ -91,6 +91,7 @@ namespace ivNet.Club.Helpers
 
         public static ConfigurationItem Map(ConfigurationItem entity, ConfigurationItemViewModel viewModel)
         {
+            entity.IsActive = viewModel.IsActive;
             return Mapper.Map(viewModel, entity);
         }
 
@@ -108,6 +109,7 @@ namespace ivNet.Club.Helpers
 
         public static ConfigurationItemViewModel Map(ConfigurationItemViewModel viewModel, ConfigurationItem entity)
         {
+            viewModel.IsActive = entity.IsActive;
             return Mapper.Map(entity, viewModel);
         }
 

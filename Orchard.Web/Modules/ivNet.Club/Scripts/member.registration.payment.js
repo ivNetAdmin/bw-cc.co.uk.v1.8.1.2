@@ -1,23 +1,16 @@
-﻿var ivNetMemberRegistrationPayment = angular.module("ivNet.Member.Registration.Payment.App", []);
+﻿var ivNetMemberRegistrationPayment = angular.module("ivNet.Member.Registration.Payment.App", ['ngResource', 'trNgGrid'])
 
-ivNetMemberRegistrationPayment.controller('PaymentController', function ($scope, $http) {
+ivNetMemberRegistrationPayment.factory('registrationpayment', function ($resource) {
+    return $resource('/api/club/payment/:id', null,
+    {
+        'update': { method: 'PUT' }
+    });
+});
 
-    init();
+ivNetMemberRegistrationPayment.controller('PaymentController', function($scope, registrationpayment) {
 
-    function init() {
-
-        $scope.registrationPaymentUrl = '/api/club/payment';
-
-        setTimeout(function () {
-            $http.get($scope.registrationPaymentUrl)
-                .success(function (data) {
-                    
-                })
-                .error(function (data) {
-
-                });
-        }, 100);
-
-    }
+    registrationpayment.query(function(data) {
+        $scope.items = data;
+    });
 
 });

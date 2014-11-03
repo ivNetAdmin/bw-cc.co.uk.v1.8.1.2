@@ -7,7 +7,7 @@ namespace ivNet.Club.Entities
     public class ConfigurationItem : BaseEntity
     {
         public virtual string Name { get; set; }
-        public virtual DateTime Date { get; set; }
+        public virtual DateTime? Date { get; set; }
         public virtual int Number { get; set; }
     }
 

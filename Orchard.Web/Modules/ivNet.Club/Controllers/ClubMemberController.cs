@@ -64,7 +64,9 @@ namespace ivNet.Club.Controllers
                     var registrationViewModel = new RegistrationViewModel();
 
                     MapperHelper.MapNewClubMember(registrationViewModel.MemberViewModel, form, i, "Adult");                
-                    MapperHelper.MapNewContactDetail(registrationViewModel.ContactViewModel, form, i);        
+                    MapperHelper.MapNewContactDetail(registrationViewModel.ContactViewModel, form, i);
+
+                    registrationViewModel.Season = form["Season"];
 
                     registrationList.Add(registrationViewModel);
                 }

@@ -9,5 +9,6 @@ namespace ivNet.Club.ViewModel
         public string Name { get; set; }
         public DateTime? Date { get; set; }
         public int Number { get; set; }
+        public byte IsActive { get; set; }
     }
 }

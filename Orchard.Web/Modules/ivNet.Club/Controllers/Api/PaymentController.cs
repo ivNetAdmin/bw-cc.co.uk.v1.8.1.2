@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -17,10 +18,19 @@ namespace ivNet.Club.Controllers.Api
 
         public HttpResponseMessage Get()
         {
-            var registrationIdList = _registrationServices.Get();
-           
-            return Request.CreateResponse(HttpStatusCode.OK,
-                "Success");
+
+            try
+            {
+                var registrationIdList = _registrationServices.Get();           
+
+                return Request.CreateResponse(HttpStatusCode.OK,
+                    registrationIdList);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError,
+                    ex.Message);
+            }       
         }
     }
 }

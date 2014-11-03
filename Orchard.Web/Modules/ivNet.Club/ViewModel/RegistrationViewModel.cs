@@ -8,6 +8,7 @@ namespace ivNet.Club.ViewModel
         public MemberViewModel MemberViewModel { get; set; }
         public ContactViewModel ContactViewModel { get; set; }
         public List<JuniorViewModel> JuniorList { get; set; }
+        public string Season { get; set; }
 
         public RegistrationViewModel()
         {

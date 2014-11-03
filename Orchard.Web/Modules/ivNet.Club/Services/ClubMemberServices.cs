@@ -40,8 +40,7 @@ namespace ivNet.Club.Services
             using (var session = NHibernateHelper.OpenSession())
             {
                 using (var transaction = session.BeginTransaction())
-                {
-                   
+                {                   
                     transaction.Commit();
                 }
             }
@@ -124,16 +123,20 @@ namespace ivNet.Club.Services
                             session.SaveOrUpdate(junior.ClubMember);
                             SetAudit(junior.JuniorInfo);
                             session.SaveOrUpdate(junior.JuniorInfo);
-
-
-                            junior.Player.Number = junior.ClubMember.Id.ToString(CultureInfo.InvariantCulture)
-                                .PadLeft(6, '0');
-                                            
+                            
                             MapperHelper.Map(junior.Player.Kit, juniorViewModel);
-
                             SetAudit(junior.Player.Kit);
                             session.SaveOrUpdate(junior.Player.Kit);         
 
+                            // create a blank fee for this season
+                            var fee = new Fee { Season = registrationViewModel.Season };                           
+                            SetAudit(fee);
+                            session.SaveOrUpdate(fee);         
+                            junior.Player.Fees.Add(fee);
+
+                            junior.Player.Number = junior.ClubMember.Id.ToString(CultureInfo.InvariantCulture)
+                                .PadLeft(6, '0');
+                   
                             SetAudit(junior.Player);
                             session.SaveOrUpdate(junior.Player);
                        
@@ -149,11 +152,19 @@ namespace ivNet.Club.Services
                         // save or update guardian
                         SetAudit(guardian);
                         session.SaveOrUpdate(guardian);
+
+                        // add fees for this season
+                        AddFee(session, guardian.Juniors);
                     }
 
                     transaction.Commit();
                 }
             }
-        }       
+        }
+
+        private void AddFee(ISession session, IList<Junior> juniors)
+        {
+            //get all ga
+        }
     }
 }
