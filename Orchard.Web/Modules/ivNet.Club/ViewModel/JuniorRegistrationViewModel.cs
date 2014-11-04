@@ -10,5 +10,6 @@ namespace ivNet.Club.ViewModel
         public DateTime Dob { get; set; }
         public string Season { get; set; }
         public decimal Fee { get; set; }
+        public string Team { get; set; }
     }
 }

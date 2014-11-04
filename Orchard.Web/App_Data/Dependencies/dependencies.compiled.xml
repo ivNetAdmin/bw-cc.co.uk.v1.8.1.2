@@ -10,7 +10,7 @@
     <ExtensionId>ivNet.Club</ExtensionId>
     <LoaderName>PrecompiledExtensionLoader</LoaderName>
     <VirtualPath>~/Modules/ivNet.Club/bin/ivNet.Club.dll</VirtualPath>
-    <Hash>debd89e74a55c4</Hash>
+    <Hash>debdacb0f45abf</Hash>
   </Dependency>
   <Dependency>
     <ExtensionId>Lucene</ExtensionId>

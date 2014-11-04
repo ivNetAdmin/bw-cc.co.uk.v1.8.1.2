@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -20,10 +21,12 @@ namespace ivNet.Club.Services
     public class RegistrationServices : IRegistrationServices
     {
         private readonly IWorkContextAccessor _workContextAccessor;
+        private readonly IConfigurationServices _configurationServices;
 
-        public RegistrationServices(IWorkContextAccessor workContextAccessor)           
+        public RegistrationServices(IWorkContextAccessor workContextAccessor, IConfigurationServices configurationServices)           
         {
             _workContextAccessor = workContextAccessor;
+            _configurationServices = configurationServices;
         }
 
         public void Add(int memberId)
@@ -33,6 +36,8 @@ namespace ivNet.Club.Services
 
         public List<JuniorRegistrationViewModel> Get()
         {
+            var currentSeason = _configurationServices.GetCurrentSeason();
+
             using (var session = NHibernateHelper.OpenSession())
             {
                 var memberIdList = ItemsInternal;
@@ -41,19 +46,18 @@ namespace ivNet.Club.Services
                     .CreateCriteria(typeof (Junior))
                     .Add(Restrictions.In("ClubMember.Id", memberIdList))
                     .List<Junior>();
-             
-                return (
-                    from junior in juniorList 
-                    let juniorRegistrationViewModel = new JuniorRegistrationViewModel() 
-                    select MapperHelper.Map(juniorRegistrationViewModel, junior)).ToList();
-            }
-            
-            // return list of members who have just been registered and their fee details
 
- 
-            //return ItemsInternal;
+                var juniorRegistrationViewModelList =  (
+                    from junior in juniorList
+                    let juniorRegistrationViewModel = new JuniorRegistrationViewModel()
+                    select MapperHelper.Map(juniorRegistrationViewModel, junior, currentSeason)).OrderBy(vm => vm.Dob).ToList();
+
+                AddFees(juniorRegistrationViewModelList);
+
+                return juniorRegistrationViewModelList;
+            }          
         }
-
+     
         public void Clear()
         {
             ItemsInternal.Clear();
@@ -76,6 +80,35 @@ namespace ivNet.Club.Services
 
                 return items;
             }
+        }
+
+        private void AddFees (List<JuniorRegistrationViewModel> juniorRegistrationViewModelList)
+        {
+            var fees = _configurationServices.GetFeeData();
+
+            if (fees.Count == 0) return;
+
+            for(var i=0;i<juniorRegistrationViewModelList.Count();i++)
+            {
+                var juniorYear = GetJuniorYear(juniorRegistrationViewModelList[i].Dob);
+                juniorRegistrationViewModelList[i].Team = string.Format("U{0}", juniorYear);
+                if (i == 0)
+                {
+                    juniorRegistrationViewModelList[i].Fee = fees[2];
+                    if (juniorYear <= fees[0])
+                    {
+                        juniorRegistrationViewModelList[i].Fee = fees[1];
+                    }
+                }else if (i == 1)
+                {
+                    juniorRegistrationViewModelList[i].Fee = fees[1];
+                }
+            }
+        }
+
+        private int GetJuniorYear(DateTime dob)
+        {
+           return _configurationServices.GetJuniorYear(dob);
         }
     }
 }

@@ -107,12 +107,27 @@ namespace ivNet.Club.Helpers
             return viewModel;
         }
 
+        public static JuniorRegistrationViewModel Map(JuniorRegistrationViewModel viewModel, Junior entity , string currentSeason)
+        {
+            // get fee for this current season
+            foreach (var fee in entity.Player.Fees.Where(fee => fee.Season == currentSeason))
+            {
+                viewModel.Fee = fee.Amount;
+            }
+            viewModel.Surname = entity.ClubMember.Surname;
+            viewModel.Firstname = entity.ClubMember.Firstname;
+            viewModel.Dob = entity.Dob;
+            viewModel.Season = currentSeason;
+            
+            return viewModel;
+        }
+
         public static ConfigurationItemViewModel Map(ConfigurationItemViewModel viewModel, ConfigurationItem entity)
         {
             viewModel.IsActive = entity.IsActive;
             return Mapper.Map(entity, viewModel);
         }
 
-        #endregion        
+        #endregion      
     }
 }

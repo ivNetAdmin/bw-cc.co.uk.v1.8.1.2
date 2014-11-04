@@ -18,7 +18,6 @@ namespace ivNet.Club.Controllers.Api
 
         public HttpResponseMessage Get()
         {
-
             try
             {
                 var registrationIdList = _registrationServices.Get();           

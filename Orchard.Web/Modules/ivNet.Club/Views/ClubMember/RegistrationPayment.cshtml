@@ -7,18 +7,20 @@
 
 <div id="NewMemberRegistration" data-ng-app="ivNet.Member.Registration.Payment.App">
     <div data-ng-controller="PaymentController">
-        <table tr-ng-grid='' items='items'>
+        <table tr-ng-grid='' items='items' enable-filtering="false" enable-sorting="false">
             <thead>
                 <tr>
-                    <th field-name="Surname" display-name="Surname" enable-filtering="false" enable-sorting="false">
+                    <th field-name="Surname" display-name="Surname">
                     </th>
-                    <th field-name="Firstname" display-name="Firstname" enable-filtering="false" enable-sorting="false">
+                    <th field-name="Firstname" display-name="Firstname">
                     </th>
-                    <th field-name="Dob" display-name="DOB" display-format="dobField:gridItem" enable-filtering="false" enable-sorting="false">
+                    <th field-name="Dob" display-name="DOB" display-format="dobField:gridItem">
                     </th>
-                    <th field-name="Season" display-name="Season" enable-filtering="false" enable-sorting="false">
+                    <th field-name="Team" display-name="Team">
                     </th>
-                    <th field-name="Fee" display-name="Fee" enable-filtering="false" enable-sorting="false">
+                    <th field-name="Season" display-name="Season">
+                    </th>
+                    <th field-name="Fee" display-name="Fee">
                     </th>
                 </tr>
             </thead>
