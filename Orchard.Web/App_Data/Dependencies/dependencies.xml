@@ -140,12 +140,6 @@
     <References />
   </Dependency>
   <Dependency>
-    <ModuleName>Orchard.Alias</ModuleName>
-    <VirtualPath>~/Modules/Orchard.Alias/bin/Orchard.Alias.dll</VirtualPath>
-    <LoaderName>PrecompiledExtensionLoader</LoaderName>
-    <References />
-  </Dependency>
-  <Dependency>
     <ModuleName>Orchard.AntiSpam</ModuleName>
     <VirtualPath>~/Modules/Orchard.AntiSpam/bin/Orchard.AntiSpam.dll</VirtualPath>
     <LoaderName>PrecompiledExtensionLoader</LoaderName>
@@ -171,7 +165,7 @@
       <Reference>
         <Name>Orchard.Alias</Name>
         <LoaderName>PrecompiledExtensionLoader</LoaderName>
-        <VirtualPath>~/Modules/Orchard.Alias/bin/Orchard.Alias.dll</VirtualPath>
+        <VirtualPath>~/Modules/Orchard.Autoroute/bin/Orchard.Alias.dll</VirtualPath>
       </Reference>
       <Reference>
         <Name>Orchard.Tokens</Name>
@@ -423,7 +417,7 @@
       <Reference>
         <Name>Orchard.Alias</Name>
         <LoaderName>PrecompiledExtensionLoader</LoaderName>
-        <VirtualPath>~/Modules/Orchard.Alias/bin/Orchard.Alias.dll</VirtualPath>
+        <VirtualPath>~/Modules/Orchard.Autoroute/bin/Orchard.Alias.dll</VirtualPath>
       </Reference>
       <Reference>
         <Name>Orchard.Autoroute</Name>
@@ -966,7 +960,7 @@
       <Reference>
         <Name>Orchard.Alias</Name>
         <LoaderName>PrecompiledExtensionLoader</LoaderName>
-        <VirtualPath>~/Modules/Orchard.Alias/bin/Orchard.Alias.dll</VirtualPath>
+        <VirtualPath>~/Modules/Orchard.Autoroute/bin/Orchard.Alias.dll</VirtualPath>
       </Reference>
       <Reference>
         <Name>Orchard.Autoroute</Name>
@@ -988,7 +982,7 @@
       <Reference>
         <Name>Orchard.Alias</Name>
         <LoaderName>PrecompiledExtensionLoader</LoaderName>
-        <VirtualPath>~/Modules/Orchard.Alias/bin/Orchard.Alias.dll</VirtualPath>
+        <VirtualPath>~/Modules/Orchard.Autoroute/bin/Orchard.Alias.dll</VirtualPath>
       </Reference>
       <Reference>
         <Name>Orchard.Autoroute</Name>
@@ -1137,7 +1131,7 @@
       <Reference>
         <Name>Orchard.Alias</Name>
         <LoaderName>PrecompiledExtensionLoader</LoaderName>
-        <VirtualPath>~/Modules/Orchard.Alias/bin/Orchard.Alias.dll</VirtualPath>
+        <VirtualPath>~/Modules/Orchard.Autoroute/bin/Orchard.Alias.dll</VirtualPath>
       </Reference>
       <Reference>
         <Name>Orchard.Autoroute</Name>

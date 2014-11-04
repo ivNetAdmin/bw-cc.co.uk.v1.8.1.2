@@ -10,7 +10,7 @@
     <ExtensionId>ivNet.Club</ExtensionId>
     <LoaderName>DynamicExtensionLoader</LoaderName>
     <VirtualPath>~/Modules/ivNet.Club/ivNet.Club.csproj</VirtualPath>
-    <Hash>34f9db11e98a06ec</Hash>
+    <Hash>34f9dc05cab24428</Hash>
   </Dependency>
   <Dependency>
     <ExtensionId>Lucene</ExtensionId>
@@ -23,12 +23,6 @@
     <LoaderName>PrecompiledExtensionLoader</LoaderName>
     <VirtualPath>~/Modules/Markdown/bin/Markdown.dll</VirtualPath>
     <Hash>923ee872a06b843d</Hash>
-  </Dependency>
-  <Dependency>
-    <ExtensionId>Orchard.Alias</ExtensionId>
-    <LoaderName>PrecompiledExtensionLoader</LoaderName>
-    <VirtualPath>~/Modules/Orchard.Alias/bin/Orchard.Alias.dll</VirtualPath>
-    <Hash>48fa9dd510dc02cc</Hash>
   </Dependency>
   <Dependency>
     <ExtensionId>Orchard.AntiSpam</ExtensionId>
@@ -364,7 +358,7 @@
     <ExtensionId>PJS.Bootstrap</ExtensionId>
     <LoaderName>DynamicExtensionLoader</LoaderName>
     <VirtualPath>~/Themes/PJS.Bootstrap/PJS.Bootstrap.csproj</VirtualPath>
-    <Hash>a984ba25ed1927fe</Hash>
+    <Hash>b04f840b466338f1</Hash>
   </Dependency>
   <Dependency>
     <ExtensionId>SysCache</ExtensionId>

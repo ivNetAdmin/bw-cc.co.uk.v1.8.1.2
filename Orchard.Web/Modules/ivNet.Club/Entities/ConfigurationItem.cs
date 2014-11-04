@@ -7,6 +7,7 @@ namespace ivNet.Club.Entities
     public class ConfigurationItem : BaseEntity
     {
         public virtual string Name { get; set; }
+        public virtual string Group { get; set; }
         public virtual DateTime? Date { get; set; }
         public virtual int Number { get; set; }
     }
@@ -17,6 +18,7 @@ namespace ivNet.Club.Entities
         {
             Id(x => x.Id);            
             Map(x => x.Name).Not.Nullable().Length(120).UniqueKey("ix_ConfigurationItem_Unique");
+            Map(x => x.Group);
 
             Map(x => x.Date);
             Map(x => x.Number);
