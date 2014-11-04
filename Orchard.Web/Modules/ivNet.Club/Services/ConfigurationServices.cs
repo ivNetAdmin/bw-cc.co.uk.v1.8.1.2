@@ -110,14 +110,32 @@ namespace ivNet.Club.Services
             using (var session = NHibernateHelper.OpenSession())
             {
                 var returnList = new List<decimal>();
+                decimal fee1 = 0;
+                decimal fee2 = 0;
+                decimal lowFeeAge = 0;
 
                 var feeItems = session.CreateCriteria(typeof (ConfigurationItem))
                     .List<ConfigurationItem>().Where(x => x.ItemGroup.Equals("Registration")).OrderBy(x=>x.Number);
 
                 foreach (var configurationItem in feeItems)
                 {
-                    returnList.Add(configurationItem.Number);
+                    switch (configurationItem.Name.Replace(" ", string.Empty).ToLowerInvariant())
+                    {
+                        case "lowfeeage":
+                            lowFeeAge = configurationItem.Number;
+                            break;
+                        case "fee1":
+                            fee1 = configurationItem.Number;
+                            break;
+                        case "fee2":
+                            fee2 = configurationItem.Number;
+                            break;
+                    }
                 }
+
+                returnList.Add(lowFeeAge);
+                returnList.Add(fee1);
+                returnList.Add(fee2);
 
                 return returnList;
             }

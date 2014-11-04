@@ -94,14 +94,14 @@ namespace ivNet.Club.Services
                 juniorRegistrationViewModelList[i].Team = string.Format("U{0}", juniorYear);
                 if (i == 0)
                 {
-                    juniorRegistrationViewModelList[i].Fee = fees[2];
+                    juniorRegistrationViewModelList[i].Fee = fees[1];
                     if (juniorYear <= fees[0])
                     {
-                        juniorRegistrationViewModelList[i].Fee = fees[1];
+                        juniorRegistrationViewModelList[i].Fee = fees[2];
                     }
                 }else if (i == 1)
                 {
-                    juniorRegistrationViewModelList[i].Fee = fees[1];
+                    juniorRegistrationViewModelList[i].Fee = fees[2];
                 }
             }
         }
