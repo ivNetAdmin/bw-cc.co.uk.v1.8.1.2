@@ -1,4 +1,5 @@
 ﻿
+using System.Collections.Generic;
 using ivNet.Club.Helpers;
 using ivNet.Club.Services;
 using ivNet.Club.ViewModel;
@@ -31,7 +32,7 @@ namespace ivNet.Club.Controllers.Api
 
                 var returnList = (from configurationItem in configurationItemList 
                                   let configurationItemViewModel = new ConfigurationItemViewModel() 
-                                  select MapperHelper.Map(configurationItemViewModel, configurationItem)).ToList();
+                                  select MapperHelper.Map(configurationItemViewModel, configurationItem)).ToList();              
 
                 returnList.Insert(0,new ConfigurationItemViewModel());
 
