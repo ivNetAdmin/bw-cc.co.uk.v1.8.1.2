@@ -98,7 +98,14 @@ namespace ivNet.Club.Services
                             junior = DuplicateCheck(session, junior, juniorViewModel.MemberViewModel.ClubMemberKey);
 
                             if (junior.Id == 0)
-                                junior.JuniorKey = juniorViewModel.MemberViewModel.ClubMemberKey;
+                            {
+                                junior.JuniorGuardianKey = juniorViewModel.MemberViewModel.ClubMemberKey;
+                                junior.JuniorKey =
+                                    CustomStringHelper.BuildKey(new[]
+                                    {
+                                        juniorViewModel.MemberViewModel.Firstname, juniorViewModel.MemberViewModel.Surname
+                                    });
+                            }
 
                             junior.Dob = juniorViewModel.Dob;
 

@@ -7,6 +7,7 @@ namespace ivNet.Club.ViewModel
     {
         public MemberViewModel MemberViewModel { get; set; }
 
+        public string JuniorGuardianKey { get; set; }
         public string JuniorKey { get; set; }
         public DateTime Dob { get; set; }
 

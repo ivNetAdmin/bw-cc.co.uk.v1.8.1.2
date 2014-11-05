@@ -9,12 +9,12 @@ using Orchard.Themes;
 
 namespace ivNet.Club.Controllers
 {
-    public class ConfigurationController : BaseController
+    public class AdminConfigurationController : BaseController
     {
         private readonly IOrchardServices _orchardServices;
         private readonly IClubMemberServices _clubMemberServices;
 
-        public ConfigurationController(IOrchardServices orchardServices, IClubMemberServices clubMemberServices)
+        public AdminConfigurationController(IOrchardServices orchardServices, IClubMemberServices clubMemberServices)
         {
             _orchardServices = orchardServices;
             _clubMemberServices = clubMemberServices;
@@ -29,12 +29,6 @@ namespace ivNet.Club.Controllers
         public ActionResult Index()
         {
             return View();
-        }
-
-        [Themed]
-        public ActionResult New()
-        {
-            return View();
-        }
+        }     
     }
 }

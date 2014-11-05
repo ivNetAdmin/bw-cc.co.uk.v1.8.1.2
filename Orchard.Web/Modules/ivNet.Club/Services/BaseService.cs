@@ -44,7 +44,7 @@ namespace ivNet.Club.Services
         protected Junior DuplicateCheck(ISession session, Junior junior, string key)
         {
             var entity = session.CreateCriteria(typeof(Junior))
-               .List<Junior>().FirstOrDefault(x => x.JuniorKey.Equals(key));
+               .List<Junior>().FirstOrDefault(x => x.JuniorGuardianKey.Equals(key));
             return entity ?? junior;
         }
 

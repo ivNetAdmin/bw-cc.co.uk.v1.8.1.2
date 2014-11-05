@@ -8,6 +8,7 @@ namespace ivNet.Club.Entities
     public class Junior : BaseEntity 
     {
         public virtual string JuniorKey { get; set; }
+        public virtual string JuniorGuardianKey { get; set; }
         public virtual DateTime Dob { get; set; }
 
         public virtual ClubMember ClubMember { get; set; }    
@@ -15,6 +16,8 @@ namespace ivNet.Club.Entities
         public virtual JuniorInfo JuniorInfo { get; set; }        
 
         public virtual IList<Guardian> Guardians { get; protected set; }
+
+        public virtual byte IsVetted { get; set; }
 
         public virtual void Init()
         {
@@ -31,6 +34,7 @@ namespace ivNet.Club.Entities
         public JuniorMap()
         {
             Id(x => x.Id);
+            Map(x => x.JuniorGuardianKey).Not.Nullable().Length(120).UniqueKey("ix_JuniorGuardian_Unique");
             Map(x => x.JuniorKey).Not.Nullable().Length(120).UniqueKey("ix_Junior_Unique");
 
             Map(x => x.Dob).Not.Nullable();
@@ -43,6 +47,8 @@ namespace ivNet.Club.Entities
                 .Inverse()
                 .Cascade.SaveUpdate()
                 .Table("ivNetJuniorGuardian");
+
+            Map(x => x.IsVetted);
 
             Map(x => x.IsActive);
 

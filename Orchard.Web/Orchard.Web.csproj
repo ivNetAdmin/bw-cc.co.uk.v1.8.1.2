@@ -129,8 +129,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\Sites\Default\Orchard.sdf" />
-    <Content Include="App_Data\Sites\Default\Settings.txt" />
     <Content Include="Global.asax" />
     <Content Include="Media\OrchardLogo.png" />
     <Content Include="Refresh.html" />
@@ -161,8 +159,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Config\Sites.config" />
-    <Content Include="App_Data\Sites\Default\mappings.bin" />
-    <Content Include="App_Data\Sites\Default\reports.dat" />
     <Content Include="Media\Default\RecipeJournal\5d895b3dfcad4672978f831d59f32803" />
     <Content Include="Media\Default\RecipeJournal\web.config" />
     <Content Include="Media\web.config" />
