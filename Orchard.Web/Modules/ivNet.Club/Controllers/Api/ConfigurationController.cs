@@ -51,6 +51,31 @@ namespace ivNet.Club.Controllers.Api
             }
         }
 
+        public HttpResponseMessage Get(string id)
+        {
+            try
+            {
+                var configurationItemList = _configurationServices.GetExtraFeeData();
+
+                var returnList = (from configurationItem in configurationItemList
+                                  let configurationItemViewModel = new ConfigurationItemViewModel()
+                                  select MapperHelper.Map(configurationItemViewModel, configurationItem)).ToList();
+              
+                return Request.CreateResponse(HttpStatusCode.OK,
+                    returnList);
+            }
+            catch (Exception ex)
+            {
+                var errorId = Guid.NewGuid();
+                Logger.Error(string.Format("{0}: {1}{2} [{3}]", Request.RequestUri, ex.Message,
+                    ex.InnerException == null ? string.Empty : string.Format(" - {0}", ex.InnerException), errorId));
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError,
+                    "An Error has occurred. Report to bp@ivnet.co.uk quoting: " + errorId);
+
+            }
+        }
+
         [HttpPut]
         public HttpResponseMessage Put(int id, ConfigurationItemViewModel item)
         {

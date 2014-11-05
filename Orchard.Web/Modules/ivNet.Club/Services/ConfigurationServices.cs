@@ -22,6 +22,7 @@ namespace ivNet.Club.Services
         string GetCurrentSeason();
         List<decimal> GetFeeData();
         int GetJuniorYear(DateTime dob);
+        IEnumerable<ConfigurationItem> GetExtraFeeData();
     }
 
     public class ConfigurationServices : BaseService, IConfigurationServices
@@ -141,6 +142,29 @@ namespace ivNet.Club.Services
             }
         }
 
+        public IEnumerable<ConfigurationItem> GetExtraFeeData()
+        {
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                var returnList = new List<ConfigurationItem>();
+               
+                var feeItems = session.CreateCriteria(typeof(ConfigurationItem))
+                    .List<ConfigurationItem>().Where(x => x.ItemGroup.Equals("Registration")).OrderBy(x => x.Number);
+
+                foreach (var configurationItem in feeItems)
+                {
+                    switch (configurationItem.Name.Replace(" ", string.Empty).ToLowerInvariant())
+                    {
+                        case "kit":
+                        case "lottery":
+                            returnList.Add(configurationItem);
+                            break;
+                    }
+                }
+
+                return returnList;
+            }
+        }
         public int GetJuniorYear(DateTime dob)
         {
             using (var session = NHibernateHelper.OpenSession())

@@ -19,12 +19,13 @@ ivNetClubConfiguration.factory('configuration', function ($resource) {
 });
 
 ivNetClubConfiguration.controller('ConfigurationController', function($scope, configuration) {
-    configuration.query(function(data) {
+    configuration.query(
+        function (data) {
             $scope.myItems = data;
-        }),
+        },
         function(error) {
             alert(error.data);
-        };
+        });
 
     $scope.saveItem = function(item) {
 

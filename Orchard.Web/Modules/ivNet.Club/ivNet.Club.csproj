@@ -112,19 +112,19 @@
     <Content Include="Scripts\angular-resource.js" />
     <Content Include="Scripts\angular-resource.min.js" />
     <Content Include="Scripts\angular.min.js.map" />
-    <Content Include="Scripts\club.configuration.js" />
+    <Content Include="Scripts\app\club.configuration.js" />
     <Content Include="Scripts\trNgGrid.min.js" />
     <Content Include="Styles\member.registration.css.map">
       <DependentUpon>member.registration.css</DependentUpon>
     </Content>
     <Content Include="packages.config" />
-    <Content Include="Scripts\member.registration.payment.js" />
+    <Content Include="Scripts\app\member.registration.payment.js" />
     <Content Include="Scripts\angular-resource.min.js.map" />
     <None Include="Styles\member.registration.less" />
     <Content Include="App_Data\ivNet.Club.sdf" />
     <Content Include="Scripts\anjular.js" />
     <Content Include="Scripts\anjular.min.js" />
-    <Content Include="Scripts\member.registration.js" />
+    <Content Include="Scripts\app\member.registration.js" />
     <Content Include="Styles\member.registration.css">
       <DependentUpon>member.registration.less</DependentUpon>
     </Content>

@@ -4,4 +4,7 @@
 div#NewMemberRegistration div.junior {
   display: inherit;
 }
+div#NewMemberRegistration table tfoot {
+  display: none;
+}
 /*# sourceMappingURL=member.registration.css.map */

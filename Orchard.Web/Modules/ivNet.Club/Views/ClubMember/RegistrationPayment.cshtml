@@ -3,6 +3,7 @@
     Script.Require("trNgGrid");
     Script.Require("Club.Member.Registration.Payment");
     Style.Require("trNgGrid");
+    Style.Require("Club.Member.Registration");
 }
 
 <div id="NewMemberRegistration" data-ng-app="ivNet.Member.Registration.Payment.App">
@@ -25,6 +26,19 @@
                 </tr>
             </thead>
         </table>
+    
+        <ul id="extraFeeItems" class="form-group reg-form">
+            <li ng-repeat="item in extraItems">
+                <label for="{{item.Name}}">{{item.Name}}</label>
+                <span>{{item.Number}}</span>
+                <input name="{{item.Name}}" type="checkbox" value="{{item.Number}}" class="ng-scope" ng-click="updateTotal()">                
+            </li>
+        </ul>
+        <div>
+            <span>Total: </span>
+            <span>{{paymentTotal}}</span>
+        </div>
+       
     </div>
 </div>
 
