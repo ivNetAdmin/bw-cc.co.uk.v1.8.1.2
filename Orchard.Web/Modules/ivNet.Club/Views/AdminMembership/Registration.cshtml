@@ -1,1 +1,43 @@
-﻿Registration
+﻿@{
+    Script.Require("AngularJS-Resource");
+    Script.Require("Club.Admin.Member.Registration");
+    Style.Require("trNgGrid");
+}
+
+<div id="AdminMemberRegistration" data-ng-app="ivNet.Admin.Member.Registration.App">
+    <div data-ng-controller="AdminMemberController">
+        <table tr-ng-grid='' items='myItems' enable-filtering="false" enable-sorting="false">
+            <thead>
+                <tr>
+                    <th field-name="JuniorId" display-name="Id" display-align="right">
+                    </th>
+                    <th field-name="Surname" display-name="Surname">
+                    </th>
+                    <th field-name="Firstname" display-name="Firstname">
+                    </th>
+                    <th field-name="Dob" display-name="DOB" display-format="dateField:gridItem">
+                    </th>
+                    <th field-name="AgeGroup" display-name="AgeGroup">
+                    </th>
+                    <th field-name="Guardians" display-name="Guardian(s)" display-format="guardiansField:gridItem">
+                    </th>
+                    <th field-name="IsVetted" display-name="Activate">
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td field-name="Guardians"></td>
+
+                    <td field-name="IsVetted"><input type="checkbox" value="{{gridDisplayItem.IsVetted}}" ng-checked="{{gridDisplayItem.IsVetted}}" /></td>
+                    
+                    <td>
+                        <button class="btn btn-default" ng-click="activateJunior(gridItem)">
+                            <span>Save</span>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

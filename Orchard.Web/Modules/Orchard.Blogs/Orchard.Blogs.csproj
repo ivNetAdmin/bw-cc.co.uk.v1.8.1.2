@@ -154,7 +154,7 @@
       <Name>Orchard.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Orchard.Alias\Orchard.Alias.csproj">
-      <Project>{475b6c45-b27c-438b-8966-908b9d6d1077}</Project>
+      <Project>{475B6C45-B27C-438B-8966-908B9D6D1077}</Project>
       <Name>Orchard.Alias</Name>
     </ProjectReference>
     <ProjectReference Include="..\Orchard.Autoroute\Orchard.Autoroute.csproj">

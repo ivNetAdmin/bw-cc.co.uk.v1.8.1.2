@@ -112,6 +112,7 @@
     <Content Include="Scripts\angular-resource.js" />
     <Content Include="Scripts\angular-resource.min.js" />
     <Content Include="Scripts\angular.min.js.map" />
+    <Content Include="Scripts\app\admin.member.registration.js" />
     <Content Include="Scripts\app\club.configuration.js" />
     <Content Include="Scripts\trNgGrid.min.js" />
     <Content Include="Styles\member.registration.css.map">
@@ -178,7 +179,6 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Views\ClubMember\RegistrationPayment.cshtml" />
-    <Content Include="Views\AdminConfiguration\New.cshtml" />
     <Content Include="Views\AdminConfiguration\Index.cshtml" />
     <Content Include="Views\AdminMembership\Registration.cshtml" />
   </ItemGroup>
@@ -186,6 +186,7 @@
     <Compile Include="Controllers\AdminMembershipController.cs" />
     <Compile Include="Controllers\Api\ConfigurationController.cs" />
     <Compile Include="Controllers\Api\PaymentController.cs" />
+    <Compile Include="Controllers\Api\RegistrationController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ClubMemberController.cs" />
     <Compile Include="Controllers\Documentation.cs" />
@@ -234,7 +235,9 @@
     <Compile Include="StartupShellEvents.cs" />
     <Compile Include="ViewModel\ConfigurationItemViewModel.cs" />
     <Compile Include="ViewModel\ContactViewModel.cs" />
+    <Compile Include="ViewModel\GuardianViewModel.cs" />
     <Compile Include="ViewModel\JuniorRegistrationViewModel.cs" />
+    <Compile Include="ViewModel\JuniorVettingViewModel.cs" />
     <Compile Include="ViewModel\MemberViewModel.cs" />
     <Compile Include="ViewModel\JuniorViewModel.cs" />
     <Compile Include="ViewModel\NewMembershipViewModel.cs" />

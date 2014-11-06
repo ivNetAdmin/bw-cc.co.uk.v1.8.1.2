@@ -8,6 +8,10 @@ using ivNet.Club.Helpers;
 using ivNet.Club.ViewModel;
 using NHibernate.Criterion;
 using Orchard;
+using Orchard.Data;
+using Orchard.Roles.Models;
+using Orchard.Roles.Services;
+using Orchard.Security;
 
 namespace ivNet.Club.Services
 {
@@ -16,14 +20,22 @@ namespace ivNet.Club.Services
         void Add(int memberId);
         List<JuniorRegistrationViewModel> Get();
         void Clear();
+        List<JuniorVettingViewModel> GetNonVetted();
+        void Activate(int id, JuniorVettingViewModel item);
     }
 
-    public class RegistrationServices : IRegistrationServices
+    public class RegistrationServices : BaseService, IRegistrationServices
     {
         private readonly IWorkContextAccessor _workContextAccessor;
         private readonly IConfigurationServices _configurationServices;
 
-        public RegistrationServices(IWorkContextAccessor workContextAccessor, IConfigurationServices configurationServices)           
+        public RegistrationServices(
+            IMembershipService membershipService, 
+            IAuthenticationService authenticationService, 
+            IRoleService roleService, IRepository<UserRolesPartRecord> userRolesRepository,
+            IWorkContextAccessor workContextAccessor, 
+            IConfigurationServices configurationServices)
+            : base(membershipService, authenticationService, roleService, userRolesRepository)
         {
             _workContextAccessor = workContextAccessor;
             _configurationServices = configurationServices;
@@ -57,7 +69,41 @@ namespace ivNet.Club.Services
                 return juniorRegistrationViewModelList;
             }          
         }
-     
+
+        public List<JuniorVettingViewModel> GetNonVetted()
+        {
+
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                var juniorList = session.CreateCriteria(typeof (Junior))
+                    .List<Junior>().Where(x => x.IsVetted.Equals(0)).ToList();
+
+                return (from junior in juniorList
+                    let juniorVettingViewModel = new JuniorVettingViewModel()
+                        select MapperHelper.Map(_configurationServices, juniorVettingViewModel, junior)).ToList();
+
+            }            
+        }
+
+        public void Activate(int id, JuniorVettingViewModel item)
+        {
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                using (var transaction = session.BeginTransaction())
+                {
+                    var entity = session.CreateCriteria(typeof(Junior))
+                        .List<Junior>().FirstOrDefault(x => x.Id.Equals(id));
+
+                    entity.IsVetted = item.IsVetted;
+
+                    SetAudit(entity);
+                    session.SaveOrUpdate(entity);
+
+                    transaction.Commit();
+                }
+            }
+        }
+
         public void Clear()
         {
             ItemsInternal.Clear();

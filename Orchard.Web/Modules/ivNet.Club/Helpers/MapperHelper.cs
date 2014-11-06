@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
 using ivNet.Club.Entities;
+using ivNet.Club.Services;
 using ivNet.Club.ViewModel;
 using NHibernate.Transform;
 
@@ -99,6 +100,32 @@ namespace ivNet.Club.Helpers
 
         #region entities->models
 
+        public static JuniorVettingViewModel Map(IConfigurationServices configurationServices, JuniorVettingViewModel viewModel, Junior entity)
+        {
+            viewModel.Surname = entity.ClubMember.Surname;
+            viewModel.Firstname = entity.ClubMember.Firstname;
+            viewModel.Dob = entity.Dob;
+            viewModel.AgeGroup = string.Format("U{0}",configurationServices.GetJuniorYear(entity.Dob));
+            viewModel.JuniorId = entity.Id;
+            viewModel.IsVetted = entity.IsVetted;
+
+            foreach (var guardian in entity.Guardians)
+            {
+                viewModel.Guardians.Add(new GuardianViewModel
+                {
+                    Surname = guardian.ClubMember.Surname,
+                    Firstname = guardian.ClubMember.Firstname,
+                    Email = guardian.ContactDetail.Email,
+                    Telephone = string.Format("{0}{1}",
+                        guardian.ContactDetail.Mobile,
+                        string.IsNullOrEmpty(guardian.ContactDetail.OtherTelephone)
+                            ? string.Empty
+                            : string.Format(" ,{0}", guardian.ContactDetail.OtherTelephone))
+                });
+            }
+            return viewModel;
+        }
+
         public static JuniorRegistrationViewModel Map(JuniorRegistrationViewModel viewModel, Junior entity)
         {
             viewModel.Surname = entity.ClubMember.Surname;
@@ -128,6 +155,6 @@ namespace ivNet.Club.Helpers
             return Mapper.Map(entity, viewModel);
         }
 
-        #endregion      
+        #endregion
     }
 }

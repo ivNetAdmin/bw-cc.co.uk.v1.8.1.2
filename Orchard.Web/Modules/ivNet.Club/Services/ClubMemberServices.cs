@@ -1,6 +1,7 @@
 ﻿
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using ivNet.Club.Entities;
 using ivNet.Club.Helpers;
 using ivNet.Club.ViewModel;
@@ -171,7 +172,7 @@ namespace ivNet.Club.Services
 
         private void AddFee(ISession session, IList<Junior> juniors)
         {
-            //get all ga
-        }
+            throw new System.NotImplementedException();
+        }   
     }
 }

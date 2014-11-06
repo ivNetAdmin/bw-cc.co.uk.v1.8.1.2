@@ -42,8 +42,7 @@ ivNetClubConfiguration.controller('ConfigurationController', function($scope, co
 
                 configuration.update({ id: item.Id }, item,
                     function() {
-                        if (newItem) {
-                            alert("Added OK");
+                        if (newItem) {                            
                             window.location.reload();
                         } else {
                             alert("Saved OK");
