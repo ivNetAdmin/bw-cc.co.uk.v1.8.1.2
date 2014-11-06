@@ -1,0 +1,12 @@
+﻿@{
+    Script.Require("AngularJS-Resource");
+    Script.Require("Club.Admin.Member.Members");
+    Style.Require("trNgGrid");
+}
+
+<div id="AdminMemberMembers" data-ng-app="ivNet.Admin.Member.Members.App">
+    <div data-ng-controller="AdminMemberController">
+        <table tr-ng-grid='' items='myItems' enable-filtering="false" enable-sorting="false">
+        </table>
+    </div>
+</div>

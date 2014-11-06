@@ -29,6 +29,12 @@ namespace ivNet.Club.Controllers
          {
              return View();
          }
+
+         [Themed]
+         public ActionResult Members()
+         {
+             return View();
+         }
     }
 }
 

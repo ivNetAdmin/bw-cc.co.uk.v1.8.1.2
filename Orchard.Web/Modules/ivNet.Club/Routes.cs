@@ -113,7 +113,24 @@ namespace ivNet.Club
                             {"area", "ivNet.Club"}
                         },
                         new MvcRouteHandler())
-                }            
+                },
+                new RouteDescriptor
+                {
+                    Route = new Route(
+                        "club/admin/membership/members",
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Club"},
+                            {"controller", "AdminMembership"},
+                            {"action", "Members"}
+                        },
+                        new RouteValueDictionary(),
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Club"}
+                        },
+                        new MvcRouteHandler())
+                } 
             };
         }
         #endregion

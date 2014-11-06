@@ -141,6 +141,7 @@ namespace ivNet.Club.Helpers
             {
                 viewModel.Fee = fee.Amount;
             }
+
             viewModel.Surname = entity.ClubMember.Surname;
             viewModel.Firstname = entity.ClubMember.Firstname;
             viewModel.Dob = entity.Dob;
@@ -155,6 +156,35 @@ namespace ivNet.Club.Helpers
             return Mapper.Map(entity, viewModel);
         }
 
-        #endregion
+        public static ClubMembersViewModel Map(IConfigurationServices configurationServices, ClubMembersViewModel viewModel, Junior entity)
+        {
+            var currentSeason = configurationServices.GetCurrentSeason();
+
+            // get fee for this current season
+            foreach (var fee in entity.Player.Fees.Where(fee => fee.Season == currentSeason))
+            {
+                viewModel.Fee = fee.Amount;
+            }
+
+            viewModel.MemberId = entity.ClubMember.Id;
+            viewModel.Surname = entity.ClubMember.Surname;
+            viewModel.Firstname = entity.ClubMember.Firstname;
+            viewModel.Dob = entity.Dob;
+            viewModel.MemberType = string.Format("U{0}", configurationServices.GetJuniorYear(entity.Dob));
+            viewModel.IsActive = entity.IsActive;
+            return viewModel;
+        }
+
+        public static ClubMembersViewModel Map(ClubMembersViewModel viewModel, Guardian entity)
+        {
+            viewModel.MemberId = entity.ClubMember.Id;
+            viewModel.Surname = entity.ClubMember.Surname;
+            viewModel.Firstname = entity.ClubMember.Firstname;
+
+            viewModel.MemberType = "Guardian";
+            viewModel.IsActive = entity.IsActive;
+            return viewModel;
+        }
+        #endregion       
     }
 }

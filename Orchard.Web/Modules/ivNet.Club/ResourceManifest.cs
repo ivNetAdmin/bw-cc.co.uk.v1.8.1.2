@@ -22,7 +22,8 @@ namespace ivNet.Club
             manifest.DefineScript("Club.Configuration").SetUrl("app/club.configuration.js").SetVersion("1.0").SetDependencies("trNgGrid");
 
             manifest.DefineScript("Club.Admin.Member.Registration").SetUrl("app/admin.member.registration.js").SetVersion("1.0").SetDependencies("trNgGrid");
-
+            manifest.DefineScript("Club.Admin.Member.Members").SetUrl("app/admin.member.members.js").SetVersion("1.0").SetDependencies("trNgGrid");
+            
         }
     }
 }
