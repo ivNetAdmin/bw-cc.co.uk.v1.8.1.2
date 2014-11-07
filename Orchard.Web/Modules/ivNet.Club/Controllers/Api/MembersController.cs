@@ -40,5 +40,38 @@ namespace ivNet.Club.Controllers.Api
 
             }
         }
+
+        public HttpResponseMessage Get(int id)
+        {
+            try
+            {
+                var memberList = _clubMemberServices.Get(id);
+
+                if (memberList[0].MemberType == "Guardian")
+                {
+                    // get contact details
+                }
+                else
+                {
+                    // get gaurdians
+                    memberList[0].Guardians = _clubMemberServices.GetGuardians(id);
+
+                    // get fees
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK,
+                    memberList);
+            }
+            catch (Exception ex)
+            {
+                var errorId = Guid.NewGuid();
+                Logger.Error(string.Format("{0}: {1}{2} [{3}]", Request.RequestUri, ex.Message,
+                    ex.InnerException == null ? string.Empty : string.Format(" - {0}", ex.InnerException), errorId));
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError,
+                    "An Error has occurred. Report to bp@ivnet.co.uk quoting: " + errorId);
+
+            }
+        }
     }
 }

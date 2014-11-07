@@ -20,6 +20,8 @@ namespace ivNet.Club.Services
 
         void CreateGuardian(List<RegistrationViewModel> registrationList);
         List<ClubMembersViewModel> GetAll();
+        List<ClubMembersViewModel> Get(int id);
+        List<GuardianViewModel> GetGuardians(int id);
     }
 
     public class ClubMemberServices : BaseService, IClubMemberServices
@@ -204,6 +206,46 @@ namespace ivNet.Club.Services
 
                 return returnList;
             }           
+        }
+
+        public List<ClubMembersViewModel> Get(int id)
+        {
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                var returnList = new List<ClubMembersViewModel>();
+
+                var guardianList = session.CreateCriteria(typeof(Guardian))
+                   .List<Guardian>().Where(x => x.IsActive.Equals(1) && x.ClubMember.Id.Equals(id)).ToList();
+
+                var guardians = (from guardian in guardianList
+                                 let clubMembersViewModel = new ClubMembersViewModel()
+                                 select MapperHelper.Map(clubMembersViewModel, guardian)).ToList();
+
+                var juniorList = session.CreateCriteria(typeof(Junior))
+                    .List<Junior>().Where(x => x.IsActive.Equals(1) && x.ClubMember.Id.Equals(id)).ToList();
+
+                var juniors = (from junior in juniorList
+                               let clubMembersViewModel = new ClubMembersViewModel()
+                               select MapperHelper.Map(_configurationServices, clubMembersViewModel, junior)).ToList();
+
+                returnList.AddRange(guardians);
+                returnList.AddRange(juniors);
+
+                return returnList;
+            }         
+        }
+
+        public List<GuardianViewModel> GetGuardians(int id)
+        {
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                var junior = session.CreateCriteria(typeof (Junior))
+                    .List<Junior>().First(x => x.ClubMember.Id.Equals(id));
+
+                return (from guardian in junior.Guardians 
+                        let guardianViewModel = new GuardianViewModel() 
+                        select MapperHelper.Map(guardianViewModel, guardian)).ToList();
+            }
         }
     }
 }

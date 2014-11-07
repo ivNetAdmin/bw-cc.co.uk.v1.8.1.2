@@ -240,6 +240,7 @@
     <Compile Include="ViewModel\ConfigurationItemViewModel.cs" />
     <Compile Include="ViewModel\ContactViewModel.cs" />
     <Compile Include="ViewModel\GuardianViewModel.cs" />
+    <Compile Include="ViewModel\JuniorGuardianViewModel.cs" />
     <Compile Include="ViewModel\JuniorRegistrationViewModel.cs" />
     <Compile Include="ViewModel\JuniorVettingViewModel.cs" />
     <Compile Include="ViewModel\MemberViewModel.cs" />

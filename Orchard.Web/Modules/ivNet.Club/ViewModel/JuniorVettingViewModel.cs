@@ -9,7 +9,7 @@ namespace ivNet.Club.ViewModel
     {
         public JuniorVettingViewModel()
         {
-            Guardians=new List<GuardianViewModel>();
+            Guardians=new List<JuniorGuardianViewModel>();
         }
 
         public int JuniorId { get; set; }
@@ -18,6 +18,6 @@ namespace ivNet.Club.ViewModel
         public DateTime Dob { get; set; }
         public string AgeGroup { get; set; }
         public byte IsVetted { get; set; }
-        public List<GuardianViewModel> Guardians { get; set; }
+        public List<JuniorGuardianViewModel> Guardians { get; set; }
     }
 }

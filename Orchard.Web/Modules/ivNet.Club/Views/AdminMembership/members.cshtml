@@ -6,7 +6,62 @@
 
 <div id="AdminMemberMembers" data-ng-app="ivNet.Admin.Member.Members.App">
     <div data-ng-controller="AdminMemberController">
-        <table tr-ng-grid='' items='myItems' enable-filtering="false" enable-sorting="false">
+        <table id="memberList" tr-ng-grid='' items='members' >
+            <thead>
+                <tr>
+                    <th field-name="MemberId" display-name="Id" display-align="right" enable-filtering="false" enable-sorting="false">
+                    </th>
+                    <th field-name="Surname" display-name="Surname">
+                    </th>
+                    <th field-name="Firstname" display-name="Firstname">
+                    </th>
+                    <th field-name="Dob" display-name="DOB" display-format="dateField:gridItem">
+                    </th>
+                    <th field-name="MemberType" display-name="Member Type">
+                    </th>
+
+                    <th field-name="Fee" display-name="Fee"></th>
+                    <th field-name="IsActive" display-name="Active">
+                    </th>
+
+                   
+                </tr>
+            </thead>
+            <tbody>
+            <td>
+                <button class="btn btn-default" ng-click="editMemberList(gridItem)">
+                    <span>Edit</span>
+                </button>
+            </td>
+            </tbody>
+        </table>
+        
+        <table id="memberDetail" tr-ng-grid='' items='memberDetails' enable-filtering="false" enable-sorting="false">
+            <thead>
+                <tr>
+                    <th field-name="MemberId" display-name="Id" display-align="right" enable-filtering="false" enable-sorting="false">
+                    </th>
+                    <th field-name="Surname" display-name="Surname">
+                    </th>
+                    <th field-name="Firstname" display-name="Firstname">
+                    </th>
+                    <th field-name="Dob" display-name="DOB" display-format="editDateField:gridItem">
+                    </th>
+                    <th field-name="MemberType" display-name="Member Type">
+                    </th>
+                    <th field-name="IsActive" display-name="Active">
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td field-name="MemberId"></td>
+                    <td field-name="Surname"><input type="text" value="{{gridDisplayItem.Surname}}" /></td>
+                    <td field-name="Firstname"><input type="text" value="{{gridDisplayItem.Firstname}}" /></td>                   
+                    <td field-name="Dob"><input type="date" value="{{gridDisplayItem.Dob}}" /></td>                 
+                    <td field-name="IsActive"><input type="checkbox" value="{{gridDisplayItem.IsActive}}" ng-checked="{{gridDisplayItem.IsActive}}" /></td>
+
+            </tbody>
         </table>
     </div>
 </div>

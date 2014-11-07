@@ -100,6 +100,16 @@ namespace ivNet.Club.Helpers
 
         #region entities->models
 
+        public static GuardianViewModel Map(GuardianViewModel viewModel, Guardian entity)
+        {
+            viewModel.Surname = entity.ClubMember.Surname;
+            viewModel.Firstname = entity.ClubMember.Firstname;
+            viewModel.Email = entity.ContactDetail.Email;
+            viewModel.Mobile = entity.ContactDetail.Mobile;
+            viewModel.OtherTelephone = entity.ContactDetail.OtherTelephone;
+            return viewModel;
+        }
+
         public static JuniorVettingViewModel Map(IConfigurationServices configurationServices, JuniorVettingViewModel viewModel, Junior entity)
         {
             viewModel.Surname = entity.ClubMember.Surname;
@@ -111,7 +121,7 @@ namespace ivNet.Club.Helpers
 
             foreach (var guardian in entity.Guardians)
             {
-                viewModel.Guardians.Add(new GuardianViewModel
+                viewModel.Guardians.Add(new JuniorGuardianViewModel
                 {
                     Surname = guardian.ClubMember.Surname,
                     Firstname = guardian.ClubMember.Firstname,
@@ -163,7 +173,7 @@ namespace ivNet.Club.Helpers
             // get fee for this current season
             foreach (var fee in entity.Player.Fees.Where(fee => fee.Season == currentSeason))
             {
-                viewModel.Fee = fee.Amount;
+                viewModel.Fee = string.Format("{0} - {1}", currentSeason, fee.Amount);
             }
 
             viewModel.MemberId = entity.ClubMember.Id;
@@ -185,6 +195,6 @@ namespace ivNet.Club.Helpers
             viewModel.IsActive = entity.IsActive;
             return viewModel;
         }
-        #endregion       
+        #endregion
     }
 }
