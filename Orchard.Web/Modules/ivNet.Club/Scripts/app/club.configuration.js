@@ -24,7 +24,7 @@ ivNetClubConfiguration.controller('ConfigurationController', function($scope, co
             $scope.myItems = data;
         },
         function(error) {
-            alert(error);
+            alert(error.data);
         });
 
     $scope.saveItem = function(item) {

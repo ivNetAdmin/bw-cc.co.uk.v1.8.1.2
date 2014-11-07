@@ -178,7 +178,7 @@ namespace ivNet.Club.Services
 
         private void AddFee(ISession session, IList<Junior> juniors)
         {
-            throw new System.NotImplementedException();
+            
         }
 
         public List<ClubMembersViewModel> GetAll()

@@ -36,7 +36,7 @@ ivNetAdminMemberRegistration.controller('AdminMemberController', function ($scop
            $scope.myItems = data;
        },
        function (error) {
-           alert(error);
+           alert(error.data);
        });
 
     $scope.activateJunior = function (item) {

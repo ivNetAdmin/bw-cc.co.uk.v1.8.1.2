@@ -3,7 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using FluentNHibernate.Data;
+using System.Web;
+using System.Web.Caching;
 using ivNet.Club.Entities;
 using ivNet.Club.Helpers;
 using ivNet.Club.ViewModel;
@@ -66,8 +67,11 @@ namespace ivNet.Club.Services
 
         public string GetCurrentSeason()
         {
+            if (HttpContext.Current.Cache["currentSeason"] != null) return HttpContext.Current.Cache["currentSeason"].ToString();
+
             using (var session = NHibernateHelper.OpenSession())
             {
+                
                 DateTime? seasonStartDate = null;
                 DateTime? seasonEndDate = null;
                 string seasonFormat = string.Empty;
@@ -100,9 +104,10 @@ namespace ivNet.Club.Services
                     }
                 }
 
-                return seasonFormat == "####/##" ? string.Format("{0}/{1}", 
+                HttpContext.Current.Cache["currentSeason"] = seasonFormat == "####/##" ? string.Format("{0}/{1}", 
                     currentseason, (currentseason + 1).ToString(CultureInfo.InvariantCulture).Substring(2)) : 
                     currentseason.ToString(CultureInfo.InvariantCulture);
+                return HttpContext.Current.Cache["currentSeason"].ToString();
             }            
         }
 
@@ -167,6 +172,9 @@ namespace ivNet.Club.Services
         }
         public int GetJuniorYear(DateTime dob)
         {
+            if (HttpContext.Current.Cache["juniorYear"] != null)
+                return Convert.ToInt32(HttpContext.Current.Cache["juniorYear"]);
+
             using (var session = NHibernateHelper.OpenSession())
             {
                 var entity = session.CreateCriteria(typeof (ConfigurationItem))
@@ -190,7 +198,8 @@ namespace ivNet.Club.Services
                     age++;
                 }
 
-                return age;
+                HttpContext.Current.Cache["juniorYear"] = age;
+                return Convert.ToInt32(HttpContext.Current.Cache["juniorYear"]);
             }            
         }
     }

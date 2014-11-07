@@ -23,9 +23,8 @@ namespace ivNet.Club.Helpers
             {
                 viewModel.ClubMemberKey =
                     CustomStringHelper.BuildKey(new[]
-                    {
-                        // primary (first) guardian
-                        form[string.Format("Email-{0}", 1)],
+                    {                        
+                        form[string.Format("{0}-Surname-{1}", memberType, counter)],
                         form[string.Format("{0}-Firstname-{1}", memberType, counter)]
                     });
             }
@@ -102,11 +101,16 @@ namespace ivNet.Club.Helpers
 
         public static GuardianViewModel Map(GuardianViewModel viewModel, Guardian entity)
         {
+            viewModel.GuardianId = entity.Id;
             viewModel.Surname = entity.ClubMember.Surname;
             viewModel.Firstname = entity.ClubMember.Firstname;
             viewModel.Email = entity.ContactDetail.Email;
             viewModel.Mobile = entity.ContactDetail.Mobile;
             viewModel.OtherTelephone = entity.ContactDetail.OtherTelephone;
+            viewModel.Address = entity.ContactDetail.Address;
+            viewModel.Town = entity.ContactDetail.Town;
+            viewModel.Postcode = entity.ContactDetail.Postcode;
+            viewModel.IsActive = entity.IsActive;
             return viewModel;
         }
 

@@ -33,40 +33,43 @@ ivNetAdminMemberRegistration.factory('adminMemberMembers', function ($resource) 
 
 ivNetAdminMemberRegistration.controller('AdminMemberController', function ($scope, adminMemberMembers) {
 
-    $('table#memberDetail').hide();
+    $('div#memberDetail').hide();
 
     adminMemberMembers.query(
         function(data) {
             $scope.members = data;
         },
         function(error) {
-            alert(error);
+            alert(error.data);
         });
 
-    $scope.editMemberList = function (member) {
+    $scope.editMemberList = function(member) {
 
         adminMemberMembers.query({ id: member.MemberId },
-            function (data) {
-              
+            function(data) {
+
                 $scope.memberDetails = data;
 
-                $('table#memberList').hide("blind", { direction: "up" }, 500, function () {
-                    $('table#memberDetail').show("blind", { direction: "down" }, 1000);
+                if (data[0].MemberType != "Guardian") {
+                    $scope.guardians = data[0].Guardians;
+                }
+
+                $('div#memberList').hide("blind", { direction: "up" }, 500, function () {                    
+                    $('div#memberDetail').show("blind", { direction: "down" }, 1000);
                 });
+
+                $('div#memberDetail').find('tfoot').hide();
 
             },
             function(error) {
-                alert(error);
+                alert(error.data);
             });
-
-       
-
     };
 
     $scope.editMemberDetail = function (member) {
 
-        $('table#memberDetail').hide("blind", { direction: "up" },1000, function () {
-            $('table#memberList').show("blind", { direction: "down" }, 500);
+        $('div#memberDetail').hide("blind", { direction: "up" },1000, function () {
+            $('div#memberList').show("blind", { direction: "down" }, 500);
         });
 
     };

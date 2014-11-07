@@ -34,7 +34,7 @@ ivNetMemberRegistrationPayment.controller('PaymentController', function ($scope,
             $scope.extraItems = results;          
         },
         error: function(xmlhttprequest, status, error) {
-            alert(error);
+            alert(error.data);
         }
     });
 
