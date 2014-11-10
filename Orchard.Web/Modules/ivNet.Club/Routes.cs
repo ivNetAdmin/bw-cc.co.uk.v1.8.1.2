@@ -134,6 +134,7 @@ namespace ivNet.Club
             };
         }
         #endregion
+
         #region membership
         private IEnumerable<RouteDescriptor> MembershipRoutes()
         {
@@ -165,6 +166,23 @@ namespace ivNet.Club
                             {"area", "ivNet.Club"},
                             {"controller", "ClubMember"},
                             {"action", "ValidateCaptcha"}
+                        },
+                        new RouteValueDictionary(),
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Club"}
+                        },
+                        new MvcRouteHandler())
+                },
+                new RouteDescriptor
+                {
+                    Route = new Route(
+                        "club/member/duplicates",
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Club"},
+                            {"controller", "ClubMember"},
+                            {"action", "ValidateDuplicates"}
                         },
                         new RouteValueDictionary(),
                         new RouteValueDictionary

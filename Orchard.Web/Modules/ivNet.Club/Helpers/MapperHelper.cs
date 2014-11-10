@@ -99,6 +99,11 @@ namespace ivNet.Club.Helpers
 
         #region entities->models
 
+        public static MemberViewModel Map(MemberViewModel viewModel, ClubMember entity)
+        {
+            return Mapper.Map(entity, viewModel);
+        }
+
         public static GuardianViewModel Map(GuardianViewModel viewModel, Guardian entity)
         {
             viewModel.GuardianId = entity.Id;
@@ -200,5 +205,6 @@ namespace ivNet.Club.Helpers
             return viewModel;
         }
         #endregion
+     
     }
 }

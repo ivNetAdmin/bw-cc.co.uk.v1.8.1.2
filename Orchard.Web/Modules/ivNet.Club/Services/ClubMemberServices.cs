@@ -22,6 +22,7 @@ namespace ivNet.Club.Services
         List<ClubMembersViewModel> GetAll();
         List<ClubMembersViewModel> Get(int id);
         List<GuardianViewModel> GetGuardians(int id);
+        MemberViewModel GetMember(string email);
     }
 
     public class ClubMemberServices : BaseService, IClubMemberServices
@@ -47,7 +48,7 @@ namespace ivNet.Club.Services
             using (var session = NHibernateHelper.OpenSession())
             {
                 using (var transaction = session.BeginTransaction())
-                {                   
+                {
                     transaction.Commit();
                 }
             }
@@ -110,7 +111,8 @@ namespace ivNet.Club.Services
                                 junior.JuniorKey =
                                     CustomStringHelper.BuildKey(new[]
                                     {
-                                        juniorViewModel.MemberViewModel.Firstname, juniorViewModel.MemberViewModel.Surname
+                                        juniorViewModel.MemberViewModel.Firstname,
+                                        juniorViewModel.MemberViewModel.Surname
                                     });
                             }
 
@@ -137,23 +139,23 @@ namespace ivNet.Club.Services
                             session.SaveOrUpdate(junior.ClubMember);
                             SetAudit(junior.JuniorInfo);
                             session.SaveOrUpdate(junior.JuniorInfo);
-                            
+
                             MapperHelper.Map(junior.Player.Kit, juniorViewModel);
                             SetAudit(junior.Player.Kit);
-                            session.SaveOrUpdate(junior.Player.Kit);         
+                            session.SaveOrUpdate(junior.Player.Kit);
 
                             // create a blank fee for this season
-                            var fee = new Fee { Season = registrationViewModel.Season };                           
+                            var fee = new Fee {Season = registrationViewModel.Season};
                             SetAudit(fee);
-                            session.SaveOrUpdate(fee);         
+                            session.SaveOrUpdate(fee);
                             junior.Player.Fees.Add(fee);
 
                             junior.Player.Number = junior.ClubMember.Id.ToString(CultureInfo.InvariantCulture)
                                 .PadLeft(6, '0');
-                   
+
                             SetAudit(junior.Player);
                             session.SaveOrUpdate(junior.Player);
-                       
+
                             // save or update junior
                             SetAudit(junior);
                             session.SaveOrUpdate(junior);
@@ -174,11 +176,11 @@ namespace ivNet.Club.Services
                     transaction.Commit();
                 }
             }
-        }       
+        }
 
         private void AddFee(ISession session, IList<Junior> juniors)
         {
-            
+
         }
 
         public List<ClubMembersViewModel> GetAll()
@@ -186,26 +188,26 @@ namespace ivNet.Club.Services
             using (var session = NHibernateHelper.OpenSession())
             {
                 var returnList = new List<ClubMembersViewModel>();
-                
-                var guardianList = session.CreateCriteria(typeof(Guardian))
-                   .List<Guardian>().Where(x => x.IsActive.Equals(1)).ToList();
+
+                var guardianList = session.CreateCriteria(typeof (Guardian))
+                    .List<Guardian>().Where(x => x.IsActive.Equals(1)).ToList();
 
                 var guardians = (from guardian in guardianList
-                               let clubMembersViewModel = new ClubMembersViewModel()
-                                 select MapperHelper.Map(clubMembersViewModel, guardian)).ToList();
+                    let clubMembersViewModel = new ClubMembersViewModel()
+                    select MapperHelper.Map(clubMembersViewModel, guardian)).ToList();
 
-                var juniorList = session.CreateCriteria(typeof(Junior))
+                var juniorList = session.CreateCriteria(typeof (Junior))
                     .List<Junior>().Where(x => x.IsActive.Equals(1)).ToList();
 
-                var juniors =   (from junior in juniorList
-                                 let clubMembersViewModel = new ClubMembersViewModel()
-                                 select MapperHelper.Map(_configurationServices, clubMembersViewModel, junior)).ToList();
+                var juniors = (from junior in juniorList
+                    let clubMembersViewModel = new ClubMembersViewModel()
+                    select MapperHelper.Map(_configurationServices, clubMembersViewModel, junior)).ToList();
 
                 returnList.AddRange(guardians);
                 returnList.AddRange(juniors);
 
                 return returnList;
-            }           
+            }
         }
 
         public List<ClubMembersViewModel> Get(int id)
@@ -214,25 +216,25 @@ namespace ivNet.Club.Services
             {
                 var returnList = new List<ClubMembersViewModel>();
 
-                var guardianList = session.CreateCriteria(typeof(Guardian))
-                   .List<Guardian>().Where(x => x.IsActive.Equals(1) && x.ClubMember.Id.Equals(id)).ToList();
+                var guardianList = session.CreateCriteria(typeof (Guardian))
+                    .List<Guardian>().Where(x => x.IsActive.Equals(1) && x.ClubMember.Id.Equals(id)).ToList();
 
                 var guardians = (from guardian in guardianList
-                                 let clubMembersViewModel = new ClubMembersViewModel()
-                                 select MapperHelper.Map(clubMembersViewModel, guardian)).ToList();
+                    let clubMembersViewModel = new ClubMembersViewModel()
+                    select MapperHelper.Map(clubMembersViewModel, guardian)).ToList();
 
-                var juniorList = session.CreateCriteria(typeof(Junior))
+                var juniorList = session.CreateCriteria(typeof (Junior))
                     .List<Junior>().Where(x => x.IsActive.Equals(1) && x.ClubMember.Id.Equals(id)).ToList();
 
                 var juniors = (from junior in juniorList
-                               let clubMembersViewModel = new ClubMembersViewModel()
-                               select MapperHelper.Map(_configurationServices, clubMembersViewModel, junior)).ToList();
+                    let clubMembersViewModel = new ClubMembersViewModel()
+                    select MapperHelper.Map(_configurationServices, clubMembersViewModel, junior)).ToList();
 
                 returnList.AddRange(guardians);
                 returnList.AddRange(juniors);
 
                 return returnList;
-            }         
+            }
         }
 
         public List<GuardianViewModel> GetGuardians(int id)
@@ -242,9 +244,23 @@ namespace ivNet.Club.Services
                 var junior = session.CreateCriteria(typeof (Junior))
                     .List<Junior>().First(x => x.ClubMember.Id.Equals(id));
 
-                return (from guardian in junior.Guardians 
-                        let guardianViewModel = new GuardianViewModel() 
-                        select MapperHelper.Map(guardianViewModel, guardian)).ToList();
+                return (from guardian in junior.Guardians
+                    let guardianViewModel = new GuardianViewModel()
+                    select MapperHelper.Map(guardianViewModel, guardian)).ToList();
+            }
+        }
+
+        public MemberViewModel GetMember(string email)
+        {
+            using (var session = NHibernateHelper.OpenSession())
+            {
+
+                var member = new MemberViewModel();
+                var key = CustomStringHelper.BuildKey(new[] {email});
+                var clubMember = session.CreateCriteria(typeof (ClubMember))
+                    .List<ClubMember>().FirstOrDefault(x => x.IsActive.Equals(1) && x.ClubMemberKey.Equals(key));
+                return MapperHelper.Map(member, clubMember);
+
             }
         }
     }

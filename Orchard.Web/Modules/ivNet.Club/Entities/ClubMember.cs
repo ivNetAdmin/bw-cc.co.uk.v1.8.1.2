@@ -13,7 +13,7 @@ namespace ivNet.Club.Entities
         public virtual string Firstname { get; set; }
         public virtual string NickName { get; set; }
         public virtual int UserId { get; set; }
-        public virtual byte IsNewReg { get; set; }       
+        public virtual int DuplicateCounter { get; set; }       
     }
 
     public class ClubMemberMap : ClassMap<ClubMember>
@@ -24,7 +24,7 @@ namespace ivNet.Club.Entities
             Map(x => x.ClubMemberKey).Not.Nullable().Length(120).UniqueKey("ix_ClubMember_Unique");
 
             Map(x => x.UserId);
-            Map(x => x.IsNewReg);
+            Map(x => x.DuplicateCounter);
 
             Map(x => x.Surname).Not.Nullable().Length(50);
             Map(x => x.Firstname).Not.Nullable().Length(50);

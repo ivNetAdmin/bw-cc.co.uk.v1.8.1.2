@@ -51,7 +51,7 @@ namespace ivNet.Club.Controllers
         {
             try
             {
-                if(form["MemberCount"]==null) throw new Exception("No new member provded for registration!");
+                if(form["MemberCount"]==null) throw new Exception("No new member provided for registration!");
 
                 var memberCount = Convert.ToInt32(form["MemberCount"]);
                 var memberTypes = form["checkboxes"].Split(',');
@@ -139,6 +139,35 @@ namespace ivNet.Club.Controllers
             var success = responseLines[0].Equals("true");
 
             return Json(new { Success = success });
-        }       
+        }
+
+        public ActionResult ValidateDuplicates(FormCollection form)
+        {
+            var success = true;
+            var message = string.Empty;
+
+            foreach (var key in form.Keys)
+            {
+                if (key.ToString().IndexOf("-", StringComparison.Ordinal) == -1) continue;
+
+                switch (key.ToString().Substring(0, key.ToString().IndexOf("-", StringComparison.Ordinal) - 1))
+                {
+                    case "Email":
+                        var email = form[key.ToString()];
+                        var adult = _clubMemberServices.GetMember(email);
+                        if (adult != null)
+                        {
+                            success = false;
+                            message =
+                                string.Format(
+                                    "This eMail [{0}] is alerady being used by {1} {2}. If you are gaurdian trying to register a junior then please log into the website and use the 'My Club' page.",
+                                    email, adult.Firstname, adult.Surname);
+                        }
+                        break;
+                }
+            }
+
+            return Json(new { Success = success, Message = message });
+        }
     }
 }

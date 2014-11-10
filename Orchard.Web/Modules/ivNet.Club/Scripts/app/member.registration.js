@@ -13,7 +13,7 @@ ivNetMemberRegistration.controller('RegistrationController', function ($scope, $
                 url: 'http://www.google.com/recaptcha/api/js/recaptcha_ajax.js',
                 dataType: 'script',
                 success: function(result) {
-                    CreateCaptcha();
+                    createCaptcha();
                     newCaptcha = true;
                 },
                 error: function(xmlhttprequest, status, error) {
@@ -23,14 +23,14 @@ ivNetMemberRegistration.controller('RegistrationController', function ($scope, $
         }
     }
 
-    $scope.registrationTypeSelection = function () {
+    $scope.registrationTypeSelection = function() {
 
         $scope.members = [];
         $scope.juniors = [];
 
         var selection = [];
 
-        $('div.registration-type input:checked').each(function (index, element) {
+        $('div.registration-type input:checked').each(function(index, element) {
             selection.push(element.value);
         });
 
@@ -56,7 +56,7 @@ ivNetMemberRegistration.controller('RegistrationController', function ($scope, $
         if (selection.indexOf("Other") != -1) {
             $('div.other').show();
         }
-    }
+    };
 
     $scope.adjustJuniorCount = function () {
         $scope.juniors = [];
@@ -74,6 +74,23 @@ ivNetMemberRegistration.controller('RegistrationController', function ($scope, $
 
     $('form#newMemberForm').submit(function (event) {
 
+        // do duplicate check
+        checkDuplicates();
+
+       
+    });
+
+    function createCaptcha() {
+        Recaptcha.create("6LfU2fASAAAAAIbgxLxe3BjwRXA6xEbjCVq7iJke",
+            "captcha",
+            {
+                theme: "clean",
+                callback: Recaptcha.focus_response_field
+            }
+        );
+    }
+
+    function checkCaptcha() {
         if (invalidCaptcha) {
             event.preventDefault();
 
@@ -84,31 +101,42 @@ ivNetMemberRegistration.controller('RegistrationController', function ($scope, $
                 url: '/club/member/validate',
                 type: 'POST',
                 data: $('form#newMemberForm').serialize(),
-                success: function (data) {
+                success: function(data) {
                     if (!data.Success) {
 
                         $('p#error').show();
-                        CreateCaptcha();
+                        createCaptcha();
                     } else {
                         invalidCaptcha = false;
                         $('p#error').hide();
                         $('form#newMemberForm').submit();
                     }
                 },
-                error: function (jqXhr, textStatus, errorThrown) {
+                error: function(jqXhr, textStatus, errorThrown) {
                     alert("Error '" + jqXhr.status + "' (textStatus: '" + textStatus + "', errorThrown: '" + errorThrown + "')");
                 }
             });
         }
-    });
+    }
 
-    function CreateCaptcha() {
-        Recaptcha.create("6LfU2fASAAAAAIbgxLxe3BjwRXA6xEbjCVq7iJke",
-            "captcha",
-            {
-                theme: "clean",
-                callback: Recaptcha.focus_response_field
+    function checkDuplicates() {
+        $.ajax({
+            url: '/club/member/duplicates',
+            type: 'POST',
+            data: $('form#newMemberForm').serialize(),
+            success: function (data) {
+                if (!data.Success) {
+                    alert(data.Message);
+
+                    // $('p#error').show();
+                } else {
+                    // do captcha check
+                    checkCaptcha();
+                }
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
+                alert("Error '" + jqXhr.status + "' (textStatus: '" + textStatus + "', errorThrown: '" + errorThrown + "')");
             }
-        );
+        });
     }
 });
