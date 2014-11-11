@@ -25,7 +25,8 @@ namespace ivNet.Club
 
             #region entities->models
 
-            Mapper.CreateMap<ConfigurationItem, ConfigurationItemViewModel>();          
+            Mapper.CreateMap<ConfigurationItem, ConfigurationItemViewModel>();
+            Mapper.CreateMap<ClubMember, MemberViewModel>();          
 
             #endregion
 

@@ -46,12 +46,13 @@ namespace ivNet.Club.Controllers
             return View();
         }
 
-        [HttpPost] 
+        [HttpPost]
         public ActionResult New(FormCollection form)
         {
             try
-            {
-                if(form["MemberCount"]==null) throw new Exception("No new member provided for registration!");
+            {               
+
+                if (form["MemberCount"] == null) throw new Exception("No new member provided for registration!");
 
                 var memberCount = Convert.ToInt32(form["MemberCount"]);
                 var memberTypes = form["checkboxes"].Split(',');
@@ -63,7 +64,7 @@ namespace ivNet.Club.Controllers
                 {
                     var registrationViewModel = new RegistrationViewModel();
 
-                    MapperHelper.MapNewClubMember(registrationViewModel.MemberViewModel, form, i, "Adult");                
+                    MapperHelper.MapNewClubMember(registrationViewModel.MemberViewModel, form, i, "Adult");
                     MapperHelper.MapNewContactDetail(registrationViewModel.ContactViewModel, form, i);
 
                     registrationViewModel.Season = form["Season"];
@@ -74,7 +75,7 @@ namespace ivNet.Club.Controllers
                 if (isGuardian)
                 {
                     var juniorCount = Convert.ToInt32(form["JuniorCount"]);
-                 
+
                     // get junior club member details
                     for (var i = 1; i <= juniorCount; i++)
                     {
@@ -82,7 +83,7 @@ namespace ivNet.Club.Controllers
                         juniorViewModel.Dob = MapperHelper.MapNewDob(form, i);
 
                         MapperHelper.MapNewClubMember(juniorViewModel.MemberViewModel, form, i, "Junior");
-                        MapperHelper.MapJuniorDetail(juniorViewModel, form, i);                   
+                        MapperHelper.MapJuniorDetail(juniorViewModel, form, i);
 
                         foreach (var registrationViewModel in registrationList)
                         {
@@ -93,9 +94,7 @@ namespace ivNet.Club.Controllers
                     _clubMemberServices.CreateGuardian(registrationList);
                 }
 
-              
                 return RedirectToAction("RegistrationPayment");
-               
             }
             catch (Exception ex)
             {
@@ -103,7 +102,7 @@ namespace ivNet.Club.Controllers
                 Logger.Error(string.Format("{0}: {1}{2} [{3}]", ActionName, ex.Message,
                     ex.InnerException == null ? string.Empty : string.Format(" - {0}", ex.InnerException), errorId));
                 return View("Error", errorId);
-            }            
+            }
         }
 
         [HttpPost]
@@ -141,24 +140,23 @@ namespace ivNet.Club.Controllers
             return Json(new { Success = success });
         }
 
-        public ActionResult ValidateDuplicates(FormCollection form)
-        {
-            var success = true;
+        private string ValidateDuplicates(FormCollection form)
+        {        
             var message = string.Empty;
 
             foreach (var key in form.Keys)
             {
                 if (key.ToString().IndexOf("-", StringComparison.Ordinal) == -1) continue;
 
-                switch (key.ToString().Substring(0, key.ToString().IndexOf("-", StringComparison.Ordinal) - 1))
+                switch (key.ToString().Substring(0, key.ToString().IndexOf("-", StringComparison.Ordinal)))
                 {
                     case "Email":
                         var email = form[key.ToString()];
                         var adult = _clubMemberServices.GetMember(email);
                         if (adult != null)
                         {
-                            success = false;
-                            message =
+                     
+                            message=
                                 string.Format(
                                     "This eMail [{0}] is alerady being used by {1} {2}. If you are gaurdian trying to register a junior then please log into the website and use the 'My Club' page.",
                                     email, adult.Firstname, adult.Surname);
@@ -167,7 +165,7 @@ namespace ivNet.Club.Controllers
                 }
             }
 
-            return Json(new { Success = success, Message = message });
+            return message;
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿var ivNetMemberRegistration = angular.module("ivNet.Member.Registration.App", []);
-var invalidCaptcha = false; // debug : false
-ivNetMemberRegistration.controller('RegistrationController', function ($scope, $http) {
+var invalidCaptcha = true; // debug : false
+ivNetMemberRegistration.controller('RegistrationController', function($scope, $http) {
 
     init();
 
@@ -58,26 +58,45 @@ ivNetMemberRegistration.controller('RegistrationController', function ($scope, $
         }
     };
 
-    $scope.adjustJuniorCount = function () {
+    $scope.adjustJuniorCount = function() {
         $scope.juniors = [];
         for (var i = 0; i < $scope.juniorcount; i++) {
             $scope.juniors.push(i);
         }
     };
 
-    $scope.adjustMemberCount = function () {
+    $scope.adjustMemberCount = function() {
         $scope.members = [];
         for (var i = 0; i < $scope.membercount; i++) {
             $scope.members.push(i);
         }
     };
 
+    //$scope.$watch(
+    //    function($scope) {
+
+    //        console.log("Function watched");
+
+
+    //        for (var i = 0; i < $scope.membercount; i++) {
+    //            $scope.email.push(i);
+    //        }
+
+    //        // This becomes the value we're "watching".
+    //        return ("Function: Best friend is " + $scope.bestFriend.name);
+
+    //    },
+    //    function(newValue) {
+
+    //        console.log(newValue);
+
+    //    }
+    //);
+
     $('form#newMemberForm').submit(function (event) {
 
-        // do duplicate check
-        checkDuplicates();
-
-       
+        // do captcha check
+        checkCaptcha();       
     });
 
     function createCaptcha() {
@@ -126,6 +145,7 @@ ivNetMemberRegistration.controller('RegistrationController', function ($scope, $
             data: $('form#newMemberForm').serialize(),
             success: function (data) {
                 if (!data.Success) {
+
                     alert(data.Message);
 
                     // $('p#error').show();
