@@ -246,6 +246,7 @@
     <Compile Include="ViewModel\JuniorGuardianViewModel.cs" />
     <Compile Include="ViewModel\JuniorRegistrationViewModel.cs" />
     <Compile Include="ViewModel\JuniorVettingViewModel.cs" />
+    <Compile Include="ViewModel\ListItemViewModel.cs" />
     <Compile Include="ViewModel\MemberViewModel.cs" />
     <Compile Include="ViewModel\JuniorViewModel.cs" />
     <Compile Include="ViewModel\NewMembershipViewModel.cs" />

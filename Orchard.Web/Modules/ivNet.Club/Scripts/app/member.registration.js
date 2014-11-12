@@ -1,26 +1,19 @@
 ﻿var ivNetMemberRegistration = angular.module("ivNet.Member.Registration.App", ['ui.event']);
-var invalidCaptcha = false; // debug : false
+var invalidCaptcha = true; // debug : false
 ivNetMemberRegistration.controller('RegistrationController', function($scope, $http) {
 
     init();
 
     function init() {
+
         $('div#NewMemberRegistration').find('div.reg-form').hide();
         $('p#error').hide();
 
         if (invalidCaptcha) {
-            $.ajax({
-                url: 'http://www.google.com/recaptcha/api/js/recaptcha_ajax.js',
-                dataType: 'script',
-                success: function(result) {
-                    createCaptcha();
-                    newCaptcha = true;
-                },
-                error: function(xmlhttprequest, status, error) {
-                    $('#captcha').html('Cannot create captcha');
-                }
-            });
+            setupCaptcha();
         }
+
+        setupSeasons();
     }
 
     $scope.registrationTypeSelection = function() {
@@ -72,37 +65,31 @@ ivNetMemberRegistration.controller('RegistrationController', function($scope, $h
         }
     };
 
-    $scope.blurCallback = function (evt) {
-        checkDuplicates(evt.target.value);
-        //alert('Goodbye. Input content is: ' + evt.target.value);
+    $scope.blurCallback = function(evt) {
+        if (evt.target.value.length > 0) {
+            checkDuplicates(evt.target.value);
+        }
     };
 
-    //$scope.$watch(
-    //    function($scope) {
-
-    //        console.log("Function watched");
-
-
-    //        for (var i = 0; i < $scope.membercount; i++) {
-    //            $scope.email.push(i);
-    //        }
-
-    //        // This becomes the value we're "watching".
-    //        return ("Function: Best friend is " + $scope.bestFriend.name);
-
-    //    },
-    //    function(newValue) {
-
-    //        console.log(newValue);
-
-    //    }
-    //);
-
-    $('form#newMemberForm').submit(function (event) {
+    $('form#newMemberForm').submit(function(event) {
 
         // do captcha check
-        checkCaptcha();       
+        checkCaptcha();
     });
+
+    function setupCaptcha() {
+        $.ajax({
+            url: 'http://www.google.com/recaptcha/api/js/recaptcha_ajax.js',
+            dataType: 'script',
+            success: function(result) {
+                createCaptcha();
+                newCaptcha = true;
+            },
+            error: function(xmlhttprequest, status, error) {
+                $('#captcha').html('Cannot create captcha');
+            }
+        });
+    }
 
     function createCaptcha() {
         Recaptcha.create("6LfU2fASAAAAAIbgxLxe3BjwRXA6xEbjCVq7iJke",
@@ -144,26 +131,40 @@ ivNetMemberRegistration.controller('RegistrationController', function($scope, $h
     }
 
     function checkDuplicates(email) {
+
         $.ajax({
-          
-            url: 'api/club/members/'+email+'/email',
+            url: '/api/club/members/' + email + '/email',
             type: 'GET',
-            data: {email: email},
-            success: function (data) {
-                if (!data.Success) {
+            success: function(data) {
+                if (data.length > 0) {
 
-                    alert(data.Message);
+                    $('div#dupError').find('p').html(data);
+                    $('div#dupError').show();
+                    $('input#singlebutton').hide();
 
-                    // $('p#error').show();
+                } else {
+                    $('div#dupError').hide();
+                    $('input#singlebutton').show();
                 }
-                //else {
-                //    // do captcha check
-                //    checkCaptcha();
-                //}
+            },
+            error: function(jqXhr, textStatus, errorThrown) {
+                alert("Error '" + jqXhr.status + "' (textStatus: '" + textStatus + "', errorThrown: '" + errorThrown + "')");
+            }
+        });
+    }
+
+    function setupSeasons() {
+
+        $.ajax({
+            url: '/api/club/configuration/seasons',
+            type: 'GET',
+            success: function (data) {
+                $scope.seasons = data;
+                $scope.season = $scope.seasons[0].Text;
             },
             error: function (jqXhr, textStatus, errorThrown) {
                 alert("Error '" + jqXhr.status + "' (textStatus: '" + textStatus + "', errorThrown: '" + errorThrown + "')");
             }
-        });
+        });        
     }
 });

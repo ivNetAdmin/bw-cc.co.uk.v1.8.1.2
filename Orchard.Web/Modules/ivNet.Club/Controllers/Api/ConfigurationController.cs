@@ -55,14 +55,16 @@ namespace ivNet.Club.Controllers.Api
         {
             try
             {
-                var configurationItemList = _configurationServices.GetExtraFeeData();
+                switch (id)
+                {
+                    case "seasons":
+                        return GetSeasons();                  
+                    case "extrareg":
+                        return GetExtraFeeData();   
+                    default:
+                        return Get();
+                }
 
-                var returnList = (from configurationItem in configurationItemList
-                                  let configurationItemViewModel = new ConfigurationItemViewModel()
-                                  select MapperHelper.Map(configurationItemViewModel, configurationItem)).ToList();
-              
-                return Request.CreateResponse(HttpStatusCode.OK,
-                    returnList);
             }
             catch (Exception ex)
             {
@@ -74,6 +76,27 @@ namespace ivNet.Club.Controllers.Api
                     "An Error has occurred. Report to bp@ivnet.co.uk quoting: " + errorId);
 
             }
+        }
+
+        private HttpResponseMessage GetSeasons()
+        {
+            //var currentSeason = _configurationServices.GetCurrentSeason();
+            var seasonFormat = _configurationServices.GetRegistrationSeasonList();  
+         
+           return Request.CreateResponse(HttpStatusCode.OK,
+                seasonFormat);
+        }
+
+        private HttpResponseMessage GetExtraFeeData()
+        {
+            var configurationItemList = _configurationServices.GetExtraFeeData();
+
+            var returnList = (from configurationItem in configurationItemList
+                              let configurationItemViewModel = new ConfigurationItemViewModel()
+                              select MapperHelper.Map(configurationItemViewModel, configurationItem)).ToList();
+
+            return Request.CreateResponse(HttpStatusCode.OK,
+                returnList);
         }
 
         [HttpPut]

@@ -5,11 +5,10 @@
     </div>
     <span class="col-md-1 control-label text-right">Season:</span>
     <div class="col-md-2">
-        <select id="Season" name="Season" class="form-control input-md" ng-model="season" required>
-            <option value="2013">2013/14</option>
-            <option value="2014">2014/15</option>
-            <option value="2015">2015/16</option>
+        <select id="Season" name="Season" class="form-control input-md" ng-model="season" required="">
+            <option ng:repeat="season in seasons" value="{{season.Value}}">{{season.Text}}</option>
         </select>
     </div>
 </div>
 
+  

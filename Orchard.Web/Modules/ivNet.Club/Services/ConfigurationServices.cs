@@ -24,6 +24,7 @@ namespace ivNet.Club.Services
         List<decimal> GetFeeData();
         int GetJuniorYear(DateTime dob);
         IEnumerable<ConfigurationItem> GetExtraFeeData();
+        IEnumerable<ListItemViewModel> GetRegistrationSeasonList();
     }
 
     public class ConfigurationServices : BaseService, IConfigurationServices
@@ -152,8 +153,8 @@ namespace ivNet.Club.Services
             using (var session = NHibernateHelper.OpenSession())
             {
                 var returnList = new List<ConfigurationItem>();
-               
-                var feeItems = session.CreateCriteria(typeof(ConfigurationItem))
+
+                var feeItems = session.CreateCriteria(typeof (ConfigurationItem))
                     .List<ConfigurationItem>().Where(x => x.ItemGroup.Equals("Registration")).OrderBy(x => x.Number);
 
                 foreach (var configurationItem in feeItems)
@@ -170,6 +171,64 @@ namespace ivNet.Club.Services
                 return returnList;
             }
         }
+
+        public IEnumerable<ListItemViewModel> GetRegistrationSeasonList()
+        {            
+            using (var session = NHibernateHelper.OpenSession())
+            {
+
+                DateTime? seasonStartDate = null;
+                DateTime? seasonEndDate = null;
+                var seasonFormat = string.Empty;
+                var currentseason = DateTime.Now.Year;
+
+                var seasonItems = session.CreateCriteria(typeof(ConfigurationItem))
+                    .List<ConfigurationItem>().Where(x => x.ItemGroup.Equals("Season"));
+
+                foreach (var configurationItem in seasonItems)
+                {
+                    switch (configurationItem.Name.Replace(" ", string.Empty).ToLowerInvariant())
+                    {
+                        case "displayformat":
+                            seasonFormat = configurationItem.Text;
+                            break;
+                        case "startdate":
+                            seasonStartDate = configurationItem.Date;
+                            break;
+                        case "enddate":
+                            seasonEndDate = configurationItem.Date;
+                            break;
+                    }
+                }
+
+                if (seasonStartDate != null && seasonEndDate != null)
+                {
+                    if (DateTime.Now.Month > seasonEndDate.GetValueOrDefault().Month && DateTime.Now.Month < seasonStartDate.GetValueOrDefault().Month)
+                    {
+                        currentseason++;
+                    }
+                }
+
+                var rtnList = new List<ListItemViewModel>();
+
+                for (var i = 0; i < 3; i++)
+                {
+                    var selected = i == 0;
+
+                    var season = seasonFormat == "####/##"
+                        ? string.Format("{0}/{1}",
+                            currentseason+i, (currentseason + i+1).ToString(CultureInfo.InvariantCulture).Substring(2))
+                        : (currentseason+i).ToString(CultureInfo.InvariantCulture);
+
+                    rtnList.Add(new ListItemViewModel { Value = season, Text = season, Selected = selected });
+     
+                }            
+
+                return rtnList;
+            }            
+
+        }
+
         public int GetJuniorYear(DateTime dob)
         {
             if (HttpContext.Current.Cache["juniorYear"] != null)
