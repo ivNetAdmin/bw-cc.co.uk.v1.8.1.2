@@ -173,6 +173,7 @@ namespace ivNet.Club.Services
 
                         // save or update guardian
                         SetAudit(guardian);
+                        guardian.IsActive = 1;
                         session.SaveOrUpdate(guardian);
 
                         // add fees for this season

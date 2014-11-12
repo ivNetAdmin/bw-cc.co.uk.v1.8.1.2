@@ -14,7 +14,7 @@
          var returnHtml = "";
          angular.forEach(junior.Guardians, function (guardian, index) {
              returnHtml = returnHtml + guardian.Firstname + " " + guardian.Surname + ", ";
-             returnHtml = returnHtml + guardian.Email + ", " + guardian.Telephone;
+             returnHtml = returnHtml + guardian.Email + ", " + guardian.Telephone + ". ";
          });
          
 

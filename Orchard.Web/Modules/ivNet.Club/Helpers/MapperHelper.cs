@@ -43,7 +43,7 @@ namespace ivNet.Club.Helpers
             viewModel.Email = form[string.Format("Email-{0}", counter)];
             viewModel.Mobile = form[string.Format("Mobile-{0}", counter)];
             viewModel.OtherTelephone = form[string.Format("OtherTelephone-{0}", counter)];
-            viewModel.ContactDetailKey = CustomStringHelper.BuildKey(new[] { viewModel.Email,viewModel.Mobile });
+            viewModel.ContactDetailKey = CustomStringHelper.BuildKey(new[] { viewModel.Email });
         }
 
 
