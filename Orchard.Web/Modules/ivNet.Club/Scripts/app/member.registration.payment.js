@@ -28,7 +28,7 @@ ivNetMemberRegistrationPayment.controller('PaymentController', function ($scope,
         });
 
     $.ajax({
-        url: '/api/club/admin/configuration/extrareg',
+        url: '/api/club/admin/configuration/extrareg',        
         dataType: 'json',
         success: function (results) {
             $scope.extraItems = results;          

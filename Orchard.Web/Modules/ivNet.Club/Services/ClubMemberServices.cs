@@ -78,9 +78,13 @@ namespace ivNet.Club.Services
                         guardian.ContactDetail = DuplicateCheck(session, guardian.ContactDetail,
                             registrationViewModel.ContactViewModel.ContactDetailKey);
 
+                        guardian.AddressDetail = DuplicateCheck(session, guardian.AddressDetail,
+                            registrationViewModel.AddressViewModel.AddressDetailKey);
+
                         // update width new user details
                         MapperHelper.Map(guardian.ClubMember, registrationViewModel.MemberViewModel);
                         MapperHelper.Map(guardian.ContactDetail, registrationViewModel.ContactViewModel);
+                        MapperHelper.Map(guardian.AddressDetail, registrationViewModel.AddressViewModel);
 
                         // create website account 
                         if (guardian.ClubMember.UserId == 0)
@@ -95,6 +99,8 @@ namespace ivNet.Club.Services
                         session.SaveOrUpdate(guardian.ClubMember);
                         SetAudit(guardian.ContactDetail);
                         session.SaveOrUpdate(guardian.ContactDetail);
+                        SetAudit(guardian.AddressDetail);
+                        session.SaveOrUpdate(guardian.AddressDetail);
 
                         // add junior details
                         foreach (var juniorViewModel in registrationViewModel.JuniorList)

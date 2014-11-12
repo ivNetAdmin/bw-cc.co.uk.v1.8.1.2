@@ -39,16 +39,7 @@ namespace ivNet.Club
                 //},
                 //#endregion
 
-                #region default              
-
-                new HttpRouteDescriptor
-                {
-                    RouteTemplate = "api/club/{controller}/{id}/{type}",
-                    Defaults = new
-                    {
-                        area = "ivNet.Club"
-                    }
-                },
+                #region default                            
 
                 new HttpRouteDescriptor
                 {
@@ -70,7 +61,14 @@ namespace ivNet.Club
                     }
                 },
 
-                 
+                   new HttpRouteDescriptor
+                {
+                    RouteTemplate = "api/club/{controller}/{id}/{type}",
+                    Defaults = new
+                    {
+                        area = "ivNet.Club"
+                    }
+                },
 
 
                 #endregion                             

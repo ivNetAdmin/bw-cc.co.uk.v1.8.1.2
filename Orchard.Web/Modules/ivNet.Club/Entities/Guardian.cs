@@ -10,6 +10,7 @@ namespace ivNet.Club.Entities
 
         public virtual ClubMember ClubMember { get; set; }
         public virtual ContactDetail ContactDetail { get; set; }
+        public virtual AddressDetail AddressDetail { get; set; }
 
         public virtual IList<Junior> Juniors { get; protected set; }
 
@@ -18,6 +19,7 @@ namespace ivNet.Club.Entities
             Juniors = new List<Junior>();
             ClubMember = new ClubMember();
             ContactDetail = new ContactDetail();
+            AddressDetail = new AddressDetail();
         }
 
         public virtual void AddJunior(Junior junior)
@@ -43,6 +45,7 @@ namespace ivNet.Club.Entities
 
             References(x => x.ClubMember); //.Cascade.SaveUpdate();
             References(x => x.ContactDetail); //.Cascade.SaveUpdate();
+            References(x => x.AddressDetail); //.Cascade.SaveUpdate();
             HasManyToMany(x => x.Juniors)
                  .Cascade.SaveUpdate()
                  .Table("ivNetJuniorGuardian");

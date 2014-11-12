@@ -15,6 +15,7 @@ namespace ivNet.Club
 
             Mapper.CreateMap<MemberViewModel, ClubMember>();
             Mapper.CreateMap<ContactViewModel, ContactDetail>();
+            Mapper.CreateMap<AddressViewModel, AddressDetail>();
 
             Mapper.CreateMap<JuniorViewModel, JuniorInfo>();
             Mapper.CreateMap<JuniorViewModel, Kit>();

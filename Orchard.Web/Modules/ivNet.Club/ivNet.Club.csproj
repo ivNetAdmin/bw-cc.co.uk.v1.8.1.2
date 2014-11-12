@@ -196,6 +196,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ClubMemberController.cs" />
     <Compile Include="Controllers\Documentation.cs" />
+    <Compile Include="Entities\AddressDetail.cs" />
     <Compile Include="Entities\BaseEntity.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -239,6 +240,7 @@
     <Compile Include="Services\ConfigurationServices.cs" />
     <Compile Include="Services\RegistrationServices.cs" />
     <Compile Include="StartupShellEvents.cs" />
+    <Compile Include="ViewModel\AddressViewModel.cs" />
     <Compile Include="ViewModel\ClubMembersViewModel.cs" />
     <Compile Include="ViewModel\ConfigurationItemViewModel.cs" />
     <Compile Include="ViewModel\ContactViewModel.cs" />

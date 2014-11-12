@@ -62,7 +62,15 @@ namespace ivNet.Club.Services
             var entity = session.CreateCriteria(typeof(ContactDetail))
                 .List<ContactDetail>().FirstOrDefault(x => x.ContactDetailKey.Equals(key));
             return entity ?? contactDetail;
-        }      
+        }
+
+        // address detail check
+        protected AddressDetail DuplicateCheck(ISession session, AddressDetail addressDetail, string key)
+        {
+            var entity = session.CreateCriteria(typeof(AddressDetail))
+                .List<AddressDetail>().FirstOrDefault(x => x.AddressDetailKey.Equals(key));
+            return entity ?? addressDetail;
+        }     
 
         protected int CreateAccount(ClubMember clubMember, string email)
         {

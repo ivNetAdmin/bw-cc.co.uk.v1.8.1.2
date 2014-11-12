@@ -40,14 +40,21 @@ namespace ivNet.Club.Helpers
 
         public static void MapNewContactDetail(ContactViewModel viewModel, FormCollection form, int counter)
         {
-            viewModel.Address = form[string.Format("Address-{0}", counter)];
-            viewModel.Postcode = form[string.Format("Postcode-{0}", counter)];
-            viewModel.Town = form[string.Format("Town-{0}", counter)];
             viewModel.Email = form[string.Format("Email-{0}", counter)];
             viewModel.Mobile = form[string.Format("Mobile-{0}", counter)];
             viewModel.OtherTelephone = form[string.Format("OtherTelephone-{0}", counter)];
-            viewModel.ContactDetailKey = CustomStringHelper.BuildKey(new[] { viewModel.Address,viewModel.Postcode });
+            viewModel.ContactDetailKey = CustomStringHelper.BuildKey(new[] { viewModel.Email,viewModel.Mobile });
         }
+
+
+        public static void MapNewAddressDetail(AddressViewModel viewModel, FormCollection form, int counter)
+        {
+            viewModel.Address = form[string.Format("Address-{0}", counter)];
+            viewModel.Postcode = form[string.Format("Postcode-{0}", counter)];
+            viewModel.Town = form[string.Format("Town-{0}", counter)];
+            viewModel.AddressDetailKey = CustomStringHelper.BuildKey(new[] { viewModel.Address, viewModel.Postcode });
+        }
+
 
         public static DateTime MapNewDob(FormCollection form, int counter)
         {
@@ -75,6 +82,11 @@ namespace ivNet.Club.Helpers
         }
 
         public static ContactDetail Map(ContactDetail entity, ContactViewModel viewModel)
+        {
+            return Mapper.Map(viewModel, entity);
+        }
+
+        public static AddressDetail Map(AddressDetail entity, AddressViewModel viewModel)
         {
             return Mapper.Map(viewModel, entity);
         }
@@ -112,9 +124,9 @@ namespace ivNet.Club.Helpers
             viewModel.Email = entity.ContactDetail.Email;
             viewModel.Mobile = entity.ContactDetail.Mobile;
             viewModel.OtherTelephone = entity.ContactDetail.OtherTelephone;
-            viewModel.Address = entity.ContactDetail.Address;
-            viewModel.Town = entity.ContactDetail.Town;
-            viewModel.Postcode = entity.ContactDetail.Postcode;
+            viewModel.Address = entity.AddressDetail.Address;
+            viewModel.Town = entity.AddressDetail.Town;
+            viewModel.Postcode = entity.AddressDetail.Postcode;
             viewModel.IsActive = entity.IsActive;
             return viewModel;
         }
@@ -205,6 +217,5 @@ namespace ivNet.Club.Helpers
             return viewModel;
         }
         #endregion
-     
     }
 }
