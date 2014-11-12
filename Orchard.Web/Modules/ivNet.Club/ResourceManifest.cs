@@ -13,10 +13,12 @@ namespace ivNet.Club
             manifest.DefineStyle("Club.Member.Registration").SetUrl("member.registration.min.css");
 
             manifest.DefineScript("trNgGrid").SetUrl("trNgGrid.min.js").SetVersion("1.2.9").SetDependencies("AngularJS");
+          
             manifest.DefineScript("AngularJS").SetUrl("anjular.min.js").SetVersion("1.2.9").SetDependencies("jQueryUI");
             manifest.DefineScript("AngularJS-Resource").SetUrl("angular-resource.min.js").SetVersion("1.2.18").SetDependencies("AngularJS");
-            manifest.DefineScript("AngularJS-UI").SetUrl("angular-ui-utils.min.js").SetVersion("0.1.1").SetDependencies("AngularJS");            
-
+            manifest.DefineScript("AngularJS-UI").SetUrl("angular-ui-utils.min.js").SetVersion("0.1.1").SetDependencies("AngularJS");
+            manifest.DefineScript("AngularJS-Autocomplete").SetUrl("angular-autocomplete.js").SetVersion("0.1.1").SetDependencies("AngularJS");            
+           
             manifest.DefineScript("Club.Member.Registration").SetUrl("app/member.registration.js").SetVersion("1.0").SetDependencies("AngularJS");
             manifest.DefineScript("Club.Member.Registration.Payment").SetUrl("app/member.registration.payment.js").SetVersion("1.0").SetDependencies("trNgGrid");
 

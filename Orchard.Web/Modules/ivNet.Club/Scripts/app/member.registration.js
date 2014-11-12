@@ -1,5 +1,5 @@
-﻿var ivNetMemberRegistration = angular.module("ivNet.Member.Registration.App", []);
-var invalidCaptcha = true; // debug : false
+﻿var ivNetMemberRegistration = angular.module("ivNet.Member.Registration.App", ['ui.event']);
+var invalidCaptcha = false; // debug : false
 ivNetMemberRegistration.controller('RegistrationController', function($scope, $http) {
 
     init();
@@ -72,6 +72,11 @@ ivNetMemberRegistration.controller('RegistrationController', function($scope, $h
         }
     };
 
+    $scope.blurCallback = function (evt) {
+        checkDuplicates(evt.target.value);
+        //alert('Goodbye. Input content is: ' + evt.target.value);
+    };
+
     //$scope.$watch(
     //    function($scope) {
 
@@ -138,21 +143,23 @@ ivNetMemberRegistration.controller('RegistrationController', function($scope, $h
         }
     }
 
-    function checkDuplicates() {
+    function checkDuplicates(email) {
         $.ajax({
-            url: '/club/member/duplicates',
-            type: 'POST',
-            data: $('form#newMemberForm').serialize(),
+          
+            url: 'api/club/members/'+email+'/email',
+            type: 'GET',
+            data: {email: email},
             success: function (data) {
                 if (!data.Success) {
 
                     alert(data.Message);
 
                     // $('p#error').show();
-                } else {
-                    // do captcha check
-                    checkCaptcha();
                 }
+                //else {
+                //    // do captcha check
+                //    checkCaptcha();
+                //}
             },
             error: function (jqXhr, textStatus, errorThrown) {
                 alert("Error '" + jqXhr.status + "' (textStatus: '" + textStatus + "', errorThrown: '" + errorThrown + "')");

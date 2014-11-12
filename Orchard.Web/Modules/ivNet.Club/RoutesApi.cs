@@ -25,7 +25,30 @@ namespace ivNet.Club
         {
             return new[]
             {
+                //#region club member
+   
+                //new HttpRouteDescriptor
+                //{
+                //    RouteTemplate = "api/club/member/memberdupcheck",
+                //    Defaults = new
+                //    {
+                //        area = "ivNet.Club",
+                //        controller = "Members",
+                //        id = RouteParameter.Optional
+                //    }
+                //},
+                //#endregion
+
                 #region default              
+
+                new HttpRouteDescriptor
+                {
+                    RouteTemplate = "api/club/{controller}/{id}/{type}",
+                    Defaults = new
+                    {
+                        area = "ivNet.Club"
+                    }
+                },
 
                 new HttpRouteDescriptor
                 {
@@ -36,7 +59,8 @@ namespace ivNet.Club
                         id = RouteParameter.Optional
                     }
                 },
-                                new HttpRouteDescriptor
+                                
+                new HttpRouteDescriptor
                 {
                     RouteTemplate = "api/club/{controller}/{id}",
                     Defaults = new
@@ -44,7 +68,9 @@ namespace ivNet.Club
                         area = "ivNet.Club",
                         id = RouteParameter.Optional
                     }
-                }
+                },
+
+                 
 
 
                 #endregion                             

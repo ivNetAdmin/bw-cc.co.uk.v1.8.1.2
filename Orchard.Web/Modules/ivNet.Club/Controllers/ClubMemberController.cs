@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -140,32 +141,42 @@ namespace ivNet.Club.Controllers
             return Json(new { Success = success });
         }
 
-        private string ValidateDuplicates(FormCollection form)
-        {        
-            var message = string.Empty;
+        //[HttpPost]
+        //public HttpResponseMessage ValidateDuplicates(string email)
+        //{        
+        //    var message = string.Empty;
 
-            foreach (var key in form.Keys)
-            {
-                if (key.ToString().IndexOf("-", StringComparison.Ordinal) == -1) continue;
+        //    //foreach (var key in form.Keys)
+        //    //{
+        //    //    if (key.ToString().IndexOf("-", StringComparison.Ordinal) == -1) continue;
 
-                switch (key.ToString().Substring(0, key.ToString().IndexOf("-", StringComparison.Ordinal)))
-                {
-                    case "Email":
-                        var email = form[key.ToString()];
-                        var adult = _clubMemberServices.GetMember(email);
-                        if (adult != null)
-                        {
+        //    //    switch (key.ToString().Substring(0, key.ToString().IndexOf("-", StringComparison.Ordinal)))
+        //    //    {
+        //    //        case "Email":
+        //    //            var email = form[key.ToString()];
+        //    //            var adult = _clubMemberServices.GetMember(email);
+        //    //            if (adult != null)
+        //    //            {
                      
-                            message=
-                                string.Format(
-                                    "This eMail [{0}] is alerady being used by {1} {2}. If you are gaurdian trying to register a junior then please log into the website and use the 'My Club' page.",
-                                    email, adult.Firstname, adult.Surname);
-                        }
-                        break;
-                }
-            }
+        //    //                message=
+        //    //                    string.Format(
+        //    //                        "This eMail [{0}] is alerady being used by {1} {2}. If you are gaurdian trying to register a junior then please log into the website and use the 'My Club' page.",
+        //    //                        email, adult.Firstname, adult.Surname);
+        //    //            }
+        //    //            break;
+        //    //    }
+        //    //}
 
-            return message;
-        }
+        //    var adult = _clubMemberServices.GetMember(email);
+        //    if (adult != null)
+        //    {
+
+        //        message =
+        //            string.Format(
+        //                "This eMail [{0}] is alerady being used by {1} {2}. If you are gaurdian trying to register a junior then please log into the website and use the 'My Club' page.",
+        //                email, adult.Firstname, adult.Surname);
+        //    }
+        //    return Json(Success: message);
+        //}
     }
 }
