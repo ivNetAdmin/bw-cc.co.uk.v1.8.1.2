@@ -14,17 +14,23 @@ namespace ivNet.Club
             Name = "ivUseMyClub"
         };
 
-        //public static readonly Permission ivManageRules = new Permission
-        //{
-        //    Description = "Manage club rules",
-        //    Name = "ivManageRules"
-        //};
+        public static readonly Permission ivMyRegistration = new Permission
+        {
+            Description = "Access my registration details",
+            Name = "ivMyRegistration"
+        };
 
-        //public static readonly Permission ivManageMembers = new Permission
-        //{
-        //    Description = "Manage club members",
-        //    Name = "ivManageMembers"
-        //};
+        public static readonly Permission ivConfiguration = new Permission
+        {
+            Description = "Manage club configuration",
+            Name = "ivConfiguration"
+        };
+
+        public static readonly Permission ivManageMembers = new Permission
+        {
+            Description = "Manage club members",
+            Name = "ivManageMembers"
+        };
 
 
         public Feature Feature { get; set; }
@@ -34,8 +40,9 @@ namespace ivNet.Club
             return new[]
             {
                 ivUseMyClub,
-               // ivManageRules,
-               // ivManageMembers,
+                ivConfiguration,
+                ivManageMembers,
+                ivMyRegistration
             };
         }
 

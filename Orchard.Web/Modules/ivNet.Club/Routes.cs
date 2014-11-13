@@ -174,6 +174,24 @@ namespace ivNet.Club
                         },
                         new MvcRouteHandler())
                 },
+                new RouteDescriptor
+                {
+                    Route = new Route(
+                        "club/member/registraion",
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Club"},
+                            {"controller", "ClubMember"},
+                            {"action", "MemberRegistration"}
+                        },
+                        new RouteValueDictionary(),
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Club"}
+                        },
+                        new MvcRouteHandler())
+                },
+                
                 //new RouteDescriptor
                 //{
                 //    Route = new Route(

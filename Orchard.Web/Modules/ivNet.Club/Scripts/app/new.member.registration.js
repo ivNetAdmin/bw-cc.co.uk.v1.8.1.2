@@ -1,5 +1,5 @@
 ﻿var ivNetMemberRegistration = angular.module("ivNet.Member.Registration.App", ['ui.event']);
-var invalidCaptcha = false; // debug : false
+var invalidCaptcha = true; // debug : false
 ivNetMemberRegistration.controller('RegistrationController', function($scope, $http) {
 
     init();
@@ -65,13 +65,18 @@ ivNetMemberRegistration.controller('RegistrationController', function($scope, $h
         }
     };
 
-    $scope.blurCallback = function(evt) {
+    $scope.blurEmailCallback = function (evt) {
         if (evt.target.value.length > 0) {
             checkDuplicates(evt.target.value);
         }
     };
 
-    $('form#newMemberForm').submit(function(event) {
+    $scope.blurSurnameCallback = function (evt) {
+        var junior = evt.target.name.substr(0, 6) == "Junior";
+        alert(junior);
+    };
+
+    $('form#newMemberForm').submit(function() {
 
         // do captcha check
         checkCaptcha();

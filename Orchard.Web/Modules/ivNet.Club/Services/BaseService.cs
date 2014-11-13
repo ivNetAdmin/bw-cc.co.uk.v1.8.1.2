@@ -72,12 +72,15 @@ namespace ivNet.Club.Services
             return entity ?? addressDetail;
         }     
 
-        protected int CreateAccount(ClubMember clubMember, string email)
+        protected int CreateAccount(ClubMember clubMember, string email, bool junior)
         {
             // create user
-            var userName = string.Format("{0}.{1}", clubMember.Firstname, clubMember.Surname)
-                .ToLowerInvariant().Replace(" ", string.Empty);
-            var password = string.Format("{0}{1}9", 
+            var userName = junior
+                ? string.Format("{0}.{1}", clubMember.Firstname, clubMember.Surname)
+                    .ToLowerInvariant().Replace(" ", string.Empty)
+                : email;
+
+            var password = string.Format("{0}{1}1", 
                 clubMember.Firstname.ToLowerInvariant(), 
                 clubMember.Firstname.ToUpperInvariant())
                 .Replace(" ", string.Empty);
@@ -103,6 +106,17 @@ namespace ivNet.Club.Services
                 _userRolesRepository.Create(new UserRolesPartRecord { Role = roleRecord, UserId = user.Id });
             }
 
+            if (junior) return user.Id;
+           
+            // assign adult role
+            roleRecord = _roleService.GetRoleByName("ivMyRegistration");
+
+            existingAssociation =
+                _userRolesRepository.Get(record => record.UserId == user.Id && record.Role.Id == roleRecord.Id);
+            if (existingAssociation == null)
+            {
+                _userRolesRepository.Create(new UserRolesPartRecord {Role = roleRecord, UserId = user.Id});
+            }
             return user.Id;
         }
    

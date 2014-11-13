@@ -109,6 +109,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\ivNet.Club - Copy.sdf" />
     <Content Include="Scripts\angular-autocomplete.js" />
     <Content Include="Scripts\angular-resource.js" />
     <Content Include="Scripts\angular-resource.min.js" />
@@ -119,22 +120,22 @@
     <Content Include="Scripts\app\admin.member.registration.js" />
     <Content Include="Scripts\app\club.configuration.js" />
     <Content Include="Scripts\trNgGrid.min.js" />
-    <Content Include="Styles\member.registration.css.map">
-      <DependentUpon>member.registration.css</DependentUpon>
+    <Content Include="Styles\new.registration.css.map">
+      <DependentUpon>new.registration.css</DependentUpon>
     </Content>
     <Content Include="packages.config" />
-    <Content Include="Scripts\app\member.registration.payment.js" />
+    <Content Include="Scripts\app\new.member.registration.payment.js" />
     <Content Include="Scripts\angular-resource.min.js.map" />
     <Content Include="App_Data\config.data.sqlce" />
-    <None Include="Styles\member.registration.less" />
+    <None Include="Styles\new.member.registration.less" />
     <Content Include="App_Data\ivNet.Club.sdf" />
     <Content Include="Scripts\anjular.js" />
     <Content Include="Scripts\anjular.min.js" />
-    <Content Include="Scripts\app\member.registration.js" />
-    <Content Include="Styles\member.registration.css">
-      <DependentUpon>member.registration.less</DependentUpon>
+    <Content Include="Scripts\app\new.member.registration.js" />
+    <Content Include="Styles\new.registration.css">
+      <DependentUpon>new.member.registration.less</DependentUpon>
     </Content>
-    <Content Include="Styles\member.registration.min.css" />
+    <Content Include="Styles\new.member.registration.min.css" />
     <Content Include="Styles\trNgGrid.min.css" />
     <Content Include="Views\ClubMember\_Button.cshtml" />
     <Content Include="Views\ClubMember\_GuardianCount.cshtml" />
@@ -186,6 +187,7 @@
     <Content Include="Views\AdminConfiguration\Index.cshtml" />
     <Content Include="Views\AdminMembership\Registration.cshtml" />
     <Content Include="Views\AdminMembership\Members.cshtml" />
+    <Content Include="Views\ClubMember\MemberRegistration.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AdminMembershipController.cs" />

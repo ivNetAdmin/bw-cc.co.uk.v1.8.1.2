@@ -1,10 +1,10 @@
 ﻿<div class="form-group">
     <span class="col-md-2 control-label text-right">Email:</span>    
     <div class="col-md-4">
-        <input id="Email-{{$index+1}}" name="Email-{{$index+1}}" ng-model="emailCheck" ui-event="{ blur : 'blurCallback($event)' }" type="email" placeholder="Email" class="form-control input-md" required="">
+        <input id="Email-{{$index+1}}" name="Email-{{$index+1}}" ng-model="emailCheck" ui-event="{ blur : 'blurEmailCallback($event)' }" type="email" placeholder="Email" class="form-control input-md" required="">
     </div>
     <div class="col-md-4">
-        <input type="email" class="form-control validate[required,equals[Email-{{$index+1}}]]" id="EmailA-{{$index+1}}" placeholder="Email Again" required="" name="EmailA" />
+        <input type="email" class="form-control validate[required,equals[Email-{{$index+1}}]]" id="EmailA-{{$index+1}}" placeholder="Email Again" required="" name="EmailA-{{$index+1}}" />
     </div>   
 </div>
 <div id="dupError" class="form-group">

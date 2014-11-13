@@ -142,42 +142,10 @@ namespace ivNet.Club.Controllers
             return Json(new { Success = success });
         }
 
-        //[HttpPost]
-        //public HttpResponseMessage ValidateDuplicates(string email)
-        //{        
-        //    var message = string.Empty;
-
-        //    //foreach (var key in form.Keys)
-        //    //{
-        //    //    if (key.ToString().IndexOf("-", StringComparison.Ordinal) == -1) continue;
-
-        //    //    switch (key.ToString().Substring(0, key.ToString().IndexOf("-", StringComparison.Ordinal)))
-        //    //    {
-        //    //        case "Email":
-        //    //            var email = form[key.ToString()];
-        //    //            var adult = _clubMemberServices.GetMember(email);
-        //    //            if (adult != null)
-        //    //            {
-                     
-        //    //                message=
-        //    //                    string.Format(
-        //    //                        "This eMail [{0}] is alerady being used by {1} {2}. If you are gaurdian trying to register a junior then please log into the website and use the 'My Club' page.",
-        //    //                        email, adult.Firstname, adult.Surname);
-        //    //            }
-        //    //            break;
-        //    //    }
-        //    //}
-
-        //    var adult = _clubMemberServices.GetMember(email);
-        //    if (adult != null)
-        //    {
-
-        //        message =
-        //            string.Format(
-        //                "This eMail [{0}] is alerady being used by {1} {2}. If you are gaurdian trying to register a junior then please log into the website and use the 'My Club' page.",
-        //                email, adult.Firstname, adult.Surname);
-        //    }
-        //    return Json(Success: message);
-        //}
+        [Themed]
+        public ActionResult MemberRegistration()
+        {
+            return View();
+        }       
     }
 }

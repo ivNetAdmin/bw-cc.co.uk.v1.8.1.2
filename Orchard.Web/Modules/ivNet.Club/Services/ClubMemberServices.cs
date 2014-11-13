@@ -91,7 +91,7 @@ namespace ivNet.Club.Services
                         {
                             guardian.ClubMember.UserId =
                                 CreateAccount(guardian.ClubMember,
-                                    registrationViewModel.ContactViewModel.Email);
+                                    registrationViewModel.ContactViewModel.Email, false);
                         }
 
                         // save or update guardian elements
@@ -137,7 +137,7 @@ namespace ivNet.Club.Services
                             {
                                 junior.ClubMember.UserId =
                                     CreateAccount(junior.ClubMember,
-                                        registrationViewModel.ContactViewModel.Email);
+                                        registrationViewModel.ContactViewModel.Email, true);
                             }
 
                             // save or update junior elements
