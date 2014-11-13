@@ -22,6 +22,8 @@ namespace ivNet.Club
             manifest.DefineScript("Club.New.Member.Registration").SetUrl("app/new.member.registration.js").SetVersion("1.0").SetDependencies("AngularJS");
             manifest.DefineScript("Club.New.Member.Registration.Payment").SetUrl("app/new.member.registration.payment.js").SetVersion("1.0").SetDependencies("trNgGrid");
 
+            manifest.DefineScript("Club.My.Member.Registration").SetUrl("app/my.member.registration.js").SetVersion("1.0").SetDependencies("trNgGrid");
+            
             manifest.DefineScript("Club.Configuration").SetUrl("app/club.configuration.js").SetVersion("1.0").SetDependencies("trNgGrid");
 
             manifest.DefineScript("Club.Admin.Member.Registration").SetUrl("app/admin.member.registration.js").SetVersion("1.0").SetDependencies("trNgGrid");

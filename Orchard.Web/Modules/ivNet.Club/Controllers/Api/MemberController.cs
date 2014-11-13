@@ -9,11 +9,11 @@ using Orchard.Logging;
 
 namespace ivNet.Club.Controllers.Api
 {
-    public class MembersController : ApiController
+    public class MemberController : ApiController
     {
          private readonly IClubMemberServices _clubMemberServices;
 
-         public MembersController(IClubMemberServices clubMemberServices)
+         public MemberController(IClubMemberServices clubMemberServices)
         {
             _clubMemberServices = clubMemberServices;
             Logger = NullLogger.Instance;

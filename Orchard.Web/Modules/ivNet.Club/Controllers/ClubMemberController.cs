@@ -14,6 +14,7 @@ using ivNet.Club.ViewModel;
 using Orchard;
 using Orchard.Localization;
 using Orchard.Logging;
+using Orchard.Security;
 using Orchard.Themes;
 
 namespace ivNet.Club.Controllers
@@ -22,11 +23,14 @@ namespace ivNet.Club.Controllers
     {
         private readonly IOrchardServices _orchardServices;
         private readonly IClubMemberServices _clubMemberServices;
+        private readonly IAuthenticationService _authenticationService;
 
-        public ClubMemberController(IOrchardServices orchardServices, IClubMemberServices clubMemberServices)
+        public ClubMemberController(IAuthenticationService authenticationService, IOrchardServices orchardServices, IClubMemberServices clubMemberServices)
         {
             _orchardServices = orchardServices;
             _clubMemberServices = clubMemberServices;
+            _authenticationService = authenticationService;
+
             T = NullLocalizer.Instance;
             Logger = NullLogger.Instance;
         }
@@ -145,7 +149,8 @@ namespace ivNet.Club.Controllers
         [Themed]
         public ActionResult MemberRegistration()
         {
-            return View();
+            var currentUser = _authenticationService.GetAuthenticatedUser();
+            return View(currentUser);
         }       
     }
 }

@@ -138,7 +138,7 @@ ivNetMemberRegistration.controller('RegistrationController', function($scope, $h
     function checkDuplicates(email) {
 
         $.ajax({
-            url: '/api/club/members/' + email + '/email',
+            url: '/api/club/member/' + email + '/email',
             type: 'GET',
             success: function(data) {
                 if (data.length > 0) {

@@ -23,7 +23,7 @@
     });
 
 ivNetAdminMemberRegistration.factory('adminMemberMembers', function ($resource) {
-    return $resource('/api/club/admin/members/:id', null,
+    return $resource('/api/club/admin/member/:id', null,
     {
         'query': { method: 'GET', isArray: true },
         'update': { method: 'PUT' }

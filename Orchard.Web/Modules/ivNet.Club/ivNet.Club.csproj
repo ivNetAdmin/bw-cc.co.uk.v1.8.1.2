@@ -119,6 +119,7 @@
     <Content Include="Scripts\app\admin.member.members.js" />
     <Content Include="Scripts\app\admin.member.registration.js" />
     <Content Include="Scripts\app\club.configuration.js" />
+    <Content Include="Scripts\app\my.member.registration.js" />
     <Content Include="Scripts\trNgGrid.min.js" />
     <Content Include="Styles\new.registration.css.map">
       <DependentUpon>new.registration.css</DependentUpon>
@@ -192,7 +193,8 @@
   <ItemGroup>
     <Compile Include="Controllers\AdminMembershipController.cs" />
     <Compile Include="Controllers\Api\ConfigurationController.cs" />
-    <Compile Include="Controllers\Api\MembersController.cs" />
+    <Compile Include="Controllers\Api\MemberController.cs" />
+    <Compile Include="Controllers\Api\MyMemberController.cs" />
     <Compile Include="Controllers\Api\PaymentController.cs" />
     <Compile Include="Controllers\Api\RegistrationController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
