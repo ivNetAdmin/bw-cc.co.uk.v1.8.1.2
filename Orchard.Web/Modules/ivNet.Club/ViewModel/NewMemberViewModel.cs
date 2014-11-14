@@ -3,14 +3,14 @@ using ivNet.Club.Helpers;
 
 namespace ivNet.Club.ViewModel
 {
-    public class NewMembershipViewModel
+    public class NewMemberViewModel
     {
         public string Firstname { get; set; }
         public string Surname { get; set; }
         public string Nickname { get; set; }
         public string Role { get; set; }
 
-        public string ClubMemberKey
+        public string MemberKey
         {
             get { return CustomStringHelper.BuildKey(new[] { Email }); }
         }

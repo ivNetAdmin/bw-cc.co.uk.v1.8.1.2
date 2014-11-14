@@ -12,12 +12,12 @@ namespace ivNet.Club.Controllers
     public class AdminConfigurationController : BaseController
     {
         private readonly IOrchardServices _orchardServices;
-        private readonly IClubMemberServices _clubMemberServices;
+        private readonly IMemberServices _memberServices;
 
-        public AdminConfigurationController(IOrchardServices orchardServices, IClubMemberServices clubMemberServices)
+        public AdminConfigurationController(IOrchardServices orchardServices, IMemberServices memberServices)
         {
             _orchardServices = orchardServices;
-            _clubMemberServices = clubMemberServices;
+            _memberServices = memberServices;
             T = NullLocalizer.Instance;
             Logger = NullLogger.Instance;
         }

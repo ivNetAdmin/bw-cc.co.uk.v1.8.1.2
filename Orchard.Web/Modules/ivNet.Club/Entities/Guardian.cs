@@ -8,7 +8,7 @@ namespace ivNet.Club.Entities
     {
         public virtual string GuardianKey { get; set; }
 
-        public virtual ClubMember ClubMember { get; set; }
+        public virtual Member Member { get; set; }
         public virtual ContactDetail ContactDetail { get; set; }
         public virtual AddressDetail AddressDetail { get; set; }
 
@@ -17,7 +17,7 @@ namespace ivNet.Club.Entities
         public virtual void Init()
         {
             Juniors = new List<Junior>();
-            ClubMember = new ClubMember();
+            Member = new Member();
             ContactDetail = new ContactDetail();
             AddressDetail = new AddressDetail();
         }
@@ -43,7 +43,7 @@ namespace ivNet.Club.Entities
 
             Map(x => x.GuardianKey).Not.Nullable().Length(120).UniqueKey("ix_Guardian_Unique");
 
-            References(x => x.ClubMember); //.Cascade.SaveUpdate();
+            References(x => x.Member); //.Cascade.SaveUpdate();
             References(x => x.ContactDetail); //.Cascade.SaveUpdate();
             References(x => x.AddressDetail); //.Cascade.SaveUpdate();
             HasManyToMany(x => x.Juniors)

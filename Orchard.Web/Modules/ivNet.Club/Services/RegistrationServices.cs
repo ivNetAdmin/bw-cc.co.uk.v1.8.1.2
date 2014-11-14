@@ -56,7 +56,7 @@ namespace ivNet.Club.Services
 
                 var juniorList = session
                     .CreateCriteria(typeof (Junior))
-                    .Add(Restrictions.In("ClubMember.Id", memberIdList))
+                    .Add(Restrictions.In("Member.Id", memberIdList))
                     .List<Junior>();
 
                 var juniorRegistrationViewModelList =  (

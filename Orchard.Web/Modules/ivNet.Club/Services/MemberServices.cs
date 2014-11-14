@@ -14,23 +14,25 @@ using Orchard.Security;
 
 namespace ivNet.Club.Services
 {
-    public interface IClubMemberServices : IDependency
+    public interface IMemberServices : IDependency
     {
-        void CreateNewMember(NewMembershipViewModel viewModel);
+        void CreateNewMember(NewMemberViewModel viewModel);
 
         void CreateGuardian(List<RegistrationViewModel> registrationList);
-        List<ClubMembersViewModel> GetAll();
-        List<ClubMembersViewModel> Get(int id);
+        List<MemberViewModel> GetAll();
+        List<MemberViewModel> Get(int id);
         List<GuardianViewModel> GetGuardians(int id);
         MemberViewModel GetMember(string email);
+        void GetLoggedInMember();
     }
 
-    public class ClubMemberServices : BaseService, IClubMemberServices
+    public class MemberServices : BaseService, IMemberServices
     {
         private readonly IRegistrationServices _registrationServices;
         private readonly IConfigurationServices _configurationServices;
+        private readonly IAuthenticationService _authenticationService;
 
-        public ClubMemberServices(
+        public MemberServices(
             IMembershipService membershipService,
             IAuthenticationService authenticationService,
             IRoleService roleService,
@@ -41,9 +43,10 @@ namespace ivNet.Club.Services
         {
             _registrationServices = registrationServices;
             _configurationServices = configurationServices;
+            _authenticationService = authenticationService;
         }
 
-        public void CreateNewMember(NewMembershipViewModel viewModel)
+        public void CreateNewMember(NewMemberViewModel viewModel)
         {
             using (var session = NHibernateHelper.OpenSession())
             {
@@ -66,14 +69,14 @@ namespace ivNet.Club.Services
                     {
                         var guardian = new Guardian();
                         guardian.Init();
-                        guardian = DuplicateCheck(session, guardian, registrationViewModel.MemberViewModel.ClubMemberKey);
+                        guardian = DuplicateCheck(session, guardian, registrationViewModel.MemberViewModel.MemberKey);
 
                         if (guardian.Id == 0)
-                            guardian.GuardianKey = registrationViewModel.MemberViewModel.ClubMemberKey;
+                            guardian.GuardianKey = registrationViewModel.MemberViewModel.MemberKey;
 
                         // check data has not already been saved
-                        guardian.ClubMember = DuplicateCheck(session, guardian.ClubMember,
-                            registrationViewModel.MemberViewModel.ClubMemberKey);
+                        guardian.Member = DuplicateCheck(session, guardian.Member,
+                            registrationViewModel.MemberViewModel.MemberKey);
 
                         guardian.ContactDetail = DuplicateCheck(session, guardian.ContactDetail,
                             registrationViewModel.ContactViewModel.ContactDetailKey);
@@ -82,21 +85,21 @@ namespace ivNet.Club.Services
                             registrationViewModel.AddressViewModel.AddressDetailKey);
 
                         // update width new user details
-                        MapperHelper.Map(guardian.ClubMember, registrationViewModel.MemberViewModel);
+                        MapperHelper.Map(guardian.Member, registrationViewModel.MemberViewModel);
                         MapperHelper.Map(guardian.ContactDetail, registrationViewModel.ContactViewModel);
                         MapperHelper.Map(guardian.AddressDetail, registrationViewModel.AddressViewModel);
 
                         // create website account 
-                        if (guardian.ClubMember.UserId == 0)
+                        if (guardian.Member.UserId == 0)
                         {
-                            guardian.ClubMember.UserId =
-                                CreateAccount(guardian.ClubMember,
+                            guardian.Member.UserId =
+                                CreateAccount(guardian.Member,
                                     registrationViewModel.ContactViewModel.Email, false);
                         }
 
                         // save or update guardian elements
-                        SetAudit(guardian.ClubMember);
-                        session.SaveOrUpdate(guardian.ClubMember);
+                        SetAudit(guardian.Member);
+                        session.SaveOrUpdate(guardian.Member);
                         SetAudit(guardian.ContactDetail);
                         session.SaveOrUpdate(guardian.ContactDetail);
                         SetAudit(guardian.AddressDetail);
@@ -109,11 +112,11 @@ namespace ivNet.Club.Services
                             junior.Init();
                             junior.Player.Init();
 
-                            junior = DuplicateCheck(session, junior, juniorViewModel.MemberViewModel.ClubMemberKey);
+                            junior = DuplicateCheck(session, junior, juniorViewModel.MemberViewModel.MemberKey);
 
                             if (junior.Id == 0)
                             {
-                                junior.JuniorGuardianKey = juniorViewModel.MemberViewModel.ClubMemberKey;
+                                junior.JuniorGuardianKey = juniorViewModel.MemberViewModel.MemberKey;
                                 junior.JuniorKey =
                                     CustomStringHelper.BuildKey(new[]
                                     {
@@ -125,24 +128,24 @@ namespace ivNet.Club.Services
                             junior.Dob = juniorViewModel.Dob;
 
                             // check data has not already been saved
-                            junior.ClubMember = DuplicateCheck(session, junior.ClubMember,
-                                juniorViewModel.MemberViewModel.ClubMemberKey);
+                            junior.Member = DuplicateCheck(session, junior.Member,
+                                juniorViewModel.MemberViewModel.MemberKey);
 
                             // update width new user details
-                            MapperHelper.Map(junior.ClubMember, juniorViewModel.MemberViewModel);
+                            MapperHelper.Map(junior.Member, juniorViewModel.MemberViewModel);
                             MapperHelper.Map(junior.JuniorInfo, juniorViewModel);
 
                             // create website account
-                            if (junior.ClubMember.UserId == 0)
+                            if (junior.Member.UserId == 0)
                             {
-                                junior.ClubMember.UserId =
-                                    CreateAccount(junior.ClubMember,
+                                junior.Member.UserId =
+                                    CreateAccount(junior.Member,
                                         registrationViewModel.ContactViewModel.Email, true);
                             }
 
                             // save or update junior elements
-                            SetAudit(junior.ClubMember);
-                            session.SaveOrUpdate(junior.ClubMember);
+                            SetAudit(junior.Member);
+                            session.SaveOrUpdate(junior.Member);
                             SetAudit(junior.JuniorInfo);
                             session.SaveOrUpdate(junior.JuniorInfo);
 
@@ -156,7 +159,7 @@ namespace ivNet.Club.Services
                             session.SaveOrUpdate(fee);
                             junior.Player.Fees.Add(fee);
 
-                            junior.Player.Number = junior.ClubMember.Id.ToString(CultureInfo.InvariantCulture)
+                            junior.Player.Number = junior.Member.Id.ToString(CultureInfo.InvariantCulture)
                                 .PadLeft(6, '0');
 
                             SetAudit(junior.Player);
@@ -166,7 +169,7 @@ namespace ivNet.Club.Services
                             SetAudit(junior);
                             session.SaveOrUpdate(junior);
 
-                            _registrationServices.Add(junior.ClubMember.Id);
+                            _registrationServices.Add(junior.Member.Id);
 
                             guardian.AddJunior(junior);
                         }
@@ -190,25 +193,25 @@ namespace ivNet.Club.Services
 
         }
 
-        public List<ClubMembersViewModel> GetAll()
+        public List<MemberViewModel> GetAll()
         {
             using (var session = NHibernateHelper.OpenSession())
             {
-                var returnList = new List<ClubMembersViewModel>();
+                var returnList = new List<MemberViewModel>();
 
                 var guardianList = session.CreateCriteria(typeof (Guardian))
                     .List<Guardian>().Where(x => x.IsActive.Equals(1)).ToList();
 
                 var guardians = (from guardian in guardianList
-                    let clubMembersViewModel = new ClubMembersViewModel()
-                    select MapperHelper.Map(clubMembersViewModel, guardian)).ToList();
+                    let memberViewModel = new MemberViewModel()
+                    select MapperHelper.Map(memberViewModel, guardian)).ToList();
 
                 var juniorList = session.CreateCriteria(typeof (Junior))
                     .List<Junior>().Where(x => x.IsActive.Equals(1)).ToList();
 
                 var juniors = (from junior in juniorList
-                    let clubMembersViewModel = new ClubMembersViewModel()
-                    select MapperHelper.Map(_configurationServices, clubMembersViewModel, junior)).ToList();
+                    let memberViewModel = new MemberViewModel()
+                    select MapperHelper.Map(_configurationServices, memberViewModel, junior)).ToList();
 
                 returnList.AddRange(guardians);
                 returnList.AddRange(juniors);
@@ -217,25 +220,25 @@ namespace ivNet.Club.Services
             }
         }
 
-        public List<ClubMembersViewModel> Get(int id)
+        public List<MemberViewModel> Get(int id)
         {
             using (var session = NHibernateHelper.OpenSession())
             {
-                var returnList = new List<ClubMembersViewModel>();
+                var returnList = new List<MemberViewModel>();
 
                 var guardianList = session.CreateCriteria(typeof (Guardian))
-                    .List<Guardian>().Where(x => x.IsActive.Equals(1) && x.ClubMember.Id.Equals(id)).ToList();
+                    .List<Guardian>().Where(x => x.IsActive.Equals(1) && x.Member.Id.Equals(id)).ToList();
 
                 var guardians = (from guardian in guardianList
-                    let clubMembersViewModel = new ClubMembersViewModel()
-                    select MapperHelper.Map(clubMembersViewModel, guardian)).ToList();
+                    let memberViewModel = new MemberViewModel()
+                    select MapperHelper.Map(memberViewModel, guardian)).ToList();
 
                 var juniorList = session.CreateCriteria(typeof (Junior))
-                    .List<Junior>().Where(x => x.IsActive.Equals(1) && x.ClubMember.Id.Equals(id)).ToList();
+                    .List<Junior>().Where(x => x.IsActive.Equals(1) && x.Member.Id.Equals(id)).ToList();
 
                 var juniors = (from junior in juniorList
-                    let clubMembersViewModel = new ClubMembersViewModel()
-                    select MapperHelper.Map(_configurationServices, clubMembersViewModel, junior)).ToList();
+                    let memberViewModel = new MemberViewModel()
+                    select MapperHelper.Map(_configurationServices, memberViewModel, junior)).ToList();
 
                 returnList.AddRange(guardians);
                 returnList.AddRange(juniors);
@@ -249,7 +252,7 @@ namespace ivNet.Club.Services
             using (var session = NHibernateHelper.OpenSession())
             {
                 var junior = session.CreateCriteria(typeof (Junior))
-                    .List<Junior>().First(x => x.ClubMember.Id.Equals(id));
+                    .List<Junior>().First(x => x.Member.Id.Equals(id));
 
                 return (from guardian in junior.Guardians
                     let guardianViewModel = new GuardianViewModel()
@@ -262,13 +265,20 @@ namespace ivNet.Club.Services
             using (var session = NHibernateHelper.OpenSession())
             {
 
-                var member = new MemberViewModel();
+                var memberViewModel = new MemberViewModel();
                 var key = CustomStringHelper.BuildKey(new[] {email});
-                var clubMember = session.CreateCriteria(typeof (ClubMember))
-                    .List<ClubMember>().FirstOrDefault(x => x.IsActive.Equals(1) && x.ClubMemberKey.Equals(key));
-                return MapperHelper.Map(member, clubMember);
+                var member = session.CreateCriteria(typeof (Member))
+                    .List<Member>().FirstOrDefault(x => x.IsActive.Equals(1) && x.MemberKey.Equals(key));
+                return MapperHelper.Map(memberViewModel, member);
 
             }
+        }
+
+        public void GetLoggedInMember()
+        {
+            var currentUser = _authenticationService.GetAuthenticatedUser();
+            var cakes = currentUser;
+
         }
     }
 }

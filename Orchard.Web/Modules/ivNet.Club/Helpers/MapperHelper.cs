@@ -13,7 +13,7 @@ namespace ivNet.Club.Helpers
     {
         #region form->models
 
-        public static void MapNewClubMember(MemberViewModel viewModel, FormCollection form, int counter,
+        public static void MapNewMember(MemberViewModel viewModel, FormCollection form, int counter,
             string memberType)
         {
             viewModel.Surname = form[string.Format("{0}-Surname-{1}", memberType, counter)];
@@ -21,7 +21,7 @@ namespace ivNet.Club.Helpers
             viewModel.NickName = form[string.Format("{0}-NickName-{1}", memberType, counter)];
             if (memberType == "Junior")
             {
-                viewModel.ClubMemberKey =
+                viewModel.MemberKey =
                     CustomStringHelper.BuildKey(new[]
                     {                        
                         form[string.Format("{0}-Surname-{1}", memberType, counter)],
@@ -30,7 +30,7 @@ namespace ivNet.Club.Helpers
             }
             else
             {
-                viewModel.ClubMemberKey =
+                viewModel.MemberKey =
                     CustomStringHelper.BuildKey(new[]
                     {
                         form[string.Format("Email-{0}", counter)]
@@ -76,7 +76,7 @@ namespace ivNet.Club.Helpers
 
         #region models->entities
 
-        public static ClubMember Map(ClubMember entity, MemberViewModel viewModel)
+        public static Member Map(Member entity, MemberViewModel viewModel)
         {
             return Mapper.Map(viewModel, entity);
         }
@@ -111,7 +111,7 @@ namespace ivNet.Club.Helpers
 
         #region entities->models
 
-        public static MemberViewModel Map(MemberViewModel viewModel, ClubMember entity)
+        public static MemberViewModel Map(MemberViewModel viewModel, Member entity)
         {
             return Mapper.Map(entity, viewModel);
         }
@@ -119,8 +119,8 @@ namespace ivNet.Club.Helpers
         public static GuardianViewModel Map(GuardianViewModel viewModel, Guardian entity)
         {
             viewModel.GuardianId = entity.Id;
-            viewModel.Surname = entity.ClubMember.Surname;
-            viewModel.Firstname = entity.ClubMember.Firstname;
+            viewModel.Surname = entity.Member.Surname;
+            viewModel.Firstname = entity.Member.Firstname;
             viewModel.Email = entity.ContactDetail.Email;
             viewModel.Mobile = entity.ContactDetail.Mobile;
             viewModel.OtherTelephone = entity.ContactDetail.OtherTelephone;
@@ -133,8 +133,8 @@ namespace ivNet.Club.Helpers
 
         public static JuniorVettingViewModel Map(IConfigurationServices configurationServices, JuniorVettingViewModel viewModel, Junior entity)
         {
-            viewModel.Surname = entity.ClubMember.Surname;
-            viewModel.Firstname = entity.ClubMember.Firstname;
+            viewModel.Surname = entity.Member.Surname;
+            viewModel.Firstname = entity.Member.Firstname;
             viewModel.Dob = entity.Dob;
             viewModel.AgeGroup = string.Format("U{0}",configurationServices.GetJuniorYear(entity.Dob));
             viewModel.JuniorId = entity.Id;
@@ -144,8 +144,8 @@ namespace ivNet.Club.Helpers
             {
                 viewModel.Guardians.Add(new JuniorGuardianViewModel
                 {
-                    Surname = guardian.ClubMember.Surname,
-                    Firstname = guardian.ClubMember.Firstname,
+                    Surname = guardian.Member.Surname,
+                    Firstname = guardian.Member.Firstname,
                     Email = guardian.ContactDetail.Email,
                     Telephone = string.Format("{0}{1}",
                         guardian.ContactDetail.Mobile,
@@ -159,8 +159,8 @@ namespace ivNet.Club.Helpers
 
         public static JuniorRegistrationViewModel Map(JuniorRegistrationViewModel viewModel, Junior entity)
         {
-            viewModel.Surname = entity.ClubMember.Surname;
-            viewModel.Firstname = entity.ClubMember.Firstname;
+            viewModel.Surname = entity.Member.Surname;
+            viewModel.Firstname = entity.Member.Firstname;
             viewModel.Dob = entity.Dob;
             return viewModel;
         }
@@ -173,8 +173,8 @@ namespace ivNet.Club.Helpers
                 viewModel.Fee = fee.Amount;
             }
 
-            viewModel.Surname = entity.ClubMember.Surname;
-            viewModel.Firstname = entity.ClubMember.Firstname;
+            viewModel.Surname = entity.Member.Surname;
+            viewModel.Firstname = entity.Member.Firstname;
             viewModel.Dob = entity.Dob;
             viewModel.Season = currentSeason;
             
@@ -187,7 +187,7 @@ namespace ivNet.Club.Helpers
             return Mapper.Map(entity, viewModel);
         }
 
-        public static ClubMembersViewModel Map(IConfigurationServices configurationServices, ClubMembersViewModel viewModel, Junior entity)
+        public static MemberViewModel Map(IConfigurationServices configurationServices, MemberViewModel viewModel, Junior entity)
         {
             var currentSeason = configurationServices.GetCurrentSeason();
 
@@ -197,20 +197,20 @@ namespace ivNet.Club.Helpers
                 viewModel.Fee = string.Format("{0} - {1}", currentSeason, fee.Amount);
             }
 
-            viewModel.MemberId = entity.ClubMember.Id;
-            viewModel.Surname = entity.ClubMember.Surname;
-            viewModel.Firstname = entity.ClubMember.Firstname;
+            viewModel.MemberId = entity.Member.Id;
+            viewModel.Surname = entity.Member.Surname;
+            viewModel.Firstname = entity.Member.Firstname;
             viewModel.Dob = entity.Dob;
             viewModel.MemberType = string.Format("U{0}", configurationServices.GetJuniorYear(entity.Dob));
             viewModel.IsActive = entity.IsActive;
             return viewModel;
         }
 
-        public static ClubMembersViewModel Map(ClubMembersViewModel viewModel, Guardian entity)
+        public static MemberViewModel Map(MemberViewModel viewModel, Guardian entity)
         {
-            viewModel.MemberId = entity.ClubMember.Id;
-            viewModel.Surname = entity.ClubMember.Surname;
-            viewModel.Firstname = entity.ClubMember.Firstname;
+            viewModel.MemberId = entity.Member.Id;
+            viewModel.Surname = entity.Member.Surname;
+            viewModel.Firstname = entity.Member.Firstname;
 
             viewModel.MemberType = "Guardian";
             viewModel.IsActive = entity.IsActive;

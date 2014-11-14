@@ -1,6 +1,5 @@
 ﻿
 using System;
-using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -11,11 +10,11 @@ namespace ivNet.Club.Controllers.Api
 {
     public class MemberController : ApiController
     {
-         private readonly IClubMemberServices _clubMemberServices;
+         private readonly IMemberServices _memberServices;
 
-         public MemberController(IClubMemberServices clubMemberServices)
+         public MemberController(IMemberServices memberServices)
         {
-            _clubMemberServices = clubMemberServices;
+            _memberServices = memberServices;
             Logger = NullLogger.Instance;
         }
 
@@ -25,7 +24,7 @@ namespace ivNet.Club.Controllers.Api
         {
             try
             {
-                var memberList = _clubMemberServices.GetAll();
+                var memberList = _memberServices.GetAll();
 
                 return Request.CreateResponse(HttpStatusCode.OK,
                     memberList);
@@ -46,7 +45,7 @@ namespace ivNet.Club.Controllers.Api
         {
             try
             {
-                var memberList = _clubMemberServices.Get(id);
+                var memberList = _memberServices.Get(id);
 
                 if (memberList[0].MemberType == "Guardian")
                 {
@@ -55,7 +54,7 @@ namespace ivNet.Club.Controllers.Api
                 else
                 {
                     // get gaurdians
-                    memberList[0].Guardians = _clubMemberServices.GetGuardians(id);
+                    memberList[0].Guardians = _memberServices.GetGuardians(id);
 
                     // get fees
                 }
@@ -81,17 +80,24 @@ namespace ivNet.Club.Controllers.Api
 
             try
             {
-                if (type == "email")
+                switch (type)
                 {
-                    var adult = _clubMemberServices.GetMember(id);
-                    if (adult != null)
-                    {
-                        message =
-                            string.Format(
-                                "This eMail [{0}] is alerady being used by {1} {2}. If you are gaurdian trying to register a junior then please log into the website and use the 'My Club' page.",
-                                id, adult.Firstname, adult.Surname);
-                    }
+                    case "email":
+                        var adult = _memberServices.GetMember(id);
+                        if (adult != null)
+                        {
+                            message =
+                                string.Format(
+                                    "This eMail [{0}] is alerady being used by {1} {2}. If you are gaurdian trying to register a junior then please log into the website and use the 'My Club' page.",
+                                    id, adult.Firstname, adult.Surname);
+                        }
+                        break;
+                    case "loggedInMember":
+                         _memberServices.GetLoggedInMember();
+                        break;
                 }
+
+
                 return Request.CreateResponse(HttpStatusCode.OK,
                    message);
             }

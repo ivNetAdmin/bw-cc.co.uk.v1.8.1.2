@@ -1,4 +1,4 @@
-﻿var ivNetAdminMemberRegistration = angular.module("ivNet.Admin.Member.Members.App", ['ngResource', 'trNgGrid'])
+﻿var ivNetAdminMemberList = angular.module("ivNet.Admin.Member.List.App", ['ngResource', 'trNgGrid'])
     .filter("dateField", function() {
         return function(combinedFieldValueUnused, item) {
             var d = item.Dob;
@@ -22,7 +22,7 @@
         };
     });
 
-ivNetAdminMemberRegistration.factory('adminMemberMembers', function ($resource) {
+ivNetAdminMemberList.factory('adminMemberList', function ($resource) {
     return $resource('/api/club/admin/member/:id', null,
     {
         'query': { method: 'GET', isArray: true },
@@ -31,11 +31,11 @@ ivNetAdminMemberRegistration.factory('adminMemberMembers', function ($resource) 
     });
 });
 
-ivNetAdminMemberRegistration.controller('AdminMemberController', function ($scope, adminMemberMembers) {
+ivNetAdminMemberList.controller('AdminMemberListController', function ($scope, adminMemberList) {
 
     $('div#memberDetail').hide();
 
-    adminMemberMembers.query(
+    adminMemberList.query(
         function(data) {
             $scope.members = data;
         },
@@ -45,7 +45,7 @@ ivNetAdminMemberRegistration.controller('AdminMemberController', function ($scop
 
     $scope.editMemberList = function(member) {
 
-        adminMemberMembers.query({ id: member.MemberId },
+        adminMemberList.query({ id: member.MemberId },
             function(data) {
 
                 $scope.memberDetails = data;

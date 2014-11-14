@@ -19,16 +19,16 @@ using Orchard.Themes;
 
 namespace ivNet.Club.Controllers
 {
-    public class ClubMemberController : BaseController
+    public class MemberController : BaseController
     {
         private readonly IOrchardServices _orchardServices;
-        private readonly IClubMemberServices _clubMemberServices;
+        private readonly IMemberServices _memberServices;
         private readonly IAuthenticationService _authenticationService;
 
-        public ClubMemberController(IAuthenticationService authenticationService, IOrchardServices orchardServices, IClubMemberServices clubMemberServices)
+        public MemberController(IAuthenticationService authenticationService, IOrchardServices orchardServices, IMemberServices memberServices)
         {
             _orchardServices = orchardServices;
-            _clubMemberServices = clubMemberServices;
+            _memberServices = memberServices;
             _authenticationService = authenticationService;
 
             T = NullLocalizer.Instance;
@@ -69,7 +69,7 @@ namespace ivNet.Club.Controllers
                 {
                     var registrationViewModel = new RegistrationViewModel();
 
-                    MapperHelper.MapNewClubMember(registrationViewModel.MemberViewModel, form, i, "Adult");
+                    MapperHelper.MapNewMember(registrationViewModel.MemberViewModel, form, i, "Adult");
                     MapperHelper.MapNewContactDetail(registrationViewModel.ContactViewModel, form, i);
                     MapperHelper.MapNewAddressDetail(registrationViewModel.AddressViewModel, form, i);
 
@@ -88,7 +88,7 @@ namespace ivNet.Club.Controllers
                         var juniorViewModel = new JuniorViewModel();
                         juniorViewModel.Dob = MapperHelper.MapNewDob(form, i);
 
-                        MapperHelper.MapNewClubMember(juniorViewModel.MemberViewModel, form, i, "Junior");
+                        MapperHelper.MapNewMember(juniorViewModel.MemberViewModel, form, i, "Junior");
                         MapperHelper.MapJuniorDetail(juniorViewModel, form, i);
 
                         foreach (var registrationViewModel in registrationList)
@@ -97,7 +97,7 @@ namespace ivNet.Club.Controllers
                         }
                     }
 
-                    _clubMemberServices.CreateGuardian(registrationList);
+                    _memberServices.CreateGuardian(registrationList);
                 }
 
                 return RedirectToAction("RegistrationPayment");

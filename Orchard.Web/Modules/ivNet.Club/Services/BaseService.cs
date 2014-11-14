@@ -49,11 +49,11 @@ namespace ivNet.Club.Services
         }
 
         // member check
-        protected ClubMember DuplicateCheck(ISession session, ClubMember clubMember, string key)
+        protected Member DuplicateCheck(ISession session, Member member, string key)
         {
-            var entity = session.CreateCriteria(typeof(ClubMember))
-                .List<ClubMember>().FirstOrDefault(x => x.ClubMemberKey.Equals(key));
-            return entity ?? clubMember;
+            var entity = session.CreateCriteria(typeof(Member))
+                .List<Member>().FirstOrDefault(x => x.MemberKey.Equals(key));
+            return entity ?? member;
         }
 
         // contact detail check
@@ -72,17 +72,17 @@ namespace ivNet.Club.Services
             return entity ?? addressDetail;
         }     
 
-        protected int CreateAccount(ClubMember clubMember, string email, bool junior)
+        protected int CreateAccount(Member member, string email, bool junior)
         {
             // create user
             var userName = junior
-                ? string.Format("{0}.{1}", clubMember.Firstname, clubMember.Surname)
+                ? string.Format("{0}.{1}", member.Firstname, member.Surname)
                     .ToLowerInvariant().Replace(" ", string.Empty)
                 : email;
 
             var password = string.Format("{0}{1}1", 
-                clubMember.Firstname.ToLowerInvariant(), 
-                clubMember.Firstname.ToUpperInvariant())
+                member.Firstname.ToLowerInvariant(), 
+                member.Firstname.ToUpperInvariant())
                 .Replace(" ", string.Empty);
 
             email = email.ToLowerInvariant();
@@ -91,7 +91,7 @@ namespace ivNet.Club.Services
             var userCheck = _membershipService.GetUser(userName);
             if (userCheck != null)
             {
-                userName = string.Format("{0}.{1}", userName, clubMember.Id);
+                userName = string.Format("{0}.{1}", userName, member.Id);
             }
 
             var user = _membershipService.CreateUser(new CreateUserParams(userName, password, email, null, null, false));

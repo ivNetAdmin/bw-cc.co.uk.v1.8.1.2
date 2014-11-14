@@ -109,69 +109,69 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\config.data.sqlce" />
     <Content Include="App_Data\ivNet.Club - Copy.sdf" />
+    <Content Include="App_Data\ivNet.Club.sdf" />
     <Content Include="Scripts\angular-autocomplete.js" />
     <Content Include="Scripts\angular-resource.js" />
     <Content Include="Scripts\angular-resource.min.js" />
     <Content Include="Scripts\angular-ui-utils.js" />
     <Content Include="Scripts\angular-ui-utils.min.js" />
     <Content Include="Scripts\angular.min.js.map" />
-    <Content Include="Scripts\app\admin.member.members.js" />
+    <Content Include="Scripts\app\admin.member.list.js" />
     <Content Include="Scripts\app\admin.member.registration.js" />
     <Content Include="Scripts\app\club.configuration.js" />
-    <Content Include="Scripts\app\my.member.registration.js" />
+    <Content Include="Scripts\app\member.registration.js" />
     <Content Include="Scripts\trNgGrid.min.js" />
     <Content Include="Styles\new.registration.css.map">
       <DependentUpon>new.registration.css</DependentUpon>
     </Content>
     <Content Include="packages.config" />
-    <Content Include="Scripts\app\new.member.registration.payment.js" />
+    <Content Include="Scripts\app\new.member.payment.js" />
     <Content Include="Scripts\angular-resource.min.js.map" />
-    <Content Include="App_Data\config.data.sqlce" />
     <None Include="Styles\new.member.registration.less" />
-    <Content Include="App_Data\ivNet.Club.sdf" />
     <Content Include="Scripts\anjular.js" />
     <Content Include="Scripts\anjular.min.js" />
-    <Content Include="Scripts\app\new.member.registration.js" />
+    <Content Include="Scripts\app\new.member.js" />
     <Content Include="Styles\new.registration.css">
       <DependentUpon>new.member.registration.less</DependentUpon>
     </Content>
     <Content Include="Styles\new.member.registration.min.css" />
     <Content Include="Styles\trNgGrid.min.css" />
-    <Content Include="Views\ClubMember\_Button.cshtml" />
-    <Content Include="Views\ClubMember\_GuardianCount.cshtml" />
-    <Content Include="Views\ClubMember\_Instruction.cshtml" />
-    <Content Include="Views\ClubMember\_Junior.cshtml">
+    <Content Include="Views\Member\_Button.cshtml" />
+    <Content Include="Views\Member\_GuardianCount.cshtml" />
+    <Content Include="Views\Member\_Instruction.cshtml" />
+    <Content Include="Views\Member\_Junior.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Views\ClubMember\_JuniorCount.cshtml" />
-    <Content Include="Views\ClubMember\_Member.cshtml">
+    <Content Include="Views\Member\_JuniorCount.cshtml" />
+    <Content Include="Views\Member\_Member.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Views\ClubMember\_Other.cshtml" />
-    <Content Include="Views\ClubMember\_RegistrationType.cshtml" />
-    <Content Include="Views\ClubMember\__Address.cshtml">
+    <Content Include="Views\Member\_Other.cshtml" />
+    <Content Include="Views\Member\_RegistrationType.cshtml" />
+    <Content Include="Views\Member\__Address.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Views\ClubMember\__Contact.cshtml">
+    <Content Include="Views\Member\__Contact.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Views\ClubMember\__Email.cshtml">
+    <Content Include="Views\Member\__Email.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Views\ClubMember\__Fee.cshtml">
+    <Content Include="Views\Member\__Fee.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Views\ClubMember\__JuniorInfo.cshtml">
+    <Content Include="Views\Member\__JuniorInfo.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Views\ClubMember\__Kit.cshtml">
+    <Content Include="Views\Member\__Kit.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Views\ClubMember\__Name.cshtml">
+    <Content Include="Views\Member\__Name.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Views\Documentation\UserStories.cshtml">
+    <Content Include="Views\AdminDocumentation\UserStories.cshtml">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Web.config" />
@@ -179,33 +179,32 @@
     <Content Include="Styles\Web.config" />
     <Content Include="Properties\AssemblyInfo.cs" />
     <Content Include="Module.txt" />
-    <Content Include="Views\Documentation\_UserStories_ClubMember.cshtml" />
+    <Content Include="Views\AdminDocumentation\_UserStories_Member.cshtml" />
     <Content Include="Views\Error.cshtml" />
-    <Content Include="Views\ClubMember\New.cshtml">
+    <Content Include="Views\Member\New.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Views\ClubMember\RegistrationPayment.cshtml" />
+    <Content Include="Views\Member\RegistrationPayment.cshtml" />
     <Content Include="Views\AdminConfiguration\Index.cshtml" />
-    <Content Include="Views\AdminMembership\Registration.cshtml" />
-    <Content Include="Views\AdminMembership\Members.cshtml" />
-    <Content Include="Views\ClubMember\MemberRegistration.cshtml" />
+    <Content Include="Views\AdminMember\Registration.cshtml" />
+    <Content Include="Views\AdminMember\List.cshtml" />
+    <Content Include="Views\Member\MemberRegistration.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\AdminMembershipController.cs" />
+    <Compile Include="Controllers\AdminMemberController.cs" />
     <Compile Include="Controllers\Api\ConfigurationController.cs" />
     <Compile Include="Controllers\Api\MemberController.cs" />
-    <Compile Include="Controllers\Api\MyMemberController.cs" />
     <Compile Include="Controllers\Api\PaymentController.cs" />
     <Compile Include="Controllers\Api\RegistrationController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Controllers\ClubMemberController.cs" />
-    <Compile Include="Controllers\Documentation.cs" />
+    <Compile Include="Controllers\MemberController.cs" />
+    <Compile Include="Controllers\AdminDocumentation.cs" />
     <Compile Include="Entities\AddressDetail.cs" />
     <Compile Include="Entities\BaseEntity.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Entities\ConfigurationItem.cs" />
-    <Compile Include="Entities\ClubMember.cs">
+    <Compile Include="Entities\Member.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controllers\AdminConfigurationController.cs" />
@@ -240,12 +239,12 @@
     <Compile Include="Routes.cs" />
     <Compile Include="RoutesApi.cs" />
     <Compile Include="Services\BaseService.cs" />
-    <Compile Include="Services\ClubMemberServices.cs" />
+    <Compile Include="Services\MemberServices.cs" />
     <Compile Include="Services\ConfigurationServices.cs" />
     <Compile Include="Services\RegistrationServices.cs" />
     <Compile Include="StartupShellEvents.cs" />
     <Compile Include="ViewModel\AddressViewModel.cs" />
-    <Compile Include="ViewModel\ClubMembersViewModel.cs" />
+    <Compile Include="ViewModel\MemberViewModel.cs" />
     <Compile Include="ViewModel\ConfigurationItemViewModel.cs" />
     <Compile Include="ViewModel\ContactViewModel.cs" />
     <Compile Include="ViewModel\GuardianViewModel.cs" />
@@ -253,9 +252,8 @@
     <Compile Include="ViewModel\JuniorRegistrationViewModel.cs" />
     <Compile Include="ViewModel\JuniorVettingViewModel.cs" />
     <Compile Include="ViewModel\ListItemViewModel.cs" />
-    <Compile Include="ViewModel\MemberViewModel.cs" />
     <Compile Include="ViewModel\JuniorViewModel.cs" />
-    <Compile Include="ViewModel\NewMembershipViewModel.cs" />
+    <Compile Include="ViewModel\NewMemberViewModel.cs" />
     <Compile Include="ViewModel\RecaptchaViewModel.cs" />
     <Compile Include="ViewModel\RegistrationViewModel.cs" />
   </ItemGroup>

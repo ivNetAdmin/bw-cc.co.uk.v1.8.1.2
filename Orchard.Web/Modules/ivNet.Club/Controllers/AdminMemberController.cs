@@ -8,15 +8,15 @@ using Orchard.Themes;
 
 namespace ivNet.Club.Controllers
 {
-    public class AdminMembershipController : BaseController
+    public class AdminMemberController : BaseController
     {
          private readonly IOrchardServices _orchardServices;
-        private readonly IClubMemberServices _clubMemberServices;
+        private readonly IMemberServices _memberServices;
 
-         public AdminMembershipController(IOrchardServices orchardServices, IClubMemberServices clubMemberServices)
+         public AdminMemberController(IOrchardServices orchardServices, IMemberServices memberServices)
         {
             _orchardServices = orchardServices;
-            _clubMemberServices = clubMemberServices;
+            _memberServices = memberServices;
             T = NullLocalizer.Instance;
             Logger = NullLogger.Instance;
         }
@@ -31,7 +31,7 @@ namespace ivNet.Club.Controllers
          }
 
          [Themed]
-         public ActionResult Members()
+         public ActionResult List()
          {
              return View();
          }

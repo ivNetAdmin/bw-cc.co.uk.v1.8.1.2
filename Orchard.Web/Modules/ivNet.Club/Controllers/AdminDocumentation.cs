@@ -4,7 +4,7 @@ using Orchard.Themes;
 
 namespace ivNet.Club.Controllers
 {
-    public class Documentation : Controller
+    public class AdminDocumentation : Controller
     {
         [Themed]
         public ActionResult UserStories()

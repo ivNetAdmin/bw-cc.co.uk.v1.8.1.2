@@ -5,9 +5,9 @@ using FluentNHibernate.Mapping;
 
 namespace ivNet.Club.Entities
 {
-    public class ClubMember : BaseEntity
+    public class Member : BaseEntity
     {
-        public virtual string ClubMemberKey { get; set; }
+        public virtual string MemberKey { get; set; }
        
         public virtual string Surname { get; set; }
         public virtual string Firstname { get; set; }
@@ -16,12 +16,12 @@ namespace ivNet.Club.Entities
         public virtual int DuplicateCounter { get; set; }       
     }
 
-    public class ClubMemberMap : ClassMap<ClubMember>
+    public class MemberMap : ClassMap<Member>
     {
-        public ClubMemberMap()
+        public MemberMap()
         {
             Id(x => x.Id);
-            Map(x => x.ClubMemberKey).Not.Nullable().Length(120).UniqueKey("ix_ClubMember_Unique");
+            Map(x => x.MemberKey).Not.Nullable().Length(120).UniqueKey("ix_Member_Unique");
 
             Map(x => x.UserId);
             Map(x => x.DuplicateCounter);

@@ -13,7 +13,7 @@ namespace ivNet.Club
 
             #region models->entities
 
-            Mapper.CreateMap<MemberViewModel, ClubMember>();
+            Mapper.CreateMap<MemberViewModel, Member>();
             Mapper.CreateMap<ContactViewModel, ContactDetail>();
             Mapper.CreateMap<AddressViewModel, AddressDetail>();
 
@@ -27,15 +27,15 @@ namespace ivNet.Club
             #region entities->models
 
             Mapper.CreateMap<ConfigurationItem, ConfigurationItemViewModel>();
-            Mapper.CreateMap<ClubMember, MemberViewModel>();          
+            Mapper.CreateMap<Member, MemberViewModel>();          
 
             #endregion
 
-            //Mapper.CreateMap<ClubMember, ClubMember>();
+            //Mapper.CreateMap<Member, Member>();
             //Mapper.CreateMap<ContactDetail, ContactDetail>();
 
             //Mapper.CreateMap<NewMembershipViewModel, ContactDetail>();
-            //Mapper.CreateMap<NewMembershipViewModel, ClubMember>();
+            //Mapper.CreateMap<NewMembershipViewModel, Member>();
         }
 
         public void Terminating()

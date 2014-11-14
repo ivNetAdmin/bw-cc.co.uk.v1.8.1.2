@@ -16,26 +16,26 @@ namespace ivNet.Club
         public IEnumerable<RouteDescriptor> GetRoutes()
         {
             var rdl = new List<RouteDescriptor>();
-            rdl.AddRange(DocumentationRoutes());
-            rdl.AddRange(MembershipRoutes());
+            rdl.AddRange(AdminDocumentationRoutes());
+            rdl.AddRange(MemberRoutes());
             rdl.AddRange(AdminConfigurationRoutes());
-            rdl.AddRange(AdminMembershipRoutes());
+            rdl.AddRange(AdminMemberRoutes());
             return rdl;
         }
 
-        #region documentation
-        private IEnumerable<RouteDescriptor> DocumentationRoutes()
+        #region admin documentation
+        private IEnumerable<RouteDescriptor> AdminDocumentationRoutes()
         {
             return new[]
             {
                 new RouteDescriptor
                 {
                     Route = new Route(
-                        "club/user-stories",
+                        "club/admin/user-stories",
                         new RouteValueDictionary
                         {
                             {"area", "ivNet.Club"},
-                            {"controller", "Documentation"},
+                            {"controller", "AdminDocumentation"},
                             {"action", "UserStories"}
                         },
                         new RouteValueDictionary(),
@@ -92,19 +92,19 @@ namespace ivNet.Club
         }
         #endregion
 
-        #region admin membership
-        private IEnumerable<RouteDescriptor> AdminMembershipRoutes()
+        #region admin member
+        private IEnumerable<RouteDescriptor> AdminMemberRoutes()
         {
             return new[]
             {
                 new RouteDescriptor
                 {
                     Route = new Route(
-                        "club/admin/membership/registration",
+                        "club/admin/member/registration",
                         new RouteValueDictionary
                         {
                             {"area", "ivNet.Club"},
-                            {"controller", "AdminMembership"},
+                            {"controller", "AdminMember"},
                             {"action", "Registration"}
                         },
                         new RouteValueDictionary(),
@@ -117,12 +117,12 @@ namespace ivNet.Club
                 new RouteDescriptor
                 {
                     Route = new Route(
-                        "club/admin/membership/members",
+                        "club/admin/member/list",
                         new RouteValueDictionary
                         {
                             {"area", "ivNet.Club"},
-                            {"controller", "AdminMembership"},
-                            {"action", "Members"}
+                            {"controller", "AdminMember"},
+                            {"action", "List"}
                         },
                         new RouteValueDictionary(),
                         new RouteValueDictionary
@@ -135,8 +135,8 @@ namespace ivNet.Club
         }
         #endregion
 
-        #region membership
-        private IEnumerable<RouteDescriptor> MembershipRoutes()
+        #region member
+        private IEnumerable<RouteDescriptor> MemberRoutes()
         {
             return new[]
             {
@@ -147,7 +147,7 @@ namespace ivNet.Club
                         new RouteValueDictionary
                         {
                             {"area", "ivNet.Club"},
-                            {"controller", "ClubMember"},
+                            {"controller", "Member"},
                             {"action", "New"}
                         },
                         new RouteValueDictionary(),
@@ -164,7 +164,7 @@ namespace ivNet.Club
                         new RouteValueDictionary
                         {
                             {"area", "ivNet.Club"},
-                            {"controller", "ClubMember"},
+                            {"controller", "Member"},
                             {"action", "ValidateCaptcha"}
                         },
                         new RouteValueDictionary(),
@@ -181,7 +181,7 @@ namespace ivNet.Club
                         new RouteValueDictionary
                         {
                             {"area", "ivNet.Club"},
-                            {"controller", "ClubMember"},
+                            {"controller", "Member"},
                             {"action", "MemberRegistration"}
                         },
                         new RouteValueDictionary(),
@@ -199,7 +199,7 @@ namespace ivNet.Club
                 //        new RouteValueDictionary
                 //        {
                 //            {"area", "ivNet.Club"},
-                //            {"controller", "ClubMember"},
+                //            {"controller", "Member"},
                 //            {"action", "ValidateDuplicates"}
                 //        },
                 //        new RouteValueDictionary(),

@@ -11,7 +11,7 @@ namespace ivNet.Club.Entities
         public virtual string JuniorGuardianKey { get; set; }
         public virtual DateTime Dob { get; set; }
 
-        public virtual ClubMember ClubMember { get; set; }    
+        public virtual Member Member { get; set; }    
         public virtual Player Player { get; set; }
         public virtual JuniorInfo JuniorInfo { get; set; }        
 
@@ -22,7 +22,7 @@ namespace ivNet.Club.Entities
         public virtual void Init()
         {
             Guardians = new List<Guardian>();
-            ClubMember = new ClubMember();
+            Member = new Member();
             Player = new Player();
             JuniorInfo= new JuniorInfo();            
         }
@@ -40,7 +40,7 @@ namespace ivNet.Club.Entities
             Map(x => x.Dob).Not.Nullable();
 
             References(x => x.Player);
-            References(x => x.ClubMember);
+            References(x => x.Member);
             References(x => x.JuniorInfo);
             
             HasManyToMany(x => x.Guardians)
