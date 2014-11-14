@@ -1,10 +1,10 @@
-﻿div#NewMemberRegistration div.form-group {
+﻿div#NewMember div.form-group {
   /*display: none;*/
 }
-div#NewMemberRegistration div.junior {
+div#NewMember div.junior {
   display: inherit;
 }
-div#NewMemberRegistration table tfoot {
+div#NewMember table tfoot {
   display: none;
 }
 /*# sourceMappingURL=member.registration.css.map */

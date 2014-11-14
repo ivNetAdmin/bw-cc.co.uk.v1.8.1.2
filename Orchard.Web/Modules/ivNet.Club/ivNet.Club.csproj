@@ -119,9 +119,8 @@
     <Content Include="Scripts\angular-ui-utils.min.js" />
     <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Scripts\app\admin.member.list.js" />
-    <Content Include="Scripts\app\admin.member.registration.js" />
+    <Content Include="Scripts\app\admin.member.js" />
     <Content Include="Scripts\app\club.configuration.js" />
-    <Content Include="Scripts\app\member.registration.js" />
     <Content Include="Scripts\trNgGrid.min.js" />
     <Content Include="Styles\new.registration.css.map">
       <DependentUpon>new.registration.css</DependentUpon>
@@ -184,7 +183,7 @@
     <Content Include="Views\Member\New.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Views\Member\RegistrationPayment.cshtml" />
+    <Content Include="Views\Member\FeeSummary.cshtml" />
     <Content Include="Views\AdminConfiguration\Index.cshtml" />
     <Content Include="Views\AdminMember\Registration.cshtml" />
     <Content Include="Views\AdminMember\List.cshtml" />

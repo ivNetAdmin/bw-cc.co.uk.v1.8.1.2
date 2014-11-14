@@ -100,7 +100,7 @@ namespace ivNet.Club.Controllers
                     _memberServices.CreateGuardian(registrationList);
                 }
 
-                return RedirectToAction("RegistrationPayment");
+                return RedirectToAction("FeeSummary");
             }
             catch (Exception ex)
             {

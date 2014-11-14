@@ -5,8 +5,8 @@
     Style.Require("Club.New.Member");
 }
 
-<div id="NewMemberRegistration" data-ng-app="ivNet.Member.Registration.Payment.App">
-    <div data-ng-controller="PaymentController">
+<div data-ng-app="ivNet.Member.Fee.Summary.App">
+    <div data-ng-controller="FeeSummaryController">
         <table tr-ng-grid='' items='items' enable-filtering="false" enable-sorting="false">
             <thead>
                 <tr>
@@ -25,19 +25,19 @@
                 </tr>
             </thead>
         </table>
-    
+
         <ul id="extraFeeItems" class="form-group reg-form">
             <li ng-repeat="item in extraItems">
                 <label for="{{item.Name}}">{{item.Name}}</label>
                 <span>{{item.Number}}</span>
-                <input name="{{item.Name}}" type="checkbox" value="{{item.Number}}" class="ng-scope" ng-click="updateTotal()">                
+                <input name="{{item.Name}}" type="checkbox" value="{{item.Number}}" class="ng-scope" ng-click="updateTotal()">
             </li>
         </ul>
         <div>
             <span>Total: </span>
             <span>{{paymentTotal}}</span>
         </div>
-       
+
     </div>
 </div>
 

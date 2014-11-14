@@ -1,12 +1,12 @@
-﻿var ivNetMemberRegistration = angular.module("ivNet.Member.Registration.App", ['ui.event']);
+﻿var ivNetNewMember = angular.module("ivNet.New.Member.App", ['ui.event']);
 var invalidCaptcha = true; // debug : false
-ivNetMemberRegistration.controller('RegistrationController', function($scope, $http) {
+ivNetNewMember.controller('NewMemberController', function ($scope, $http) {
 
     init();
 
     function init() {
 
-        $('div#NewMemberRegistration').find('div.reg-form').hide();
+        $('div#NewMember').find('div.reg-form').hide();
         $('p#error').hide();
 
         if (invalidCaptcha) {

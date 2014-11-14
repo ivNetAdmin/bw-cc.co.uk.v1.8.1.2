@@ -1,4 +1,4 @@
-﻿div#NewMemberRegistration div.form-group{}div#NewMemberRegistration div.junior{display:inherit}div#NewMemberRegistration table tfoot{display:none}
+﻿div#NewMember div.form-group{}div#NewMember div.junior{display:inherit}div#NewMember table tfoot{display:none}
     p.error{
         color:red;
     }

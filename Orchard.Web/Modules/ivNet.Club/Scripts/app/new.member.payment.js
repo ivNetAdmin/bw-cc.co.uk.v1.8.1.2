@@ -1,4 +1,4 @@
-﻿var ivNetMemberRegistrationPayment = angular.module("ivNet.Member.Registration.Payment.App", ['ngResource', 'trNgGrid'])
+﻿var ivNetMemberFeeSummary = angular.module("ivNet.Member.Fee.Summary.App", ['ngResource', 'trNgGrid'])
 .filter("dobField", function () {
     return function (combinedFieldValueUnused, item) {
         var d = item.Dob;
@@ -10,14 +10,14 @@
     };
 });
 
-ivNetMemberRegistrationPayment.factory('registrationpayment', function ($resource) {
+ivNetMemberFeeSummary.factory('feesummary', function ($resource) {
     return $resource('/api/club/payment/:id', null,
     {
         'update': { method: 'PUT' }
     });
 });
 
-ivNetMemberRegistrationPayment.controller('PaymentController', function ($scope, registrationpayment) {
+ivNetMemberFeeSummary.controller('FeeSummaryController', function ($scope, feesummary) {
 
     registrationpayment.query(function(data) {
             $scope.items = data;            
