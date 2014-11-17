@@ -22,8 +22,10 @@ namespace ivNet.Club.Services
         List<MemberViewModel> GetAll();
         List<MemberViewModel> Get(int id);
         List<GuardianViewModel> GetGuardians(int id);
-        MemberViewModel GetMember(string email);
-        void GetLoggedInMember();
+        MemberViewModel GetByEmail(string email);
+        MemberViewModel GetByJuniorKey(string key);
+        
+        IUser AuthenticatedUser();
     }
 
     public class MemberServices : BaseService, IMemberServices
@@ -260,7 +262,7 @@ namespace ivNet.Club.Services
             }
         }
 
-        public MemberViewModel GetMember(string email)
+        public MemberViewModel GetByEmail(string email)
         {
             using (var session = NHibernateHelper.OpenSession())
             {
@@ -274,11 +276,14 @@ namespace ivNet.Club.Services
             }
         }
 
-        public void GetLoggedInMember()
+        public MemberViewModel GetByJuniorKey(string key)
         {
-            var currentUser = _authenticationService.GetAuthenticatedUser();
-            var cakes = currentUser;
+            throw new System.NotImplementedException();
+        }
 
+        public IUser AuthenticatedUser()
+        {
+            return _authenticationService.GetAuthenticatedUser();
         }
     }
 }

@@ -59,8 +59,8 @@ namespace ivNet.Club.Controllers.Api
                 {
                     case "seasons":
                         return GetSeasons();                  
-                    case "extrareg":
-                        return GetExtraFeeData();   
+                    case "fees":
+                        return GetFeeData();   
                     default:
                         return Get();
                 }
@@ -87,7 +87,7 @@ namespace ivNet.Club.Controllers.Api
                 seasonFormat);
         }
 
-        private HttpResponseMessage GetExtraFeeData()
+        private HttpResponseMessage GetFeeData()
         {
             var configurationItemList = _configurationServices.GetExtraFeeData();
 

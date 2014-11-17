@@ -100,12 +100,12 @@ namespace ivNet.Club
                 new RouteDescriptor
                 {
                     Route = new Route(
-                        "club/admin/member/registration",
+                        "club/admin/member/activate",
                         new RouteValueDictionary
                         {
                             {"area", "ivNet.Club"},
                             {"controller", "AdminMember"},
-                            {"action", "Registration"}
+                            {"action", "Activate"}
                         },
                         new RouteValueDictionary(),
                         new RouteValueDictionary
@@ -149,6 +149,23 @@ namespace ivNet.Club
                             {"area", "ivNet.Club"},
                             {"controller", "Member"},
                             {"action", "New"}
+                        },
+                        new RouteValueDictionary(),
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Club"}
+                        },
+                        new MvcRouteHandler())
+                },
+                 new RouteDescriptor
+                {
+                    Route = new Route(
+                        "club/member/new/fee",
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Club"},
+                            {"controller", "Member"},
+                            {"action", "NewFee"}
                         },
                         new RouteValueDictionary(),
                         new RouteValueDictionary

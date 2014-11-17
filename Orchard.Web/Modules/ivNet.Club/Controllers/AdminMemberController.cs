@@ -25,7 +25,7 @@ namespace ivNet.Club.Controllers
          public ILogger Logger { get; set; }
 
          [Themed]
-         public ActionResult Registration()
+         public ActionResult Activate()
          {
              return View();
          }

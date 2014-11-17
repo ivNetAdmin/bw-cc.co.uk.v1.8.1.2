@@ -7,11 +7,11 @@ using ivNet.Club.Services;
 
 namespace ivNet.Club.Controllers.Api
 {
-    public class PaymentController : ApiController
+    public class FeeController : ApiController
     {
         private readonly IRegistrationServices _registrationServices;
 
-        public PaymentController(IRegistrationServices registrationServices)
+        public FeeController(IRegistrationServices registrationServices)
         {
             _registrationServices = registrationServices;
         }

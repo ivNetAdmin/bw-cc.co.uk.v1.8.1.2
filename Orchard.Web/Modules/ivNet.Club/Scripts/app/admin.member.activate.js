@@ -1,4 +1,4 @@
-﻿var ivNetAdminMemberRegistration = angular.module("ivNet.Admin.Member.Registration.App", ['ngResource', 'trNgGrid'])
+﻿var ivNetAdminMemberActivate = angular.module("ivNet.Admin.Member.Activate.App", ['ngResource', 'trNgGrid'])
  .filter("dateField", function () {
      return function (combinedFieldValueUnused, item) {
          var d = item.Dob;
@@ -17,21 +17,20 @@
              returnHtml = returnHtml + guardian.Email + ", " + guardian.Telephone + ". ";
          });
          
-
          return returnHtml;
      };
  });
 
 
-ivNetAdminMemberRegistration.factory('adminMemberRegistration', function ($resource) {
-    return $resource('/api/club/admin/registration/:id', null,
+ivNetAdminMemberActivate.factory('adminMemberActivate', function ($resource) {
+    return $resource('/api/club/admin/member/:id', null,
     {
         'update': { method: 'PUT' }
     });
 });
 
-ivNetAdminMemberRegistration.controller('AdminMemberController', function ($scope, adminMemberRegistration) {
-    adminMemberRegistration.query(
+ivNetAdminMemberActivate.controller('AdminMemberController', function ($scope, adminMemberActivate) {
+    adminMemberActivate.query(
        function (data) {
            $scope.myItems = data;
        },
@@ -41,7 +40,7 @@ ivNetAdminMemberRegistration.controller('AdminMemberController', function ($scop
 
     $scope.activateJunior = function (item) {
 
-        $('div#AdminMemberRegistration table tr').each(function (index, tr) {
+        $('div#AdminMemberActivate table tr').each(function (index, tr) {
             if (tr.children[0].innerText == item.JuniorId) {
                
                 item.IsVetted = $(tr).find('td[field-name="IsVetted"]').find('input:checked').length;

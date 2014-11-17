@@ -23,11 +23,9 @@ namespace ivNet.Club.Controllers.Api
         public HttpResponseMessage Get()
         {
             try
-            {
-                var memberList = _memberServices.GetAll();
-
+            {                
                 return Request.CreateResponse(HttpStatusCode.OK,
-                    memberList);
+                    _memberServices.GetAll());
             }
             catch (Exception ex)
             {
@@ -39,7 +37,7 @@ namespace ivNet.Club.Controllers.Api
                     "An Error has occurred. Report to bp@ivnet.co.uk quoting: " + errorId);
 
             }
-        }
+        }      
 
         public HttpResponseMessage Get(int id)
         {
@@ -74,32 +72,45 @@ namespace ivNet.Club.Controllers.Api
             }
         }
 
-        public HttpResponseMessage Get(string id,string type)
+        public HttpResponseMessage Get(string id, string type)
         {
             var message = string.Empty;
-
             try
             {
                 switch (type)
                 {
-                    case "email":
-                        var adult = _memberServices.GetMember(id);
+                    case "email-check":
+                        
+                        var adult = _memberServices.GetByEmail(id);
                         if (adult != null)
-                        {
+                        {                            
                             message =
                                 string.Format(
                                     "This eMail [{0}] is alerady being used by {1} {2}. If you are gaurdian trying to register a junior then please log into the website and use the 'My Club' page.",
-                                    id, adult.Firstname, adult.Surname);
+                                    id, adult.Firstname, adult.Surname);                           
+
                         }
-                        break;
-                    case "loggedInMember":
-                         _memberServices.GetLoggedInMember();
-                        break;
+                        return Request.CreateResponse(HttpStatusCode.OK, message);
+
+                    case "junior-key":
+                        message = string.Empty;
+                        var junior = _memberServices.GetByJuniorKey(id);
+                        if (junior != null)
+                        {                            
+                            message =
+                                string.Format(
+                                    "There is already some registered with the name [{0} {1}] if you continue with registration another junior will be created using the firstname and a counter eg tom1.jones",
+                                    id, adult.Firstname, adult.Surname);                           
+
+                        }
+                        return Request.CreateResponse(HttpStatusCode.OK, message);
+                    case "user":
+                        var user = _memberServices.AuthenticatedUser();
+                        return Request.CreateResponse(HttpStatusCode.OK, user == null ? string.Empty : user.UserName);
+
                 }
 
-
-                return Request.CreateResponse(HttpStatusCode.OK,
-                   message);
+                throw new Exception(string.Format("Unknown paramters ,[{0}],[{1}]", id, type));
             }
             catch (Exception ex)
             {

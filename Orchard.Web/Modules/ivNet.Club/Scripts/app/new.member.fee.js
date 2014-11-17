@@ -11,7 +11,7 @@
 });
 
 ivNetNewMemberFee.factory('newmemberfee', function ($resource) {
-    return $resource('/api/club/payment/:id', null,
+    return $resource('/api/club/fee/:id', null,
     {
         'update': { method: 'PUT' }
     });
@@ -28,7 +28,7 @@ ivNetNewMemberFee.controller('NewMemberFeeController', function ($scope, newmemb
         });
 
     $.ajax({
-        url: '/api/club/admin/configuration/extrareg',        
+        url: '/api/club/configuration/fees',        
         dataType: 'json',
         success: function (results) {
             $scope.extraItems = results;          

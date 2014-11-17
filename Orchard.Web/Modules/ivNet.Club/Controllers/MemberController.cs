@@ -99,7 +99,7 @@ namespace ivNet.Club.Controllers
                     _memberServices.CreateGuardian(registrationList);
                 }
 
-                return RedirectToAction("NewFee");
+                return new RedirectResult("~/club/member/new/fee");
             }
             catch (Exception ex)
             {

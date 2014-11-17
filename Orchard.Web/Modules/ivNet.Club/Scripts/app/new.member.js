@@ -67,13 +67,16 @@ ivNetNewMember.controller('NewMemberController', function ($scope, $http) {
 
     $scope.blurEmailCallback = function (evt) {
         if (evt.target.value.length > 0) {
-            checkDuplicates(evt.target.value);
+            checkEmailDuplicates(evt.target.value);
         }
     };
 
     $scope.blurSurnameCallback = function (evt) {
-        var junior = evt.target.name.substr(0, 6) == "Junior";
-        alert(junior);
+        if (evt.target.name.substr(0, 6) == "Junior") {
+            checkJuniorNameDuplicates(evt);
+        }
+        //var junior = evt.target.name.substr(0, 6) == "Junior";
+        //alert(junior);
     };
 
     $('form#newMemberForm').submit(function() {
@@ -135,7 +138,7 @@ ivNetNewMember.controller('NewMemberController', function ($scope, $http) {
         }
     }
 
-    function checkDuplicates(email) {
+    function checkEmailDuplicates(email) {
 
         $.ajax({
             url: '/api/club/member/' + email + '/email',
@@ -156,6 +159,38 @@ ivNetNewMember.controller('NewMemberController', function ($scope, $http) {
                 alert("Error '" + jqXhr.status + "' (textStatus: '" + textStatus + "', errorThrown: '" + errorThrown + "')");
             }
         });
+    }
+
+    function checkJuniorNameDuplicates(evt) {
+        var surnameField = evt.target.name;
+        var firstnameField = surnameField.replace("Surname", "Firstname");
+        var firstname = ($('input[name="' + firstnameField + '"]').val());
+        if (firstname.length == 0) {
+            alert("You must enter a Firstname before a Surname.");
+            $('input[name="' + surnameField + '"]').val('');
+        } else {
+            var surname = $('input[name="' + surnameField + '"]').val();
+
+            $.ajax({
+                url: '/api/club/member/' + firstname + "." + surname + '/junior-key',
+                type: 'GET',
+                success: function(data) {
+                    if (data.length > 0) {
+
+                        $('div#dupError').find('p').html(data);
+                        $('div#dupError').show();
+                        $('input#singlebutton').hide();
+
+                    } else {
+                        $('div#dupError').hide();
+                        $('input#singlebutton').show();
+                    }
+                },
+                error: function(jqXhr, textStatus, errorThrown) {
+                    alert("Error '" + jqXhr.status + "' (textStatus: '" + textStatus + "', errorThrown: '" + errorThrown + "')");
+                }
+            });
+        }
     }
 
     function setupSeasons() {
