@@ -7,4 +7,10 @@ div#NewMember div.junior {
 div#NewMember table tfoot {
   display: none;
 }
-/*# sourceMappingURL=member.registration.css.map */
+div#NewMember p.error {
+  color: red;
+}
+div#NewMember div#dupError {
+  display: none;
+}
+/*# sourceMappingURL=new.member.css.map */

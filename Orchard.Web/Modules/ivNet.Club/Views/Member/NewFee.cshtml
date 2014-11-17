@@ -1,12 +1,12 @@
 ﻿@{
-    Script.Require("Club.New.Member.Payment");
+    Script.Require("Club.New.Member.Fee");
     Script.Require("AngularJS-Resource"); 
     Style.Require("trNgGrid");
     Style.Require("Club.New.Member");
 }
 
-<div data-ng-app="ivNet.Member.Fee.Summary.App">
-    <div data-ng-controller="FeeSummaryController">
+<div data-ng-app="ivNet.New.Member.Fee.App">
+    <div data-ng-controller="NewMemberFeeController">
         <table tr-ng-grid='' items='items' enable-filtering="false" enable-sorting="false">
             <thead>
                 <tr>

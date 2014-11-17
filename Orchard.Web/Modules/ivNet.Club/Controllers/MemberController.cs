@@ -45,9 +45,8 @@ namespace ivNet.Club.Controllers
         }
         
         [Themed]
-        public ActionResult RegistrationPayment()
+        public ActionResult NewFee()
         {
-
             return View();
         }
 
@@ -100,7 +99,7 @@ namespace ivNet.Club.Controllers
                     _memberServices.CreateGuardian(registrationList);
                 }
 
-                return RedirectToAction("FeeSummary");
+                return RedirectToAction("NewFee");
             }
             catch (Exception ex)
             {

@@ -122,20 +122,20 @@
     <Content Include="Scripts\app\admin.member.js" />
     <Content Include="Scripts\app\club.configuration.js" />
     <Content Include="Scripts\trNgGrid.min.js" />
-    <Content Include="Styles\new.registration.css.map">
-      <DependentUpon>new.registration.css</DependentUpon>
-    </Content>
     <Content Include="packages.config" />
-    <Content Include="Scripts\app\new.member.payment.js" />
+    <Content Include="Scripts\app\new.member.fee.js" />
     <Content Include="Scripts\angular-resource.min.js.map" />
-    <None Include="Styles\new.member.registration.less" />
+    <Content Include="Styles\new.member.css.map">
+      <DependentUpon>new.member.css</DependentUpon>
+    </Content>
+    <None Include="Styles\new.member.less" />
     <Content Include="Scripts\anjular.js" />
     <Content Include="Scripts\anjular.min.js" />
     <Content Include="Scripts\app\new.member.js" />
-    <Content Include="Styles\new.registration.css">
-      <DependentUpon>new.member.registration.less</DependentUpon>
+    <Content Include="Styles\new.member.css">
+      <DependentUpon>new.member.less</DependentUpon>
     </Content>
-    <Content Include="Styles\new.member.registration.min.css" />
+    <Content Include="Styles\new.member.min.css" />
     <Content Include="Styles\trNgGrid.min.css" />
     <Content Include="Views\Member\_Button.cshtml" />
     <Content Include="Views\Member\_GuardianCount.cshtml" />
@@ -183,7 +183,7 @@
     <Content Include="Views\Member\New.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Views\Member\FeeSummary.cshtml" />
+    <Content Include="Views\Member\NewFee.cshtml" />
     <Content Include="Views\AdminConfiguration\Index.cshtml" />
     <Content Include="Views\AdminMember\Registration.cshtml" />
     <Content Include="Views\AdminMember\List.cshtml" />

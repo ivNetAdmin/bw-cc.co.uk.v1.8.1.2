@@ -1,5 +1,5 @@
 ﻿var ivNetNewMember = angular.module("ivNet.New.Member.App", ['ui.event']);
-var invalidCaptcha = true; // debug : false
+var invalidCaptcha = false; // debug : false
 ivNetNewMember.controller('NewMemberController', function ($scope, $http) {
 
     init();

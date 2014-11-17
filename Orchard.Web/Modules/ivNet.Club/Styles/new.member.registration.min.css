@@ -1,7 +1,0 @@
-﻿div#NewMember div.form-group{}div#NewMember div.junior{display:inherit}div#NewMember table tfoot{display:none}
-    p.error{
-        color:red;
-    }
-        div#dupError {
-        display: none;
-    }
