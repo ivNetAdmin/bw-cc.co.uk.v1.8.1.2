@@ -113,10 +113,14 @@ namespace ivNet.Club.Controllers.Api
 
                         }
                         return Request.CreateResponse(HttpStatusCode.OK, message);
+
                     case "user":
                         var user = _memberServices.AuthenticatedUser();
-                        return Request.CreateResponse(HttpStatusCode.OK, user == null ? string.Empty : user.UserName);
+                        return Request.CreateResponse(HttpStatusCode.OK, MapperHelper.Map(new UserViewModel(), user));
 
+                    case "userid":
+                        var member = _memberServices.GetByUserId(Convert.ToInt32(id));
+                        return Request.CreateResponse(HttpStatusCode.OK, member);
                 }
 
                 throw new Exception(string.Format("Unknown paramters ,[{0}],[{1}]", id, type));

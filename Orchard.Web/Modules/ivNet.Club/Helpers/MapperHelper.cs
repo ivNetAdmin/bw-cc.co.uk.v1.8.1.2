@@ -6,6 +6,7 @@ using ivNet.Club.Entities;
 using ivNet.Club.Services;
 using ivNet.Club.ViewModel;
 using NHibernate.Transform;
+using Orchard.Security;
 
 namespace ivNet.Club.Helpers
 {
@@ -116,6 +117,11 @@ namespace ivNet.Club.Helpers
             return Mapper.Map(entity, viewModel);
         }
 
+        public static UserViewModel Map(UserViewModel viewModel, IUser entity)
+        {
+            return Mapper.Map(entity, viewModel);
+        }
+
         public static GuardianViewModel Map(GuardianViewModel viewModel, Guardian entity)
         {
             viewModel.GuardianId = entity.Id;
@@ -216,6 +222,6 @@ namespace ivNet.Club.Helpers
             viewModel.IsActive = entity.IsActive;
             return viewModel;
         }
-        #endregion
+        #endregion       
     }
 }

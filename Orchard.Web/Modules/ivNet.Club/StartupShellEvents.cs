@@ -3,6 +3,7 @@ using AutoMapper;
 using ivNet.Club.Entities;
 using ivNet.Club.ViewModel;
 using Orchard.Environment;
+using Orchard.Security;
 
 namespace ivNet.Club
 {
@@ -27,7 +28,9 @@ namespace ivNet.Club
             #region entities->models
 
             Mapper.CreateMap<ConfigurationItem, ConfigurationItemViewModel>();
-            Mapper.CreateMap<Member, MemberViewModel>();          
+            Mapper.CreateMap<Member, MemberViewModel>()
+                .ForMember(v => v.MemberId, m => m.MapFrom(e => e.Id));
+            Mapper.CreateMap<IUser, UserViewModel>();       
 
             #endregion
 

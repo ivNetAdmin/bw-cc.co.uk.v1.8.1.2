@@ -24,11 +24,12 @@ namespace ivNet.Club.Services
         List<MemberViewModel> Get(int id);
         List<GuardianViewModel> GetGuardians(int id);
         MemberViewModel GetByKey(string key);
+        MemberViewModel GetByUserId(int id);
 
         List<JuniorVettingViewModel> GetNonVetted();
         void Activate(int id, JuniorVettingViewModel item);
         
-        IUser AuthenticatedUser();
+        IUser AuthenticatedUser();        
     }
 
     public class MemberServices : BaseService, IMemberServices
@@ -274,12 +275,35 @@ namespace ivNet.Club.Services
                     .List<Member>().FirstOrDefault(x => x.MemberKey.Equals(key));
                 return MapperHelper.Map(memberViewModel, member);
             }
-        }       
+        }
+
+        public MemberViewModel GetByUserId(int id)
+        {
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                var memberViewModel = new MemberViewModel();
+
+                var member = session.CreateCriteria(typeof(Member))
+                    .List<Member>().FirstOrDefault(x => x.UserId.Equals(id));
+
+                var viewModel = MapperHelper.Map(memberViewModel, member);
+
+                var entityType = checkType(member);
+
+                if (entityType.GetType() == typeof (Guardian))
+                {
+                    var cakes = 1;
+                }
+
+                return viewModel;
+            }
+        }
 
         public IUser AuthenticatedUser()
         {
+            var user = _authenticationService.GetAuthenticatedUser();
             return _authenticationService.GetAuthenticatedUser();
-        }
+        }     
 
         public List<JuniorVettingViewModel> GetNonVetted()
         {
@@ -324,6 +348,11 @@ namespace ivNet.Club.Services
             }
         }
 
+        public void Clear()
+        {
+            ItemsInternal.Clear();
+        }
+
         private HttpContextBase HttpContext
         {
             get { return _workContextAccessor.GetContext().HttpContext; }
@@ -348,9 +377,9 @@ namespace ivNet.Club.Services
             ItemsInternal.Add(memberId);
         }
 
-        public void Clear()
+        private object checkType(Member member)
         {
-            ItemsInternal.Clear();
-        }
+            return new Guardian();
+        }        
     }
 }

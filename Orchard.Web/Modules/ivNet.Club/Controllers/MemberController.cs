@@ -52,9 +52,8 @@ namespace ivNet.Club.Controllers
 
         [Themed]
         public ActionResult RegistrationDetails()
-        {
-            var currentUser = _authenticationService.GetAuthenticatedUser();
-            return View("RegistrationDetails",currentUser.UserName);
+        {           
+            return View();
         } 
 
         [HttpPost]

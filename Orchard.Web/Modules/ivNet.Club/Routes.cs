@@ -157,23 +157,23 @@ namespace ivNet.Club
                         },
                         new MvcRouteHandler())
                 },
-                // new RouteDescriptor
-                //{
-                //    Route = new Route(
-                //        "club/member/new/fee",
-                //        new RouteValueDictionary
-                //        {
-                //            {"area", "ivNet.Club"},
-                //            {"controller", "Member"},
-                //            {"action", "NewFee"}
-                //        },
-                //        new RouteValueDictionary(),
-                //        new RouteValueDictionary
-                //        {
-                //            {"area", "ivNet.Club"}
-                //        },
-                //        new MvcRouteHandler())
-                //},
+                 new RouteDescriptor
+                {
+                    Route = new Route(
+                        "club/member/new/fee",
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Club"},
+                            {"controller", "Member"},
+                            {"action", "NewFee"}
+                        },
+                        new RouteValueDictionary(),
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Club"}
+                        },
+                        new MvcRouteHandler())
+                },
                 new RouteDescriptor
                 {
                     Route = new Route(

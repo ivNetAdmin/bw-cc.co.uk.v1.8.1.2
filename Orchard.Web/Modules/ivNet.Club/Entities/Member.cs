@@ -28,7 +28,7 @@ namespace ivNet.Club.Entities
 
             Map(x => x.Surname).Not.Nullable().Length(50);
             Map(x => x.Firstname).Not.Nullable().Length(50);
-            Map(x => x.NickName).Nullable().Length(50);
+            Map(x => x.NickName).Nullable().Length(50);            
 
             Map(x => x.IsActive);
 

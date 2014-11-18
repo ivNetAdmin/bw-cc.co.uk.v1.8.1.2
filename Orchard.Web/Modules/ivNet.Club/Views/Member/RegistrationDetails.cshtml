@@ -3,10 +3,10 @@
     Script.Require("Club.Member.Registration.Details");
     Style.Require("trNgGrid");
 }
-<div ng-init="username = @(Model)"></div>
+
 <div data-ng-app="ivNet.Member.Registration.Details.App">
     <div data-ng-controller="MemberRegistrationDetailsController">
-
+        {{authenticatedUserId}}
     </div>
 </div>
 
