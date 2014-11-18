@@ -23,19 +23,26 @@
 
 
 ivNetAdminMemberActivate.factory('adminMemberActivate', function ($resource) {
+    return $resource('/api/club/admin/member/:id/list', null,
+    {
+       
+    });
+});
+
+ivNetAdminMemberActivate.factory('adminMemberActivateUpdate', function ($resource) {
     return $resource('/api/club/admin/member/:id', null,
     {
         'update': { method: 'PUT' }
     });
 });
 
-ivNetAdminMemberActivate.controller('AdminMemberController', function ($scope, adminMemberActivate) {
-    adminMemberActivate.query(
+ivNetAdminMemberActivate.controller('AdminMemberController', function ($scope, adminMemberActivate, adminMemberActivateUpdate) {
+    adminMemberActivate.query({ id: "new" },
        function (data) {
            $scope.myItems = data;
        },
        function (error) {
-           alert(error.data);
+           alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
        });
 
     $scope.activateJunior = function (item) {
@@ -45,12 +52,12 @@ ivNetAdminMemberActivate.controller('AdminMemberController', function ($scope, a
                
                 item.IsVetted = $(tr).find('td[field-name="IsVetted"]').find('input:checked').length;
 
-                adminMemberRegistration.update({ id: item.JuniorId }, item,
+                adminMemberActivateUpdate.update({ id: item.JuniorId }, item,
                     function() {
                         window.location.reload();
                     },
                     function(error) {
-                        alert(error.data);
+                        alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
                     }
                 );
             }

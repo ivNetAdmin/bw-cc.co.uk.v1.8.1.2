@@ -50,6 +50,13 @@ namespace ivNet.Club.Controllers
             return View();
         }
 
+        [Themed]
+        public ActionResult RegistrationDetails()
+        {
+            var currentUser = _authenticationService.GetAuthenticatedUser();
+            return View("RegistrationDetails",currentUser.UserName);
+        } 
+
         [HttpPost]
         public ActionResult New(FormCollection form)
         {
@@ -144,12 +151,6 @@ namespace ivNet.Club.Controllers
 
             return Json(new { Success = success });
         }
-
-        [Themed]
-        public ActionResult MemberRegistration()
-        {
-            var currentUser = _authenticationService.GetAuthenticatedUser();
-            return View(currentUser);
-        }       
+             
     }
 }

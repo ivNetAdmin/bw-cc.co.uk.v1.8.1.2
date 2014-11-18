@@ -231,35 +231,39 @@ namespace ivNet.Club.Services
 
         public int GetJuniorYear(DateTime dob)
         {
-            if (HttpContext.Current.Cache["juniorYear"] != null)
-                return Convert.ToInt32(HttpContext.Current.Cache["juniorYear"]);
-
-            using (var session = NHibernateHelper.OpenSession())
+            if (HttpContext.Current.Cache["juniourTeamDate"] == null)
             {
-                var entity = session.CreateCriteria(typeof (ConfigurationItem))
-                    .List<ConfigurationItem>().FirstOrDefault(x => x.Name.Replace(" ",string.Empty).ToLowerInvariant().Equals("juniorteamdate"));
 
-                if (entity == null) return 0;
-
-                var juniourTeamDate = entity.Date;
-                
-                // at the 01/01 this year junior would be
-                var age = DateTime.Now.Year - dob.Year;
-
-                // if junior's birthday is after juniourTeamDate then junior will play a year older
-                if (dob.Month > juniourTeamDate.GetValueOrDefault().Month)
+                using (var session = NHibernateHelper.OpenSession())
                 {
-                    age++;
-                }
-                else if (dob.Month == juniourTeamDate.GetValueOrDefault().Month &&
-                         dob.Day >= juniourTeamDate.GetValueOrDefault().Day)
-                {
-                    age++;
-                }
+                    var entity = session.CreateCriteria(typeof (ConfigurationItem))
+                        .List<ConfigurationItem>()
+                        .FirstOrDefault(
+                            x => x.Name.Replace(" ", string.Empty).ToLowerInvariant().Equals("juniorteamdate"));
 
-                HttpContext.Current.Cache["juniorYear"] = age;
-                return Convert.ToInt32(HttpContext.Current.Cache["juniorYear"]);
-            }            
+                    if (entity == null) return 0;
+
+                    HttpContext.Current.Cache["juniourTeamDate"] = entity.Date;
+
+                }
+            }
+
+            var juniourTeamDate = (DateTime?) HttpContext.Current.Cache["juniourTeamDate"];
+            // at the 01/01 this year junior would be
+            var age = DateTime.Now.Year - dob.Year;
+
+            // if junior's birthday is after juniourTeamDate then junior will play a year older
+            if (dob.Month > juniourTeamDate.GetValueOrDefault().Month)
+            {
+                age++;
+            }
+            else if (dob.Month == juniourTeamDate.GetValueOrDefault().Month &&
+                     dob.Day >= juniourTeamDate.GetValueOrDefault().Day)
+            {
+                age++;
+            }
+
+            return age;           
         }
     }
 }

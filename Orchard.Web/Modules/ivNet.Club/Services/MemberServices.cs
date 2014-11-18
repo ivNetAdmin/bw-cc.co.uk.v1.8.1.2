@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Web;
 using ivNet.Club.Entities;
 using ivNet.Club.Helpers;
 using ivNet.Club.ViewModel;
@@ -22,15 +23,17 @@ namespace ivNet.Club.Services
         List<MemberViewModel> GetAll();
         List<MemberViewModel> Get(int id);
         List<GuardianViewModel> GetGuardians(int id);
-        MemberViewModel GetByEmail(string email);
-        MemberViewModel GetByJuniorKey(string key);
+        MemberViewModel GetByKey(string key);
+
+        List<JuniorVettingViewModel> GetNonVetted();
+        void Activate(int id, JuniorVettingViewModel item);
         
         IUser AuthenticatedUser();
     }
 
     public class MemberServices : BaseService, IMemberServices
     {
-        private readonly IRegistrationServices _registrationServices;
+        private readonly IWorkContextAccessor _workContextAccessor;
         private readonly IConfigurationServices _configurationServices;
         private readonly IAuthenticationService _authenticationService;
 
@@ -39,11 +42,11 @@ namespace ivNet.Club.Services
             IAuthenticationService authenticationService,
             IRoleService roleService,
             IRepository<UserRolesPartRecord> userRolesRepository,
-            IRegistrationServices registrationServices,
+            IWorkContextAccessor workContextAccessor,
             IConfigurationServices configurationServices)
             : base(membershipService, authenticationService, roleService, userRolesRepository)
         {
-            _registrationServices = registrationServices;
+            _workContextAccessor = workContextAccessor;
             _configurationServices = configurationServices;
             _authenticationService = authenticationService;
         }
@@ -65,7 +68,7 @@ namespace ivNet.Club.Services
             {
                 using (var transaction = session.BeginTransaction())
                 {
-                    _registrationServices.Clear();
+                    Clear();
 
                     foreach (var registrationViewModel in registrationList)
                     {
@@ -171,14 +174,13 @@ namespace ivNet.Club.Services
                             SetAudit(junior);
                             session.SaveOrUpdate(junior);
 
-                            _registrationServices.Add(junior.Member.Id);
+                            Add(junior.Member.Id);
 
                             guardian.AddJunior(junior);
                         }
 
                         // save or update guardian
-                        SetAudit(guardian);
-                        guardian.IsActive = 1;
+                        SetAudit(guardian);                        
                         session.SaveOrUpdate(guardian);
 
                         // add fees for this season
@@ -262,28 +264,93 @@ namespace ivNet.Club.Services
             }
         }
 
-        public MemberViewModel GetByEmail(string email)
+        public MemberViewModel GetByKey(string key)
         {
             using (var session = NHibernateHelper.OpenSession())
             {
-
                 var memberViewModel = new MemberViewModel();
-                var key = CustomStringHelper.BuildKey(new[] {email});
+                key = CustomStringHelper.BuildKey(new[] {key});
                 var member = session.CreateCriteria(typeof (Member))
-                    .List<Member>().FirstOrDefault(x => x.IsActive.Equals(1) && x.MemberKey.Equals(key));
+                    .List<Member>().FirstOrDefault(x => x.MemberKey.Equals(key));
                 return MapperHelper.Map(memberViewModel, member);
-
             }
-        }
-
-        public MemberViewModel GetByJuniorKey(string key)
-        {
-            throw new System.NotImplementedException();
-        }
+        }       
 
         public IUser AuthenticatedUser()
         {
             return _authenticationService.GetAuthenticatedUser();
+        }
+
+        public List<JuniorVettingViewModel> GetNonVetted()
+        {
+
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                var juniorList = session.CreateCriteria(typeof(Junior))
+                    .List<Junior>().Where(x => x.IsVetted.Equals(0)).ToList();
+
+                return (from junior in juniorList
+                        let juniorVettingViewModel = new JuniorVettingViewModel()
+                        select MapperHelper.Map(_configurationServices, juniorVettingViewModel, junior)).ToList();
+
+            }
+        }
+
+        public void Activate(int id, JuniorVettingViewModel item)
+        {
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                using (var transaction = session.BeginTransaction())
+                {
+                    var entity = session.CreateCriteria(typeof(Junior))
+                        .List<Junior>().FirstOrDefault(x => x.Id.Equals(id));
+
+                    entity.IsVetted = item.IsVetted;
+                    entity.IsActive = item.IsVetted;
+
+                    SetAudit(entity);
+                    session.SaveOrUpdate(entity);
+
+                    // activate guardians
+                    foreach (var guardian in entity.Guardians)
+                    {
+                        guardian.IsActive = item.IsVetted;
+                        SetAudit(guardian);
+                        session.SaveOrUpdate(guardian);                        
+                    }
+
+                    transaction.Commit();
+                }
+            }
+        }
+
+        private HttpContextBase HttpContext
+        {
+            get { return _workContextAccessor.GetContext().HttpContext; }
+        }
+
+        private List<int> ItemsInternal
+        {
+            get
+            {
+                var items = (List<int>)HttpContext.Session["NewRegistrations"];
+
+                if (items != null) return items;
+                items = new List<int>();
+                HttpContext.Session["NewRegistrations"] = items;
+
+                return items;
+            }
+        }
+        
+        private void Add(int memberId)
+        {
+            ItemsInternal.Add(memberId);
+        }
+
+        public void Clear()
+        {
+            ItemsInternal.Clear();
         }
     }
 }

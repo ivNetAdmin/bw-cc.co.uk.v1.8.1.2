@@ -40,7 +40,7 @@ ivNetAdminMemberList.controller('AdminMemberListController', function ($scope, a
             $scope.members = data;
         },
         function(error) {
-            alert(error.data);
+            alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
         });
 
     $scope.editMemberList = function(member) {
@@ -62,7 +62,7 @@ ivNetAdminMemberList.controller('AdminMemberListController', function ($scope, a
 
             },
             function(error) {
-                alert(error.data);
+                alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
             });
     };
 

@@ -24,7 +24,7 @@ ivNetClubConfiguration.controller('ConfigurationController', function($scope, co
             $scope.myItems = data;
         },
         function(error) {
-            alert(error.data);
+            alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
         });
 
     $scope.saveItem = function(item) {
@@ -49,7 +49,7 @@ ivNetClubConfiguration.controller('ConfigurationController', function($scope, co
                         }
                     },
                     function(error) {
-                        alert(error.data);
+                        alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
                     }
                 );
             }

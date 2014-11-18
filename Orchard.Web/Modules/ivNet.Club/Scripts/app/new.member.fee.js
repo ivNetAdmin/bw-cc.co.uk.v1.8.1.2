@@ -24,7 +24,7 @@ ivNetNewMemberFee.controller('NewMemberFeeController', function ($scope, newmemb
             calculateTotal();
         },
         function(error) {
-            alert(error.data);
+            alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
         });
 
     $.ajax({
@@ -34,7 +34,7 @@ ivNetNewMemberFee.controller('NewMemberFeeController', function ($scope, newmemb
             $scope.extraItems = results;          
         },
         error: function(xmlhttprequest, status, error) {
-            alert(error.data);
+            alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
         }
     });
 

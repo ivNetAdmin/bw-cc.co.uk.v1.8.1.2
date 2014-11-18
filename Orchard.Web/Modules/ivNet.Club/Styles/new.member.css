@@ -10,6 +10,9 @@ div#NewMember table tfoot {
 div#NewMember p.error {
   color: red;
 }
+div#NewMember p.message {
+  color: darkgreen;
+}
 div#NewMember div#dupError {
   display: none;
 }

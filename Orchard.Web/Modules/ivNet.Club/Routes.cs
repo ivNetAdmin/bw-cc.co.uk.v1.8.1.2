@@ -157,23 +157,23 @@ namespace ivNet.Club
                         },
                         new MvcRouteHandler())
                 },
-                 new RouteDescriptor
-                {
-                    Route = new Route(
-                        "club/member/new/fee",
-                        new RouteValueDictionary
-                        {
-                            {"area", "ivNet.Club"},
-                            {"controller", "Member"},
-                            {"action", "NewFee"}
-                        },
-                        new RouteValueDictionary(),
-                        new RouteValueDictionary
-                        {
-                            {"area", "ivNet.Club"}
-                        },
-                        new MvcRouteHandler())
-                },
+                // new RouteDescriptor
+                //{
+                //    Route = new Route(
+                //        "club/member/new/fee",
+                //        new RouteValueDictionary
+                //        {
+                //            {"area", "ivNet.Club"},
+                //            {"controller", "Member"},
+                //            {"action", "NewFee"}
+                //        },
+                //        new RouteValueDictionary(),
+                //        new RouteValueDictionary
+                //        {
+                //            {"area", "ivNet.Club"}
+                //        },
+                //        new MvcRouteHandler())
+                //},
                 new RouteDescriptor
                 {
                     Route = new Route(
@@ -209,23 +209,23 @@ namespace ivNet.Club
                         new MvcRouteHandler())
                 },
                 
-                //new RouteDescriptor
-                //{
-                //    Route = new Route(
-                //        "club/member/duplicates",
-                //        new RouteValueDictionary
-                //        {
-                //            {"area", "ivNet.Club"},
-                //            {"controller", "Member"},
-                //            {"action", "ValidateDuplicates"}
-                //        },
-                //        new RouteValueDictionary(),
-                //        new RouteValueDictionary
-                //        {
-                //            {"area", "ivNet.Club"}
-                //        },
-                //        new MvcRouteHandler())
-                //}
+                new RouteDescriptor
+                {
+                    Route = new Route(
+                        "club/member/registraion-details",
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Club"},
+                            {"controller", "Member"},
+                            {"action", "RegistrationDetails"}
+                        },
+                        new RouteValueDictionary(),
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Club"}
+                        },
+                        new MvcRouteHandler())
+                }
             };
         }
         #endregion

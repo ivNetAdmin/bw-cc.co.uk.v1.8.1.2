@@ -141,12 +141,12 @@ ivNetNewMember.controller('NewMemberController', function ($scope, $http) {
     function checkEmailDuplicates(email) {
 
         $.ajax({
-            url: '/api/club/member/' + email + '/email',
+            url: '/api/club/member/' + email + '/email-check',
             type: 'GET',
             success: function(data) {
                 if (data.length > 0) {
 
-                    $('div#dupError').find('p').html(data);
+                    $('div#dupError p.error').html(data);
                     $('div#dupError').show();
                     $('input#singlebutton').hide();
 
@@ -164,26 +164,24 @@ ivNetNewMember.controller('NewMemberController', function ($scope, $http) {
     function checkJuniorNameDuplicates(evt) {
         var surnameField = evt.target.name;
         var firstnameField = surnameField.replace("Surname", "Firstname");
+        var errorField = surnameField.replace("Surname", "NameCheck");
         var firstname = ($('input[name="' + firstnameField + '"]').val());
         if (firstname.length == 0) {
-            alert("You must enter a Firstname before a Surname.");
+            $('div#' + errorField + ' p.message').html("You must enter a Firstname before a Surname.");
+            $('div#' + errorField + ' p.message').show();
             $('input[name="' + surnameField + '"]').val('');
         } else {
             var surname = $('input[name="' + surnameField + '"]').val();
 
             $.ajax({
-                url: '/api/club/member/' + firstname + "." + surname + '/junior-key',
+                url: '/api/club/member/' + surname + firstname + '/junior-key',
                 type: 'GET',
                 success: function(data) {
                     if (data.length > 0) {
-
-                        $('div#dupError').find('p').html(data);
-                        $('div#dupError').show();
-                        $('input#singlebutton').hide();
-
+                        $('div#' + errorField + ' p.message').html(data);
+                        $('div#' + errorField + ' p.message').show();
                     } else {
-                        $('div#dupError').hide();
-                        $('input#singlebutton').show();
+                        $('div#' + errorField + ' p.message').hide();
                     }
                 },
                 error: function(jqXhr, textStatus, errorThrown) {

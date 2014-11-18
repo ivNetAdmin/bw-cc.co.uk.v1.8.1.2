@@ -126,10 +126,8 @@ namespace ivNet.Club.Services
 
             entity.ModifiedBy = currentUser;
             entity.ModifiedDate = DateTime.Now;
-//            if (string.IsNullOrEmpty(entity.CreatedBy)) entity.CreatedBy = "Data Load";
-//            if (entity.CreateDate == DateTime.MinValue) entity.CreateDate = entity.ModifiedDate;
+
             if (entity.Id != 0) return;
-            entity.IsActive = 1;
             entity.CreatedBy = currentUser;
             entity.CreateDate = DateTime.Now;
         }
