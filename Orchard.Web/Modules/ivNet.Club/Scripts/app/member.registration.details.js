@@ -1,4 +1,4 @@
-﻿var ivNetMemberRegistrationDetails = angular.module("ivNet.Member.Registration.Details.App", ['ngResource', 'trNgGrid'])
+﻿var ivNetMemberRegistrationDetails = angular.module("ivNet.Member.Registration.Details.App", ['ngResource', 'trNgGrid', 'ui.event'])
 .filter("editDateField", function () {
     return function (combinedFieldValueUnused, item) {
         var d = item.Dob;
@@ -30,9 +30,9 @@ ivNetMemberRegistrationDetails.factory('guardianRegistrationDetails', function (
 ivNetMemberRegistrationDetails.controller('MemberRegistrationDetailsController', function ($scope, memberRegistrationDetails, guardianRegistrationDetails) {
     init();
 
-    function init() {
-        $('table#newGuardianTable').hide();
-        $('table#newJuniorTable').hide();                
+    function init() {      
+        $('div#newGuardianTable').hide();
+        $('div#newJuniorTable').hide();
 
         guardianRegistrationDetails.query({ id: "registered", type: "user" },
             function(data) {
@@ -52,7 +52,7 @@ ivNetMemberRegistrationDetails.controller('MemberRegistrationDetailsController',
 
     $scope.addGuardian = function () {        
 
-        $('table#newGuardianTable').find('input').each(function(index, item) {
+        $('div#newGuardianTable table').find('input').each(function(index, item) {
             switch($(item).attr('name')){
                 case "NewGuardianFirstname":
                 case "NewGuardianSurname":
@@ -67,11 +67,11 @@ ivNetMemberRegistrationDetails.controller('MemberRegistrationDetailsController',
         });
 
         $('table').find('tfoot').hide();
-        $('table#newGuardianTable').show();
+        $('div#newGuardianTable').show();
     };
 
     $scope.addJunior = function () {
-        $('table#newJuniorTable').find('input').each(function (index, item) {
+        $('div#newJuniorTable table').find('input').each(function (index, item) {
             switch ($(item).attr('name')) {
                 case "NewJuniorFirstname":
                 case "NewJuniorSurname":
@@ -82,11 +82,25 @@ ivNetMemberRegistrationDetails.controller('MemberRegistrationDetailsController',
             }
         });
         $('table').find('tfoot').hide();
-        $('table#newJuniorTable').show();
+        $('div#newJuniorTable').show();
     };
 
+    $scope.clearGuardianSearch = function () {    
+        clearSearch();
+    };
+
+    $scope.searchGuardian = function () {
+
+        var searchTerm = $('input[name="GuardianSearchEmail"]').val();
+        if (searchTerm.length > 0) {
+            guardianSearch(searchTerm);
+        }
+
+    };
+
+
     $scope.blurEmailCallback = function (evt) {
-        alert("cakes");
+
         if (evt.target.value.length > 0) {
             checkEmailDuplicates(evt.target.value);
         }
@@ -114,4 +128,52 @@ ivNetMemberRegistrationDetails.controller('MemberRegistrationDetailsController',
             }
         });
     }
+
+    function guardianSearch(email) {
+
+        $.ajax({
+            url: '/api/club/guardian/' + email + '/email-search',
+            type: 'GET',
+            success: function (data) {
+                if (data != null) {
+                    
+                    $scope.NewGuardianFirstname = data.Firstname;
+                    $scope.NewGuardianSurname = data.Surname;
+                    $scope.NewGuardianNickname = data.Nickname;
+                    $scope.NewGuardianEmail = data.Email;
+                    $scope.NewGuardianMobile = data.Mobile;
+                    $scope.NewGuardianOtherTelephone = data.OtherTelephone;
+                    $scope.NewGuardianAddress = data.Address;
+                    $scope.NewGuardianTown = data.Town;
+                    $scope.NewGuardianPostcode = data.Postcode;
+
+                    $('input[name="NewGuardianSurname"').attr('disabled', '');
+                    $('input[name="NewGuardianFirstname"').attr('disabled', '');
+                    $('input[name="NewGuardianEmail"').attr('disabled', '');
+                } 
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
+                alert("Error '" + jqXhr.status + "' (textStatus: '" + textStatus + "', errorThrown: '" + errorThrown + "')");
+            }
+        });
+    }
+
+    function clearSearch() {
+    
+        $scope.NewGuardianFirstname = "";
+        $scope.NewGuardianSurname = "";
+        $scope.NewGuardianNickname = "";
+        $scope.NewGuardianEmail = "";
+        $scope.NewGuardianMobile = "";
+        $scope.NewGuardianOtherTelephone = "";
+        $scope.NewGuardianAddress = "";
+        $scope.NewGuardianTown = "";
+        $scope.NewGuardianPostcode = "";
+
+        $('input[name="NewGuardianSurname"').removeAttr('disabled');
+        $('input[name="NewGuardianFirstname"').removeAttr('disabled');
+        $('input[name="NewGuardianEmail"').removeAttr('disabled');
+
+    };
+
 });

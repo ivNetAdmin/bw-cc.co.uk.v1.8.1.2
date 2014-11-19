@@ -12,6 +12,7 @@ namespace ivNet.Club.Services
     {
         RegistrationViewModel GetByUserId(int id);
         RegisteredGuardianViewModel GetRegisteredUser();
+        GuardianViewModel GetByEmail(string email);
     }
 
     public class GuardianServices : IGuardianServices
@@ -73,6 +74,20 @@ namespace ivNet.Club.Services
                 }
 
                 return registrationViewModel;
+            }
+        }
+
+        public GuardianViewModel GetByEmail(string email)
+        {
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                var guardianViewModel = new GuardianViewModel();
+
+                var guardian = session.CreateCriteria(typeof (Guardian))
+                    .List<Guardian>().FirstOrDefault(x => x.ContactDetail.Email.Equals(email));
+
+                return MapperHelper.Map(guardianViewModel, guardian);
+
             }
         }
     }

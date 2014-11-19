@@ -34,14 +34,17 @@ namespace ivNet.Club.Controllers.Api
 
                         return Request.CreateResponse(HttpStatusCode.OK);
                   
-                    case "userid":
-                        var guardian = _guardianServices.GetByUserId(Convert.ToInt32(id));
-                        return Request.CreateResponse(HttpStatusCode.OK, guardian);
+                    case "userid":                
+                        return Request.CreateResponse(HttpStatusCode.OK, 
+                            _guardianServices.GetByUserId(Convert.ToInt32(id)));
 
                     case "user":
-                        var registrationViewModel = _guardianServices.GetRegisteredUser();
-                        //, MapperHelper.Map(new UserViewModel(), user)
-                        return Request.CreateResponse(HttpStatusCode.OK, registrationViewModel);
+                        return Request.CreateResponse(HttpStatusCode.OK, 
+                            _guardianServices.GetRegisteredUser());
+
+                    case "email-search":
+                        return Request.CreateResponse(HttpStatusCode.OK,
+                            _guardianServices.GetByEmail(id));
                 }
 
                 throw new Exception(string.Format("Unknown paramters ,[{0}],[{1}]", id, type));
