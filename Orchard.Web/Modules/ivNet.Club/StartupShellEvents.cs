@@ -27,9 +27,13 @@ namespace ivNet.Club
 
             #region entities->models
 
+            Mapper.CreateMap<AddressDetail, AddressViewModel>();
+            Mapper.CreateMap<ContactDetail, ContactViewModel>();
             Mapper.CreateMap<ConfigurationItem, ConfigurationItemViewModel>();
             Mapper.CreateMap<Member, MemberViewModel>()
                 .ForMember(v => v.MemberId, m => m.MapFrom(e => e.Id));
+            Mapper.CreateMap<Junior, JuniorViewModel>();
+               // .ForMember(v => v., m => m.MapFrom(e => e.Id));
             Mapper.CreateMap<IUser, UserViewModel>();       
 
             #endregion

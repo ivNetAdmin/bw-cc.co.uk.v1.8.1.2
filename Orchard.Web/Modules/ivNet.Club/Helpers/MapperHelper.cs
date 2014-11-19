@@ -112,7 +112,22 @@ namespace ivNet.Club.Helpers
 
         #region entities->models
 
+        public static AddressViewModel Map(AddressViewModel viewModel, AddressDetail entity)
+        {
+            return Mapper.Map(entity, viewModel);
+        }
+
+        public static ContactViewModel Map(ContactViewModel viewModel, ContactDetail entity)
+        {
+            return Mapper.Map(entity, viewModel);
+        }
+
         public static MemberViewModel Map(MemberViewModel viewModel, Member entity)
+        {
+            return Mapper.Map(entity, viewModel);
+        }
+
+        public static JuniorViewModel Map(JuniorViewModel viewModel, Junior entity)
         {
             return Mapper.Map(entity, viewModel);
         }

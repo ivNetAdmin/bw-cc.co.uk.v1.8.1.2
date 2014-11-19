@@ -193,6 +193,7 @@
   <ItemGroup>
     <Compile Include="Controllers\AdminMemberController.cs" />
     <Compile Include="Controllers\Api\ConfigurationController.cs" />
+    <Compile Include="Controllers\Api\GuardianController.cs" />
     <Compile Include="Controllers\Api\MemberController.cs" />
     <Compile Include="Controllers\Api\FeeController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -238,6 +239,7 @@
     <Compile Include="Routes.cs" />
     <Compile Include="RoutesApi.cs" />
     <Compile Include="Services\BaseService.cs" />
+    <Compile Include="Services\GuardianServices.cs" />
     <Compile Include="Services\MemberServices.cs" />
     <Compile Include="Services\ConfigurationServices.cs" />
     <Compile Include="Services\RegistrationServices.cs" />

@@ -54,7 +54,7 @@ namespace ivNet.Club.Controllers.Api
                 else
                 {
                     // get gaurdians
-                    memberList[0].Guardians = _memberServices.GetGuardians(id);
+                   // memberList[0].Guardians = _memberServices.GetGuardians(id);
 
                     // get fees
                 }

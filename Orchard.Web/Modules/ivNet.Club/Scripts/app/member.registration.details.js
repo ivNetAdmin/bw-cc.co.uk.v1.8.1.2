@@ -8,23 +8,40 @@ ivNetMemberRegistrationDetails.factory('memberRegistrationDetails', function ($r
     });
 });
 
-ivNetMemberRegistrationDetails.controller('MemberRegistrationDetailsController', function($scope, memberRegistrationDetails) {
+ivNetMemberRegistrationDetails.factory('guardianRegistrationDetails', function ($resource) {
+    return $resource('/api/club/guardian/:id/:type', null,
+    {
+        'query': { method: 'GET', isArray: false },
+        'update': { method: 'PUT' }
+    });
+});
 
-    memberRegistrationDetails.query({ id: "authenticated", type: "user" },
-        function(userModel) {
-            $scope.authenticatedUserId = userModel.Id;
+ivNetMemberRegistrationDetails.controller('MemberRegistrationDetailsController', function ($scope, memberRegistrationDetails, guardianRegistrationDetails) {
 
-            memberRegistrationDetails.query({ id: $scope.authenticatedUserId, type: "userid" },
-                function(data) {
-                    $scope.items = data;
-                },
-                function(error) {
-                    alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
-                });
+    guardianRegistrationDetails.query({ id: "registered", type: "user" },
+               function (data) {
+                   $scope.items = data;
+               },
+               function (error) {
+                   alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
+               });
 
-        },
-        function(error) {
-            alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
-        });
+    //memberRegistrationDetails.query({ id: "authenticated", type: "user" },
+    //    function(userModel) {
+    //        $scope.authenticatedUserId = userModel.Id;
+    //        $scope.authenticatedUserName = userModel.Username;
 
-});p
+    //        guardianRegistrationDetails.query({ id: "authenticated", type: "user" },
+    //            function(data) {
+    //                $scope.items = data;
+    //            },
+    //            function(error) {
+    //                alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
+    //            });
+
+    //    },
+    //    function(error) {
+    //        alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
+    //    });
+
+});
