@@ -117,6 +117,12 @@ namespace ivNet.Club.Controllers
         }
 
         [HttpPost]
+        public ActionResult Update(FormCollection form)
+        {
+            return new RedirectResult("~/club/member/registraion-details");            
+        }
+
+        [HttpPost]
         public ActionResult ValidateCaptcha(FormCollection form)
         {
             var cientIP = Request.ServerVariables["REMOTE_ADDR"];

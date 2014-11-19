@@ -11,7 +11,7 @@ namespace ivNet.Club.Services
     public interface IGuardianServices : IDependency
     {
         RegistrationViewModel GetByUserId(int id);
-        RegistrationViewModel GetRegisteredUser();
+        RegisteredGuardianViewModel GetRegisteredUser();
     }
 
     public class GuardianServices : IGuardianServices
@@ -46,27 +46,29 @@ namespace ivNet.Club.Services
             }
         }
 
-        public RegistrationViewModel GetRegisteredUser()
+        public RegisteredGuardianViewModel GetRegisteredUser()
         {
             var user = _authenticationService.GetAuthenticatedUser();
 
             using (var session = NHibernateHelper.OpenSession())
             {
-                var registrationViewModel = new RegistrationViewModel();
+                var registrationViewModel = new RegisteredGuardianViewModel();
 
                 var guardian = session.CreateCriteria(typeof(Guardian))
                     .List<Guardian>().FirstOrDefault(x => x.Member.UserId.Equals(user.Id));
                 if (guardian != null)
                 {
-                    MapperHelper.Map(registrationViewModel.MemberViewModel, guardian.Member);
-                    MapperHelper.Map(registrationViewModel.AddressViewModel, guardian.AddressDetail);
-                    MapperHelper.Map(registrationViewModel.ContactViewModel, guardian.ContactDetail);
+                    var memberDetailViewModel = new MemberDetailViewModel();
+                    MapperHelper.Map(memberDetailViewModel, guardian.Member);
+                    MapperHelper.Map(memberDetailViewModel, guardian.AddressDetail);
+                    MapperHelper.Map(memberDetailViewModel, guardian.ContactDetail);
+                    registrationViewModel.MemberDetails.Add(memberDetailViewModel);
 
                     foreach (var junior in guardian.Juniors)
                     {
-                        var juniorViewModel = new JuniorViewModel();
-                        juniorViewModel = MapperHelper.Map(juniorViewModel, junior);
-                        registrationViewModel.JuniorList.Add(juniorViewModel);
+                        var juniorDetailViewModel = new JuniorDetailViewModel();
+                        MapperHelper.Map(juniorDetailViewModel, junior);
+                        registrationViewModel.JuniorList.Add(juniorDetailViewModel);
                     }
                 }
 

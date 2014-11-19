@@ -6,13 +6,7 @@ using System.Web;
 namespace ivNet.Club.ViewModel
 {
     public class MemberViewModel
-    {
-        public MemberViewModel()
-        {
-          //  Guardians=new List<GuardianViewModel>();
-          //  Juniors=new List<JuniorViewModel>();
-        }
-
+    {        
         public string MemberKey { get; set; }
 
         public string Surname { get; set; }
@@ -25,7 +19,6 @@ namespace ivNet.Club.ViewModel
         public DateTime? Dob { get; set; }
         public string MemberType { get; set; }
         public byte IsActive { get; set; }
-      //  public List<GuardianViewModel> Guardians { get; set; }
-      //  public List<JuniorViewModel> Juniors { get; set; }
+    
     }
 }

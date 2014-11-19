@@ -112,6 +112,26 @@ namespace ivNet.Club.Helpers
 
         #region entities->models
 
+        public static JuniorDetailViewModel Map(JuniorDetailViewModel viewModel, Junior entity)
+        {
+            return Mapper.Map(entity, viewModel);
+        }
+
+        public static MemberDetailViewModel Map(MemberDetailViewModel viewModel, Member entity)
+        {
+            return Mapper.Map(entity, viewModel);
+        }
+
+        public static MemberDetailViewModel Map(MemberDetailViewModel viewModel, AddressDetail entity)
+        {
+            return Mapper.Map(entity, viewModel);
+        }
+
+        public static MemberDetailViewModel Map(MemberDetailViewModel viewModel, ContactDetail entity)
+        {
+            return Mapper.Map(entity, viewModel);
+        }
+
         public static AddressViewModel Map(AddressViewModel viewModel, AddressDetail entity)
         {
             return Mapper.Map(entity, viewModel);
@@ -237,6 +257,6 @@ namespace ivNet.Club.Helpers
             viewModel.IsActive = entity.IsActive;
             return viewModel;
         }
-        #endregion       
+        #endregion
     }
 }
