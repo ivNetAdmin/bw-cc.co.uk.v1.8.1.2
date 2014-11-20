@@ -149,6 +149,7 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Views\Member\_Other.cshtml" />
+    <None Include="Views\Member\_RegistrationJuniorDetails.cshtml" />
     <Content Include="Views\Member\_RegistrationType.cshtml" />
     <Content Include="Views\Member\__Address.cshtml">
       <SubType>Code</SubType>
@@ -189,6 +190,9 @@
     <Content Include="Views\AdminMember\Activate.cshtml" />
     <Content Include="Views\AdminMember\List.cshtml" />
     <Content Include="Views\Member\RegistrationDetails.cshtml" />
+    <Content Include="Views\Member\_RegistrationAddGuardian.cshtml" />
+    <Content Include="Views\Member\_RegistrationMemberDetails.cshtml" />
+    <Content Include="Views\Member\_RegistrationAddJunior.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AdminMemberController.cs" />

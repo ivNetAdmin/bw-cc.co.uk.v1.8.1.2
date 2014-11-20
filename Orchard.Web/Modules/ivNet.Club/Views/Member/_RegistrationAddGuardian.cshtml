@@ -1,0 +1,49 @@
+﻿<input type="button" value="Add a Guardian" class="btn btn-primary" ng-click="addGuardian()" />
+<input name="NewGuardianId" ng-model="NewGuardianId" type="hidden" />
+<div id="newGuardianTable">
+    <table tr-ng-grid='' items='newMemberDetails' enable-filtering="false" enable-sorting="false">
+        <thead>
+            <tr>
+                <th field-name="Firstname" display-name="Firstname"></th>
+                <th field-name="Surname" display-name="Surname"></th>
+                <th field-name="Nickname" display-name="Nickname"></th>
+                <th field-name="Mobile" display-name="Mobile"></th>
+                <th field-name="OtherTelephone" display-name="Other Tel."></th>
+                <th field-name="Email" display-name="Email"></th>
+                <th field-name="Address" display-name="Address"></th>
+                <th field-name="Town" display-name="Town"></th>
+                <th field-name="Postcode" display-name="Postcode"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td field-name="Firstname"><input name="NewGuardianFirstname" ng-model="NewGuardianFirstname" type="text" placeholder="Firstname" class="form-control input-md" /></td>
+                <td field-name="Surname"><input name="NewGuardianSurname" ng-model="NewGuardianSurname" type="text" placeholder="Surname" class="form-control input-md" /></td>
+                <td field-name="Nickname"><input name="NewGuardianNickname" ng-model="NewGuardianNickname" type="text" placeholder="Nickname" class="form-control input-md" /></td>
+                <td field-name="Email">
+                    <input id="NewGuardianEmail" name="NewGuardianEmail" ng-model="NewGuardianEmail" type="email" placeholder="Email" class="form-control input-md" ui-event="{ blur : 'blurEmailCallback($event)' }" />
+                    <input name="NewGuardianEmailAgain" type="email" placeholder="Email Again" class="form-control input-md validate[required,equals[Newguardianemail]]" />
+                    <div id="dupError" class="form-group">
+                        <p class="error"></p>
+                    </div>
+                </td>
+                <td field-name="Mobile"><input name="NewGuardianMobile" ng-model="NewGuardianMobile" type="tel" placeholder="Mobile" class="form-control input-md" /></td>
+                <td field-name="OtherTelephone"><input name="NewGuardianOtherTelephone" ng-model="NewGuardianOtherTelephone" type="tel" placeholder="Other Telephone Number" class="form-control input-md" /></td>
+                <td field-name="Address"><input name="NewGuardianAddress" type="text" ng-model="NewGuardianAddress" placeholder="Address" class="form-control input-md" /></td>
+                <td field-name="Town"><input name="NewGuardianTown" type="text" ng-model="NewGuardianTown" placeholder="Town" class="form-control input-md" /></td>
+                <td field-name="Postcode"><input name="NewGuardianPostcode" ng-model="NewGuardianPostcode" type="text" placeholder="Postcode" class="form-control input-md" /></td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="form-group">
+        <div class=" col-md-4">
+            <input name="GuardianSearchEmail" type="email" placeholder="Email" class="form-control input-md" />
+        </div>
+        <span class="col-md-3">
+            <input type="button" value="Guardian search" class="btn btn-warning" ng-click="searchGuardian()" />
+            <input type="button" value="Clear search" class="btn btn-warning" ng-click="clearGuardianSearch()" />
+        </span>
+        <span class="col-md-2 search-result">{{SearchResult}}</span>
+
+    </div>
+</div>

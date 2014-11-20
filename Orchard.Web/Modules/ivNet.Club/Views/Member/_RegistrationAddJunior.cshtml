@@ -1,0 +1,25 @@
+﻿<input type="button" value="Add a Junior" class="btn btn-primary" ng-click="addJunior()" />
+<div id="newJuniorTable">
+    <table tr-ng-grid='' items='newJuniors' enable-filtering="false" enable-sorting="false">
+        <thead>
+            <tr>
+                <th field-name="Firstname" display-name="Firstname"></th>
+                <th field-name="Surname" display-name="Surname"></th>
+                <th field-name="Nickname" display-name="Nickname"></th>
+                <th field-name="Dob" display-name="DOB" display-format="editDateField:gridItem"></th>
+                <th field-name="School" display-name="School"></th>
+                <th field-name="Notes" display-name="Notes"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td field-name="Firstname"><input name="NewJuniorFirstname" type="text" placeholder="Firstname" class="form-control input-md" /></td>
+                <td field-name="Surname"><input name="NewJuniorSurname" type="text" placeholder="Surname" class="form-control input-md" /></td>
+                <td field-name="Nickname"><input name="NewJuniorNickname" type="text" placeholder="Nickname" class="form-control input-md" /></td>
+                <td field-name="Dob"><input name="NewJuniorDob" type="date" class="form-control input-md" /></td>
+                <td field-name="School"><input name="NewJuniorSchool" type="text" placeholder="School" class="form-control input-md" /></td>
+                <td field-name="Notes"><textarea name="NewJuniorNotes" placeholder="Notes" class="form-control input-md"></textarea></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

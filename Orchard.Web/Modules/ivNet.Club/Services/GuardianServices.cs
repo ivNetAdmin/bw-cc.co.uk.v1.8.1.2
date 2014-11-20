@@ -86,8 +86,7 @@ namespace ivNet.Club.Services
                 var guardian = session.CreateCriteria(typeof (Guardian))
                     .List<Guardian>().FirstOrDefault(x => x.ContactDetail.Email.Equals(email));
 
-                return MapperHelper.Map(guardianViewModel, guardian);
-
+                return guardian == null ? null : MapperHelper.Map(guardianViewModel, guardian);
             }
         }
     }

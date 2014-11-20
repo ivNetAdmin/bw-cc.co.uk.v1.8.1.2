@@ -1,13 +1,4 @@
 ﻿
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text;
-using System.Web.Mvc;
-using System.Web.Routing;
 using ivNet.Club.Helpers;
 using ivNet.Club.Services;
 using ivNet.Club.ViewModel;
@@ -16,6 +7,13 @@ using Orchard.Localization;
 using Orchard.Logging;
 using Orchard.Security;
 using Orchard.Themes;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Web.Mvc;
 
 namespace ivNet.Club.Controllers
 {

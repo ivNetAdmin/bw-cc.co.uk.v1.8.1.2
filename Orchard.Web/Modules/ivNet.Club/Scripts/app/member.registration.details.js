@@ -136,21 +136,33 @@ ivNetMemberRegistrationDetails.controller('MemberRegistrationDetailsController',
             type: 'GET',
             success: function (data) {
                 if (data != null) {
-                    
-                    $scope.NewGuardianFirstname = data.Firstname;
-                    $scope.NewGuardianSurname = data.Surname;
-                    $scope.NewGuardianNickname = data.Nickname;
-                    $scope.NewGuardianEmail = data.Email;
-                    $scope.NewGuardianMobile = data.Mobile;
-                    $scope.NewGuardianOtherTelephone = data.OtherTelephone;
-                    $scope.NewGuardianAddress = data.Address;
-                    $scope.NewGuardianTown = data.Town;
-                    $scope.NewGuardianPostcode = data.Postcode;
 
-                    $('input[name="NewGuardianSurname"').attr('disabled', '');
-                    $('input[name="NewGuardianFirstname"').attr('disabled', '');
-                    $('input[name="NewGuardianEmail"').attr('disabled', '');
-                } 
+                    $scope.$apply(function() {
+
+                        $scope.NewGuardianId = data.GuardianId;
+                        $scope.NewGuardianFirstname = data.Firstname;
+                        $scope.NewGuardianSurname = data.Surname;
+                        $scope.NewGuardianNickname = data.Nickname;
+                        $scope.NewGuardianEmail = data.Email;
+                        $scope.NewGuardianMobile = data.Mobile;
+                        $scope.NewGuardianOtherTelephone = data.OtherTelephone;
+                        $scope.NewGuardianAddress = data.Address;
+                        $scope.NewGuardianTown = data.Town;
+                        $scope.NewGuardianPostcode = data.Postcode;
+
+                        $scope.SearchResult = "Guardian found...";
+                    });
+
+                    $('input[name="NewGuardianSurname"]').attr('disabled', '');
+                    $('input[name="NewGuardianFirstname"]').attr('disabled', '');
+                    $('input[name="NewGuardianEmail"]').attr('disabled', '');
+                    $('input[name="NewGuardianEmailAgain"]').hide();
+
+                } else {
+                    $scope.$apply(function() {
+                        $scope.SearchResult = "No guardian found...";
+                    });
+                }
             },
             error: function (jqXhr, textStatus, errorThrown) {
                 alert("Error '" + jqXhr.status + "' (textStatus: '" + textStatus + "', errorThrown: '" + errorThrown + "')");
@@ -159,20 +171,28 @@ ivNetMemberRegistrationDetails.controller('MemberRegistrationDetailsController',
     }
 
     function clearSearch() {
-    
-        $scope.NewGuardianFirstname = "";
-        $scope.NewGuardianSurname = "";
-        $scope.NewGuardianNickname = "";
-        $scope.NewGuardianEmail = "";
-        $scope.NewGuardianMobile = "";
-        $scope.NewGuardianOtherTelephone = "";
-        $scope.NewGuardianAddress = "";
-        $scope.NewGuardianTown = "";
-        $scope.NewGuardianPostcode = "";
 
-        $('input[name="NewGuardianSurname"').removeAttr('disabled');
-        $('input[name="NewGuardianFirstname"').removeAttr('disabled');
-        $('input[name="NewGuardianEmail"').removeAttr('disabled');
+        $scope.$apply(function () {           
+            $scope.NewGuardianFirstname = "";
+            $scope.NewGuardianSurname = "";
+            $scope.NewGuardianNickname = "";
+            $scope.NewGuardianEmail = "";
+            $scope.NewGuardianMobile = "";
+            $scope.NewGuardianOtherTelephone = "";
+            $scope.NewGuardianAddress = "";
+            $scope.NewGuardianTown = "";
+            $scope.NewGuardianPostcode = "";
+           
+        });
+
+        $('input[name="NewGuardianSurname"]').removeAttr('disabled');
+        $('input[name="NewGuardianFirstname"]').removeAttr('disabled');
+        $('input[name="NewGuardianEmail"]').removeAttr('disabled');
+        $('input[name="NewGuardianId"]').val('');
+        $('input[name="GuardianSearchEmail"]').val('');
+        $('span.search-result').html('');
+        
+        $('input[name="NewGuardianEmailAgain"]').show();
 
     };
 
