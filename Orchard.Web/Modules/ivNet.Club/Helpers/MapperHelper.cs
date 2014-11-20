@@ -108,6 +108,33 @@ namespace ivNet.Club.Helpers
             return Mapper.Map(viewModel, entity);
         }
 
+        public static Member Map(Member entity, FormCollection viewModel)
+        {
+            entity.Surname = viewModel["NewJuniorSurname"];
+            entity.Firstname = viewModel["NewJuniorFirstname"];
+            entity.NickName = viewModel["NewJuniorNickName"];
+            entity.MemberKey =
+                    CustomStringHelper.BuildKey(new[]
+                    {                        
+                        entity.Surname,
+                        entity.Firstname
+                    });
+            return entity;
+        }
+
+        public static JuniorInfo Map(JuniorInfo entity, FormCollection viewModel)
+        {
+            entity.Notes = viewModel["NewJuniorNotes"];
+            entity.School = viewModel["NewJuniorSchool"];
+            return entity;
+        }
+
+        public static Junior Map(Junior entity, FormCollection viewModel)
+        {
+            entity.Dob = DateTime.Parse(viewModel["NewJuniorDob"]);
+            return entity;
+        }
+
         #endregion
 
         #region entities->models
@@ -258,5 +285,6 @@ namespace ivNet.Club.Helpers
             return viewModel;
         }
         #endregion
+       
     }
 }

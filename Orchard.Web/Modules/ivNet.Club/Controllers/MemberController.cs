@@ -1,4 +1,5 @@
 ﻿
+using ivNet.Club.Entities;
 using ivNet.Club.Helpers;
 using ivNet.Club.Services;
 using ivNet.Club.ViewModel;
@@ -88,8 +89,7 @@ namespace ivNet.Club.Controllers
                     // get junior club member details
                     for (var i = 1; i <= juniorCount; i++)
                     {
-                        var juniorViewModel = new JuniorViewModel();
-                        juniorViewModel.Dob = MapperHelper.MapNewDob(form, i);
+                        var juniorViewModel = new JuniorViewModel {Dob = MapperHelper.MapNewDob(form, i)};
 
                         MapperHelper.MapNewMember(juniorViewModel.MemberViewModel, form, i, "Junior");
                         MapperHelper.MapJuniorDetail(juniorViewModel, form, i);
@@ -117,6 +117,17 @@ namespace ivNet.Club.Controllers
         [HttpPost]
         public ActionResult Update(FormCollection form)
         {
+
+            var registrationUpdateList = new List<RegistrationUpdateViewModel>();
+
+
+            // add new junior
+            if (form["NewJuniorSurname"].Length > 0)
+            {
+                var newMember = MapperHelper.Map(new Member(), form);
+                var newJuniorDetail = MapperHelper.Map(new JuniorInfo(), form);
+                var newJunior = MapperHelper.Map(new Junior(), form);
+            }
             return new RedirectResult("~/club/member/registraion-details");            
         }
 

@@ -22,7 +22,7 @@
                 <td field-name="Nickname"><input name="NewGuardianNickname" ng-model="NewGuardianNickname" type="text" placeholder="Nickname" class="form-control input-md" /></td>
                 <td field-name="Email">
                     <input id="NewGuardianEmail" name="NewGuardianEmail" ng-model="NewGuardianEmail" type="email" placeholder="Email" class="form-control input-md" ui-event="{ blur : 'blurEmailCallback($event)' }" />
-                    <input name="NewGuardianEmailAgain" type="email" placeholder="Email Again" class="form-control input-md validate[required,equals[Newguardianemail]]" />
+                    <input name="NewGuardianEmailAgain" type="email" placeholder="Email Again" class="form-control input-md validate[required,equals[NewGuardianEmail]]" />
                     <div id="dupError" class="form-group">
                         <p class="error"></p>
                     </div>
