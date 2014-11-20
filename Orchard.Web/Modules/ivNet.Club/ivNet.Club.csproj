@@ -191,7 +191,7 @@
     <Content Include="Views\AdminMember\List.cshtml" />
     <Content Include="Views\Member\RegistrationDetails.cshtml" />
     <Content Include="Views\Member\_RegistrationAddGuardian.cshtml" />
-    <Content Include="Views\Member\_RegistrationMemberDetails.cshtml" />
+    <Content Include="Views\Member\_RegistrationGuardianDetails.cshtml" />
     <Content Include="Views\Member\_RegistrationAddJunior.cshtml" />
   </ItemGroup>
   <ItemGroup>

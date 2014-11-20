@@ -1,8 +1,10 @@
 ﻿
+using System.Collections.Generic;
 using System.Linq;
 using ivNet.Club.Entities;
 using ivNet.Club.Helpers;
 using ivNet.Club.ViewModel;
+using NHibernate.Mapping;
 using Orchard;
 using Orchard.Security;
 
@@ -57,14 +59,21 @@ namespace ivNet.Club.Services
 
                 var guardian = session.CreateCriteria(typeof(Guardian))
                     .List<Guardian>().FirstOrDefault(x => x.Member.UserId.Equals(user.Id));
+
                 if (guardian != null)
                 {
-                    var memberDetailViewModel = new MemberDetailViewModel();
-                    MapperHelper.Map(memberDetailViewModel, guardian.Member);
-                    MapperHelper.Map(memberDetailViewModel, guardian.AddressDetail);
-                    MapperHelper.Map(memberDetailViewModel, guardian.ContactDetail);
-                    registrationViewModel.MemberDetails.Add(memberDetailViewModel);
 
+                    var associatedGuardianList = guardian.Juniors[0].Guardians;
+
+                    foreach (var associatedGuardian in associatedGuardianList)
+                    {
+                        var memberDetailViewModel = new MemberDetailViewModel();
+                        MapperHelper.Map(memberDetailViewModel, associatedGuardian.Member);
+                        MapperHelper.Map(memberDetailViewModel, associatedGuardian.AddressDetail);
+                        MapperHelper.Map(memberDetailViewModel, associatedGuardian.ContactDetail);
+                        registrationViewModel.MemberDetails.Add(memberDetailViewModel);                        
+                    }
+                  
                     foreach (var junior in guardian.Juniors)
                     {
                         var juniorDetailViewModel = new JuniorDetailViewModel();
@@ -76,7 +85,7 @@ namespace ivNet.Club.Services
                 return registrationViewModel;
             }
         }
-
+       
         public GuardianViewModel GetByEmail(string email)
         {
             using (var session = NHibernateHelper.OpenSession())
@@ -88,6 +97,6 @@ namespace ivNet.Club.Services
 
                 return guardian == null ? null : MapperHelper.Map(guardianViewModel, guardian);
             }
-        }
+        }       
     }
 }
