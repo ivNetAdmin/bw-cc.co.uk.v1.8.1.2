@@ -118,12 +118,43 @@ namespace ivNet.Club.Controllers
         public ActionResult Update(FormCollection form)
         {
 
-            var registrationUpdateList = new List<RegistrationUpdateViewModel>();
+            var registrationUpdateList = new RegistrationUpdateViewModel();
 
+            // current guardians
+            var guardianCount = Convert.ToInt32(form["GuardianCount"]);
 
-            // add new junior
+            for (var i = 1; i <= guardianCount; i++)
+            {
+                var registrationViewModel = new RegistrationViewModel();
+
+                MapperHelper.MapNewMember(registrationViewModel.MemberViewModel, form, i, "Guardian");
+                MapperHelper.MapNewContactDetail(registrationViewModel.ContactViewModel, form, i);
+                MapperHelper.MapNewAddressDetail(registrationViewModel.AddressViewModel, form, i);
+
+                registrationUpdateList.Guardians.Add(registrationViewModel);
+            }
+
+            // current juniors
+            var juniorCount = Convert.ToInt32(form["JuniorCount"]);
+         
+            // get junior club member details
+            for (var i = 1; i <= juniorCount; i++)
+            {
+                var juniorViewModel = new JuniorViewModel {Dob = MapperHelper.MapNewDob(form, i)};
+
+                MapperHelper.MapNewMember(juniorViewModel.MemberViewModel, form, i, "Junior");
+                MapperHelper.MapJuniorDetail(juniorViewModel, form, i);
+
+                registrationUpdateList.Juniors.Add(juniorViewModel);
+
+            }
+            
+
+        // add new junior
             if (form["NewJuniorSurname"].Length > 0)
             {
+                var newJuniorViewModel = new JuniorViewModel();
+                
                 var newMember = MapperHelper.Map(new Member(), form);
                 var newJuniorDetail = MapperHelper.Map(new JuniorInfo(), form);
                 var newJunior = MapperHelper.Map(new Junior(), form);

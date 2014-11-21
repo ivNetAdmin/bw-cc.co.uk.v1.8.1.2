@@ -17,6 +17,10 @@ namespace ivNet.Club.Helpers
         public static void MapNewMember(MemberViewModel viewModel, FormCollection form, int counter,
             string memberType)
         {
+            if (!string.IsNullOrEmpty(form[string.Format("{0}-MemberNo-{1}", memberType, counter)]))
+            {
+                viewModel.MemberId =Convert.ToInt32(form[string.Format("{0}-MemberNo-{1}", memberType, counter)]);
+            }
             viewModel.Surname = form[string.Format("{0}-Surname-{1}", memberType, counter)];
             viewModel.Firstname = form[string.Format("{0}-Firstname-{1}", memberType, counter)];
             viewModel.NickName = form[string.Format("{0}-NickName-{1}", memberType, counter)];

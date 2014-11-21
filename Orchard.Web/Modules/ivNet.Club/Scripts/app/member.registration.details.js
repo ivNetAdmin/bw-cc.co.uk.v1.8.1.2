@@ -43,6 +43,9 @@ ivNetMemberRegistrationDetails.controller('MemberRegistrationDetailsController',
                 $scope.newMemberDetails = data.NewMemberDetails;
                 $scope.newJuniors = data.NewJuniorList;
 
+                $scope.guardianCount = data.MemberDetails.length;
+                $scope.juniorCount = data.JuniorList.length;
+
                 $('table').find('tfoot').hide();
             },
             function(error) {
