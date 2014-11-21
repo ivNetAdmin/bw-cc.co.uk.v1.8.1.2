@@ -9,6 +9,7 @@ namespace ivNet.Club.ViewModel
         public RegistrationUpdateViewModel()
         {
             Guardians=new List<RegistrationViewModel>();
+            Juniors = new List<JuniorViewModel>();
         }
 
         public List<RegistrationViewModel> Guardians { get; set; }

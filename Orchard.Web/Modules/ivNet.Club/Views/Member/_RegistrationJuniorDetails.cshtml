@@ -11,10 +11,10 @@
     </thead>
     <tbody>
         <tr>
-            <td field-name="Nickname"><input name="Junior-MemberNo-{{$index+1}}" type="hidden" value="{{gridDisplayItem.MemberNo}}" /><input name="JuniorNickname-{{$index+1}}" type="text" value="{{gridDisplayItem.Nickname}}" class="form-control input-md" /></td>
-            <td field-name="Dob"><input name="Junior-Dob-{{$index+1}}" type="date" value="{{gridDisplayItem.Dob}}" class="form-control input-md" required="" /></td>
-            <td field-name="School"><input name="Junior-School-{{$index+1}}" type="text" value="{{gridDisplayItem.School}}" class="form-control input-md" /></td>
-            <td field-name="Notes"><textarea name="Junior-Notes-{{$index+1}}" class="form-control input-md">{{gridDisplayItem.Notes}}</textarea></td>
+            <td field-name="Nickname"><input name="Junior-MemberNo-{{$index+1}}" type="hidden" value="{{gridDisplayItem.MemberNo}}" /><input name="Junior-Nickname-{{$index+1}}" type="text" value="{{gridDisplayItem.Nickname}}" class="form-control input-md" /></td>
+            <td field-name="Dob"><input name="Dob-{{$index+1}}" type="date" value="{{gridDisplayItem.Dob}}" class="form-control input-md" required="" /></td>
+            <td field-name="School"><input name="School-{{$index+1}}" type="text" value="{{gridDisplayItem.School}}" class="form-control input-md" /></td>
+            <td field-name="Notes"><textarea name="Notes-{{$index+1}}" class="form-control input-md">{{gridDisplayItem.Notes}}</textarea></td>
         </tr>
     </tbody>
 </table>

@@ -57,12 +57,12 @@ ivNetMemberRegistrationDetails.controller('MemberRegistrationDetailsController',
 
         $('div#newGuardianTable table').find('input').each(function(index, item) {
             switch($(item).attr('name')){
-                case "NewGuardianFirstname":
-                case "NewGuardianSurname":
-                case "NewGuardianMobile":
-                case "NewGuardianEmail":
-                case "NewGuardianAddress":
-                case "NewGuardianPostcode":
+                case "Guardian-Firstname":
+                case "Guardian-Surname":
+                case "Mobile":
+                case "Email":
+                case "Address":
+                case "Postcode":
 
                     $(item).attr('required','');
                     break;
@@ -76,9 +76,9 @@ ivNetMemberRegistrationDetails.controller('MemberRegistrationDetailsController',
     $scope.addJunior = function () {
         $('div#newJuniorTable table').find('input').each(function (index, item) {
             switch ($(item).attr('name')) {
-                case "NewJuniorFirstname":
-                case "NewJuniorSurname":
-                case "NewJuniorDob":
+                case "Junior-Firstname":
+                case "Junior-Surname":
+                case "Dob":
 
                     $(item).attr('required', '');
                     break;

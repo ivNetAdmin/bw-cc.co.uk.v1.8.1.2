@@ -14,8 +14,8 @@ namespace ivNet.Club.Helpers
     {
         #region form->models
 
-        public static void MapNewMember(MemberViewModel viewModel, FormCollection form, int counter,
-            string memberType)
+        public static void MapNewMember(MemberViewModel viewModel, FormCollection form,
+            string memberType, int counter)
         {
             if (!string.IsNullOrEmpty(form[string.Format("{0}-MemberNo-{1}", memberType, counter)]))
             {
@@ -41,8 +41,29 @@ namespace ivNet.Club.Helpers
                         form[string.Format("Email-{0}", counter)]
                     });
             }
-        }     
+        }
 
+        public static void Map(MemberViewModel viewModel, FormCollection form, string memberType)
+        {
+            viewModel.Surname = form[string.Format("{0}-Surname", memberType)];
+            viewModel.Firstname = form[string.Format("{0}-Firstname", memberType)];
+            viewModel.NickName = form[string.Format("{0}-Nickname", memberType)];
+            if (memberType == "Junior")
+            {
+                viewModel.MemberKey = CustomStringHelper.BuildKey(new[] { viewModel.Surname, viewModel.Firstname });
+            }
+            else
+            {
+                viewModel.MemberKey = CustomStringHelper.BuildKey(new[] {form["Email"]});
+            }
+        }
+
+        public static void Map(JuniorViewModel viewModel, FormCollection form)
+        {
+            viewModel.Dob = DateTime.Parse(form[string.Format("Dob")]);
+            viewModel.School = form[string.Format("School")];
+            viewModel.Notes = form[string.Format("Notes")];            
+        }
         public static void MapNewContactDetail(ContactViewModel viewModel, FormCollection form, int counter)
         {
             viewModel.Email = form[string.Format("Email-{0}", counter)];
@@ -51,12 +72,27 @@ namespace ivNet.Club.Helpers
             viewModel.ContactDetailKey = CustomStringHelper.BuildKey(new[] { viewModel.Email });
         }
 
+        public static void MapNewContactDetail(ContactViewModel viewModel, FormCollection form)
+        {
+            viewModel.Email = form[string.Format("Email")];
+            viewModel.Mobile = form[string.Format("Mobile")];
+            viewModel.OtherTelephone = form[string.Format("OtherTelephone")];
+            viewModel.ContactDetailKey = CustomStringHelper.BuildKey(new[] { viewModel.Email });
+        }
 
         public static void MapNewAddressDetail(AddressViewModel viewModel, FormCollection form, int counter)
         {
             viewModel.Address = form[string.Format("Address-{0}", counter)];
             viewModel.Postcode = form[string.Format("Postcode-{0}", counter)];
             viewModel.Town = form[string.Format("Town-{0}", counter)];
+            viewModel.AddressDetailKey = CustomStringHelper.BuildKey(new[] { viewModel.Address, viewModel.Postcode });
+        }
+
+        public static void MapNewAddressDetail(AddressViewModel viewModel, FormCollection form)
+        {
+            viewModel.Address = form[string.Format("Address")];
+            viewModel.Postcode = form[string.Format("Postcode")];
+            viewModel.Town = form[string.Format("Town")];
             viewModel.AddressDetailKey = CustomStringHelper.BuildKey(new[] { viewModel.Address, viewModel.Postcode });
         }
 
@@ -76,10 +112,59 @@ namespace ivNet.Club.Helpers
             viewModel.ShirtSize = form[string.Format("Shirt-{0}", counter)];
             viewModel.ShortSize = form[string.Format("Shorts-{0}", counter)];
         }
-
+       
         #endregion
 
         #region models->entities
+
+        public static void Map(Guardian entity, JuniorViewModel viewModel)
+        {
+            foreach (var junior in entity.Juniors)
+            {
+                // if same junior map
+                var cakes = junior;
+            }
+
+            // if new junior add
+        }
+
+        public static void Map(Guardian entity, RegistrationViewModel viewModel)
+        {
+            // member details
+            if (!string.IsNullOrEmpty(viewModel.MemberViewModel.Firstname))
+                entity.Member.Firstname = viewModel.MemberViewModel.Firstname;
+
+            if (!string.IsNullOrEmpty(viewModel.MemberViewModel.Surname))
+                entity.Member.Surname = viewModel.MemberViewModel.Surname;
+
+            if (!string.IsNullOrEmpty(viewModel.MemberViewModel.Surname))
+                entity.Member.Surname = viewModel.MemberViewModel.Surname;
+
+            entity.Member.NickName = viewModel.MemberViewModel.NickName;       
+
+            if (!string.IsNullOrEmpty(entity.Member.MemberKey))
+                entity.Member.MemberKey = CustomStringHelper.BuildKey(new[] {viewModel.ContactViewModel.Email});
+
+            // contact details
+            if (!string.IsNullOrEmpty(viewModel.ContactViewModel.Email))
+                entity.ContactDetail.Email = viewModel.ContactViewModel.Email;
+
+            if (!string.IsNullOrEmpty(viewModel.ContactViewModel.Mobile))
+                entity.ContactDetail.Mobile = viewModel.ContactViewModel.Mobile;
+
+            entity.ContactDetail.OtherTelephone = viewModel.ContactViewModel.OtherTelephone;
+
+            if (!string.IsNullOrEmpty(entity.ContactDetail.ContactDetailKey))
+            entity.ContactDetail.ContactDetailKey = CustomStringHelper.BuildKey(new[] { entity.ContactDetail.Email });
+
+            // address details
+            entity.AddressDetail.Address = viewModel.AddressViewModel.Address;
+            entity.AddressDetail.Postcode = viewModel.AddressViewModel.Postcode;
+            entity.AddressDetail.Town = viewModel.AddressViewModel.Town;
+
+            entity.AddressDetail.AddressDetailKey =
+                CustomStringHelper.BuildKey(new[] {entity.AddressDetail.Address, entity.AddressDetail.Postcode});
+        }
 
         public static Member Map(Member entity, MemberViewModel viewModel)
         {
@@ -288,7 +373,6 @@ namespace ivNet.Club.Helpers
             viewModel.IsActive = entity.IsActive;
             return viewModel;
         }
-        #endregion
-       
+        #endregion       
     }
 }

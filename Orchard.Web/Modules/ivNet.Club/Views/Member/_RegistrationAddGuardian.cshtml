@@ -17,21 +17,21 @@
         </thead>
         <tbody>
             <tr>
-                <td field-name="Firstname"><input name="NewGuardianFirstname" ng-model="NewGuardianFirstname" type="text" placeholder="Firstname" class="form-control input-md" /></td>
-                <td field-name="Surname"><input name="NewGuardianSurname" ng-model="NewGuardianSurname" type="text" placeholder="Surname" class="form-control input-md" /></td>
-                <td field-name="Nickname"><input name="NewGuardianNickname" ng-model="NewGuardianNickname" type="text" placeholder="Nickname" class="form-control input-md" /></td>
+                <td field-name="Firstname"><input name="Guardian-Firstname" ng-model="NewGuardianFirstname" type="text" placeholder="Firstname" class="form-control input-md" /></td>
+                <td field-name="Surname"><input name="Guardian-Surname" ng-model="NewGuardianSurname" type="text" placeholder="Surname" class="form-control input-md" /></td>
+                <td field-name="Nickname"><input name="Guardian-Nickname" ng-model="NewGuardianNickname" type="text" placeholder="Nickname" class="form-control input-md" /></td>
                 <td field-name="Email">
-                    <input id="NewGuardianEmail" name="NewGuardianEmail" ng-model="NewGuardianEmail" type="email" placeholder="Email" class="form-control input-md" ui-event="{ blur : 'blurEmailCallback($event)' }" />
-                    <input name="NewGuardianEmailAgain" type="email" placeholder="Email Again" class="form-control input-md validate[required,equals[NewGuardianEmail]]" />
+                    <input id="Email" name="Email" ng-model="NewGuardianEmail" type="email" placeholder="Email" class="form-control input-md" ui-event="{ blur : 'blurEmailCallback($event)' }" />
+                    <input name="NewGuardianEmailAgain" type="email" placeholder="Email Again" class="form-control input-md validate[required,equals[Email]]" />
                     <div id="dupError" class="form-group">
                         <p class="error"></p>
                     </div>
                 </td>
-                <td field-name="Mobile"><input name="NewGuardianMobile" ng-model="NewGuardianMobile" type="tel" placeholder="Mobile" class="form-control input-md" /></td>
-                <td field-name="OtherTelephone"><input name="NewGuardianOtherTelephone" ng-model="NewGuardianOtherTelephone" type="tel" placeholder="Other Telephone Number" class="form-control input-md" /></td>
-                <td field-name="Address"><input name="NewGuardianAddress" type="text" ng-model="NewGuardianAddress" placeholder="Address" class="form-control input-md" /></td>
-                <td field-name="Town"><input name="NewGuardianTown" type="text" ng-model="NewGuardianTown" placeholder="Town" class="form-control input-md" /></td>
-                <td field-name="Postcode"><input name="NewGuardianPostcode" ng-model="NewGuardianPostcode" type="text" placeholder="Postcode" class="form-control input-md" /></td>
+                <td field-name="Mobile"><input name="Mobile" ng-model="NewGuardianMobile" type="tel" placeholder="Mobile" class="form-control input-md" /></td>
+                <td field-name="OtherTelephone"><input name="OtherTelephone" ng-model="NewGuardianOtherTelephone" type="tel" placeholder="Other Telephone Number" class="form-control input-md" /></td>
+                <td field-name="Address"><input name="Address" type="text" ng-model="NewGuardianAddress" placeholder="Address" class="form-control input-md" /></td>
+                <td field-name="Town"><input name="Town" type="text" ng-model="NewGuardianTown" placeholder="Town" class="form-control input-md" /></td>
+                <td field-name="Postcode"><input name="Postcode" ng-model="NewGuardianPostcode" type="text" placeholder="Postcode" class="form-control input-md" /></td>
             </tr>
         </tbody>
     </table>

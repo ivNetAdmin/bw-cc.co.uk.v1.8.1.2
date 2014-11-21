@@ -7,6 +7,7 @@ using ivNet.Club.Entities;
 using ivNet.Club.Helpers;
 using ivNet.Club.ViewModel;
 using NHibernate;
+using NHibernate.Mapping;
 using Orchard;
 using Orchard.Data;
 using Orchard.Roles.Models;
@@ -20,6 +21,8 @@ namespace ivNet.Club.Services
         void CreateNewMember(NewMemberViewModel viewModel);
 
         void CreateGuardian(List<RegistrationViewModel> registrationList);
+        void UpdateGuardian(RegistrationUpdateViewModel registrationUpdateList);
+
         List<MemberViewModel> GetAll();
         List<MemberViewModel> Get(int id);
         List<GuardianViewModel> GetGuardians(int id);
@@ -29,7 +32,8 @@ namespace ivNet.Club.Services
         List<JuniorVettingViewModel> GetNonVetted();
         void Activate(int id, JuniorVettingViewModel item);
         
-        IUser AuthenticatedUser();        
+        IUser AuthenticatedUser();
+        
     }
 
     public class MemberServices : BaseService, IMemberServices
@@ -186,6 +190,44 @@ namespace ivNet.Club.Services
 
                         // add fees for this season
                         AddFee(session, guardian.Juniors);
+                    }
+
+                    transaction.Commit();
+                }
+            }
+        }
+
+        public void UpdateGuardian(RegistrationUpdateViewModel registrationUpdateList)
+        {
+            // add juniors to guardians
+            foreach (var registrationViewModel in registrationUpdateList.Guardians)
+            {
+                registrationViewModel.JuniorList.Clear();
+                foreach (var juniorViewModel in registrationUpdateList.Juniors)
+                {
+                    registrationViewModel.JuniorList.Add(juniorViewModel);
+                }
+            }
+
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                using (var transaction = session.BeginTransaction())
+                {
+                    // loop through guardians
+                    foreach (var registrationViewModel in registrationUpdateList.Guardians)
+                    {
+                        var guardian = session.CreateCriteria(typeof (Guardian))
+                            .List<Guardian>().FirstOrDefault(
+                            x => x.Member.Id.Equals(registrationViewModel.MemberViewModel.MemberId)) ?? new Guardian();
+
+                        MapperHelper.Map(guardian, registrationViewModel);
+
+                        // map juniors
+                        foreach (var juniorViewModel in registrationUpdateList.Juniors)
+                        {
+                            MapperHelper.Map(guardian, juniorViewModel);
+                        }
+
                     }
 
                     transaction.Commit();

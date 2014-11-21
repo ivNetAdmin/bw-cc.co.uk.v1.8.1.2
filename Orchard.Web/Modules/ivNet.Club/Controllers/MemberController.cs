@@ -1,4 +1,5 @@
 ﻿
+using System.Web.UI.WebControls.WebParts;
 using ivNet.Club.Entities;
 using ivNet.Club.Helpers;
 using ivNet.Club.Services;
@@ -73,7 +74,7 @@ namespace ivNet.Club.Controllers
                 {
                     var registrationViewModel = new RegistrationViewModel();
 
-                    MapperHelper.MapNewMember(registrationViewModel.MemberViewModel, form, i, "Adult");
+                    MapperHelper.MapNewMember(registrationViewModel.MemberViewModel, form, "Adult", i);
                     MapperHelper.MapNewContactDetail(registrationViewModel.ContactViewModel, form, i);
                     MapperHelper.MapNewAddressDetail(registrationViewModel.AddressViewModel, form, i);
 
@@ -91,7 +92,7 @@ namespace ivNet.Club.Controllers
                     {
                         var juniorViewModel = new JuniorViewModel {Dob = MapperHelper.MapNewDob(form, i)};
 
-                        MapperHelper.MapNewMember(juniorViewModel.MemberViewModel, form, i, "Junior");
+                        MapperHelper.MapNewMember(juniorViewModel.MemberViewModel, form, "Junior", i);
                         MapperHelper.MapJuniorDetail(juniorViewModel, form, i);
 
                         foreach (var registrationViewModel in registrationList)
@@ -117,49 +118,71 @@ namespace ivNet.Club.Controllers
         [HttpPost]
         public ActionResult Update(FormCollection form)
         {
-
-            var registrationUpdateList = new RegistrationUpdateViewModel();
-
-            // current guardians
-            var guardianCount = Convert.ToInt32(form["GuardianCount"]);
-
-            for (var i = 1; i <= guardianCount; i++)
+            try
             {
-                var registrationViewModel = new RegistrationViewModel();
+                var registrationUpdateList = new RegistrationUpdateViewModel();
 
-                MapperHelper.MapNewMember(registrationViewModel.MemberViewModel, form, i, "Guardian");
-                MapperHelper.MapNewContactDetail(registrationViewModel.ContactViewModel, form, i);
-                MapperHelper.MapNewAddressDetail(registrationViewModel.AddressViewModel, form, i);
+                // current guardians
+                var guardianCount = Convert.ToInt32(form["GuardianCount"]);
 
-                registrationUpdateList.Guardians.Add(registrationViewModel);
+                for (var i = 1; i <= guardianCount; i++)
+                {
+                    var registrationViewModel = new RegistrationViewModel();
+
+                    MapperHelper.MapNewMember(registrationViewModel.MemberViewModel, form, "Guardian", i);
+                    MapperHelper.MapNewContactDetail(registrationViewModel.ContactViewModel, form, i);
+                    MapperHelper.MapNewAddressDetail(registrationViewModel.AddressViewModel, form, i);
+
+                    registrationUpdateList.Guardians.Add(registrationViewModel);
+                }
+
+                // current juniors
+                var juniorCount = Convert.ToInt32(form["JuniorCount"]);
+
+                // get junior club member details
+                for (var i = 1; i <= juniorCount; i++)
+                {
+                    var juniorViewModel = new JuniorViewModel {Dob = MapperHelper.MapNewDob(form, i)};
+
+                    MapperHelper.MapNewMember(juniorViewModel.MemberViewModel, form, "Junior", i);
+                    MapperHelper.MapJuniorDetail(juniorViewModel, form, i);
+
+                    registrationUpdateList.Juniors.Add(juniorViewModel);
+                }
+
+                // add new guardian
+                if (form["Guardian-Firstname"].Length > 0)
+                {
+                    var registrationViewModel = new RegistrationViewModel();
+
+                    MapperHelper.Map(registrationViewModel.MemberViewModel, form, "Guardian");
+                    MapperHelper.MapNewContactDetail(registrationViewModel.ContactViewModel, form);
+                    MapperHelper.MapNewAddressDetail(registrationViewModel.AddressViewModel, form);
+
+                    registrationUpdateList.Guardians.Add(registrationViewModel);
+                }
+
+                // add new junior
+                if (form["Junior-Surname"].Length > 0)
+                {
+                    var newJuniorViewModel = new JuniorViewModel {Dob = DateTime.Parse(form["Dob"])};
+                    MapperHelper.Map(newJuniorViewModel.MemberViewModel, form, "Junior");
+                    MapperHelper.Map(newJuniorViewModel, form);
+
+                    registrationUpdateList.Juniors.Add(newJuniorViewModel);
+                }
+
+                _memberServices.UpdateGuardian(registrationUpdateList);
+
+                return new RedirectResult("~/club/member/registraion-details");
             }
-
-            // current juniors
-            var juniorCount = Convert.ToInt32(form["JuniorCount"]);
-         
-            // get junior club member details
-            for (var i = 1; i <= juniorCount; i++)
+            catch (Exception ex)
             {
-                var juniorViewModel = new JuniorViewModel {Dob = MapperHelper.MapNewDob(form, i)};
-
-                MapperHelper.MapNewMember(juniorViewModel.MemberViewModel, form, i, "Junior");
-                MapperHelper.MapJuniorDetail(juniorViewModel, form, i);
-
-                registrationUpdateList.Juniors.Add(juniorViewModel);
-
-            }
-            
-
-        // add new junior
-            if (form["NewJuniorSurname"].Length > 0)
-            {
-                var newJuniorViewModel = new JuniorViewModel();
-                
-                var newMember = MapperHelper.Map(new Member(), form);
-                var newJuniorDetail = MapperHelper.Map(new JuniorInfo(), form);
-                var newJunior = MapperHelper.Map(new Junior(), form);
-            }
-            return new RedirectResult("~/club/member/registraion-details");            
+                var errorId = Guid.NewGuid();
+                Logger.Error(string.Format("{0}: {1}{2} [{3}]", ActionName, ex.Message,
+                    ex.InnerException == null ? string.Empty : string.Format(" - {0}", ex.InnerException), errorId));
+                return View("Error", errorId);
+            }            
         }
 
         [HttpPost]
