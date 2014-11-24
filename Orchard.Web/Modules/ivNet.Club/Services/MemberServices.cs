@@ -125,13 +125,13 @@ namespace ivNet.Club.Services
                             junior = DuplicateCheck(session, junior, juniorViewModel.MemberViewModel.MemberKey);
 
                             if (junior.Id == 0)
-                            {
-                                junior.JuniorGuardianKey = juniorViewModel.MemberViewModel.MemberKey;
+                            {                                
                                 junior.JuniorKey =
                                     CustomStringHelper.BuildKey(new[]
                                     {
-                                        juniorViewModel.MemberViewModel.Firstname,
-                                        juniorViewModel.MemberViewModel.Surname
+                                        juniorViewModel.MemberViewModel.Surname,
+                                        juniorViewModel.MemberViewModel.Firstname                                        ,
+                                        juniorViewModel.Dob.ToShortDateString()
                                     });
                             }
 
@@ -235,6 +235,11 @@ namespace ivNet.Club.Services
                         }
 
                         var cakes = guardian;
+
+                        // save juniors
+                        //guardian.ju
+
+
 
                     }
 

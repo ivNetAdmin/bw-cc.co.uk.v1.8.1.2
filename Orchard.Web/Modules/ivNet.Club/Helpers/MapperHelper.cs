@@ -30,7 +30,8 @@ namespace ivNet.Club.Helpers
                     CustomStringHelper.BuildKey(new[]
                     {                        
                         form[string.Format("{0}-Surname-{1}", memberType, counter)],
-                        form[string.Format("{0}-Firstname-{1}", memberType, counter)]
+                        form[string.Format("{0}-Firstname-{1}", memberType, counter)],
+                        DateTime.Parse(form[string.Format("DOB-{0}", counter)]).ToShortDateString()
                     });
             }
             else
@@ -50,7 +51,12 @@ namespace ivNet.Club.Helpers
             viewModel.NickName = form[string.Format("{0}-Nickname", memberType)];
             if (memberType == "Junior")
             {
-                viewModel.MemberKey = CustomStringHelper.BuildKey(new[] { viewModel.Surname, viewModel.Firstname });
+                viewModel.MemberKey =
+                    CustomStringHelper.BuildKey(new[]
+                    {
+                        viewModel.Surname, viewModel.Firstname,
+                        DateTime.Parse(form["Dob"]).ToShortDateString()
+                    });
             }
             else
             {
@@ -143,13 +149,15 @@ namespace ivNet.Club.Helpers
                 newJunior.Init();
                 newJunior.Player.Init();
 
-                newJunior.JuniorKey = CustomStringHelper.BuildKey(new[] { newJunior.Member.Firstname, newJunior.Member.Surname });
+                newJunior.JuniorKey =
+                    CustomStringHelper.BuildKey(new[]
+                    {newJunior.Member.Surname, newJunior.Member.Firstname, newJunior.Dob.ToShortDateString()});
 
                 newJunior.Member.Surname = viewModel.MemberViewModel.Surname;
                 newJunior.Member.Firstname = viewModel.MemberViewModel.Firstname;
                 newJunior.Member.NickName = viewModel.MemberViewModel.NickName;
                 newJunior.Member.MemberKey =
-                    CustomStringHelper.BuildKey(new[] {newJunior.Member.Firstname, newJunior.Member.Surname});
+                    CustomStringHelper.BuildKey(new[] { newJunior.Member.Firstname, newJunior.Member.Surname, newJunior.Dob.ToShortDateString()});
 
                 newJunior.JuniorInfo.School = viewModel.School;
                 newJunior.JuniorInfo.Notes = viewModel.Notes;
@@ -236,7 +244,8 @@ namespace ivNet.Club.Helpers
                     CustomStringHelper.BuildKey(new[]
                     {                        
                         entity.Surname,
-                        entity.Firstname
+                        entity.Firstname,
+                        entity.Surname = viewModel["NewJuniorDob"]
                     });
             return entity;
         }
@@ -330,7 +339,7 @@ namespace ivNet.Club.Helpers
             foreach (var guardian in entity.Guardians)
             {
                 viewModel.Guardians.Add(new JuniorGuardianViewModel
-                {
+                {   
                     Surname = guardian.Member.Surname,
                     Firstname = guardian.Member.Firstname,
                     Email = guardian.ContactDetail.Email,
