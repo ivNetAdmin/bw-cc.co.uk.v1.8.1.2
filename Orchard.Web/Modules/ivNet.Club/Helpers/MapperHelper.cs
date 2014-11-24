@@ -119,13 +119,43 @@ namespace ivNet.Club.Helpers
 
         public static void Map(Guardian entity, JuniorViewModel viewModel)
         {
+            var juniorMapped = false;
             foreach (var junior in entity.Juniors)
             {
-                // if same junior map
-                var cakes = junior;
+                // if same junior
+                if (junior.Member.Id == viewModel.MemberViewModel.MemberId)
+                {
+                    junior.Dob = viewModel.Dob;                    
+
+                    junior.Member.NickName = viewModel.MemberViewModel.NickName;
+
+                    junior.JuniorInfo.School = viewModel.School;
+                    junior.JuniorInfo.Notes = viewModel.Notes;
+                    
+                    juniorMapped = true;
+                }
             }
 
             // if new junior add
+            if (!juniorMapped)
+            {
+                var newJunior = new Junior {Dob = viewModel.Dob};
+                newJunior.Init();
+                newJunior.Player.Init();
+
+                newJunior.JuniorKey = CustomStringHelper.BuildKey(new[] { newJunior.Member.Firstname, newJunior.Member.Surname });
+
+                newJunior.Member.Surname = viewModel.MemberViewModel.Surname;
+                newJunior.Member.Firstname = viewModel.MemberViewModel.Firstname;
+                newJunior.Member.NickName = viewModel.MemberViewModel.NickName;
+                newJunior.Member.MemberKey =
+                    CustomStringHelper.BuildKey(new[] {newJunior.Member.Firstname, newJunior.Member.Surname});
+
+                newJunior.JuniorInfo.School = viewModel.School;
+                newJunior.JuniorInfo.Notes = viewModel.Notes;
+
+                entity.AddJunior(newJunior);
+            }
         }
 
         public static void Map(Guardian entity, RegistrationViewModel viewModel)

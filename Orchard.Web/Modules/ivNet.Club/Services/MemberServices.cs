@@ -218,7 +218,13 @@ namespace ivNet.Club.Services
                     {
                         var guardian = session.CreateCriteria(typeof (Guardian))
                             .List<Guardian>().FirstOrDefault(
-                            x => x.Member.Id.Equals(registrationViewModel.MemberViewModel.MemberId)) ?? new Guardian();
+                                x => x.Member.Id.Equals(registrationViewModel.MemberViewModel.MemberId));
+
+                        if (guardian == null)
+                        {
+                            guardian=new Guardian();
+                            guardian.Init();
+                        }
 
                         MapperHelper.Map(guardian, registrationViewModel);
 
@@ -227,6 +233,8 @@ namespace ivNet.Club.Services
                         {
                             MapperHelper.Map(guardian, juniorViewModel);
                         }
+
+                        var cakes = guardian;
 
                     }
 

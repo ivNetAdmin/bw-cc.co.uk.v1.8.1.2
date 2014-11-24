@@ -1,6 +1,4 @@
 ﻿
-using System;
-using System.Collections.Generic;
 using FluentNHibernate.Mapping;
 
 namespace ivNet.Club.Entities
