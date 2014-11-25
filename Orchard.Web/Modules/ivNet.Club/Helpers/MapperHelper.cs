@@ -23,7 +23,7 @@ namespace ivNet.Club.Helpers
             }
             viewModel.Surname = form[string.Format("{0}-Surname-{1}", memberType, counter)];
             viewModel.Firstname = form[string.Format("{0}-Firstname-{1}", memberType, counter)];
-            viewModel.NickName = form[string.Format("{0}-NickName-{1}", memberType, counter)];
+            viewModel.Nickname = form[string.Format("{0}-Nickname-{1}", memberType, counter)];
             if (memberType == "Junior")
             {
                 viewModel.MemberKey =
@@ -48,7 +48,7 @@ namespace ivNet.Club.Helpers
         {
             viewModel.Surname = form[string.Format("{0}-Surname", memberType)];
             viewModel.Firstname = form[string.Format("{0}-Firstname", memberType)];
-            viewModel.NickName = form[string.Format("{0}-Nickname", memberType)];
+            viewModel.Nickname = form[string.Format("{0}-Nickname", memberType)];
             if (memberType == "Junior")
             {
                 viewModel.MemberKey =
@@ -133,7 +133,7 @@ namespace ivNet.Club.Helpers
                 {
                     junior.Dob = viewModel.Dob;                    
 
-                    junior.Member.NickName = viewModel.MemberViewModel.NickName;
+                    junior.Member.Nickname = viewModel.MemberViewModel.Nickname;
 
                     junior.JuniorInfo.School = viewModel.School;
                     junior.JuniorInfo.Notes = viewModel.Notes;
@@ -155,7 +155,7 @@ namespace ivNet.Club.Helpers
 
                 newJunior.Member.Surname = viewModel.MemberViewModel.Surname;
                 newJunior.Member.Firstname = viewModel.MemberViewModel.Firstname;
-                newJunior.Member.NickName = viewModel.MemberViewModel.NickName;
+                newJunior.Member.Nickname = viewModel.MemberViewModel.Nickname;
                 newJunior.Member.MemberKey =
                     CustomStringHelper.BuildKey(new[] { newJunior.Member.Firstname, newJunior.Member.Surname, newJunior.Dob.ToShortDateString()});
 
@@ -178,7 +178,7 @@ namespace ivNet.Club.Helpers
             if (!string.IsNullOrEmpty(viewModel.MemberViewModel.Surname))
                 entity.Member.Surname = viewModel.MemberViewModel.Surname;
 
-            entity.Member.NickName = viewModel.MemberViewModel.NickName;       
+            entity.Member.Nickname = viewModel.MemberViewModel.Nickname;       
 
             if (!string.IsNullOrEmpty(entity.Member.MemberKey))
                 entity.Member.MemberKey = CustomStringHelper.BuildKey(new[] {viewModel.ContactViewModel.Email});
@@ -239,7 +239,7 @@ namespace ivNet.Club.Helpers
         {
             entity.Surname = viewModel["NewJuniorSurname"];
             entity.Firstname = viewModel["NewJuniorFirstname"];
-            entity.NickName = viewModel["NewJuniorNickName"];
+            entity.Nickname = viewModel["NewJuniorNickName"];
             entity.MemberKey =
                     CustomStringHelper.BuildKey(new[]
                     {                        
@@ -266,7 +266,7 @@ namespace ivNet.Club.Helpers
         #endregion
 
         #region entities->models
-
+       
         public static JuniorDetailViewModel Map(JuniorDetailViewModel viewModel, Junior entity)
         {
             return Mapper.Map(entity, viewModel);
@@ -412,6 +412,8 @@ namespace ivNet.Club.Helpers
             viewModel.IsActive = entity.IsActive;
             return viewModel;
         }
-        #endregion       
+        #endregion
+
+       
     }
 }

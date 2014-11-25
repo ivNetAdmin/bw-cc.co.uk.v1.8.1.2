@@ -12,7 +12,7 @@ namespace ivNet.Club.ViewModel
         public string Surname { get; set; }
         public string Firstname { get; set; }
 
-        public string NickName { get; set; }
+        public string Nickname { get; set; }
         public string Fee { get; set; }
         public int MemberId { get; set; }
       

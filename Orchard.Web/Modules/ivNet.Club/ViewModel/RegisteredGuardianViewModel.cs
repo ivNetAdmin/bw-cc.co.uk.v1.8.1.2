@@ -26,7 +26,7 @@ namespace ivNet.Club.ViewModel
         public string MemberKey { get; set; }        
         public string Surname { get; set; }
         public string Firstname { get; set; }
-        public string NickName { get; set; }
+        public string Nickname { get; set; }
         public string Mobile { get; set; }
         public string OtherTelephone { get; set; }
         public string Email { get; set; }
@@ -52,7 +52,7 @@ namespace ivNet.Club.ViewModel
         public string MemberKey { get; set; }
         public string Surname { get; set; }
         public string Firstname { get; set; }
-        public string NickName { get; set; }
+        public string Nickname { get; set; }
         public DateTime Dob { get; set; }
         public string School { get; set; }
         public string Notes { get; set; }

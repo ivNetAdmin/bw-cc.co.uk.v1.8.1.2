@@ -9,7 +9,7 @@ namespace ivNet.Club.Entities
        
         public virtual string Surname { get; set; }
         public virtual string Firstname { get; set; }
-        public virtual string NickName { get; set; }
+        public virtual string Nickname { get; set; }
         public virtual int UserId { get; set; }
         public virtual int DuplicateCounter { get; set; }       
     }
@@ -26,7 +26,7 @@ namespace ivNet.Club.Entities
 
             Map(x => x.Surname).Not.Nullable().Length(50);
             Map(x => x.Firstname).Not.Nullable().Length(50);
-            Map(x => x.NickName).Nullable().Length(50);            
+            Map(x => x.Nickname).Nullable().Length(50);            
 
             Map(x => x.IsActive);
 

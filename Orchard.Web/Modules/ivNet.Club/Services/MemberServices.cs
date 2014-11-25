@@ -222,7 +222,7 @@ namespace ivNet.Club.Services
 
                         if (guardian == null)
                         {
-                            guardian=new Guardian();
+                            guardian = new Guardian();
                             guardian.Init();
                         }
 
@@ -234,13 +234,92 @@ namespace ivNet.Club.Services
                             MapperHelper.Map(guardian, juniorViewModel);
                         }
 
-                        var cakes = guardian;
-
                         // save juniors
-                        //guardian.ju
+                        foreach (var junior in guardian.Juniors)
+                        {
+                            // update existing junior
+                            if (junior.Member.Id > 0)
+                            {
+                                SetAudit(junior.Member);
+                                session.SaveOrUpdate(junior.Member);
 
+                                SetAudit(junior.JuniorInfo);
+                                session.SaveOrUpdate(junior.JuniorInfo);
 
+                                SetAudit(junior.Player.Kit);
+                                session.SaveOrUpdate(junior.Player.Kit);
 
+                                foreach (var fee in junior.Player.Fees)
+                                {
+                                    SetAudit(fee);
+                                    session.SaveOrUpdate(fee);
+                                }
+
+                                SetAudit(junior.Player);
+                                session.SaveOrUpdate(junior.Player);
+
+                                SetAudit(junior);
+                                session.SaveOrUpdate(junior);
+                            }
+                            else
+                            {
+
+                                // create website account
+                                if (junior.Member.UserId == 0)
+                                {
+                                    junior.Member.UserId =
+                                        CreateAccount(junior.Member,
+                                            registrationViewModel.ContactViewModel.Email, true);
+                                }
+
+                                // add new junior
+                                junior.Member.MemberKey = CustomStringHelper.BuildKey(new[]
+                                {
+                                    junior.Member.Surname,
+                                    junior.Member.Firstname,
+                                    junior.Dob.ToShortDateString()
+                                });
+
+                                SetAudit(junior.Member);
+                                session.SaveOrUpdate(junior.Member);
+
+                                SetAudit(junior.JuniorInfo);
+                                session.SaveOrUpdate(junior.JuniorInfo);
+
+                                SetAudit(junior.Player.Kit);
+                                session.SaveOrUpdate(junior.Player.Kit);
+
+                                foreach (var fee in junior.Player.Fees)
+                                {
+                                    SetAudit(fee);
+                                    session.SaveOrUpdate(fee);
+                                }
+
+                                SetAudit(junior.Player);
+                                session.SaveOrUpdate(junior.Player);
+
+                                SetAudit(junior);
+                                session.SaveOrUpdate(junior);
+                            }
+
+                            // save guardian
+                            if (guardian.Member.Id == 0)
+                            {
+                                guardian.Member.UserId =
+                                    CreateAccount(guardian.Member,
+                                        guardian.ContactDetail.Email, false);
+                            }
+
+                            SetAudit(guardian.Member);
+                            session.SaveOrUpdate(guardian.Member);
+
+                            SetAudit(guardian.AddressDetail);
+                            session.SaveOrUpdate(guardian.AddressDetail);
+
+                            SetAudit(guardian.ContactDetail);
+                            session.SaveOrUpdate(guardian.ContactDetail);
+
+                        }
                     }
 
                     transaction.Commit();

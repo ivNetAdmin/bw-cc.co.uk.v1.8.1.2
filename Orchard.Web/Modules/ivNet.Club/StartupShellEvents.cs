@@ -31,7 +31,10 @@ namespace ivNet.Club
                 .ForMember(v => v.MemberId, m => m.MapFrom(e => e.Member.Id))
                 .ForMember(v => v.MemberKey, m => m.MapFrom(e => e.Member.MemberKey))
                 .ForMember(v => v.Firstname, m => m.MapFrom(e => e.Member.Firstname))
-                .ForMember(v => v.Surname, m => m.MapFrom(e => e.Member.Surname));
+                .ForMember(v => v.Surname, m => m.MapFrom(e => e.Member.Surname))
+                .ForMember(v => v.Nickname, m => m.MapFrom(e => e.Member.Nickname))
+                .ForMember(v => v.School, m => m.MapFrom(e => e.JuniorInfo.School))
+                .ForMember(v => v.Notes, m => m.MapFrom(e => e.JuniorInfo.Notes));
 
             Mapper.CreateMap<Member, MemberDetailViewModel>()
                .ForMember(v => v.MemberId, m => m.MapFrom(e => e.Id));
