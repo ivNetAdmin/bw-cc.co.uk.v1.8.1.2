@@ -123,48 +123,53 @@ namespace ivNet.Club.Helpers
 
         #region models->entities
 
-        public static void Map(Guardian entity, JuniorViewModel viewModel)
+        public static void UpdateMap(Member entity, MemberViewModel viewModel)
         {
-            var juniorMapped = false;
-            foreach (var junior in entity.Juniors)
-            {
-                // if same junior
-                if (junior.Member.Id == viewModel.MemberViewModel.MemberId)
-                {
-                    junior.Dob = viewModel.Dob;                    
-
-                    junior.Member.Nickname = viewModel.MemberViewModel.Nickname;
-
-                    junior.JuniorInfo.School = viewModel.School;
-                    junior.JuniorInfo.Notes = viewModel.Notes;
-                    
-                    juniorMapped = true;
-                }
-            }
-
-            // if new junior add
-            if (!juniorMapped)
-            {
-                var newJunior = new Junior {Dob = viewModel.Dob};
-                newJunior.Init();
-                newJunior.Player.Init();
-
-                newJunior.JuniorKey =
-                    CustomStringHelper.BuildKey(new[]
-                    {newJunior.Member.Surname, newJunior.Member.Firstname, newJunior.Dob.ToShortDateString()});
-
-                newJunior.Member.Surname = viewModel.MemberViewModel.Surname;
-                newJunior.Member.Firstname = viewModel.MemberViewModel.Firstname;
-                newJunior.Member.Nickname = viewModel.MemberViewModel.Nickname;
-                newJunior.Member.MemberKey =
-                    CustomStringHelper.BuildKey(new[] { newJunior.Member.Firstname, newJunior.Member.Surname, newJunior.Dob.ToShortDateString()});
-
-                newJunior.JuniorInfo.School = viewModel.School;
-                newJunior.JuniorInfo.Notes = viewModel.Notes;
-
-                entity.AddJunior(newJunior);
-            }
+           entity.Nickname = viewModel.Nickname;
         }
+
+        //public static void Map(Guardian entity, JuniorViewModel viewModel)
+        //{
+        //    var juniorMapped = false;
+        //    foreach (var junior in entity.Juniors)
+        //    {
+        //        // if same junior
+        //        if (junior.Member.Id == viewModel.MemberViewModel.MemberId)
+        //        {
+        //            junior.Dob = viewModel.Dob;                    
+
+        //            junior.Member.Nickname = viewModel.MemberViewModel.Nickname;
+
+        //            junior.JuniorInfo.School = viewModel.School;
+        //            junior.JuniorInfo.Notes = viewModel.Notes;
+                    
+        //            juniorMapped = true;
+        //        }
+        //    }
+
+        //    // if new junior add
+        //    if (!juniorMapped)
+        //    {
+        //        var newJunior = new Junior {Dob = viewModel.Dob};
+        //        newJunior.Init();
+        //        newJunior.Player.Init();
+
+        //        newJunior.JuniorKey =
+        //            CustomStringHelper.BuildKey(new[]
+        //            {newJunior.Member.Surname, newJunior.Member.Firstname, newJunior.Dob.ToShortDateString()});
+
+        //        newJunior.Member.Surname = viewModel.MemberViewModel.Surname;
+        //        newJunior.Member.Firstname = viewModel.MemberViewModel.Firstname;
+        //        newJunior.Member.Nickname = viewModel.MemberViewModel.Nickname;
+        //        newJunior.Member.MemberKey =
+        //            CustomStringHelper.BuildKey(new[] { newJunior.Member.Firstname, newJunior.Member.Surname, newJunior.Dob.ToShortDateString()});
+
+        //        newJunior.JuniorInfo.School = viewModel.School;
+        //        newJunior.JuniorInfo.Notes = viewModel.Notes;
+
+        //        entity.AddJunior(newJunior);
+        //    }
+        //}
 
         public static void Map(Guardian entity, RegistrationViewModel viewModel)
         {
@@ -175,12 +180,9 @@ namespace ivNet.Club.Helpers
             if (!string.IsNullOrEmpty(viewModel.MemberViewModel.Surname))
                 entity.Member.Surname = viewModel.MemberViewModel.Surname;
 
-            if (!string.IsNullOrEmpty(viewModel.MemberViewModel.Surname))
-                entity.Member.Surname = viewModel.MemberViewModel.Surname;
+            entity.Member.Nickname = viewModel.MemberViewModel.Nickname;
 
-            entity.Member.Nickname = viewModel.MemberViewModel.Nickname;       
-
-            if (!string.IsNullOrEmpty(entity.Member.MemberKey))
+            if (!string.IsNullOrEmpty(viewModel.ContactViewModel.Email))
                 entity.Member.MemberKey = CustomStringHelper.BuildKey(new[] {viewModel.ContactViewModel.Email});
 
             // contact details
@@ -202,6 +204,8 @@ namespace ivNet.Club.Helpers
 
             entity.AddressDetail.AddressDetailKey =
                 CustomStringHelper.BuildKey(new[] {entity.AddressDetail.Address, entity.AddressDetail.Postcode});
+
+            entity.GuardianKey = entity.Member.MemberKey;
         }
 
         public static Member Map(Member entity, MemberViewModel viewModel)
@@ -412,8 +416,6 @@ namespace ivNet.Club.Helpers
             viewModel.IsActive = entity.IsActive;
             return viewModel;
         }
-        #endregion
-
-       
+        #endregion       
     }
 }

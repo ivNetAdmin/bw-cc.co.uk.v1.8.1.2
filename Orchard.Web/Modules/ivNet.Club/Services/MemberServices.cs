@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web;
+using FluentNHibernate.Utils;
 using ivNet.Club.Entities;
 using ivNet.Club.Helpers;
 using ivNet.Club.ViewModel;
@@ -199,16 +200,6 @@ namespace ivNet.Club.Services
 
         public void UpdateGuardian(RegistrationUpdateViewModel registrationUpdateList)
         {
-            // add juniors to guardians
-            foreach (var registrationViewModel in registrationUpdateList.Guardians)
-            {
-                registrationViewModel.JuniorList.Clear();
-                foreach (var juniorViewModel in registrationUpdateList.Juniors)
-                {
-                    registrationViewModel.JuniorList.Add(juniorViewModel);
-                }
-            }
-
             using (var session = NHibernateHelper.OpenSession())
             {
                 using (var transaction = session.BeginTransaction())
@@ -216,112 +207,142 @@ namespace ivNet.Club.Services
                     // loop through guardians
                     foreach (var registrationViewModel in registrationUpdateList.Guardians)
                     {
+                        // get guardian or create a new one
                         var guardian = session.CreateCriteria(typeof (Guardian))
                             .List<Guardian>().FirstOrDefault(
-                                x => x.Member.Id.Equals(registrationViewModel.MemberViewModel.MemberId));
+                                x => x.Member.Id.Equals(registrationViewModel.MemberViewModel.MemberId)) ??
+                                       new Guardian();
 
-                        if (guardian == null)
+                        if (guardian.Id == 0)
                         {
-                            guardian = new Guardian();
                             guardian.Init();
+                            guardian.GuardianKey = registrationViewModel.MemberViewModel.MemberKey;
                         }
 
+                        // check data has not already been saved
+                        guardian.Member = DuplicateCheck(session, guardian.Member,
+                            registrationViewModel.MemberViewModel.MemberKey);
+
+                        guardian.ContactDetail = DuplicateCheck(session, guardian.ContactDetail,
+                           registrationViewModel.ContactViewModel.ContactDetailKey);
+
+                        guardian.AddressDetail = DuplicateCheck(session, guardian.AddressDetail,
+                            registrationViewModel.AddressViewModel.AddressDetailKey);
+
+                        // update width new user details
                         MapperHelper.Map(guardian, registrationViewModel);
 
-                        // map juniors
-                        foreach (var juniorViewModel in registrationUpdateList.Juniors)
+                        // create website account 
+                        if (guardian.Member.UserId == 0)
                         {
-                            MapperHelper.Map(guardian, juniorViewModel);
+                            guardian.Member.UserId =
+                                CreateAccount(guardian.Member,
+                                    registrationViewModel.ContactViewModel.Email, false);
                         }
 
-                        // save juniors
-                        foreach (var junior in guardian.Juniors)
+                        // save or update guardian elements
+                        SetAudit(guardian.Member);
+                        session.SaveOrUpdate(guardian.Member);
+                        SetAudit(guardian.ContactDetail);
+                        session.SaveOrUpdate(guardian.ContactDetail);
+                        SetAudit(guardian.AddressDetail);
+                        session.SaveOrUpdate(guardian.AddressDetail);
+
+                        // add junior details
+                        foreach (var juniorViewModel in registrationUpdateList.Juniors)
                         {
-                            // update existing junior
-                            if (junior.Member.Id > 0)
+
+                            // get junior or create a new one
+                            var junior = session.CreateCriteria(typeof(Junior))
+                                .List<Junior>().FirstOrDefault(
+                                    x => x.Member.Id.Equals(juniorViewModel.MemberViewModel.MemberId)) ??
+                                           new Junior();
+
+                            if (junior.Id == 0)
                             {
-                                SetAudit(junior.Member);
-                                session.SaveOrUpdate(junior.Member);
+                                junior.Init();
+                                junior.Player.Init();                                
 
-                                SetAudit(junior.JuniorInfo);
-                                session.SaveOrUpdate(junior.JuniorInfo);
+                                junior.JuniorKey =
+                                   CustomStringHelper.BuildKey(new[]
+                                    {
+                                        juniorViewModel.MemberViewModel.Surname,
+                                        juniorViewModel.MemberViewModel.Firstname                                        ,
+                                        juniorViewModel.Dob.ToShortDateString()
+                                    });
+                            }
 
-                                SetAudit(junior.Player.Kit);
-                                session.SaveOrUpdate(junior.Player.Kit);
+                            junior.Dob = juniorViewModel.Dob;
 
-                                foreach (var fee in junior.Player.Fees)
-                                {
-                                    SetAudit(fee);
-                                    session.SaveOrUpdate(fee);
-                                }
+                            // check data has not already been saved
+                            junior.Member = DuplicateCheck(session, junior.Member,
+                                juniorViewModel.MemberViewModel.MemberKey);
 
-                                SetAudit(junior.Player);
-                                session.SaveOrUpdate(junior.Player);
-
-                                SetAudit(junior);
-                                session.SaveOrUpdate(junior);
+                            // update width new user details
+                            if (junior.Id > 0)
+                            {
+                                MapperHelper.UpdateMap(junior.Member, juniorViewModel.MemberViewModel);
                             }
                             else
                             {
-
-                                // create website account
-                                if (junior.Member.UserId == 0)
-                                {
-                                    junior.Member.UserId =
-                                        CreateAccount(junior.Member,
-                                            registrationViewModel.ContactViewModel.Email, true);
-                                }
-
-                                // add new junior
-                                junior.Member.MemberKey = CustomStringHelper.BuildKey(new[]
-                                {
-                                    junior.Member.Surname,
-                                    junior.Member.Firstname,
-                                    junior.Dob.ToShortDateString()
-                                });
-
-                                SetAudit(junior.Member);
-                                session.SaveOrUpdate(junior.Member);
-
-                                SetAudit(junior.JuniorInfo);
-                                session.SaveOrUpdate(junior.JuniorInfo);
-
-                                SetAudit(junior.Player.Kit);
-                                session.SaveOrUpdate(junior.Player.Kit);
-
-                                foreach (var fee in junior.Player.Fees)
-                                {
-                                    SetAudit(fee);
-                                    session.SaveOrUpdate(fee);
-                                }
-
-                                SetAudit(junior.Player);
-                                session.SaveOrUpdate(junior.Player);
-
-                                SetAudit(junior);
-                                session.SaveOrUpdate(junior);
+                                MapperHelper.Map(junior.Member, juniorViewModel.MemberViewModel);
                             }
+                            MapperHelper.Map(junior.JuniorInfo, juniorViewModel);
 
-                            // save guardian
-                            if (guardian.Member.Id == 0)
+                            // create website account
+                            if (junior.Member.UserId == 0)
                             {
-                                guardian.Member.UserId =
-                                    CreateAccount(guardian.Member,
-                                        guardian.ContactDetail.Email, false);
+                                junior.Member.UserId =
+                                    CreateAccount(junior.Member,
+                                        guardian.ContactDetail.Email, true);
                             }
 
-                            SetAudit(guardian.Member);
-                            session.SaveOrUpdate(guardian.Member);
+                            // save or update junior elements
+                            SetAudit(junior.Member);
+                            session.SaveOrUpdate(junior.Member);
+                            SetAudit(junior.JuniorInfo);
+                            session.SaveOrUpdate(junior.JuniorInfo);
 
-                            SetAudit(guardian.AddressDetail);
-                            session.SaveOrUpdate(guardian.AddressDetail);
+                            MapperHelper.Map(junior.Player.Kit, juniorViewModel);
+                            SetAudit(junior.Player.Kit);
+                            session.SaveOrUpdate(junior.Player.Kit);
 
-                            SetAudit(guardian.ContactDetail);
-                            session.SaveOrUpdate(guardian.ContactDetail);
+                            // create a blank fee for this season
+                         //   var fee = new Fee { Season = registrationViewModel.Season };
+                         //   SetAudit(fee);
+                         //   session.SaveOrUpdate(fee);
+                         //   junior.Player.Fees.Add(fee);
+
+                            junior.Player.Number = junior.Member.Id.ToString(CultureInfo.InvariantCulture)
+                                .PadLeft(6, '0');
+
+                            SetAudit(junior.Player);
+                            session.SaveOrUpdate(junior.Player);
+
+                            // save or update junior
+                            SetAudit(junior);
+                            session.SaveOrUpdate(junior);
+
+                            //if junior nat already assigned to guardian then add junior
+                            var juniorExists = false;
+                            foreach (var juniorCheck in guardian.Juniors)
+                            {
+                                if (juniorCheck.Id == junior.Id) juniorExists = true;
+                                break;
+                            }
+
+                            if (!juniorExists)
+                                guardian.AddJunior(junior);
 
                         }
-                    }
 
+                        // save or update guardian
+                        SetAudit(guardian);
+                        session.SaveOrUpdate(guardian);
+
+                        // add fees for this season
+                        AddFee(session, guardian.Juniors);
+                    }
                     transaction.Commit();
                 }
             }
