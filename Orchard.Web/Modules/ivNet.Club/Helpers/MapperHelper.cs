@@ -187,15 +187,15 @@ namespace ivNet.Club.Helpers
 
             // contact details
             if (!string.IsNullOrEmpty(viewModel.ContactViewModel.Email))
+            {
                 entity.ContactDetail.Email = viewModel.ContactViewModel.Email;
+                entity.ContactDetail.ContactDetailKey = CustomStringHelper.BuildKey(new[] {entity.ContactDetail.Email});
+            }
 
             if (!string.IsNullOrEmpty(viewModel.ContactViewModel.Mobile))
                 entity.ContactDetail.Mobile = viewModel.ContactViewModel.Mobile;
 
-            entity.ContactDetail.OtherTelephone = viewModel.ContactViewModel.OtherTelephone;
-
-            if (!string.IsNullOrEmpty(entity.ContactDetail.ContactDetailKey))
-            entity.ContactDetail.ContactDetailKey = CustomStringHelper.BuildKey(new[] { entity.ContactDetail.Email });
+            entity.ContactDetail.OtherTelephone = viewModel.ContactViewModel.OtherTelephone; 
 
             // address details
             entity.AddressDetail.Address = viewModel.AddressViewModel.Address;

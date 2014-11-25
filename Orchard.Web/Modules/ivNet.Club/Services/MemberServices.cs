@@ -327,8 +327,11 @@ namespace ivNet.Club.Services
                             var juniorExists = false;
                             foreach (var juniorCheck in guardian.Juniors)
                             {
-                                if (juniorCheck.Id == junior.Id) juniorExists = true;
-                                break;
+                                if (juniorCheck.Id == junior.Id)
+                                {
+                                    juniorExists = true;
+                                    break;
+                                }
                             }
 
                             if (!juniorExists)
