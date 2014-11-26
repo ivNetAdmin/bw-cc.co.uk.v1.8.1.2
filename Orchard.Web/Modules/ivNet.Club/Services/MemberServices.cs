@@ -362,15 +362,21 @@ namespace ivNet.Club.Services
             {
                 var returnList = new List<MemberViewModel>();
 
-                var guardianList = session.CreateCriteria(typeof (Guardian))
-                    .List<Guardian>().Where(x => x.IsActive.Equals(1)).ToList();
+                //var guardianList = session.CreateCriteria(typeof (Guardian))
+                //    .List<Guardian>().Where(x => x.IsActive.Equals(1)).ToList();
 
+                var guardianList = session.CreateCriteria(typeof (Guardian))
+                    .List<Guardian>().ToList();
+                
                 var guardians = (from guardian in guardianList
                     let memberViewModel = new MemberViewModel()
                     select MapperHelper.Map(memberViewModel, guardian)).ToList();
 
-                var juniorList = session.CreateCriteria(typeof (Junior))
-                    .List<Junior>().Where(x => x.IsActive.Equals(1)).ToList();
+                //var juniorList = session.CreateCriteria(typeof(Junior))
+                //    .List<Junior>().Where(x => x.IsActive.Equals(1)).ToList();
+
+                var juniorList = session.CreateCriteria(typeof(Junior))
+                    .List<Junior>().ToList();
 
                 var juniors = (from junior in juniorList
                     let memberViewModel = new MemberViewModel()
