@@ -27,6 +27,9 @@ namespace ivNet.Club
 
             #region entities->models
 
+            Mapper.CreateMap<Member, _MemberViewModel>()
+                .ForMember(v => v.MemberId, m => m.MapFrom(e=>e.Id));
+
             Mapper.CreateMap<Junior, JuniorDetailViewModel>()
                 .ForMember(v => v.MemberId, m => m.MapFrom(e => e.Member.Id))
                 .ForMember(v => v.MemberKey, m => m.MapFrom(e => e.Member.MemberKey))

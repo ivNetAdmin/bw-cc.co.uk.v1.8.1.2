@@ -47,17 +47,17 @@ namespace ivNet.Club.Controllers.Api
             {
                 var memberList = _memberServices.Get(id);
 
-                if (memberList[0].MemberType == "Guardian")
-                {
-                    // get contact details
-                }
-                else
-                {
-                    // get gaurdians
-                   // memberList[0].Guardians = _memberServices.GetGuardians(id);
+                //if (memberList[0].MemberType == "Guardian")
+                //{
+                //    // get contact details
+                //}
+                //else
+                //{
+                //    // get gaurdians
+                //   // memberList[0].Guardians = _memberServices.GetGuardians(id);
 
-                    // get fees
-                }
+                //    // get fees
+                //}
 
                 return Request.CreateResponse(HttpStatusCode.OK,
                     memberList);

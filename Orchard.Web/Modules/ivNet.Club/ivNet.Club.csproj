@@ -233,6 +233,7 @@
     <Compile Include="Entities\Player.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Enums\MemberType.cs" />
     <Compile Include="Enums\RegistrationType.cs" />
     <Compile Include="Helpers\MapperHelper.cs" />
     <Compile Include="Helpers\NHibernateHelper.cs" />
@@ -249,6 +250,7 @@
     <Compile Include="Services\RegistrationServices.cs" />
     <Compile Include="StartupShellEvents.cs" />
     <Compile Include="ViewModel\AddressViewModel.cs" />
+    <Compile Include="ViewModel\AdminEditMemberViewModel.cs" />
     <Compile Include="ViewModel\MemberViewModel.cs" />
     <Compile Include="ViewModel\ConfigurationItemViewModel.cs" />
     <Compile Include="ViewModel\ContactViewModel.cs" />
@@ -264,6 +266,7 @@
     <Compile Include="ViewModel\RegistrationUpdateViewModel.cs" />
     <Compile Include="ViewModel\RegistrationViewModel.cs" />
     <Compile Include="ViewModel\UserViewModel.cs" />
+    <Compile Include="ViewModel\_MemberViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />

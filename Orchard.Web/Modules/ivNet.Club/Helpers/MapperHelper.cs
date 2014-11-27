@@ -270,7 +270,12 @@ namespace ivNet.Club.Helpers
         #endregion
 
         #region entities->models
-       
+
+        public static _MemberViewModel Map(_MemberViewModel viewModel, Member entity)
+        {
+            return Mapper.Map(entity, viewModel);
+        }
+
         public static JuniorDetailViewModel Map(JuniorDetailViewModel viewModel, Junior entity)
         {
             return Mapper.Map(entity, viewModel);
@@ -416,6 +421,6 @@ namespace ivNet.Club.Helpers
             viewModel.IsActive = entity.IsActive;
             return viewModel;
         }
-        #endregion       
+        #endregion      
     }
 }
