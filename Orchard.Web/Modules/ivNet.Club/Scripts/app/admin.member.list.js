@@ -26,12 +26,19 @@ ivNetAdminMemberList.factory('adminMemberList', function ($resource) {
     return $resource('/api/club/admin/member/:id', null,
     {
         'query': { method: 'GET', isArray: true },
+    });
+});
+
+ivNetAdminMemberList.factory('adminMember', function ($resource) {
+    return $resource('/api/club/admin/member/:id', null,
+    {
+        'query': { method: 'GET', isArray: false },
         'update': { method: 'PUT' }
 
     });
 });
 
-ivNetAdminMemberList.controller('AdminMemberListController', function ($scope, adminMemberList) {
+ivNetAdminMemberList.controller('AdminMemberListController', function ($scope, adminMemberList, adminMember) {
 
     $('div#memberDetail').hide();
 
@@ -45,13 +52,13 @@ ivNetAdminMemberList.controller('AdminMemberListController', function ($scope, a
 
     $scope.editMemberList = function(member) {
 
-        adminMemberList.query({ id: member.MemberId },
+        adminMember.query({ id: member.MemberId },
             function(data) {
-
+                alert("cakes");
                 $scope.memberDetails = data;
 
-                if (data[0].MemberType != "Guardian") {
-                    $scope.guardians = data[0].Guardians;
+                if (data.MemberType != "Guardian") {                    
+                    $scope.guardians = data.Guardians;
                 }
 
                 $('div#memberList').hide("blind", { direction: "up" }, 500, function () {                    

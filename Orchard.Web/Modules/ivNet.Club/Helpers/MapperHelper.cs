@@ -396,11 +396,11 @@ namespace ivNet.Club.Helpers
         {
             var currentSeason = configurationServices.GetCurrentSeason();
 
-            // get fee for this current season
-            foreach (var fee in entity.Player.Fees.Where(fee => fee.Season == currentSeason))
-            {
-                viewModel.Fee = string.Format("{0} - {1}", currentSeason, fee.Amount);
-            }
+            //// get fee for this current season
+            //foreach (var fee in entity.Player.Fees.Where(fee => fee.Season == currentSeason))
+            //{
+            //    viewModel.Fee = string.Format("{0} - {1}", currentSeason, fee.Amount);
+            //}
 
             viewModel.MemberId = entity.Member.Id;
             viewModel.Surname = entity.Member.Surname;

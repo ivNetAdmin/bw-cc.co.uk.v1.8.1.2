@@ -362,20 +362,14 @@ namespace ivNet.Club.Services
             using (var session = NHibernateHelper.OpenSession())
             {
                 var returnList = new List<MemberViewModel>();
-
-                //var guardianList = session.CreateCriteria(typeof (Guardian))
-                //    .List<Guardian>().Where(x => x.IsActive.Equals(1)).ToList();
-
+            
                 var guardianList = session.CreateCriteria(typeof (Guardian))
                     .List<Guardian>().ToList();
                 
                 var guardians = (from guardian in guardianList
                     let memberViewModel = new MemberViewModel()
                     select MapperHelper.Map(memberViewModel, guardian)).ToList();
-
-                //var juniorList = session.CreateCriteria(typeof(Junior))
-                //    .List<Junior>().Where(x => x.IsActive.Equals(1)).ToList();
-
+           
                 var juniorList = session.CreateCriteria(typeof(Junior))
                     .List<Junior>().ToList();
 
@@ -402,13 +396,33 @@ namespace ivNet.Club.Services
                 if (guardian!=null)
                 {
                     adminEditMemberViewModel.MemberType = (int) MemberType.Guardian;
-                    var memberModel = MapperHelper.Map(new _MemberViewModel(), guardian.Member);
-                    adminEditMemberViewModel.Guardians.Add(memberModel);
+                    var guardianMemberModel = MapperHelper.Map(new _MemberViewModel(), guardian.Member);
+                    adminEditMemberViewModel.Guardians.Add(guardianMemberModel);
+
+                    foreach (var junior in guardian.Juniors)
+                    {                        
+                        var juniorMemberModel = MapperHelper.Map(new _MemberViewModel(), junior.Member);
+                        juniorMemberModel.Dob = junior.Dob;
+                        adminEditMemberViewModel.Juniors.Add(juniorMemberModel);
+                    }
                 }
                 else
                 {
                     var junior = session.CreateCriteria(typeof(Junior))
                     .List<Junior>().FirstOrDefault(x => x.Member.Id.Equals(id));
+
+                    if (junior != null)
+                    {
+                        adminEditMemberViewModel.MemberType = (int) MemberType.Junior;
+                        var juniorMemberModel = MapperHelper.Map(new _MemberViewModel(), junior.Member);
+                        adminEditMemberViewModel.Juniors.Add(juniorMemberModel);
+
+                        foreach (var juniorGuardian in junior.Guardians)
+                        {
+                            var guardianMemberModel = MapperHelper.Map(new _MemberViewModel(), juniorGuardian.Member);
+                            adminEditMemberViewModel.Guardians.Add(guardianMemberModel);
+                        }
+                    }
                 }
 
                 //var guardians = (from guardian in guardianList
