@@ -40,7 +40,7 @@ ivNetAdminMemberList.factory('adminMember', function ($resource) {
 
 ivNetAdminMemberList.controller('AdminMemberListController', function ($scope, adminMemberList, adminMember) {
 
-    $('div#memberDetail').hide();
+    $('div.memberDetail').hide();
 
     adminMemberList.query(
         function(data) {
@@ -64,7 +64,7 @@ ivNetAdminMemberList.controller('AdminMemberListController', function ($scope, a
                         $scope.$apply(function() {
                             $scope.guardian = data.Guardians[0];
                         });
-                        $('div#guardianDetails').show("blind", { direction: "down" }, 1000);
+                        $('div#guardianDetails').show();
                     }
                 });
               

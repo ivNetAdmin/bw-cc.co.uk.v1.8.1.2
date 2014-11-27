@@ -27,6 +27,10 @@ namespace ivNet.Club
 
             #region entities->models
 
+            Mapper.CreateMap<AddressDetail, _MemberViewModel>();                
+
+            Mapper.CreateMap<ContactDetail, _MemberViewModel>();                
+
             Mapper.CreateMap<Member, _MemberViewModel>()
                 .ForMember(v => v.MemberId, m => m.MapFrom(e=>e.Id));
 

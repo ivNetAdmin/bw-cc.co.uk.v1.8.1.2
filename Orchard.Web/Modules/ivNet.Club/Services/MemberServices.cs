@@ -397,6 +397,9 @@ namespace ivNet.Club.Services
                 {
                     adminEditMemberViewModel.MemberType = (int) MemberType.Guardian;
                     var guardianMemberModel = MapperHelper.Map(new _MemberViewModel(), guardian.Member);
+                    MapperHelper.Map(guardianMemberModel, guardian.ContactDetail);
+                    MapperHelper.Map(guardianMemberModel, guardian.AddressDetail);
+
                     guardianMemberModel.Email = guardian.ContactDetail.Email;
                     adminEditMemberViewModel.Guardians.Add(guardianMemberModel);
 
