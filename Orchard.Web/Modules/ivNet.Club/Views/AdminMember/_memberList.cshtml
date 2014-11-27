@@ -1,0 +1,28 @@
+﻿<div id="memberList">
+    <table tr-ng-grid='' items='members'>
+        <thead>
+            <tr>
+                <th field-name="MemberId" display-name="Id" display-align="right" enable-filtering="false" enable-sorting="false">
+                </th>
+                <th field-name="Surname" display-name="Surname">
+                </th>
+                <th field-name="Firstname" display-name="Firstname">
+                </th>
+                <th field-name="Dob" display-name="DOB" display-format="dateField:gridItem">
+                </th>
+                <th field-name="MemberType" display-name="Member Type">
+                </th>
+                <th field-name="IsActive" display-name="Active">
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+        <td field-name="IsActive"><input type="checkbox" value="{{gridDisplayItem.IsActive}}" ng-checked="{{gridDisplayItem.IsActive}}" disabled="" /></td>
+        <td>
+            <button class="btn btn-default" ng-click="editMemberList(gridItem)">
+                <span>Edit</span>
+            </button>
+        </td>
+        </tbody>
+    </table>
+</div>

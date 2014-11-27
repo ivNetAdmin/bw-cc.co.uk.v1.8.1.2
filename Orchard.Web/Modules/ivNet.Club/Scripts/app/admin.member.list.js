@@ -54,18 +54,22 @@ ivNetAdminMemberList.controller('AdminMemberListController', function ($scope, a
 
         adminMember.query({ id: member.MemberId },
             function(data) {
-                alert("cakes");
                 $scope.memberDetails = data;
 
-                if (data.MemberType != "Guardian") {                    
-                    $scope.guardians = data.Guardians;
-                }
+                $scope.memberType = data.MemberType;
 
-                $('div#memberList').hide("blind", { direction: "up" }, 500, function () {                    
-                    $('div#memberDetail').show("blind", { direction: "down" }, 1000);
+                $('div#memberList').hide("blind", { direction: "up" }, 500, function() {
+                    // guardian returned
+                    if (data.MemberType == 1) {
+                        $scope.$apply(function() {
+                            $scope.guardian = data.Guardians[0];
+                        });
+                        $('div#guardianDetails').show("blind", { direction: "down" }, 1000);
+                    }
                 });
+              
 
-                $('div#memberDetail').find('tfoot').hide();
+                $('div.memberDetail').find('tfoot').hide();
 
             },
             function(error) {
