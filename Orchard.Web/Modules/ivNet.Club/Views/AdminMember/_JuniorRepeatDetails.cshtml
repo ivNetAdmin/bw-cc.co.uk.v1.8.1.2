@@ -1,0 +1,26 @@
+﻿
+<div id="juniorRepeatDetails" class="memberDetails">
+    <div ng-repeat="junior in juniors">
+        <div class="form-group">
+            Junior: <strong>{{$index+1}}</strong>
+        </div>
+        <div class="form-group">
+            <span class="col-md-1 control-label text-right">Surname:</span>
+            <div class="col-md-2">
+                <input name="Junior-Surname-{{$index+1}}" type="text" class="form-control input-md" ng-model="junior.Surname" disabled="">
+            </div>
+            <span class="col-md-1 control-label text-right">Firstname:</span>
+            <div class="col-md-2">
+                <input name="Junior-Firstname-{{$index+1}}" type="text" class="form-control input-md" ng-model="junior.Firstname" disabled="">
+            </div>
+            <span class="col-md-1 control-label text-right">Nickname:</span>
+            <div class="col-md-2">
+                <input name="Junior-Nickname-{{$index+1}}" type="text" class="form-control input-md" ng-model="junior.Nickname" placeholder="Nickname">
+            </div>
+            <span class="col-md-1 control-label text-right">DOB:</span>
+            <div class="col-md-2">
+                <input name="Junior-Dob-{{$index+1}}" type="date" class="form-control input-md" ng-model="junior.Dob">
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,6 +1,8 @@
 ﻿@{
     Script.Require("AngularJS-Resource");
     Script.Require("Club.Admin.Member.List");
+
+    Style.Require("Club.New.Member");
     Style.Require("trNgGrid");
 }
 
@@ -8,91 +10,20 @@
     <div data-ng-controller="AdminMemberListController">
         <fieldset>
             @Html.Partial("_MemberList")
-            @Html.Partial("_GuardianDetails")
-        </fieldset>
-
-            @*<div id="memberDetail">
-
-                <table tr-ng-grid='' items='memberDetails' enable-filtering="false" enable-sorting="false">
-                    <thead>
-                        <tr>
-                            <th field-name="MemberId" display-name="Id" display-align="right" enable-filtering="false" enable-sorting="false">
-                            </th>
-                            <th field-name="Surname" display-name="Surname">
-                            </th>
-                            <th field-name="Firstname" display-name="Firstname">
-                            </th>
-                            <th field-name="Dob" display-name="DOB" display-format="editDateField:gridItem">
-                            </th>
-                            <th field-name="MemberType" display-name="Member Type">
-                            </th>
-                            <th field-name="IsActive" display-name="Active">
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td field-name="MemberId"></td>
-                            <td field-name="Surname"><input type="text" value="{{gridDisplayItem.Surname}}" /></td>
-                            <td field-name="Firstname"><input type="text" value="{{gridDisplayItem.Firstname}}" /></td>
-                            <td field-name="Dob"><input type="date" value="{{gridDisplayItem.Dob}}" /></td>
-                            <td field-name="IsActive"><input type="checkbox" value="{{gridDisplayItem.IsActive}}" ng-checked="{{gridDisplayItem.IsActive}}" /></td>
-                    </tbody>
-                </table>
-
-                <table tr-ng-grid='' items='guardians' enable-filtering="false" enable-sorting="false">
-                    <thead>
-                        <tr>
-                            <th field-name="GuardianId" display-name="Id" display-align="right" enable-filtering="false" enable-sorting="false">
-                            </th>
-                            <th field-name="Surname" display-name="Surname">
-                            </th>
-                            <th field-name="Firstname" display-name="Firstname">
-                            </th>
-                            <th field-name="Email" display-name="Email">
-                            </th>
-                            <th field-name="Mobile" display-name="Mobile">
-                            </th>
-                            <th field-name="OtherTelephone" display-name="Other Telephone">
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td field-name="GuardianId"></td>
-                            <td field-name="Surname"><input type="text" value="{{gridDisplayItem.Surname}}" /></td>
-                            <td field-name="Firstname"><input type="text" value="{{gridDisplayItem.Firstname}}" /></td>
-                            <td field-name="Email"><input type="email" value="{{gridDisplayItem.Email}}" /></td>
-                            <td field-name="Mobile"><input type="tel" value="{{gridDisplayItem.Mobile}}" /></td>
-                            <td field-name="OtherTelephone"><input type="tel" value="{{gridDisplayItem.OtherTelephone}}" /></td>
-
-                    </tbody>
-                </table>
-                <table tr-ng-grid='' items='guardians' enable-filtering="false" enable-sorting="false">
-                    <thead>
-                        <tr>
-                            <th field-name="GuardianId" display-name="Id" display-align="right" enable-filtering="false" enable-sorting="false">
-                            </th>
-                            <th field-name="Address" display-name="Address">
-                            </th>
-                            <th field-name="Town" display-name="Town">
-                            </th>
-                            <th field-name="Postcode" display-name="Postcode">
-                            </th>
-                            <th field-name="IsActive" display-name="Active">
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td field-name="GuardianId"></td>
-                            <td field-name="Address"><input type="text" value="{{gridDisplayItem.Address}}" /></td>
-                            <td field-name="Town"><input type="text" value="{{gridDisplayItem.Town}}" /></td>
-                            <td field-name="Postcode"><input type="email" value="{{gridDisplayItem.Postcode}}" /></td>
-                            <td field-name="IsActive"><input type="checkbox" value="{{gridDisplayItem.IsActive}}" ng-checked="{{gridDisplayItem.IsActive}}" /></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>*@
-</div>
+            <div id="memberDetail">
+                @Html.Partial("_GuardianDetails")
+                @Html.Partial("_JuniorDetails")
+                @Html.Partial("_JuniorRepeatDetails")
+                @Html.Partial("_GuardiaRepeatDetails")
+                <div class="form-group">
+                    <span class="col-md-6">
+                        <input id="singlebutton" type="button" value="Save Changes" class="btn btn-success" ng-click="saveChanges()">
+                    </span>
+                    <span class="col-md-6 text-right">
+                        <input type="button" value="Back to List" class="btn btn-warning" ng-click="backToList()" />
+                    </span>
+                </div>
+            </div>
+        </fieldset>         
+    </div>
 </div>

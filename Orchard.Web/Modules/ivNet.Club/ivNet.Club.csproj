@@ -138,6 +138,7 @@
     </Content>
     <Content Include="Styles\new.member.min.css" />
     <Content Include="Styles\trNgGrid.min.css" />
+    <None Include="Views\AdminMember\_GuardiaRepeatDetails.cshtml" />
     <Content Include="Views\Member\_Button.cshtml" />
     <Content Include="Views\Member\_GuardianCount.cshtml" />
     <Content Include="Views\Member\_Instruction.cshtml" />
@@ -151,6 +152,8 @@
     <Content Include="Views\Member\_Other.cshtml" />
     <Content Include="Views\AdminMember\_MemberList.cshtml" />
     <Content Include="Views\AdminMember\_GuardianDetails.cshtml" />
+    <Content Include="Views\AdminMember\_JuniorRepeatDetails.cshtml" />
+    <Content Include="Views\AdminMember\_JuniorDetails.cshtml" />
     <None Include="Views\Member\_RegistrationJuniorDetails.cshtml" />
     <Content Include="Views\Member\_RegistrationType.cshtml" />
     <Content Include="Views\Member\__Address.cshtml">

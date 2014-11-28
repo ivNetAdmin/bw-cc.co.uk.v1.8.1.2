@@ -3,6 +3,7 @@ using System;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using ivNet.Club.Enums;
 using ivNet.Club.Helpers;
 using ivNet.Club.Services;
 using ivNet.Club.ViewModel;
@@ -137,12 +138,21 @@ namespace ivNet.Club.Controllers.Api
         }
 
         [HttpPut]
-        public HttpResponseMessage Put(int id, JuniorVettingViewModel item)
+        public HttpResponseMessage Put(int id, AdminEditMemberViewModel member)
         {
 
             try
             {
-                _memberServices.Activate(id, item);
+                switch (member.MemberType)
+                {
+                    case (int)MemberType.Guardian:
+                        //_memberServices.UpdateGuardian();
+                        break;
+                    case (int)MemberType.Junior:
+                        break;
+                }
+                var cakes = member;
+              //  _memberServices.Activate(id, item);
 
                 return Request.CreateResponse(HttpStatusCode.OK,
                     "Success");

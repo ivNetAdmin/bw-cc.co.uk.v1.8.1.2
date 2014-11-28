@@ -40,7 +40,7 @@ ivNetAdminMemberList.factory('adminMember', function ($resource) {
 
 ivNetAdminMemberList.controller('AdminMemberListController', function ($scope, adminMemberList, adminMember) {
 
-    $('div.memberDetail').hide();
+    $('div#memberDetail').hide();
 
     adminMemberList.query(
         function(data) {
@@ -51,6 +51,8 @@ ivNetAdminMemberList.controller('AdminMemberListController', function ($scope, a
         });
 
     $scope.editMemberList = function(member) {
+       
+        $('div.memberDetails').hide();
 
         adminMember.query({ id: member.MemberId },
             function(data) {
@@ -63,13 +65,25 @@ ivNetAdminMemberList.controller('AdminMemberListController', function ($scope, a
                     if (data.MemberType == 1) {
                         $scope.$apply(function() {
                             $scope.guardian = data.Guardians[0];
+                            $scope.juniors = data.Juniors;
                         });
                         $('div#guardianDetails').show();
+                        $('div#juniorRepeatDetails').show();
+                    } else if (data.MemberType == 2) {
+                        $scope.$apply(function() {
+                            $scope.junior = data.Juniors[0];
+                            $scope.guardians = data.Guardians;
+                        });
+                        $('div#juniorDetails').show();
+                        $('div#guardianRepeatDetails').show();
                     }
+
+                    $('div#memberDetail').show();
+                    
                 });
               
 
-                $('div.memberDetail').find('tfoot').hide();
+                $('div#memberDetail').find('tfoot').hide();
 
             },
             function(error) {
@@ -77,11 +91,31 @@ ivNetAdminMemberList.controller('AdminMemberListController', function ($scope, a
             });
     };
 
-    $scope.editMemberDetail = function (member) {
+    //$scope.editMemberDetail = function (member) {
 
-        $('div#memberDetail').hide("blind", { direction: "up" },1000, function () {
-            $('div#memberList').show("blind", { direction: "down" }, 500);
+    //    $('div#memberDetail').hide("blind", { direction: "up" },1000, function () {
+    //        $('div#memberList').show("blind", { direction: "down" }, 500);
+    //    });
+
+    //};
+
+    $scope.saveChanges = function() {
+        adminMember.update({ id: 1 }, $scope.memberDetails,
+                   function () {
+                      
+                           alert("Saved OK");
+                       
+                   },
+                   function (error) {
+                       alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
+                   }
+               );
+    };
+
+    $scope.backToList = function() {
+        $('div#memberDetail').hide("blind", { direction: "up" }, 500, function () {
+            $('div.memberDetails').hide();
+            $('div#memberList').show();
         });
-
     };
 });
