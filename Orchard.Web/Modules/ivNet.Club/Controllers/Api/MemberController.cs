@@ -138,20 +138,28 @@ namespace ivNet.Club.Controllers.Api
         }
 
         [HttpPut]
-        public HttpResponseMessage Put(int id, AdminEditMemberViewModel member)
+        public HttpResponseMessage Put(int id, EditMemberViewModel memberViewModel)
         {
 
             try
             {
-                switch (member.MemberType)
+                switch (memberViewModel.MemberType)
                 {
                     case (int)MemberType.Guardian:
-                        //_memberServices.UpdateGuardian();
+                        if (!string.IsNullOrEmpty(memberViewModel.NewGuardian.Surname))
+                        {
+                            memberViewModel.Guardians.Add(memberViewModel.NewGuardian);
+                        }
+                        if (!string.IsNullOrEmpty(memberViewModel.NewJunior.Surname))
+                        {
+                            memberViewModel.Juniors.Add(memberViewModel.NewJunior);
+                        }
+                            _memberServices.UpdateGuardian(memberViewModel);
                         break;
                     case (int)MemberType.Junior:
                         break;
                 }
-                var cakes = member;
+          
               //  _memberServices.Activate(id, item);
 
                 return Request.CreateResponse(HttpStatusCode.OK,

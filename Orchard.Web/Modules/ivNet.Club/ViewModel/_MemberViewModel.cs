@@ -22,8 +22,16 @@ namespace ivNet.Club.ViewModel
         public string Postcode { get; set; }
         public string Town { get; set; }
 
+        public string School { get; set; }
+        public string Team { get; set; }
+        public string Notes { get; set; }
 
-        public DateTime? Dob { get; set; }       
+        public string BootSize { get; set; }
+        public string ShirtSize { get; set; }
+        public string ShortSize { get; set; }
+
+        public DateTime Dob { get; set; }       
         public byte IsActive { get; set; }
+        
     }
 }

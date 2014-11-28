@@ -1,0 +1,49 @@
+﻿<div id="guardianRepeatDetails" class="memberDetails">
+    <div ng-repeat="guardian in guardians" my-post-repeat-directive>
+        <div class="form-group">
+            Guardian: <strong>{{$index+1}}</strong>
+        </div>
+        <div class="form-group">
+            <span class="col-md-1 control-label text-right">Surname:</span>
+            <div class="col-md-3">
+                <input type="text" class="form-control input-md required disabled" ng-model="guardian.Surname">
+            </div>
+            <span class="col-md-1 control-label text-right">Firstname:</span>
+            <div class="col-md-3">
+                <input type="text" class="form-control input-md required disabled" ng-model="guardian.Firstname">
+            </div>
+            <span class="col-md-1 control-label text-right">Nickname:</span>
+            <div class="col-md-3">
+                <input class="form-control input-md" ng-model="guardian.Nickname" placeholder="Nickname">
+            </div>
+        </div>
+        <div class="form-group">
+            <span class="col-md-1 control-label text-right">Email:</span>
+            <div class="col-md-3">
+                <input type="text" class="form-control input-md required disabled" ng-model="guardian.Email">
+            </div>
+            <span class="col-md-1 control-label text-right">Mobile:</span>
+            <div class="col-md-3">
+                <input type="text" class="form-control input-md required" ng-model="guardian.Mobile" placeholder="Mobile">
+            </div>
+            <span class="col-md-1 control-label text-right">Telephone:</span>
+            <div class="col-md-3">
+                <input type="text" class="form-control input-md" ng-model="guardian.OtherTelephone" placeholder="Other Telephone">
+            </div>
+        </div>
+        <div class="form-group">
+            <span class="col-md-1 control-label text-right">Address:</span>
+            <div class="col-md-3">
+                <input type="text" class="form-control input-md required" ng-model="guardian.Address" placeholder="Address">
+            </div>
+            <span class="col-md-1 control-label text-right">Town:</span>
+            <div class="col-md-3">
+                <input type="text" class="form-control input-md" ng-model="guardian.Town" placeholder="Town">
+            </div>
+            <span class="col-md-1 control-label text-right">Postcode:</span>
+            <div class="col-md-3">
+                <input type="text" class="form-control input-md required" ng-model="guardian.Postcode" placeholder="Postcode">
+            </div>
+        </div>
+    </div>
+</div>

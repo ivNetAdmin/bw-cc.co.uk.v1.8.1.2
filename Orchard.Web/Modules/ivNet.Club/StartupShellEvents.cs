@@ -13,6 +13,12 @@ namespace ivNet.Club
         {
 
             #region models->entities
+            Mapper.CreateMap<_MemberViewModel, Member>();
+            Mapper.CreateMap<_MemberViewModel, ContactDetail>();
+            Mapper.CreateMap<_MemberViewModel, AddressDetail>();
+
+            Mapper.CreateMap<_MemberViewModel, JuniorInfo>();
+            Mapper.CreateMap<_MemberViewModel, Kit>();
 
             Mapper.CreateMap<MemberViewModel, Member>();
             Mapper.CreateMap<ContactViewModel, ContactDetail>();

@@ -14,7 +14,7 @@ namespace ivNet.Club.Helpers
     {
         #region form->models
 
-        public static void MapNewMember(MemberViewModel viewModel, FormCollection form,
+        public static void MapNewMember(_MemberViewModel viewModel, FormCollection form,
             string memberType, int counter)
         {
             if (!string.IsNullOrEmpty(form[string.Format("{0}-MemberNo-{1}", memberType, counter)]))
@@ -44,7 +44,7 @@ namespace ivNet.Club.Helpers
             }
         }
 
-        public static void Map(MemberViewModel viewModel, FormCollection form, string memberType)
+        public static void Map(_MemberViewModel viewModel, FormCollection form, string memberType)
         {
             viewModel.Surname = form[string.Format("{0}-Surname", memberType)];
             viewModel.Firstname = form[string.Format("{0}-Firstname", memberType)];
@@ -64,13 +64,14 @@ namespace ivNet.Club.Helpers
             }
         }
 
-        public static void Map(JuniorViewModel viewModel, FormCollection form)
+        public static void Map(_MemberViewModel viewModel, FormCollection form)
         {
             viewModel.Dob = DateTime.Parse(form[string.Format("Dob")]);
             viewModel.School = form[string.Format("School")];
             viewModel.Notes = form[string.Format("Notes")];            
         }
-        public static void MapNewContactDetail(ContactViewModel viewModel, FormCollection form, int counter)
+
+        public static void MapNewContactDetail(_MemberViewModel viewModel, FormCollection form, int counter)
         {
             viewModel.Email = form[string.Format("Email-{0}", counter)];
             viewModel.Mobile = form[string.Format("Mobile-{0}", counter)];
@@ -78,7 +79,7 @@ namespace ivNet.Club.Helpers
             viewModel.ContactDetailKey = CustomStringHelper.BuildKey(new[] { viewModel.Email });
         }
 
-        public static void MapNewContactDetail(ContactViewModel viewModel, FormCollection form)
+        public static void MapNewContactDetail(_MemberViewModel viewModel, FormCollection form)
         {
             viewModel.Email = form[string.Format("Email")];
             viewModel.Mobile = form[string.Format("Mobile")];
@@ -86,7 +87,7 @@ namespace ivNet.Club.Helpers
             viewModel.ContactDetailKey = CustomStringHelper.BuildKey(new[] { viewModel.Email });
         }
 
-        public static void MapNewAddressDetail(AddressViewModel viewModel, FormCollection form, int counter)
+        public static void MapNewAddressDetail(_MemberViewModel viewModel, FormCollection form, int counter)
         {
             viewModel.Address = form[string.Format("Address-{0}", counter)];
             viewModel.Postcode = form[string.Format("Postcode-{0}", counter)];
@@ -94,7 +95,7 @@ namespace ivNet.Club.Helpers
             viewModel.AddressDetailKey = CustomStringHelper.BuildKey(new[] { viewModel.Address, viewModel.Postcode });
         }
 
-        public static void MapNewAddressDetail(AddressViewModel viewModel, FormCollection form)
+        public static void MapNewAddressDetail(_MemberViewModel viewModel, FormCollection form)
         {
             viewModel.Address = form[string.Format("Address")];
             viewModel.Postcode = form[string.Format("Postcode")];
@@ -108,7 +109,7 @@ namespace ivNet.Club.Helpers
             return DateTime.Parse(form[string.Format("DOB-{0}", counter)]);
         }
 
-        public static void MapJuniorDetail(JuniorViewModel viewModel, FormCollection form, int counter)
+        public static void MapJuniorDetail(_MemberViewModel viewModel, FormCollection form, int counter)
         {
             viewModel.School = form[string.Format("School-{0}", counter)];
             viewModel.Team = form[string.Format("Team-{0}", counter)];
@@ -123,7 +124,32 @@ namespace ivNet.Club.Helpers
 
         #region models->entities
 
-        public static void UpdateMap(Member entity, MemberViewModel viewModel)
+        public static JuniorInfo Map(JuniorInfo entity, _MemberViewModel viewModel)
+        {
+            return Mapper.Map(viewModel, entity);
+        }
+
+        public static Kit Map(Kit entity, _MemberViewModel viewModel)
+        {
+            return Mapper.Map(viewModel, entity);
+        }
+
+        public static Member Map(Member entity, _MemberViewModel viewModel)
+        {
+            return Mapper.Map(viewModel, entity);
+        }
+
+        public static ContactDetail Map(ContactDetail entity, _MemberViewModel viewModel)
+        {
+            return Mapper.Map(viewModel, entity);
+        }
+
+        public static AddressDetail Map(AddressDetail entity, _MemberViewModel viewModel)
+        {
+            return Mapper.Map(viewModel, entity);
+        }
+
+        public static void UpdateMap(Member entity, _MemberViewModel viewModel)
         {
            entity.Nickname = viewModel.Nickname;
         }
@@ -431,7 +457,6 @@ namespace ivNet.Club.Helpers
             viewModel.IsActive = entity.IsActive;
             return viewModel;
         }
-        #endregion
-
+        #endregion      
     }
 }

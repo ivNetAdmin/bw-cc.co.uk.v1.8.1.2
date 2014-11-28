@@ -6,22 +6,30 @@
     Style.Require("Club.New.Member");
 }
 
-
 <div data-ng-app="ivNet.Member.Registration.Details.App">
     <div data-ng-controller="MemberRegistrationDetailsController">
-        
-        @using (Html.BeginFormAntiForgeryPost(Url.Action("Update", "Member", new {area = "ivNet.Club"}), FormMethod.Post, new {@class = "form-horizontal", id = "newMemberForm"}))
-        {
-            <p>Username: {{authenticatedUserName}}</p>
-            @Html.Partial("_RegistrationAddGuardian")
-            @Html.Partial("_RegistrationGuardianDetails")
-            @Html.Partial("_RegistrationAddJunior")
-            @Html.Partial("_RegistrationJuniorDetails")
 
-    <input name="GuardianCount" value="{{guardianCount}}" type="hidden" />
-    <input name="JuniorCount" value="{{juniorCount}}" type="hidden" />
-            <input id="singlebutton" type="submit" value="Save Changes" class="btn btn-success" />
-        }
+        <form angular-validator
+              angular-validator-submit="" ng-submit="saveChanges()">
+
+            <div class="form-group">
+                <input type="button" value="Add Gaurdian" class="btn btn-info" ng-click="addGuardian()" />
+                <input type="button" value="Cancel" class="btn btn-warning" ng-click="cancelGuardian()" />
+            </div>
+            @Html.Partial("_Shared/_GuardianDetails")
+            @Html.Partial("_Shared/_GuardianRepeatDetails")
+            <div class="form-group">
+                <input type="button" value="Add Junior" class="btn btn-info" ng-click="addJunior()" />
+                <input type="button" value="Cancel" class="btn btn-warning" ng-click="cancelJunior()" />
+            </div>
+            @Html.Partial("_Shared/_JuniorDetails")
+            @Html.Partial("_Shared/_JuniorRepeatDetails")
+            <div class="form-group">
+                <input type="submit" value="Save Changes" class="btn btn-success" />
+                <input type="button" value="Cancel Changes" class="btn btn-warning" />
+            </div>
+        </form>
     </div>
 </div>
+
 

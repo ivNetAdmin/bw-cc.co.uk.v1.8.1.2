@@ -68,19 +68,19 @@ namespace ivNet.Club.Controllers
                 var memberTypes = form["checkboxes"].Split(',');
                 var isGuardian = memberTypes.Contains("Guardian");
 
-                var registrationList = new List<RegistrationViewModel>();
+                var editMemberViewModel = new EditMemberViewModel();
 
                 for (var i = 1; i <= memberCount; i++)
                 {
-                    var registrationViewModel = new RegistrationViewModel();
+                    var guardianViewModel = new _MemberViewModel();
 
-                    MapperHelper.MapNewMember(registrationViewModel.MemberViewModel, form, "Adult", i);
-                    MapperHelper.MapNewContactDetail(registrationViewModel.ContactViewModel, form, i);
-                    MapperHelper.MapNewAddressDetail(registrationViewModel.AddressViewModel, form, i);
+                    MapperHelper.MapNewMember(guardianViewModel, form, "Adult", i);
+                    MapperHelper.MapNewContactDetail(guardianViewModel, form, i);
+                    MapperHelper.MapNewAddressDetail(guardianViewModel, form, i);
 
-                    registrationViewModel.Season = form["Season"];
+                    editMemberViewModel.Season = form["Season"];
 
-                    registrationList.Add(registrationViewModel);
+                    editMemberViewModel.Guardians.Add(guardianViewModel);
                 }
 
                 if (isGuardian)
@@ -90,18 +90,16 @@ namespace ivNet.Club.Controllers
                     // get junior club member details
                     for (var i = 1; i <= juniorCount; i++)
                     {
-                        var juniorViewModel = new JuniorViewModel {Dob = MapperHelper.MapNewDob(form, i)};
+                        var juniorViewModel = new _MemberViewModel { Dob = MapperHelper.MapNewDob(form, i) };
 
-                        MapperHelper.MapNewMember(juniorViewModel.MemberViewModel, form, "Junior", i);
+                        MapperHelper.MapNewMember(juniorViewModel, form, "Junior", i);
                         MapperHelper.MapJuniorDetail(juniorViewModel, form, i);
-
-                        foreach (var registrationViewModel in registrationList)
-                        {
-                            registrationViewModel.JuniorList.Add(juniorViewModel);
-                        }
+                       
+                        editMemberViewModel.Juniors.Add(juniorViewModel);
+                        
                     }
 
-                    _memberServices.CreateGuardian(registrationList);
+                    _memberServices.CreateGuardian(editMemberViewModel);
                 }
 
                 return new RedirectResult("~/club/member/new/fee");
@@ -120,20 +118,20 @@ namespace ivNet.Club.Controllers
         {
             try
             {
-                var registrationUpdateList = new RegistrationUpdateViewModel();
+                var editMemberViewModel = new EditMemberViewModel();
 
                 // current guardians
                 var guardianCount = Convert.ToInt32(form["GuardianCount"]);
 
                 for (var i = 1; i <= guardianCount; i++)
                 {
-                    var registrationViewModel = new RegistrationViewModel();
+                    var guardianViewModel = new _MemberViewModel();
 
-                    MapperHelper.MapNewMember(registrationViewModel.MemberViewModel, form, "Guardian", i);
-                    MapperHelper.MapNewContactDetail(registrationViewModel.ContactViewModel, form, i);
-                    MapperHelper.MapNewAddressDetail(registrationViewModel.AddressViewModel, form, i);
+                    MapperHelper.MapNewMember(guardianViewModel, form, "Guardian", i);
+                    MapperHelper.MapNewContactDetail(guardianViewModel, form, i);
+                    MapperHelper.MapNewAddressDetail(guardianViewModel, form, i);
 
-                    registrationUpdateList.Guardians.Add(registrationViewModel);
+                    editMemberViewModel.Guardians.Add(guardianViewModel);
                 }
 
                 // current juniors
@@ -142,37 +140,37 @@ namespace ivNet.Club.Controllers
                 // get junior club member details
                 for (var i = 1; i <= juniorCount; i++)
                 {
-                    var juniorViewModel = new JuniorViewModel {Dob = MapperHelper.MapNewDob(form, i)};
+                    var juniorViewModel = new _MemberViewModel() {Dob = MapperHelper.MapNewDob(form, i)};
 
-                    MapperHelper.MapNewMember(juniorViewModel.MemberViewModel, form, "Junior", i);
+                    MapperHelper.MapNewMember(juniorViewModel, form, "Junior", i);
                     MapperHelper.MapJuniorDetail(juniorViewModel, form, i);
 
-                    registrationUpdateList.Juniors.Add(juniorViewModel);
+                    editMemberViewModel.Juniors.Add(juniorViewModel);
                 }
 
                 // add new guardian
                 if (form["Guardian-Firstname"].Length > 0)
                 {
-                    var registrationViewModel = new RegistrationViewModel();
+                    var newGuardianViewModel = new _MemberViewModel();
 
-                    MapperHelper.Map(registrationViewModel.MemberViewModel, form, "Guardian");
-                    MapperHelper.MapNewContactDetail(registrationViewModel.ContactViewModel, form);
-                    MapperHelper.MapNewAddressDetail(registrationViewModel.AddressViewModel, form);
+                    MapperHelper.Map(newGuardianViewModel, form, "Guardian");
+                    MapperHelper.MapNewContactDetail(newGuardianViewModel, form);
+                    MapperHelper.MapNewAddressDetail(newGuardianViewModel, form);
 
-                    registrationUpdateList.Guardians.Add(registrationViewModel);
+                    editMemberViewModel.Guardians.Add(newGuardianViewModel);
                 }
 
                 // add new junior
                 if (form["Junior-Surname"].Length > 0)
                 {
-                    var newJuniorViewModel = new JuniorViewModel {Dob = DateTime.Parse(form["Dob"])};
-                    MapperHelper.Map(newJuniorViewModel.MemberViewModel, form, "Junior");
+                    var newJuniorViewModel = new _MemberViewModel { Dob = DateTime.Parse(form["Dob"]) };
+                    MapperHelper.Map(newJuniorViewModel, form, "Junior");
                     MapperHelper.Map(newJuniorViewModel, form);
 
-                    registrationUpdateList.Juniors.Add(newJuniorViewModel);
+                    editMemberViewModel.Juniors.Add(newJuniorViewModel);
                 }
 
-                _memberServices.UpdateGuardian(registrationUpdateList);
+                _memberServices.UpdateGuardian(editMemberViewModel);
 
                 return new RedirectResult("~/club/member/registraion-details");
             }

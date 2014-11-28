@@ -91,14 +91,6 @@ ivNetAdminMemberList.controller('AdminMemberListController', function ($scope, a
             });
     };
 
-    //$scope.editMemberDetail = function (member) {
-
-    //    $('div#memberDetail').hide("blind", { direction: "up" },1000, function () {
-    //        $('div#memberList').show("blind", { direction: "down" }, 500);
-    //    });
-
-    //};
-
     $scope.saveChanges = function() {
         adminMember.update({ id: 1 }, $scope.memberDetails,
                    function () {

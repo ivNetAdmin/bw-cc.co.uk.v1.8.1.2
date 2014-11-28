@@ -154,6 +154,7 @@
     <Content Include="Views\AdminMember\_GuardianDetails.cshtml" />
     <Content Include="Views\AdminMember\_JuniorRepeatDetails.cshtml" />
     <Content Include="Views\AdminMember\_JuniorDetails.cshtml" />
+    <Content Include="Views\Member\RegistrationDetails.cshtml" />
     <None Include="Views\Member\_RegistrationJuniorDetails.cshtml" />
     <Content Include="Views\Member\_RegistrationType.cshtml" />
     <Content Include="Views\Member\__Address.cshtml">
@@ -194,10 +195,14 @@
     <Content Include="Views\AdminConfiguration\Index.cshtml" />
     <Content Include="Views\AdminMember\Activate.cshtml" />
     <Content Include="Views\AdminMember\List.cshtml" />
-    <Content Include="Views\Member\RegistrationDetails.cshtml" />
+    <Content Include="Views\Member\RegistrationDetails.old.cshtml" />
     <Content Include="Views\Member\_RegistrationAddGuardian.cshtml" />
     <Content Include="Views\Member\_RegistrationGuardianDetails.cshtml" />
     <Content Include="Views\Member\_RegistrationAddJunior.cshtml" />
+    <Content Include="Views\_Shared\_GuardianDetails.cshtml" />
+    <Content Include="Views\_Shared\_GuardianRepeatDetails.cshtml" />
+    <Content Include="Views\_Shared\_JuniorDetails.cshtml" />
+    <Content Include="Views\_Shared\_JuniorRepeatDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AdminMemberController.cs" />
@@ -255,7 +260,7 @@
     <Compile Include="Services\RegistrationServices.cs" />
     <Compile Include="StartupShellEvents.cs" />
     <Compile Include="ViewModel\AddressViewModel.cs" />
-    <Compile Include="ViewModel\AdminEditMemberViewModel.cs" />
+    <Compile Include="ViewModel\EditMemberViewModel.cs" />
     <Compile Include="ViewModel\MemberViewModel.cs" />
     <Compile Include="ViewModel\ConfigurationItemViewModel.cs" />
     <Compile Include="ViewModel\ContactViewModel.cs" />

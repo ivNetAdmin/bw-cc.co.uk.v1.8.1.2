@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ivNet.Club.Entities;
+using ivNet.Club.Enums;
 using ivNet.Club.Helpers;
 using ivNet.Club.ViewModel;
 using NHibernate.Mapping;
@@ -13,7 +14,7 @@ namespace ivNet.Club.Services
     public interface IGuardianServices : IDependency
     {
         RegistrationViewModel GetByUserId(int id);
-        RegisteredGuardianViewModel GetRegisteredUser();
+        EditMemberViewModel GetRegisteredUser();
         GuardianViewModel GetByEmail(string email);
     }
 
@@ -49,13 +50,13 @@ namespace ivNet.Club.Services
             }
         }
 
-        public RegisteredGuardianViewModel GetRegisteredUser()
+        public EditMemberViewModel GetRegisteredUser()
         {
             var user = _authenticationService.GetAuthenticatedUser();
 
             using (var session = NHibernateHelper.OpenSession())
             {
-                var registrationViewModel = new RegisteredGuardianViewModel();
+                var editMemberViewModel = new EditMemberViewModel {MemberType = (int) MemberType.Guardian};
 
                 var guardian = session.CreateCriteria(typeof(Guardian))
                     .List<Guardian>().FirstOrDefault(x => x.Member.UserId.Equals(user.Id));
@@ -67,22 +68,23 @@ namespace ivNet.Club.Services
 
                     foreach (var associatedGuardian in associatedGuardianList)
                     {
-                        var memberDetailViewModel = new MemberDetailViewModel();
-                        MapperHelper.Map(memberDetailViewModel, associatedGuardian.Member);
-                        MapperHelper.Map(memberDetailViewModel, associatedGuardian.AddressDetail);
-                        MapperHelper.Map(memberDetailViewModel, associatedGuardian.ContactDetail);
-                        registrationViewModel.MemberDetails.Add(memberDetailViewModel);                        
+                        var guardianViewModel = new _MemberViewModel();
+                        MapperHelper.Map(guardianViewModel, associatedGuardian.Member);
+                        MapperHelper.Map(guardianViewModel, associatedGuardian.AddressDetail);
+                        MapperHelper.Map(guardianViewModel, associatedGuardian.ContactDetail);
+                        editMemberViewModel.Guardians.Add(guardianViewModel);                        
                     }
                   
                     foreach (var junior in guardian.Juniors)
                     {
-                        var juniorDetailViewModel = new JuniorDetailViewModel();
-                        MapperHelper.Map(juniorDetailViewModel, junior);
-                        registrationViewModel.JuniorList.Add(juniorDetailViewModel);
+                        var juniorViewModel = new _MemberViewModel();
+                        MapperHelper.Map(juniorViewModel, junior.Member);
+                        juniorViewModel.Dob = junior.Dob;
+                        editMemberViewModel.Juniors.Add(juniorViewModel);
                     }
                 }
 
-                return registrationViewModel;
+                return editMemberViewModel;
             }
         }
        

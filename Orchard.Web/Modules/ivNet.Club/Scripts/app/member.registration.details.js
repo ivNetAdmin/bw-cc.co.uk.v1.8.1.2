@@ -1,15 +1,29 @@
 ﻿var ivNetMemberRegistrationDetails = angular.module("ivNet.Member.Registration.Details.App", ['ngResource', 'trNgGrid', 'ui.event'])
-.filter("editDateField", function () {
-    return function (combinedFieldValueUnused, item) {
-        var d = item.Dob;
+    .filter("editDateField", function() {
+        return function(combinedFieldValueUnused, item) {
+            var d = item.Dob;
 
-        var curr_date = d.substr(8, 2);
-        var curr_month = d.substr(5, 2);
-        var curr_year = d.substr(0, 4);
+            var curr_date = d.substr(8, 2);
+            var curr_month = d.substr(5, 2);
+            var curr_year = d.substr(0, 4);
 
-        return curr_year + "-" + curr_month + "-" + curr_date;
-    };
-});
+            return curr_year + "-" + curr_month + "-" + curr_date;
+        };
+    })
+    .directive('myPostRepeatDirective', function() {
+        return function(scope, element, attrs) {
+            if (scope.$last) {
+
+                $('div#guardianRepeatDetails').find('input.disabled').each(function(index, item) {
+                    $(item).attr('disabled', '');
+                });
+
+                $('div#juniorRepeatDetails').find('input.disabled').each(function(index, item) {
+                    $(item).attr('disabled', '');
+                });
+            }
+        }
+    });
 
 ivNetMemberRegistrationDetails.factory('memberRegistrationDetails', function ($resource) {
     return $resource('/api/club/member/:id/:type', null,
@@ -28,64 +42,82 @@ ivNetMemberRegistrationDetails.factory('guardianRegistrationDetails', function (
 });
 
 ivNetMemberRegistrationDetails.controller('MemberRegistrationDetailsController', function ($scope, memberRegistrationDetails, guardianRegistrationDetails) {
-    init();
 
-    function init() {      
-        $('div#newGuardianTable').hide();
-        $('div#newJuniorTable').hide();
+    angular.element(document).ready(function () {        
 
-        guardianRegistrationDetails.query({ id: "registered", type: "user" },
-            function(data) {
-                $scope.details = data;
-                $scope.authenticatedUserName = data.MemberDetails[0].Email;
-                $scope.memberDetails = data.MemberDetails;
-                $scope.juniors = data.JuniorList;
-                $scope.newMemberDetails = data.NewMemberDetails;
-                $scope.newJuniors = data.NewJuniorList;
+    });
+    
+    guardianRegistrationDetails.query({ id: "registered", type: "user" },
+        function(data) {
 
-                $scope.guardianCount = data.MemberDetails.length;
-                $scope.juniorCount = data.JuniorList.length;
+            $('div.memberDetails').hide();      
 
-                $('table').find('tfoot').hide();
-            },
-            function(error) {
-                alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
-            });
-    }
+            $('div#guardianRepeatDetails').show();
+            $('div#juniorRepeatDetails').show();
 
-    $scope.addGuardian = function () {        
+            $scope.data = data;
+            $scope.authenticatedUserName = data.Guardians[0].Email;
+            $scope.authenticatedMemberId = data.Guardians[0].MemberId;
 
-        $('div#newGuardianTable table').find('input').each(function(index, item) {
-            switch($(item).attr('name')){
-                case "Guardian-Firstname":
-                case "Guardian-Surname":
-                case "Mobile":
-                case "Email":
-                case "Address":
-                case "Postcode":
+            $scope.guardianCount = data.Guardians.length;
+            $scope.juniorCount = data.Juniors.length;
 
-                    $(item).attr('required','');
-                    break;
-            }
+            $scope.guardians = data.Guardians;
+            $scope.juniors = data.Juniors;
+
+            $scope.newGuardian = data.NewGuardian;
+            $scope.newJunior = data.NewJunior;
+         
+        },
+        function(error) {
+            alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
         });
 
-        $('table').find('tfoot').hide();
-        $('div#newGuardianTable').show();
+    $scope.saveChanges = function () {
+        memberRegistrationDetails.update({ id: $scope.authenticatedMemberId }, $scope.data,
+                   function () {
+                       window.location.reload();
+                   },
+                   function (error) {
+                       alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
+                   }
+               );
+    };
+
+    $scope.addGuardian = function () {
+
+        $('div#guardianDetails').find('input.required').each(function(index, item) {
+            $(item).attr('required', '');
+        });
+
+        $('div#guardianDetails').show();
+    };
+
+    $scope.cancelGuardian = function () {
+
+        $('div#guardianDetails').find('input.required').each(function (index, item) {
+            $(item).removeAttr('required', '');
+        });
+
+        $('div#guardianDetails').hide();
     };
 
     $scope.addJunior = function () {
-        $('div#newJuniorTable table').find('input').each(function (index, item) {
-            switch ($(item).attr('name')) {
-                case "Junior-Firstname":
-                case "Junior-Surname":
-                case "Dob":
-
-                    $(item).attr('required', '');
-                    break;
-            }
+        $('div#juniorDetails').find('input.required').each(function (index, item) {
+            $(item).attr('required', '');
         });
-        $('table').find('tfoot').hide();
-        $('div#newJuniorTable').show();
+
+        $('div#juniorDetails').show();
+
+    };
+
+    $scope.cancelJunior = function () {
+        $('div#juniorDetails').find('input.required').each(function (index, item) {
+            $(item).removeAttr('required', '');
+        });
+
+        $('div#juniorDetails').hide();
+
     };
 
     $scope.clearGuardianSearch = function () {    
@@ -100,7 +132,6 @@ ivNetMemberRegistrationDetails.controller('MemberRegistrationDetailsController',
         }
 
     };
-
 
     $scope.blurEmailCallback = function (evt) {
 
