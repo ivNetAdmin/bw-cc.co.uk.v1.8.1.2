@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -217,7 +218,25 @@ namespace ivNet.Club.Services
                         if (guardian.Id == 0)
                         {
                             guardian.Init();
+                        }
+
+                        if (string.IsNullOrEmpty(guardianViewModel.MemberKey))
+                        {
+                            guardianViewModel.MemberKey =
+                                CustomStringHelper.BuildKey(new[]
+                                {
+                                    guardianViewModel.Email
+                                });
+                            guardianViewModel.ContactDetailKey = guardianViewModel.MemberKey;
                             guardian.GuardianKey = guardianViewModel.MemberKey;
+                        }
+
+
+                        if (string.IsNullOrEmpty(guardianViewModel.AddressDetailKey))
+                        {
+                            guardianViewModel.AddressDetailKey =
+                                CustomStringHelper.BuildKey(new[]
+                                {guardianViewModel.Address, guardianViewModel.Postcode});
                         }
 
                         // check data has not already been saved
@@ -225,7 +244,7 @@ namespace ivNet.Club.Services
                             guardianViewModel.MemberKey);
 
                         guardian.ContactDetail = DuplicateCheck(session, guardian.ContactDetail,
-                           guardianViewModel.ContactDetailKey);
+                            guardianViewModel.ContactDetailKey);
 
                         guardian.AddressDetail = DuplicateCheck(session, guardian.AddressDetail,
                             guardianViewModel.AddressDetailKey);
@@ -256,24 +275,29 @@ namespace ivNet.Club.Services
                         {
 
                             // get junior or create a new one
-                            var junior = session.CreateCriteria(typeof(Junior))
+                            var junior = session.CreateCriteria(typeof (Junior))
                                 .List<Junior>().FirstOrDefault(
                                     x => x.Member.Id.Equals(juniorViewModel.MemberId)) ??
-                                           new Junior();
+                                         new Junior();
 
                             if (junior.Id == 0)
                             {
                                 junior.Init();
-                                junior.Player.Init();                                
+                                junior.Player.Init();
+                            }
 
-                                junior.JuniorKey =
-                                   CustomStringHelper.BuildKey(new[]
+                            if (string.IsNullOrEmpty(juniorViewModel.MemberKey))
+                            {
+                                juniorViewModel.MemberKey =
+                                    CustomStringHelper.BuildKey(new[]
                                     {
                                         juniorViewModel.Surname,
-                                        juniorViewModel.Firstname                                        ,
+                                        juniorViewModel.Firstname,
                                         juniorViewModel.Dob.ToShortDateString()
                                     });
                             }
+
+                            junior.JuniorKey = juniorViewModel.MemberKey;
 
                             junior.Dob = juniorViewModel.Dob;
 
@@ -311,10 +335,10 @@ namespace ivNet.Club.Services
                             session.SaveOrUpdate(junior.Player.Kit);
 
                             // create a blank fee for this season
-                         //   var fee = new Fee { Season = registrationViewModel.Season };
-                         //   SetAudit(fee);
-                         //   session.SaveOrUpdate(fee);
-                         //   junior.Player.Fees.Add(fee);
+                            //   var fee = new Fee { Season = registrationViewModel.Season };
+                            //   SetAudit(fee);
+                            //   session.SaveOrUpdate(fee);
+                            //   junior.Player.Fees.Add(fee);
 
                             junior.Player.Number = junior.Member.Id.ToString(CultureInfo.InvariantCulture)
                                 .PadLeft(6, '0');

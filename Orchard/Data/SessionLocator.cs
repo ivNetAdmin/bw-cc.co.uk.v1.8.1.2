@@ -65,7 +65,7 @@ namespace Orchard.Data {
             }
             else {
                 if (_transaction != null) {
-                    _transaction.Commit();
+                            _transaction.Commit();
                 }
             }
 

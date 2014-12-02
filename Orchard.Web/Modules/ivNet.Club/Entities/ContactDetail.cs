@@ -21,7 +21,7 @@ namespace ivNet.Club.Entities
 
             Map(x => x.Email).Not.Nullable().Length(50);
             Map(x => x.Mobile).Not.Nullable().Length(50);
-            Map(x => x.OtherTelephone).Not.Nullable().Length(50);
+            Map(x => x.OtherTelephone).Nullable().Length(50);
 
             Map(x => x.IsActive);
 
