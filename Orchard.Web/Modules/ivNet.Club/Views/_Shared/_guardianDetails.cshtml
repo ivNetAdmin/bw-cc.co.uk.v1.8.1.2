@@ -1,48 +1,68 @@
 ﻿<div id="guardianDetails" class="memberDetails">
-    <div class="form-group">
+    <div class="form-group col-md-12">
         Guardian: <strong>{{guardian.Firstname}} {{guardian.Surname}}</strong>
     </div>
 
-    <div class="form-group">
+    <div class="form-group col-md-12">
         <span class="col-md-1 control-label text-right">Surname:</span>
         <div class="col-md-3">
-            <input name="Guardian-Surname" type="text" class="form-control input-md required" ng-model="newGuardian.Surname" placeholder="Surname">
+            <input type="text" class="form-control input-md required" ng-model="newGuardian.Surname" placeholder="Surname">
         </div>
         <span class="col-md-1 control-label text-right">Firstname:</span>
         <div class="col-md-3">
-            <input name="Guardian-Firstname" type="text" class="form-control input-md required" ng-model="newGuardian.Firstname" placeholder="Firstname">
+            <input type="text" class="form-control input-md required" ng-model="newGuardian.Firstname" placeholder="Firstname">
         </div>
         <span class="col-md-1 control-label text-right">Nickname:</span>
         <div class="col-md-3">
-            <input name="Guardian-Nickname" type="text" class="form-control input-md" ng-model="newGuardian.Nickname" placeholder="Nickname">
+            <input type="text" class="form-control input-md" ng-model="newGuardian.Nickname" placeholder="Nickname">
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group col-md-12">
         <span class="col-md-1 control-label text-right">Email:</span>
         <div class="col-md-3">
-            <input name="Guardian-Email" type="text" class="form-control input-md required" ng-model="newGuardian.Email" placeholder="Email">
+            <input type="text" id="Email-Guardian" name="Email-Guardian" class="form-control input-md required" ng-model="newGuardian.Email" ui-event="{ blur : 'blurEmailCallback($event)' }" placeholder="Email" >
         </div>
+        <span class="col-md-1 control-label text-right">Again:</span>
+        <div class="col-md-3">
+            <input type="text" class="form-control validate[required,equals[Email-Guardian]]" placeholder="Email Again">
+        </div>
+
+        <div class="col-md-4">           
+        </div>
+    </div>
+    <div id="dupError" class="form-group col-md-12">
+        <span class="col-md-2"></span>
+        <div class=" col-md-10">
+            <p class="error"></p>
+        </div>
+    </div>
+    <div class="form-group col-md-12">
+       
         <span class="col-md-1 control-label text-right">Mobile:</span>
         <div class="col-md-3">
-            <input name="Guardian-Mobile" type="text" class="form-control input-md required" ng-model="newGuardian.Mobile" placeholder="Mobile">
+            <input type="text" class="form-control input-md required" ng-model="newGuardian.Mobile" placeholder="Mobile">
         </div>
         <span class="col-md-1 control-label text-right">Telephone:</span>
         <div class="col-md-3">
-            <input name="Guardian-OtherTelephone" type="text" class="form-control input-md" ng-model="newGuardian.OtherTelephone" placeholder="Other Telephone">
+            <input type="text" class="form-control input-md" ng-model="newGuardian.OtherTelephone" placeholder="Other Telephone">
+        </div>
+
+        <div class="col-md-4">
+
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group col-md-12">
         <span class="col-md-1 control-label text-right">Address:</span>
         <div class="col-md-3">
-            <input name="Guardian-Address" type="text" class="form-control input-md required" ng-model="newGuardian.Address" placeholder="Address">
+            <input type="text" class="form-control input-md required" ng-model="newGuardian.Address" placeholder="Address">
         </div>
         <span class="col-md-1 control-label text-right">Town:</span>
         <div class="col-md-3">
-            <input name="Guardian-Town" type="text" class="form-control input-md" ng-model="newGuardian.Town" placeholder="Town">
+            <input type="text" class="form-control input-md" ng-model="newGuardian.Town" placeholder="Town">
         </div>
         <span class="col-md-1 control-label text-right">Postcode:</span>
         <div class="col-md-3">
-            <input name="Guardian-Nickname" type="text" class="form-control input-md required" ng-model="newGuardian.Postcode" placeholder="Postcode">
+            <input type="text" class="form-control input-md required" ng-model="newGuardian.Postcode" placeholder="Postcode">
         </div>
     </div>
 </div>

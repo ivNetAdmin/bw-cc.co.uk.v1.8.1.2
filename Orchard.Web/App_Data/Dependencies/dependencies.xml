@@ -89,8 +89,8 @@
   </Dependency>
   <Dependency>
     <ModuleName>ivNet.Club</ModuleName>
-    <VirtualPath>~/Modules/ivNet.Club/bin/ivNet.Club.dll</VirtualPath>
-    <LoaderName>PrecompiledExtensionLoader</LoaderName>
+    <VirtualPath>~/Modules/ivNet.Club/ivNet.Club.csproj</VirtualPath>
+    <LoaderName>DynamicExtensionLoader</LoaderName>
     <References>
       <Reference>
         <Name>AutoMapper</Name>

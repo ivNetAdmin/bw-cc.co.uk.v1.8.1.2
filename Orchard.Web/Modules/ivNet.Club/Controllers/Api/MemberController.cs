@@ -96,7 +96,7 @@ namespace ivNet.Club.Controllers.Api
                         {
                             message =
                                 string.Format(
-                                    "This eMail [{0}] is alerady being used by {1} {2}. If you are gaurdian trying to register a junior then please log into the website and use the 'My Club' page.",
+                                    "This eMail [{0}] is alerady being used by {1} {2}.",
                                     id, adult.Firstname, adult.Surname);
 
                         }
