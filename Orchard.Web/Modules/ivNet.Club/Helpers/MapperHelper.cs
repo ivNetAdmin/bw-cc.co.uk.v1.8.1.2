@@ -152,6 +152,7 @@ namespace ivNet.Club.Helpers
         public static void UpdateMap(Member entity, _MemberViewModel viewModel)
         {
            entity.Nickname = viewModel.Nickname;
+           entity.IsActive = viewModel.IsActive;
         }
 
         //public static void Map(Guardian entity, JuniorViewModel viewModel)

@@ -1,9 +1,14 @@
 ﻿<div id="guardianRepeatDetails" class="memberDetails">
     <div ng-repeat="guardian in guardians" my-post-repeat-directive>
-        <div class="form-group">
-            Guardian: <strong>{{$index+1}}</strong>
+        <div class="form-group col-md-12">
+            <span class="col-md-1 control-label text-right">
+                Guardian:<strong>{{$index+1}}</strong>
+            </span>
+            <div class="col-md-2">
+                <input type="checkbox" ng-model="guardian.IsActive" value="{{guardian.IsActive}}" ng-checked="{{guardian.IsActive}}" /> [Active]
+            </div>
         </div>
-        <div class="form-group">
+        <div class="form-group col-md-12">
             <span class="col-md-1 control-label text-right">Surname:</span>
             <div class="col-md-3">
                 <input type="text" class="form-control input-md required disabled" ng-model="guardian.Surname">
@@ -17,7 +22,7 @@
                 <input class="form-control input-md" ng-model="guardian.Nickname" placeholder="Nickname">
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group col-md-12">
             <span class="col-md-1 control-label text-right">Email:</span>
             <div class="col-md-3">
                 <input type="text" class="form-control input-md required disabled" ng-model="guardian.Email">
@@ -31,7 +36,7 @@
                 <input type="text" class="form-control input-md" ng-model="guardian.OtherTelephone" placeholder="Other Telephone">
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group col-md-12">
             <span class="col-md-1 control-label text-right">Address:</span>
             <div class="col-md-3">
                 <input type="text" class="form-control input-md required" ng-model="guardian.Address" placeholder="Address">

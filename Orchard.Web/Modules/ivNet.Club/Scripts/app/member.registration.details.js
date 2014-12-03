@@ -74,6 +74,7 @@ ivNetMemberRegistrationDetails.controller('MemberRegistrationDetailsController',
         });
 
     $scope.saveChanges = function () {
+
         memberRegistrationDetails.update({ id: $scope.authenticatedMemberId }, $scope.data,
                    function () {
                        window.location.reload();
