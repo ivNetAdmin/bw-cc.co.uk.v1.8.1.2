@@ -79,6 +79,7 @@ namespace ivNet.Club.Services
                     {
                         var juniorViewModel = new _MemberViewModel();
                         MapperHelper.Map(juniorViewModel, junior.Member);
+                        MapperHelper.Map(juniorViewModel, junior.JuniorInfo);
                         juniorViewModel.Dob = junior.Dob;
                         editMemberViewModel.Juniors.Add(juniorViewModel);
                     }

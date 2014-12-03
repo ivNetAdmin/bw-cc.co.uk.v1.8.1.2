@@ -14,6 +14,8 @@ namespace ivNet.Club.Entities
 
         public virtual IList<Junior> Juniors { get; protected set; }
 
+        public virtual byte IsVetted { get; set; }
+
         public virtual void Init()
         {
             Juniors = new List<Junior>();
@@ -49,6 +51,8 @@ namespace ivNet.Club.Entities
             HasManyToMany(x => x.Juniors)
                  .Cascade.SaveUpdate()
                  .Table("ivNetJuniorGuardian");
+
+            Map(x => x.IsVetted);
 
             Map(x => x.IsActive);
 

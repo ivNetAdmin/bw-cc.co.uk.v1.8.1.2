@@ -1,24 +1,35 @@
 ﻿<div id="juniorDetails" class="memberDetails">
-    <div class="form-group">
+    <div class="form-group col-md-12">
         Junior: <strong>{{junior.Firstname}} {{junior.Surname}}</strong>
     </div>
 
-    <div class="form-group">
+    <div class="form-group col-md-12">
         <span class="col-md-1 control-label text-right">Surname:</span>
         <div class="col-md-2">
-            <input name="Junior-Surname" type="text" class="form-control input-md required" ng-model="newJunior.Surname">
+            <input type="text" class="form-control input-md required" ng-model="newJunior.Surname">
         </div>
         <span class="col-md-1 control-label text-right">Firstname:</span>
         <div class="col-md-2">
-            <input name="Junior-Firstname" type="text" class="form-control input-md required" ng-model="newJunior.Firstname">
+            <input type="text" class="form-control input-md required" ng-model="newJunior.Firstname">
         </div>
         <span class="col-md-1 control-label text-right">Nickname:</span>
         <div class="col-md-2">
-            <input name="Junior-Nickname" type="text" class="form-control input-md" ng-model="newJunior.Nickname" placeholder="Nickname">
+            <input type="text" class="form-control input-md" ng-model="newJunior.Nickname" placeholder="Nickname">
         </div>
         <span class="col-md-1 control-label text-right">DOB:</span>
         <div class="col-md-2">
-            <input name="Junior-Dob" type="date" class="form-control input-md required" ng-model="newJunior.Dob">
+            <input type="date" class="form-control input-md required" ng-model="newJunior.Dob">
         </div>
     </div>
- </div>
+    
+    <div class="form-group col-md-12">
+        <span class="col-md-1 control-label text-right">School:</span>
+        <div class="col-md-2">
+            <input type="text" class="form-control input-md" ng-model="newJunior.School">
+        </div>
+        <span class="col-md-1 control-label text-right">Notes:</span>
+        <div class="col-md-5">
+            <textarea class="form-control" ng-model="newJunior.Notes" placeholder=" notes"></textarea>
+        </div>      
+    </div>
+</div>

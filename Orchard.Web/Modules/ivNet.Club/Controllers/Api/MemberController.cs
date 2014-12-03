@@ -28,7 +28,7 @@ namespace ivNet.Club.Controllers.Api
             try
             {                
                 return Request.CreateResponse(HttpStatusCode.OK,
-                    _memberServices.GetAll());
+                    _memberServices.GetAll(1));
             }
             catch (Exception ex)
             {
@@ -84,7 +84,7 @@ namespace ivNet.Club.Controllers.Api
                 {
                     case "list":
 
-                        var juniorList = _memberServices.GetNonVetted();
+                        var juniorList = _memberServices.GetAll(0);
               
                 return Request.CreateResponse(HttpStatusCode.OK,
                     juniorList);

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
 using ivNet.Club.Entities;
+using ivNet.Club.Enums;
 using ivNet.Club.Services;
 using ivNet.Club.ViewModel;
 using NHibernate.Transform;
@@ -313,6 +314,36 @@ namespace ivNet.Club.Helpers
             return Mapper.Map(entity, viewModel);
         }
 
+        public static _MemberViewModel Map(_MemberViewModel viewModel, JuniorInfo entity)
+        {
+            return Mapper.Map(entity, viewModel);
+        }
+
+        public static RelatedMemberViewModel Map(RelatedMemberViewModel viewModel, Guardian entity)
+        {
+            viewModel = Mapper.Map(entity.Member, viewModel);
+            viewModel.MemberType = (int)MemberType.Guardian;
+            foreach (var junior in entity.Juniors)
+            {
+                viewModel.RelatedMembeList.Add(string.Format("{0} {1}", junior.Member.Firstname, junior.Member.Surname));
+            }
+
+            return viewModel;
+        }
+
+        public static RelatedMemberViewModel Map(RelatedMemberViewModel viewModel, Junior entity)
+        {
+            viewModel = Mapper.Map(entity.Member, viewModel);
+            viewModel.MemberType = (int)MemberType.Junior;
+            viewModel.Dob = entity.Dob;
+            foreach (var guardian in entity.Guardians)
+            {
+                viewModel.RelatedMembeList.Add(string.Format("{0} {1}", guardian.Member.Firstname, guardian.Member.Surname));
+            }
+
+            return viewModel;
+        }
+
         public static JuniorDetailViewModel Map(JuniorDetailViewModel viewModel, Junior entity)
         {
             return Mapper.Map(entity, viewModel);
@@ -458,6 +489,8 @@ namespace ivNet.Club.Helpers
             viewModel.IsActive = entity.IsActive;
             return viewModel;
         }
-        #endregion      
+        #endregion
+
+      
     }
 }

@@ -33,12 +33,16 @@ namespace ivNet.Club
 
             #region entities->models
 
+            Mapper.CreateMap<JuniorInfo, _MemberViewModel>();                
+
             Mapper.CreateMap<AddressDetail, _MemberViewModel>();                
 
             Mapper.CreateMap<ContactDetail, _MemberViewModel>();                
 
             Mapper.CreateMap<Member, _MemberViewModel>()
-                .ForMember(v => v.MemberId, m => m.MapFrom(e=>e.Id));
+                .ForMember(v => v.MemberId, m => m.MapFrom(e=>e.Id));         
+            
+            Mapper.CreateMap<Member, RelatedMemberViewModel>();             
 
             Mapper.CreateMap<Junior, JuniorDetailViewModel>()
                 .ForMember(v => v.MemberId, m => m.MapFrom(e => e.Member.Id))

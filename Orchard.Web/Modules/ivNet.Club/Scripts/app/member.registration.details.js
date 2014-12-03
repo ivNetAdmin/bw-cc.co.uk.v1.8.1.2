@@ -65,8 +65,8 @@ ivNetMemberRegistrationDetails.controller('MemberRegistrationDetailsController',
             $scope.guardians = data.Guardians;
             $scope.juniors = data.Juniors;
 
-            $scope.newGuardian = data.NewGuardian;
-            $scope.newJunior = data.NewJunior;
+            $scope.guardian = data.NewGuardian;
+            $scope.junior = data.NewJunior;
          
         },
         function(error) {

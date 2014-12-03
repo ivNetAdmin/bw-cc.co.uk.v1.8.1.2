@@ -275,6 +275,7 @@
     <Compile Include="ViewModel\RegisteredGuardianViewModel.cs" />
     <Compile Include="ViewModel\RegistrationUpdateViewModel.cs" />
     <Compile Include="ViewModel\RegistrationViewModel.cs" />
+    <Compile Include="ViewModel\RelatedMemberViewModel.cs" />
     <Compile Include="ViewModel\UserViewModel.cs" />
     <Compile Include="ViewModel\_MemberViewModel.cs" />
   </ItemGroup>
