@@ -1,0 +1,19 @@
+﻿div#NewMember div.form-group {
+  /*display: none;*/
+}
+div#NewMember div.junior {
+  display: inherit;
+}
+div#NewMember table tfoot {
+  display: none;
+}
+div#NewMember p.error {
+  color: red;
+}
+div#NewMember p.message {
+  color: darkgreen;
+}
+div#NewMember div#dupError {
+  display: none;
+}
+/*# sourceMappingURL=membership.new.registration.css.map */

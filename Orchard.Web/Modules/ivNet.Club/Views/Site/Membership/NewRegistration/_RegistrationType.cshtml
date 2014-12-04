@@ -1,0 +1,26 @@
+﻿@using ivNet.Club.Enums
+
+<div class="form-group registration-type col-md-12">
+    <span class="col-md-2"></span>
+    <div class="col-md-10">
+        <p>Every guardian <strong>MUST</strong> have a unique eMail address, and every junior <strong>MUST</strong> have a unique firstname and surname combination</p>
+    </div>
+</div>
+
+<div class="form-group registration-type col-md-12">
+    <span class="col-md-2"></span>
+    <div class="col-md-4">                
+        <label class="checkboxes-inline" for="checkboxes-0">
+            <input ng-click="registrationTypeSelection()" type="checkbox" name="checkboxes" id="checkboxes-0" value="@RegistrationType.Guardian">
+            Guardian
+        </label>
+        <label class="checkboxes-inline" for="checkboxes-1">
+            <input ng-click="registrationTypeSelection()" type="checkbox" name="checkboxes" id="checkboxes-1" value="@RegistrationType.Senior">
+            Senior Player
+        </label>
+        <label class="checkboxes-inline" for="checkboxes-2">
+            <input ng-click="registrationTypeSelection()" type="checkbox" name="checkboxes" id="checkboxes-2" value="@RegistrationType.Other">
+            Other
+        </label>
+    </div>
+</div>

@@ -9,7 +9,7 @@
         <table tr-ng-grid='' items='myItems' enable-filtering="false" enable-sorting="false">
             <thead>
                 <tr>
-                    <th field-name="JuniorId" display-name="Id" display-align="right">
+                    <th field-name="MemberId" display-name="Id" display-align="right">
                     </th>
                     <th field-name="Surname" display-name="Surname">
                     </th>
@@ -17,9 +17,9 @@
                     </th>
                     <th field-name="Dob" display-name="DOB" display-format="dateField:gridItem">
                     </th>
-                    <th field-name="AgeGroup" display-name="AgeGroup">
+                    <th field-name="AgeGroup" display-name="AgeGroup" display-format="ageGroup:gridItem">
                     </th>
-                    <th field-name="Guardians" display-name="Guardian(s)" display-format="guardiansField:gridItem">
+                    <th field-name="RelatedMembeList" display-name="Related" display-format="related:gridItem">
                     </th>
                     <th field-name="IsVetted" display-name="Activate">
                     </th>
@@ -27,8 +27,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td field-name="Guardians"></td>
-
+                    
                     <td field-name="IsVetted"><input type="checkbox" value="{{gridDisplayItem.IsVetted}}" ng-checked="{{gridDisplayItem.IsVetted}}" /></td>
                     
                     <td>

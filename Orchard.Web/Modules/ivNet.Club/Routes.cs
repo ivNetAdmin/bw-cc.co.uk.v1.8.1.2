@@ -20,6 +20,9 @@ namespace ivNet.Club
             rdl.AddRange(MemberRoutes());
             rdl.AddRange(AdminConfigurationRoutes());
             rdl.AddRange(AdminMemberRoutes());
+
+            //rewok
+            rdl.AddRange(SiteRoutes());
             return rdl;
         }
 
@@ -226,6 +229,34 @@ namespace ivNet.Club
                         },
                         new MvcRouteHandler())
                 }
+            };
+        }
+        #endregion
+
+        #region site
+        private IEnumerable<RouteDescriptor> SiteRoutes()
+        {
+            return new[]
+            {
+                new RouteDescriptor
+                {
+                    Route = new Route(
+                        "membership/new-registration",
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Club"},
+                            {"controller", "Site"},
+                            {"action", "NewRegistration"}
+                        },
+                        new RouteValueDictionary(),
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Club"}
+                        },
+                        new MvcRouteHandler())
+                }
+                
+               
             };
         }
         #endregion

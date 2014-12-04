@@ -1,0 +1,27 @@
+﻿@{
+    Script.Require("AngularJS-UI");    
+    Script.Require("Membership.New.Registration");
+
+    Style.Require("Membership.New.Registration");
+}
+<div id="NewMember" data-ng-app="Membership.New.Registration.App" class="col-md-12">
+    <div data-ng-controller="MembershipNewRegistrationController">
+        @using (Html.BeginFormAntiForgeryPost(Url.Action("NewRegistration", "Site", new { area = "ivNet.Club" }), FormMethod.Post, new { @class = "form-horizontal", id = "newMemberForm" }))
+        {
+            <fieldset>
+               @Html.Partial("Membership/NewRegistration/_Instruction")
+                @Html.Partial("Membership/NewRegistration/_RegistrationType")
+
+    @*@Html.Partial("_GuardianCount")
+    @Html.Partial("_Member")
+
+    @Html.Partial("_JuniorCount")
+    @Html.Partial("_Junior")
+
+    @Html.Partial("_Other")
+
+    @Html.Partial("_Button")*@
+            </fieldset>
+        }
+    </div>
+</div>

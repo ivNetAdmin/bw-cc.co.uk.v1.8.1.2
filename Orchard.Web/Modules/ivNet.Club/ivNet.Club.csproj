@@ -126,9 +126,20 @@
     <Content Include="packages.config" />
     <Content Include="Scripts\app\new.member.fee.js" />
     <Content Include="Scripts\angular-resource.min.js.map" />
+    <Content Include="Styles\membership.new.registration.css">
+      <DependentUpon>membership.new.registration.less</DependentUpon>
+    </Content>
+    <Content Include="Styles\membership.new.registration.min.css">
+      <DependentUpon>membership.new.registration.css</DependentUpon>
+    </Content>
     <Content Include="Styles\new.member.css.map">
       <DependentUpon>new.member.css</DependentUpon>
     </Content>
+    <Content Include="Scripts\app\membership.new.registration.js" />
+    <Content Include="Styles\membership.new.registration.css.map">
+      <DependentUpon>membership.new.registration.css</DependentUpon>
+    </Content>
+    <None Include="Styles\membership.new.registration.less" />
     <None Include="Styles\new.member.less" />
     <Content Include="Scripts\anjular.js" />
     <Content Include="Scripts\anjular.min.js" />
@@ -195,7 +206,6 @@
     <Content Include="Views\AdminConfiguration\Index.cshtml" />
     <Content Include="Views\AdminMember\Activate.cshtml" />
     <Content Include="Views\AdminMember\List.cshtml" />
-    <Content Include="Views\Member\RegistrationDetails.old.cshtml" />
     <Content Include="Views\Member\_RegistrationAddGuardian.cshtml" />
     <Content Include="Views\Member\_RegistrationGuardianDetails.cshtml" />
     <Content Include="Views\Member\_RegistrationAddJunior.cshtml" />
@@ -203,6 +213,9 @@
     <Content Include="Views\_Shared\_GuardianRepeatDetails.cshtml" />
     <Content Include="Views\_Shared\_JuniorDetails.cshtml" />
     <Content Include="Views\_Shared\_JuniorRepeatDetails.cshtml" />
+    <Content Include="Views\Site\Membership\NewRegistration\Index.cshtml" />
+    <Content Include="Views\Site\Membership\NewRegistration\_Instruction.cshtml" />
+    <Content Include="Views\Site\Membership\NewRegistration\_RegistrationType.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AdminMemberController.cs" />
@@ -210,9 +223,11 @@
     <Compile Include="Controllers\Api\GuardianController.cs" />
     <Compile Include="Controllers\Api\MemberController.cs" />
     <Compile Include="Controllers\Api\FeeController.cs" />
+    <Compile Include="Controllers\Api\RegistrationController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
     <Compile Include="Controllers\AdminDocumentation.cs" />
+    <Compile Include="Controllers\SiteController.cs" />
     <Compile Include="Entities\AddressDetail.cs" />
     <Compile Include="Entities\BaseEntity.cs">
       <SubType>Code</SubType>

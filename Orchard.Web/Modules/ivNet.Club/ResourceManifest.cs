@@ -9,6 +9,14 @@ namespace ivNet.Club
         {
             var manifest = builder.Add();
 
+            #region rework
+
+            manifest.DefineStyle("Membership.New.Registration").SetUrl("membership.new.registration.min.css");
+
+            manifest.DefineScript("Membership.New.Registration").SetUrl("app/membership.new.registration.js").SetVersion("1.0").SetDependencies("AngularJS");
+
+            #endregion
+
             manifest.DefineStyle("trNgGrid").SetUrl("trNgGrid.min.css").SetDependencies("Bootstrap");
             manifest.DefineStyle("Club.New.Member").SetUrl("new.member.min.css");
 
