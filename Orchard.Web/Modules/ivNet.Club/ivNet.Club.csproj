@@ -216,9 +216,22 @@
     <Content Include="Views\Site\Membership\NewRegistration\Index.cshtml" />
     <Content Include="Views\Site\Membership\NewRegistration\_Instruction.cshtml" />
     <Content Include="Views\Site\Membership\NewRegistration\_RegistrationType.cshtml" />
+    <Content Include="Views\Site\Membership\NewRegistration\_GuardianCount.cshtml" />
+    <Content Include="Views\Site\Membership\NewRegistration\_Member.cshtml" />
+    <Content Include="Views\Site\Membership\NewRegistration\__Name.cshtml" />
+    <Content Include="Views\Site\Membership\NewRegistration\__Email.cshtml" />
+    <Content Include="Views\Site\Membership\NewRegistration\__Address.cshtml" />
+    <Content Include="Views\Site\Membership\NewRegistration\__Contact.cshtml" />
+    <Content Include="Views\Site\Membership\NewRegistration\_JuniorCount.cshtml" />
+    <Content Include="Views\Site\Membership\NewRegistration\_Junior.cshtml" />
+    <Content Include="Views\Site\Membership\NewRegistration\__JuniorInfo.cshtml" />
+    <Content Include="Views\Site\Membership\NewRegistration\__Kit.cshtml" />
+    <Content Include="Views\Site\Membership\NewRegistration\_Other.cshtml" />
+    <Content Include="Views\Site\Membership\NewRegistration\_Button.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AdminMemberController.cs" />
+    <Compile Include="Controllers\Api\CaptchaController.cs" />
     <Compile Include="Controllers\Api\ConfigurationController.cs" />
     <Compile Include="Controllers\Api\GuardianController.cs" />
     <Compile Include="Controllers\Api\MemberController.cs" />
@@ -260,6 +273,7 @@
     </Compile>
     <Compile Include="Enums\MemberType.cs" />
     <Compile Include="Enums\RegistrationType.cs" />
+    <Compile Include="Helpers\HttpRequestMessageExtensions.cs" />
     <Compile Include="Helpers\MapperHelper.cs" />
     <Compile Include="Helpers\NHibernateHelper.cs" />
     <Compile Include="Helpers\CustomStringHelper.cs" />
@@ -275,6 +289,7 @@
     <Compile Include="Services\RegistrationServices.cs" />
     <Compile Include="StartupShellEvents.cs" />
     <Compile Include="ViewModel\AddressViewModel.cs" />
+    <Compile Include="ViewModel\CaptchaViewModel.cs" />
     <Compile Include="ViewModel\EditMemberViewModel.cs" />
     <Compile Include="ViewModel\MemberViewModel.cs" />
     <Compile Include="ViewModel\ConfigurationItemViewModel.cs" />

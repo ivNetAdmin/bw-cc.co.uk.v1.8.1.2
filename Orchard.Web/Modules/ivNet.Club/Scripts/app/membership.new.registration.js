@@ -1,10 +1,15 @@
 ﻿var ivNetNewMember = angular.module("Membership.New.Registration.App", ['ui.event']);
-var invalidCaptcha = false; // debug : false
+var invalidCaptcha = true; // debug : false
 ivNetNewMember.controller('MembershipNewRegistrationController', function ($scope, $http) {
 
     init();
 
     $scope.registrationTypeSelection = function () {
+        $('div.guardian-count').hide();
+        $('div.junior-count').hide();
+        $('div.button').hide();
+        $('div.captcha').hide();
+        $('div.other').hide();
 
         $scope.members = [];
         $scope.juniors = [];
@@ -21,6 +26,7 @@ ivNetNewMember.controller('MembershipNewRegistrationController', function ($scop
             $scope.members.push(1);
             $('div.member').show();
             $('div.button').show();
+            $('div.captcha').show();
         }
 
         if (selection.indexOf("Guardian") != -1) {
@@ -39,6 +45,32 @@ ivNetNewMember.controller('MembershipNewRegistrationController', function ($scop
         }
     };
 
+    $scope.adjustMemberCount = function () {
+        $scope.members = [];
+        for (var i = 0; i < $scope.membercount; i++) {
+            $scope.members.push(i);
+        }
+    };
+
+    $scope.adjustJuniorCount = function () {
+        $scope.juniors = [];
+        for (var i = 0; i < $scope.juniorcount; i++) {
+            $scope.juniors.push(i);
+        }
+    };
+
+    $scope.blurSurnameCallback = function (evt) {
+        if (evt.target.name.substr(0, 6) == "Junior") {
+            _checkJuniorNameDuplicates(evt);
+        }      
+    };
+
+    $scope.blurEmailCallback = function (evt) {
+        if (evt.target.value.length > 0) {
+            _checkEmailDuplicates(evt.target.value);
+        }
+    };
+
     function init() {
 
         $('div#NewMember').find('div.reg-form').hide();
@@ -50,6 +82,12 @@ ivNetNewMember.controller('MembershipNewRegistrationController', function ($scop
 
         _setupSeasons();
     }
+
+    $('form#newMemberForm').submit(function () {
+
+        // do captcha check
+        _checkCaptcha();
+    });
 
     function _setupCaptcha() {
         $.ajax({
@@ -75,6 +113,35 @@ ivNetNewMember.controller('MembershipNewRegistrationController', function ($scop
         );
     }
 
+    function _checkCaptcha() {
+        if (invalidCaptcha) {
+            event.preventDefault();
+
+            $('input[name="Challenge"]').val(Recaptcha.get_challenge());
+            $('input[name="Response"]').val(Recaptcha.get_response());
+
+            $.ajax({
+                url: '/api/club/captcha',
+                type: 'POST',
+                data: { captchachallenge: $('input#recaptcha_challenge_field').val(), captcharesponse: $('input#recaptcha_response_field').val() },
+                success: function (success) {
+                  
+                    if (!success) {
+                        $('p#error').show();
+                        _createCaptcha();
+                    } else {
+                        invalidCaptcha = false;
+                        $('p#error').hide();
+                       // $('form#newMemberForm').submit();
+                    }
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    alert("Error '" + jqXhr.status + "' (textStatus: '" + textStatus + "', errorThrown: '" + errorThrown + "')");
+                }
+            });
+        }
+    }
+
     function _setupSeasons() {
 
         $.ajax({
@@ -83,6 +150,59 @@ ivNetNewMember.controller('MembershipNewRegistrationController', function ($scop
             success: function (data) {
                 $scope.seasons = data;
                 $scope.season = $scope.seasons[0].Text;
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
+                alert("Error '" + jqXhr.status + "' (textStatus: '" + textStatus + "', errorThrown: '" + errorThrown + "')");
+            }
+        });
+    }
+
+    function _checkJuniorNameDuplicates(evt) {
+        var surnameField = evt.target.name;
+        var firstnameField = surnameField.replace("Surname", "Firstname");
+        var errorField = surnameField.replace("Surname", "NameCheck");
+        var firstname = ($('input[name="' + firstnameField + '"]').val());
+        if (firstname.length == 0) {
+            $('div#' + errorField + ' p.message').html("You must enter a Firstname before a Surname.");
+            $('div#' + errorField + ' p.message').show();
+            $('input[name="' + surnameField + '"]').val('');
+        } else {
+            var surname = $('input[name="' + surnameField + '"]').val();
+
+            $.ajax({
+                url: '/api/club/member/' + surname + firstname + '/junior-key',
+                type: 'GET',
+                success: function (data) {
+                    if (data.length > 0) {
+                        $('div#' + errorField + ' p.message').html(data);
+                        $('div#' + errorField + ' p.message').show();
+                    } else {
+                        $('div#' + errorField + ' p.message').hide();
+                    }
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    alert("Error '" + jqXhr.status + "' (textStatus: '" + textStatus + "', errorThrown: '" + errorThrown + "')");
+                }
+            });
+        }
+    }
+
+    function _checkEmailDuplicates(email) {
+
+        $.ajax({
+            url: '/api/club/member/' + email + '/email-check',
+            type: 'GET',
+            success: function (data) {
+                if (data.length > 0) {
+
+                    $('div#dupError p.error').html(data);
+                    $('div#dupError').show();
+                    $('input#singlebutton').hide();
+
+                } else {
+                    $('div#dupError').hide();
+                    $('input#singlebutton').show();
+                }
             },
             error: function (jqXhr, textStatus, errorThrown) {
                 alert("Error '" + jqXhr.status + "' (textStatus: '" + textStatus + "', errorThrown: '" + errorThrown + "')");

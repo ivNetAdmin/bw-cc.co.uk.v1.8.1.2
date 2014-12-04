@@ -1,0 +1,9 @@
+﻿
+<ul class="form-group member reg-form col-md-12">
+    <li ng-repeat="member in members">
+        @Html.Partial("Membership/NewRegistration/__Name", "Adult")
+        @Html.Partial("Membership/NewRegistration/__Email")
+        @Html.Partial("Membership/NewRegistration/__Address")
+        @Html.Partial("Membership/NewRegistration/__Contact")
+    </li>
+</ul>

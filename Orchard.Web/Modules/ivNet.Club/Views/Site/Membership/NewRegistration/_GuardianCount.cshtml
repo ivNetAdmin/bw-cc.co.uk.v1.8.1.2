@@ -1,0 +1,14 @@
+﻿<div class="form-group guardian-count reg-form col-md-12">
+    <span class="col-md-2 control-label text-right">No of Guardians:</span>
+    <div class="col-md-1">
+        <input id="MemberCount" name="MemberCount" min="1" type="number" class="form-control input-md" ng-model="membercount" ng-click="adjustMemberCount()">
+    </div>
+    <span class="col-md-1 control-label text-right">Season:</span>
+    <div class="col-md-2">
+        <select id="Season" name="Season" class="form-control input-md" ng-model="season" required="">
+            <option ng:repeat="season in seasons" value="{{season.Value}}">{{season.Text}}</option>
+        </select>
+    </div>
+</div>
+
+  

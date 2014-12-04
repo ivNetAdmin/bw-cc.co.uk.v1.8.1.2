@@ -9,19 +9,20 @@
         @using (Html.BeginFormAntiForgeryPost(Url.Action("NewRegistration", "Site", new { area = "ivNet.Club" }), FormMethod.Post, new { @class = "form-horizontal", id = "newMemberForm" }))
         {
             <fieldset>
-               @Html.Partial("Membership/NewRegistration/_Instruction")
+                @Html.Partial("Membership/NewRegistration/_Instruction")
                 @Html.Partial("Membership/NewRegistration/_RegistrationType")
 
-    @*@Html.Partial("_GuardianCount")
-    @Html.Partial("_Member")
+                @Html.Partial("Membership/NewRegistration/_GuardianCount")
+                @Html.Partial("Membership/NewRegistration/_Member")
 
-    @Html.Partial("_JuniorCount")
-    @Html.Partial("_Junior")
+                @Html.Partial("Membership/NewRegistration/_JuniorCount")
+                @Html.Partial("Membership/NewRegistration/_Junior")
 
-    @Html.Partial("_Other")
+                @Html.Partial("Membership/NewRegistration/_Other")
 
-    @Html.Partial("_Button")*@
+                @Html.Partial("Membership/NewRegistration/_Button")
             </fieldset>
         }
     </div>
 </div>
+
