@@ -43,6 +43,24 @@ namespace ivNet.Club
 
                 new HttpRouteDescriptor
                 {
+                    RouteTemplate = "api/club/{controller}/{id}/{action}/{type}",
+                    Defaults = new
+                    {
+                        area = "ivNet.Club"
+                    }
+                },
+
+                new HttpRouteDescriptor
+                {
+                    RouteTemplate = "api/club/admin/{controller}/{id}/{type}",
+                    Defaults = new
+                    {
+                        area = "ivNet.Club"
+                    }
+                },
+
+                new HttpRouteDescriptor
+                {
                     RouteTemplate = "api/club/admin/{controller}/{id}",
                     Defaults = new
                     {
@@ -51,15 +69,6 @@ namespace ivNet.Club
                     }
                 },
 
-                   new HttpRouteDescriptor
-                {
-                    RouteTemplate = "api/club/admin/{controller}/{id}/{type}",
-                    Defaults = new
-                    {
-                        area = "ivNet.Club"
-                    }
-                },
-                                
                 new HttpRouteDescriptor
                 {
                     RouteTemplate = "api/club/{controller}/{id}",
@@ -70,7 +79,7 @@ namespace ivNet.Club
                     }
                 },
 
-                   new HttpRouteDescriptor
+                new HttpRouteDescriptor
                 {
                     RouteTemplate = "api/club/{controller}/{id}/{type}",
                     Defaults = new
@@ -80,7 +89,8 @@ namespace ivNet.Club
                 },
 
 
-                #endregion                             
+
+                #endregion
             };
         }
     }

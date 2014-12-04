@@ -132,7 +132,7 @@ ivNetNewMember.controller('MembershipNewRegistrationController', function ($scop
                     } else {
                         invalidCaptcha = false;
                         $('p#error').hide();
-                       // $('form#newMemberForm').submit();
+                        $('form#newMemberForm').submit();
                     }
                 },
                 error: function (jqXhr, textStatus, errorThrown) {
@@ -158,6 +158,7 @@ ivNetNewMember.controller('MembershipNewRegistrationController', function ($scop
     }
 
     function _checkJuniorNameDuplicates(evt) {
+        
         var surnameField = evt.target.name;
         var firstnameField = surnameField.replace("Surname", "Firstname");
         var errorField = surnameField.replace("Surname", "NameCheck");
@@ -167,10 +168,11 @@ ivNetNewMember.controller('MembershipNewRegistrationController', function ($scop
             $('div#' + errorField + ' p.message').show();
             $('input[name="' + surnameField + '"]').val('');
         } else {
+            
             var surname = $('input[name="' + surnameField + '"]').val();
 
             $.ajax({
-                url: '/api/club/member/' + surname + firstname + '/junior-key',
+                url: '/api/club/member/' + surname + firstname + '?action=duplicate&type=junior',                
                 type: 'GET',
                 success: function (data) {
                     if (data.length > 0) {
@@ -190,7 +192,7 @@ ivNetNewMember.controller('MembershipNewRegistrationController', function ($scop
     function _checkEmailDuplicates(email) {
 
         $.ajax({
-            url: '/api/club/member/' + email + '/email-check',
+            url: '/api/club/member/' + email + '?action=duplicate&type=email',
             type: 'GET',
             success: function (data) {
                 if (data.length > 0) {

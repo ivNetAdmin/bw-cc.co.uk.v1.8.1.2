@@ -30,13 +30,13 @@ namespace ivNet.Club.Services
         EditMemberViewModel Get(int id);
         List<GuardianViewModel> GetGuardians(int id);
         MemberViewModel GetByKey(string key);
+        MemberViewModel GetFullName(string name);
         MemberViewModel GetByUserId(int id);
 
        // List<JuniorVettingViewModel> GetNonVetted();
         void Activate(int id, JuniorVettingViewModel item);
         
-        IUser AuthenticatedUser();
-        
+        IUser AuthenticatedUser();        
     }
 
     public class MemberServices : BaseService, IMemberServices
@@ -262,6 +262,18 @@ namespace ivNet.Club.Services
                 var memberViewModel = new MemberViewModel();
                 key = CustomStringHelper.BuildKey(new[] {key});
                 var member = session.CreateCriteria(typeof (Member))
+                    .List<Member>().FirstOrDefault(x => x.MemberKey.Equals(key));
+                return MapperHelper.Map(memberViewModel, member);
+            }
+        }
+
+        public MemberViewModel GetFullName(string name)
+        {
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                var memberViewModel = new MemberViewModel();
+                key = CustomStringHelper.BuildKey(new[] { key });
+                var member = session.CreateCriteria(typeof(Member))
                     .List<Member>().FirstOrDefault(x => x.MemberKey.Equals(key));
                 return MapperHelper.Map(memberViewModel, member);
             }
