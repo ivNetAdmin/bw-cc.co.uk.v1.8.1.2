@@ -5,18 +5,18 @@
             Guardian: <strong>{{guardian.Firstname}} {{guardian.Surname}}</strong>
         </span>
         <div class="col-md-2">
-            <input type="checkbox" ng-model="guardian.IsActive" value="{{guardian.IsActive}}" ng-checked="{{guardian.IsActive}}" /> [Active]
+            <input type="checkbox" ng-model="guardian.MemberIsActive" value="{{guardian.MemberIsActive}}" ng-checked="guardian.MemberIsActive==1" ng-bootbox-alert="Alert message!" ng-change="toggleGuardianActivity(guardian)" /> [Active]            
         </div>
     </div>
 
     <div class="form-group col-md-12">
         <span class="col-md-1 control-label text-right">Surname:</span>
         <div class="col-md-3">
-            <input type="text" class="form-control input-md required" ng-model="guardian.Surname" placeholder="Surname">
+            <input type="text" class="form-control input-md required disabled" ng-model="guardian.Surname" placeholder="Surname">
         </div>
         <span class="col-md-1 control-label text-right">Firstname:</span>
         <div class="col-md-3">
-            <input type="text" class="form-control input-md required" ng-model="guardian.Firstname" placeholder="Firstname">
+            <input type="text" class="form-control input-md required disabled" ng-model="guardian.Firstname" placeholder="Firstname">
         </div>
         <span class="col-md-1 control-label text-right">Nickname:</span>
         <div class="col-md-3">
@@ -26,10 +26,10 @@
     <div class="form-group col-md-12">
         <span class="col-md-1 control-label text-right">Email:</span>
         <div class="col-md-3">
-            <input type="text" id="Email-Guardian" name="Email-Guardian" class="form-control input-md required" ng-model="guardian.Email" ui-event="{ blur : 'blurEmailCallback($event)' }" placeholder="Email" >
+            <input type="text" id="Email-Guardian" name="Email-Guardian" class="form-control input-md required disabled" ng-model="guardian.Email" ui-event="{ blur : 'blurEmailCallback($event)' }" placeholder="Email">
         </div>
-        <span class="col-md-1 control-label text-right">Again:</span>
-        <div class="col-md-3">
+        <span class="col-md-1 control-label text-right hide">Again:</span>
+        <div class="col-md-3 hide">
             <input type="text" class="form-control validate[required,equals[Email-Guardian]]" placeholder="Email Again">
         </div>
 

@@ -72,7 +72,7 @@ namespace ivNet.Club.Controllers
 
                     }
 
-                    _memberServices.UpdateGuardian(editMemberViewModel);
+                    _memberServices.UpdateMember(editMemberViewModel);
                 }
 
                 return new RedirectResult("~/club/member/new/fee");

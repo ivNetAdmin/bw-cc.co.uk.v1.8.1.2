@@ -6,6 +6,7 @@ using System.Web.Http;
 using ivNet.Club.Enums;
 using ivNet.Club.Services;
 using ivNet.Club.ViewModel;
+using Orchard;
 using Orchard.Logging;
 
 namespace ivNet.Club.Controllers.Api
@@ -14,10 +15,12 @@ namespace ivNet.Club.Controllers.Api
     {
 
          private readonly IMemberServices _memberServices;
+         private readonly IOrchardServices _orchardServices;
 
-         public AdminMemberController(IMemberServices memberServices)
+        public AdminMemberController(IMemberServices memberServices, IOrchardServices orchardServices)
         {
             _memberServices = memberServices;
+            _orchardServices = orchardServices;
             Logger = NullLogger.Instance;
         }
 
@@ -25,7 +28,9 @@ namespace ivNet.Club.Controllers.Api
 
         public HttpResponseMessage Get(string id, string type)
         {
-            var message = string.Empty;
+            if (!_orchardServices.Authorizer.Authorize(Permissions.ivManageMembers))
+                return Request.CreateResponse(HttpStatusCode.Forbidden);
+
             try
             {
                 switch (type)
@@ -33,12 +38,13 @@ namespace ivNet.Club.Controllers.Api
                     case "list":
                         switch (id)
                         {
-                            case "activate":
-                                var juniorList = _memberServices.GetAll(0);
-
+                            case "activate":                              
                                 return Request.CreateResponse(HttpStatusCode.OK,
-                                    juniorList);
+                                    _memberServices.GetAll(0));
 
+                            case "all":                             
+                                return Request.CreateResponse(HttpStatusCode.OK,
+                                    _memberServices.GetAll(1));
                         }
 
                         break;
@@ -59,12 +65,49 @@ namespace ivNet.Club.Controllers.Api
             }
         }
 
+        public HttpResponseMessage Get(int id)
+        {
+            if (!_orchardServices.Authorizer.Authorize(Permissions.ivManageMembers))
+                return Request.CreateResponse(HttpStatusCode.Forbidden);
+
+            try
+            {
+                var memberList = _memberServices.Get(id);
+
+                return Request.CreateResponse(HttpStatusCode.OK,
+                    memberList);
+            }
+            catch (Exception ex)
+            {
+                var errorId = Guid.NewGuid();
+                Logger.Error(string.Format("{0}: {1}{2} [{3}]", Request.RequestUri, ex.Message,
+                    ex.InnerException == null ? string.Empty : string.Format(" - {0}", ex.InnerException), errorId));
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError,
+                    "An Error has occurred. Report to bp@ivnet.co.uk quoting: " + errorId);
+
+            }
+        }
+
         [HttpPut]
         public HttpResponseMessage Put(int id, EditMemberViewModel memberViewModel)
         {
+            if (!_orchardServices.Authorizer.Authorize(Permissions.ivManageMembers))
+                return Request.CreateResponse(HttpStatusCode.Forbidden);
+
             try
             {
-                _memberServices.Activate(id, memberViewModel.MemberType);
+                switch (memberViewModel.Type)
+                {
+                    case "activate":
+                        _memberServices.Activate(id, memberViewModel.MemberType);
+                        break;
+
+                    case "admin":
+                        _memberServices.UpdateMember(memberViewModel);
+                        break;
+                }
+                
 
                 return Request.CreateResponse(HttpStatusCode.OK,
                     "Success");

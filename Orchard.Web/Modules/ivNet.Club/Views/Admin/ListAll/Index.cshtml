@@ -1,15 +1,15 @@
 ﻿@{
     Script.Require("AngularJS-Resource");
-    Script.Require("Club.Admin.Member.List");
+    Script.Require("Admin.Member.List.All");    
 
-    Style.Require("Club.New.Member");
+    Style.Require("Admin.Member.List.All");
     Style.Require("trNgGrid");
 }
 
-<div id="AdminMembers" data-ng-app="ivNet.Admin.Member.List.App">
+<div id="AdminMembers" data-ng-app="ivNet.Admin.Member.List.All.App">
     <div data-ng-controller="AdminMemberListController">
         <fieldset>
-            @Html.Partial("_MemberList")
+            @Html.Partial("Admin/ListAll/_MemberList")
             <div id="memberDetail">
                 @Html.Partial("_Shared/_GuardianDetails")
                 @Html.Partial("_Shared/_JuniorDetails")
@@ -24,6 +24,6 @@
                     </span>
                 </div>
             </div>
-        </fieldset>         
+        </fieldset>
     </div>
 </div>

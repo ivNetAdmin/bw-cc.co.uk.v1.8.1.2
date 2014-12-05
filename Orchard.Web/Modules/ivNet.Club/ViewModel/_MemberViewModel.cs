@@ -30,8 +30,7 @@ namespace ivNet.Club.ViewModel
         public string ShirtSize { get; set; }
         public string ShortSize { get; set; }
 
-        public DateTime Dob { get; set; }       
-        public byte IsActive { get; set; }
-        
+        public DateTime Dob { get; set; }            
+        public byte MemberIsActive { get; set; }        
     }
 }

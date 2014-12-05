@@ -12,7 +12,7 @@ namespace ivNet.Club.ViewModel
             NewGuardian=new _MemberViewModel();
             NewJunior = new _MemberViewModel();
         }
-
+        public string Type { get; set; }
         public int MemberType { get; set; }
         public string Season { get; set; }
         public List<_MemberViewModel> Guardians { get; set; }

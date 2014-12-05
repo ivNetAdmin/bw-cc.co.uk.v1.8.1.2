@@ -1,4 +1,4 @@
-﻿var ivNetAdminMemberList = angular.module("ivNet.Admin.Member.List.App", ['ngResource', 'trNgGrid'])
+﻿var ivNetAdminMemberList = angular.module("ivNet.Admin.Member.List.All.App", ['ngResource', 'trNgGrid'])
     .filter("dateField", function() {
         return function(combinedFieldValueUnused, item) {
             var d = item.Dob;
@@ -23,14 +23,14 @@
     });
 
 ivNetAdminMemberList.factory('adminMemberList', function ($resource) {
-    return $resource('/api/club/admin/member/:id', null,
+    return $resource('/api/club/adminmember/:id/:type', null,
     {
         'query': { method: 'GET', isArray: true },
     });
 });
 
 ivNetAdminMemberList.factory('adminMember', function ($resource) {
-    return $resource('/api/club/admin/member/:id', null,
+    return $resource('/api/club/adminmember/:id', null,
     {
         'query': { method: 'GET', isArray: false },
         'update': { method: 'PUT' }
@@ -40,17 +40,9 @@ ivNetAdminMemberList.factory('adminMember', function ($resource) {
 
 ivNetAdminMemberList.controller('AdminMemberListController', function ($scope, adminMemberList, adminMember) {
 
-    $('div#memberDetail').hide();
-
-    adminMemberList.query(
-        function(data) {
-            $scope.members = data;
-        },
-        function(error) {
-            alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
-        });
-
-    $scope.editMemberList = function(member) {
+    init();
+    
+    $scope.editMember = function(member) {
        
         $('div.memberDetails').hide();
 
@@ -66,7 +58,8 @@ ivNetAdminMemberList.controller('AdminMemberListController', function ($scope, a
                         $scope.$apply(function() {
                             $scope.guardian = data.Guardians[0];
                             $scope.juniors = data.Juniors;
-                        });
+                            
+                       });
                         $('div#guardianDetails').show();
                         $('div#juniorRepeatDetails').show();
                     } else if (data.MemberType == 2) {
@@ -77,6 +70,19 @@ ivNetAdminMemberList.controller('AdminMemberListController', function ($scope, a
                         $('div#juniorDetails').show();
                         $('div#guardianRepeatDetails').show();
                     }
+
+                    $('div#AdminMembers').find('input.disabled').each(function (index, item) {
+                        $(item).attr('disabled', '');
+                    });
+
+                    $('div#AdminMembers').find('input.required').each(function (index, item) {
+                        $(item).attr('required', '');
+                    });
+
+                    $('div#AdminMembers').find('input.hide').each(function (index, item) {
+                        $(item).hide();
+                    });
+
 
                     $('div#memberDetail').show();
                     
@@ -91,17 +97,16 @@ ivNetAdminMemberList.controller('AdminMemberListController', function ($scope, a
             });
     };
 
-    $scope.saveChanges = function() {
+    $scope.saveChanges = function () {
+        $scope.memberDetails.Type = 'admin';
         adminMember.update({ id: 1 }, $scope.memberDetails,
-                   function () {
-                      
-                           alert("Saved OK");
-                       
-                   },
-                   function (error) {
-                       alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
-                   }
-               );
+            function() {
+                window.location.reload();
+            },
+            function(error) {
+                alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
+            }
+        );
     };
 
     $scope.backToList = function() {
@@ -110,4 +115,23 @@ ivNetAdminMemberList.controller('AdminMemberListController', function ($scope, a
             $('div#memberList').show();
         });
     };
+
+    $scope.toggleGuardianActivity = function (guardian) {
+        if (!guardian.IsActive) {
+            alert("If you continue then all of this guardians junior wards will also be deactivated, unless the junior has another 'active' guardian");
+        }
+    };
+
+    function init() {
+        $('div#memberDetail').hide();
+
+        adminMemberList.query({ id: "all", type: "list" },
+            function (data) {
+                $scope.members = data;
+            },
+            function (error) {
+                alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
+            });
+
+    }
 });

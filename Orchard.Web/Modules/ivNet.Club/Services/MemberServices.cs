@@ -24,7 +24,7 @@ namespace ivNet.Club.Services
         void CreateNewMember(NewMemberViewModel viewModel);
 
         //void CreateGuardian(EditMemberViewModel registrationList);
-        void UpdateGuardian(EditMemberViewModel registrationUpdateList);
+        void UpdateMember(EditMemberViewModel registrationUpdateList);
 
         List<RelatedMemberViewModel> GetAll(byte vetted);
         EditMemberViewModel Get(int id);
@@ -70,7 +70,7 @@ namespace ivNet.Club.Services
             }
         }
 
-        public void UpdateGuardian(EditMemberViewModel editMemberViewModel)
+        public void UpdateMember(EditMemberViewModel editMemberViewModel)
         {
             using (var session = NHibernateHelper.OpenSession())
             {
@@ -78,8 +78,11 @@ namespace ivNet.Club.Services
                 {
                     Clear();
 
-                    var guardianList = UpdateGuardians(session, editMemberViewModel.Guardians);
-                    var juniorList = UpdateJuniors(session, editMemberViewModel.Juniors);
+                    bool activeGaurdians;
+                    var guardianList = UpdateGuardians(session, editMemberViewModel.Guardians, out activeGaurdians);
+
+                    var juniorList = UpdateJuniors(session, editMemberViewModel.Juniors, activeGaurdians);
+
 
                     foreach (var junior in juniorList)
                     {
@@ -195,14 +198,18 @@ namespace ivNet.Club.Services
                     var guardianMemberModel = MapperHelper.Map(new _MemberViewModel(), guardian.Member);
                     MapperHelper.Map(guardianMemberModel, guardian.ContactDetail);
                     MapperHelper.Map(guardianMemberModel, guardian.AddressDetail);
-
+                    
+                    guardianMemberModel.MemberIsActive = guardian.IsActive;
                     guardianMemberModel.Email = guardian.ContactDetail.Email;
+                    
                     adminEditMemberViewModel.Guardians.Add(guardianMemberModel);
 
                     foreach (var junior in guardian.Juniors)
                     {                        
                         var juniorMemberModel = MapperHelper.Map(new _MemberViewModel(), junior.Member);
+                        MapperHelper.Map(juniorMemberModel, junior.JuniorInfo);
                         juniorMemberModel.Dob = junior.Dob;
+                        juniorMemberModel.MemberIsActive = junior.IsActive;
                         adminEditMemberViewModel.Juniors.Add(juniorMemberModel);
                     }
                 }
@@ -214,30 +221,26 @@ namespace ivNet.Club.Services
                     if (junior != null)
                     {
                         adminEditMemberViewModel.MemberType = (int) MemberType.Junior;
+                        
                         var juniorMemberModel = MapperHelper.Map(new _MemberViewModel(), junior.Member);
+                        MapperHelper.Map(juniorMemberModel, junior.JuniorInfo);
+                        
+                        juniorMemberModel.Dob = junior.Dob;
+                        juniorMemberModel.MemberIsActive = junior.IsActive;
+                        
                         adminEditMemberViewModel.Juniors.Add(juniorMemberModel);
 
                         foreach (var juniorGuardian in junior.Guardians)
                         {
                             var guardianMemberModel = MapperHelper.Map(new _MemberViewModel(), juniorGuardian.Member);
+                            MapperHelper.Map(guardianMemberModel, juniorGuardian.ContactDetail);
+                            MapperHelper.Map(guardianMemberModel, juniorGuardian.AddressDetail);
+                            guardianMemberModel.MemberIsActive = juniorGuardian.IsActive;
                             adminEditMemberViewModel.Guardians.Add(guardianMemberModel);
                         }
                     }
                 }
-
-                //var guardians = (from guardian in guardianList
-                //    let memberViewModel = new MemberViewModel()
-                //    select MapperHelper.Map(memberViewModel, guardian)).ToList();
-
-             
-
-                //var juniors = (from junior in juniorList
-                //    let memberViewModel = new MemberViewModel()
-                //    select MapperHelper.Map(_configurationServices, memberViewModel, junior)).ToList();
-
-                //returnList.AddRange(guardians);
-                //returnList.AddRange(juniors);
-
+         
                 return adminEditMemberViewModel;
             }
         }
@@ -332,25 +335,25 @@ namespace ivNet.Club.Services
                     {
                         case (int) MemberType.Guardian:
                             var guardian = session.CreateCriteria(typeof (Guardian))
-                                .List<Guardian>().FirstOrDefault(x => x.Id.Equals(id));
+                                .List<Guardian>().FirstOrDefault(x => x.Member.Id.Equals(id));
 
                             if (guardian != null)
                             {
                                 ActivateGuardian(guardian);
                                 foreach (var guardianJunior in guardian.Juniors)
                                 {
-                                    ActivateJunior(guardianJunior);
+                                    ActivateJunior(guardianJunior, guardian.ContactDetail.Email);
                                     SetAudit(guardianJunior);
                                     session.SaveOrUpdate(guardianJunior);
                                 }
-
+                             
                                 SetAudit(guardian);
                                 session.SaveOrUpdate(guardian);
                             }
                             break;
                         case (int) MemberType.Junior:
                             var junior = session.CreateCriteria(typeof (Junior))
-                                .List<Junior>().FirstOrDefault(x => x.Id.Equals(id));
+                                .List<Junior>().FirstOrDefault(x => x.Member.Id.Equals(id));
 
                             if (junior != null)
                             {
@@ -398,16 +401,40 @@ namespace ivNet.Club.Services
             guardian.Member.IsActive = 1;
             guardian.AddressDetail.IsActive = 1;
             guardian.ContactDetail.IsActive = 1;
-        }
 
-        private void ActivateJunior(Junior junior)
+            // create website account 
+            if (guardian.Member.UserId == 0)
+            {
+                guardian.Member.UserId =
+                    CreateAccount(guardian.Member,
+                        guardian.ContactDetail.Email, false);
+
+                CreateAcivationEmail(guardian.Member, guardian.Member.UserId, guardian.ContactDetail.Email);
+            }          
+        }
+     
+        private void ActivateJunior(Junior junior, string eMail)
         {
             junior.IsVetted = 1;
             junior.IsActive = 1;
             junior.Member.IsActive = 1;
             junior.Player.IsActive = 1;
+
+            // create website account 
+            if (junior.Member.UserId == 0)
+            {
+                junior.Member.UserId =
+                    CreateAccount(junior.Member,
+                        eMail, true);
+
+                CreateAcivationEmail(junior.Member, junior.Member.UserId, eMail);
+            }
         }
 
+        private void CreateAcivationEmail(Member member, int userId, string email)
+        {
+            throw new NotImplementedException();
+        }
 
         private HttpContextBase HttpContext
         {
@@ -428,9 +455,10 @@ namespace ivNet.Club.Services
             }
         }
 
-        private List<Guardian> UpdateGuardians(ISession session, List<_MemberViewModel> guardians)
+        private List<Guardian> UpdateGuardians(ISession session, List<_MemberViewModel> guardians, out bool activeGaurdians)
         {
             var rtnList = new List<Guardian>();
+            activeGaurdians = false;
             // loop through guardians
             foreach (var guardianViewModel in guardians)
             {
@@ -477,14 +505,7 @@ namespace ivNet.Club.Services
                 MapperHelper.Map(guardian.Member, guardianViewModel);
                 MapperHelper.Map(guardian.ContactDetail, guardianViewModel);
                 MapperHelper.Map(guardian.AddressDetail, guardianViewModel);
-
-                //// create website account 
-                //if (guardian.Member.UserId == 0)
-                //{
-                //    guardian.Member.UserId =
-                //        CreateAccount(guardian.Member,
-                //            guardianViewModel.Email, false);
-                //}
+                guardian.IsActive = guardianViewModel.MemberIsActive;               
 
                 // save or update guardian elements
                 SetAudit(guardian.Member);
@@ -497,11 +518,16 @@ namespace ivNet.Club.Services
                 // add junior details               
                 rtnList.Add(guardian);
 
+                if (!activeGaurdians)
+                {
+                    activeGaurdians = guardian.IsActive == 1;
+                }
+
             }
             return rtnList;
         }
 
-        private List<Junior> UpdateJuniors(ISession session, List<_MemberViewModel> juniors)
+        private List<Junior> UpdateJuniors(ISession session, List<_MemberViewModel> juniors, bool activeGaurdians)
         {
             var rtnList = new List<Junior>();
 
@@ -548,14 +574,7 @@ namespace ivNet.Club.Services
                     MapperHelper.Map(junior.Member, juniorViewModel);
                 }
                 MapperHelper.Map(junior.JuniorInfo, juniorViewModel);
-
-                //// create website account
-                //if (junior.Member.UserId == 0)
-                //{
-                //    junior.Member.UserId =
-                //        CreateAccount(junior.Member,
-                //            email, true);
-                //}
+                junior.IsActive = juniorViewModel.MemberIsActive;                
 
                 // save or update junior elements
                 SetAudit(junior.Member);
@@ -565,17 +584,13 @@ namespace ivNet.Club.Services
 
                 MapperHelper.Map(junior.Player.Kit, juniorViewModel);
                 SetAudit(junior.Player.Kit);
-                session.SaveOrUpdate(junior.Player.Kit);
-
-                // create a blank fee for this season
-                //   var fee = new Fee { Season = registrationViewModel.Season };
-                //   SetAudit(fee);
-                //   session.SaveOrUpdate(fee);
-                //   junior.Player.Fees.Add(fee);
+                session.SaveOrUpdate(junior.Player.Kit);              
 
                 junior.Player.Number = junior.Member.Id.ToString(CultureInfo.InvariantCulture)
                     .PadLeft(6, '0');
 
+                if (!activeGaurdians) junior.IsActive = 0;
+                
                 SetAudit(junior.Player);
                 session.SaveOrUpdate(junior.Player);
 

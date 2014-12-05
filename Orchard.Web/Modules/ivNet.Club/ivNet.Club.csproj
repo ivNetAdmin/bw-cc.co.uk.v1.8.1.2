@@ -118,7 +118,7 @@
     <Content Include="Scripts\angular-ui-utils.js" />
     <Content Include="Scripts\angular-ui-utils.min.js" />
     <Content Include="Scripts\angular.min.js.map" />
-    <Content Include="Scripts\app\admin.member.list.js" />
+    <Content Include="Scripts\app\admin.member.list.all.js" />
     <Content Include="Scripts\app\admin.member.activate.js" />
     <Content Include="Scripts\app\club.configuration.js" />
     <Content Include="Scripts\app\member.registration.details.js" />
@@ -129,11 +129,15 @@
     <Content Include="Styles\club.base.css">
       <DependentUpon>club.base.less</DependentUpon>
     </Content>
+    <Content Include="Styles\club.base.css.map">
+      <DependentUpon>club.base.css</DependentUpon>
+    </Content>
+    <Content Include="Styles\club.base.less" />
     <Content Include="Styles\club.base.min.css">
       <DependentUpon>club.base.css</DependentUpon>
     </Content>
     <Content Include="Styles\clubadmin.activate.new.members.css">
-      <DependentUpon>clubadmin.activate.new.members.less</DependentUpon>
+      <DependentUpon>admin.member.activate.less</DependentUpon>
     </Content>
     <Content Include="Styles\clubadmin.activate.new.members.min.css">
       <DependentUpon>clubadmin.activate.new.members.css</DependentUpon>
@@ -151,14 +155,11 @@
     <Content Include="Styles\membership.new.registration.css.map">
       <DependentUpon>membership.new.registration.css</DependentUpon>
     </Content>
-    <Content Include="Styles\club.base.less" />
-    <Content Include="Styles\clubadmin.activate.new.members.less" />
-    <Content Include="Styles\club.base.css.map">
-      <DependentUpon>club.base.css</DependentUpon>
-    </Content>
+    <Content Include="Styles\admin.member.activate.less" />
     <Content Include="Styles\clubadmin.activate.new.members.css.map">
       <DependentUpon>clubadmin.activate.new.members.css</DependentUpon>
     </Content>
+    <None Include="Styles\admin.member.list.all.less" />
     <None Include="Styles\membership.new.registration.less" />
     <None Include="Styles\new.member.less" />
     <Content Include="Scripts\anjular.js" />
@@ -186,7 +187,9 @@
     <Content Include="Views\AdminMember\_JuniorRepeatDetails.cshtml" />
     <Content Include="Views\AdminMember\_JuniorDetails.cshtml" />
     <Content Include="Views\Member\RegistrationDetails.cshtml" />
-    <Content Include="Views\ClubAdmin\ActivateNewMembers\Index.cshtml" />
+    <Content Include="Views\Admin\ActivateNewMembers\Index.cshtml" />
+    <Content Include="Views\Admin\ListAll\Index.cshtml" />
+    <Content Include="Views\Admin\ListAll\_memberList.cshtml" />
     <None Include="Views\Member\_RegistrationJuniorDetails.cshtml" />
     <Content Include="Views\Member\_RegistrationType.cshtml" />
     <Content Include="Views\Member\__Address.cshtml">
@@ -264,6 +267,7 @@
     <Compile Include="Controllers\MemberController.cs" />
     <Compile Include="Controllers\AdminDocumentation.cs" />
     <Compile Include="Controllers\SiteController.cs" />
+    <Compile Include="Entities\ActivationEmail.cs" />
     <Compile Include="Entities\AddressDetail.cs" />
     <Compile Include="Entities\BaseEntity.cs">
       <SubType>Code</SubType>

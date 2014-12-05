@@ -13,10 +13,12 @@ namespace ivNet.Club
 
             manifest.DefineStyle("Club.Base").SetUrl("club.base.min.css");
             manifest.DefineStyle("Membership.New.Registration").SetUrl("membership.new.registration.min.css").SetDependencies("Club.Base");
-            manifest.DefineStyle("ClubAdmin.Activate.New.Members").SetUrl("clubadmin.activate.new.members.min.css").SetDependencies("Club.Base");
+            manifest.DefineStyle("Admin.Member.Activate").SetUrl("admin.member.activate.min.css").SetDependencies("Club.Base");
+            manifest.DefineStyle("Admin.Member.List.All").SetUrl("admin.members.list.all.min.css").SetDependencies("Club.Base");
 
             manifest.DefineScript("Membership.New.Registration").SetUrl("app/membership.new.registration.js").SetVersion("1.0").SetDependencies("AngularJS");
-            manifest.DefineScript("Club.Admin.Member.Activate").SetUrl("app/admin.member.activate.js").SetVersion("1.0").SetDependencies("trNgGrid");
+            manifest.DefineScript("Admin.Member.Activate").SetUrl("app/admin.member.activate.js").SetVersion("1.0").SetDependencies("trNgGrid");
+            manifest.DefineScript("Admin.Member.List.All").SetUrl("app/admin.member.list.all.js").SetVersion("1.0").SetDependencies("trNgGrid");
             
 
             #endregion

@@ -47,7 +47,7 @@ AdminMemberActivate.controller('AdminMemberController', function ($scope, adminM
 
     $scope.activateJunior = function (item) {
 
-        adminMemberActivateUpdate.update({ id: item.MemberId }, { MemberType: item.MemberType },
+        adminMemberActivateUpdate.update({ id: item.MemberId }, { MemberType: item.MemberType, Type: 'activate' },
             function() {
                 window.location.reload();
             },
