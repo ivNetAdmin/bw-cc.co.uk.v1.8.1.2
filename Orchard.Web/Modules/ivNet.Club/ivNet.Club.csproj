@@ -126,6 +126,18 @@
     <Content Include="packages.config" />
     <Content Include="Scripts\app\new.member.fee.js" />
     <Content Include="Scripts\angular-resource.min.js.map" />
+    <Content Include="Styles\club.base.css">
+      <DependentUpon>club.base.less</DependentUpon>
+    </Content>
+    <Content Include="Styles\club.base.min.css">
+      <DependentUpon>club.base.css</DependentUpon>
+    </Content>
+    <Content Include="Styles\clubadmin.activate.new.members.css">
+      <DependentUpon>clubadmin.activate.new.members.less</DependentUpon>
+    </Content>
+    <Content Include="Styles\clubadmin.activate.new.members.min.css">
+      <DependentUpon>clubadmin.activate.new.members.css</DependentUpon>
+    </Content>
     <Content Include="Styles\membership.new.registration.css">
       <DependentUpon>membership.new.registration.less</DependentUpon>
     </Content>
@@ -138,6 +150,14 @@
     <Content Include="Scripts\app\membership.new.registration.js" />
     <Content Include="Styles\membership.new.registration.css.map">
       <DependentUpon>membership.new.registration.css</DependentUpon>
+    </Content>
+    <Content Include="Styles\club.base.less" />
+    <Content Include="Styles\clubadmin.activate.new.members.less" />
+    <Content Include="Styles\club.base.css.map">
+      <DependentUpon>club.base.css</DependentUpon>
+    </Content>
+    <Content Include="Styles\clubadmin.activate.new.members.css.map">
+      <DependentUpon>clubadmin.activate.new.members.css</DependentUpon>
     </Content>
     <None Include="Styles\membership.new.registration.less" />
     <None Include="Styles\new.member.less" />
@@ -166,6 +186,7 @@
     <Content Include="Views\AdminMember\_JuniorRepeatDetails.cshtml" />
     <Content Include="Views\AdminMember\_JuniorDetails.cshtml" />
     <Content Include="Views\Member\RegistrationDetails.cshtml" />
+    <Content Include="Views\ClubAdmin\ActivateNewMembers\Index.cshtml" />
     <None Include="Views\Member\_RegistrationJuniorDetails.cshtml" />
     <Content Include="Views\Member\_RegistrationType.cshtml" />
     <Content Include="Views\Member\__Address.cshtml">
@@ -230,6 +251,8 @@
     <Content Include="Views\Site\Membership\NewRegistration\_Button.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\Api\AdminMemberController.cs" />
+    <Compile Include="Controllers\ClubAdminController.cs" />
     <Compile Include="Controllers\AdminMemberController.cs" />
     <Compile Include="Controllers\Api\CaptchaController.cs" />
     <Compile Include="Controllers\Api\ConfigurationController.cs" />

@@ -23,6 +23,7 @@ namespace ivNet.Club
 
             //rewok
             rdl.AddRange(SiteRoutes());
+            rdl.AddRange(ClubAdminMemberRoutes());
             return rdl;
         }
 
@@ -100,23 +101,23 @@ namespace ivNet.Club
         {
             return new[]
             {
-                new RouteDescriptor
-                {
-                    Route = new Route(
-                        "club/admin/member/activate",
-                        new RouteValueDictionary
-                        {
-                            {"area", "ivNet.Club"},
-                            {"controller", "AdminMember"},
-                            {"action", "Activate"}
-                        },
-                        new RouteValueDictionary(),
-                        new RouteValueDictionary
-                        {
-                            {"area", "ivNet.Club"}
-                        },
-                        new MvcRouteHandler())
-                },
+                //new RouteDescriptor
+                //{
+                //    Route = new Route(
+                //        "club/admin/member/activate-new",
+                //        new RouteValueDictionary
+                //        {
+                //            {"area", "ivNet.Club"},
+                //            {"controller", "ClubAdmin"},
+                //            {"action", "ActivateNewMembers"}
+                //        },
+                //        new RouteValueDictionary(),
+                //        new RouteValueDictionary
+                //        {
+                //            {"area", "ivNet.Club"}
+                //        },
+                //        new MvcRouteHandler())
+                //},
                 new RouteDescriptor
                 {
                     Route = new Route(
@@ -256,6 +257,33 @@ namespace ivNet.Club
                         new MvcRouteHandler())
                 }
                 
+               
+            };
+        }
+        #endregion
+
+        #region club admin
+        private IEnumerable<RouteDescriptor> ClubAdminMemberRoutes()
+        {
+            return new[]
+            {
+                new RouteDescriptor
+                {
+                    Route = new Route(
+                        "club/admin/member/activate-new",
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Club"},
+                            {"controller", "ClubAdmin"},
+                            {"action", "ActivateNewMembers"}
+                        },
+                        new RouteValueDictionary(),
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Club"}
+                        },
+                        new MvcRouteHandler())
+                },
                
             };
         }

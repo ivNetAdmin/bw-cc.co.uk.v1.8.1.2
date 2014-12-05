@@ -11,9 +11,13 @@ namespace ivNet.Club
 
             #region rework
 
-            manifest.DefineStyle("Membership.New.Registration").SetUrl("membership.new.registration.min.css");
+            manifest.DefineStyle("Club.Base").SetUrl("club.base.min.css");
+            manifest.DefineStyle("Membership.New.Registration").SetUrl("membership.new.registration.min.css").SetDependencies("Club.Base");
+            manifest.DefineStyle("ClubAdmin.Activate.New.Members").SetUrl("clubadmin.activate.new.members.min.css").SetDependencies("Club.Base");
 
             manifest.DefineScript("Membership.New.Registration").SetUrl("app/membership.new.registration.js").SetVersion("1.0").SetDependencies("AngularJS");
+            manifest.DefineScript("Club.Admin.Member.Activate").SetUrl("app/admin.member.activate.js").SetVersion("1.0").SetDependencies("trNgGrid");
+            
 
             #endregion
 
@@ -34,7 +38,6 @@ namespace ivNet.Club
             
             manifest.DefineScript("Club.Configuration").SetUrl("app/club.configuration.js").SetVersion("1.0").SetDependencies("trNgGrid");
 
-            manifest.DefineScript("Club.Admin.Member.Activate").SetUrl("app/admin.member.activate.js").SetVersion("1.0").SetDependencies("trNgGrid");
             manifest.DefineScript("Club.Admin.Member.List").SetUrl("app/admin.member.list.js").SetVersion("1.0").SetDependencies("trNgGrid");
             
         }

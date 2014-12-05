@@ -1,4 +1,4 @@
-﻿var ivNetAdminMemberActivate = angular.module("ivNet.Admin.Member.Activate.App", ['ngResource', 'trNgGrid'])
+﻿var AdminMemberActivate = angular.module("Admin.Member.Activate.App", ['ngResource', 'trNgGrid'])
  .filter("dateField", function () {
      return function (combinedFieldValueUnused, item) {
          var d = item.Dob;
@@ -27,34 +27,27 @@
      };
  });
 
-ivNetAdminMemberActivate.factory('adminMemberActivate', function ($resource) {
-    return $resource('/api/club/admin/member/:id/list', null,
+AdminMemberActivate.factory('adminMemberActivate', function ($resource) {
+    return $resource('/api/club/adminmember/:id/:type', null,
     {
        
     });
 });
 
-ivNetAdminMemberActivate.factory('adminMemberActivateUpdate', function ($resource) {
-    return $resource('/api/club/admin/member/:id', null,
+AdminMemberActivate.factory('adminMemberActivateUpdate', function ($resource) {
+    return $resource('/api/club/adminmember/:id', null,
     {
         'update': { method: 'PUT' }
     });
 });
 
-ivNetAdminMemberActivate.controller('AdminMemberController', function ($scope, adminMemberActivate, adminMemberActivateUpdate) {
-    adminMemberActivate.query({ id: "new" },
-       function (data) {
-           $scope.myItems = data;
-       },
-       function (error) {
-           alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
-       });
+AdminMemberActivate.controller('AdminMemberController', function ($scope, adminMemberActivate, adminMemberActivateUpdate) {
+
+    init();  
 
     $scope.activateJunior = function (item) {
 
-        alert(item.MemberId);
-
-        adminMemberActivateUpdate.update({ id: item.MemberId }, item,
+        adminMemberActivateUpdate.update({ id: item.MemberId }, { MemberType: item.MemberType },
             function() {
                 window.location.reload();
             },
@@ -79,4 +72,14 @@ ivNetAdminMemberActivate.controller('AdminMemberController', function ($scope, a
         //    }
         //});
     };
+
+    function init() {
+        adminMemberActivate.query({ id: "activate", type: "list" },
+     function (data) {
+         $scope.myItems = data;
+     },
+     function (error) {
+         alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
+     });
+    }
 });

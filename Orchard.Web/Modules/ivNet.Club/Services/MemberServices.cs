@@ -30,11 +30,11 @@ namespace ivNet.Club.Services
         EditMemberViewModel Get(int id);
         List<GuardianViewModel> GetGuardians(int id);
         MemberViewModel GetByKey(string key);
-        MemberViewModel GetFullName(string name);
+        _MemberViewModel GetFullName(string name);
         MemberViewModel GetByUserId(int id);
 
        // List<JuniorVettingViewModel> GetNonVetted();
-        void Activate(int id, JuniorVettingViewModel item);
+        void Activate(int id, int memberType);
         
         IUser AuthenticatedUser();        
     }
@@ -267,14 +267,13 @@ namespace ivNet.Club.Services
             }
         }
 
-        public MemberViewModel GetFullName(string name)
+        public _MemberViewModel GetFullName(string name)
         {
             using (var session = NHibernateHelper.OpenSession())
             {
-                var memberViewModel = new MemberViewModel();
-                key = CustomStringHelper.BuildKey(new[] { key });
-                var member = session.CreateCriteria(typeof(Member))
-                    .List<Member>().FirstOrDefault(x => x.MemberKey.Equals(key));
+                var memberViewModel = new _MemberViewModel();
+                var member = session.CreateCriteria(typeof (Member))
+                    .List<Member>().FirstOrDefault(x => (x.Surname + x.Firstname).Equals(name));
                 return MapperHelper.Map(memberViewModel, member);
             }
         }
@@ -322,38 +321,93 @@ namespace ivNet.Club.Services
         //    }
         //}
 
-        public void Activate(int id, JuniorVettingViewModel item)
+        public void Activate(int id, int memberType)
         {
             using (var session = NHibernateHelper.OpenSession())
             {
                 using (var transaction = session.BeginTransaction())
                 {
-                    var entity = session.CreateCriteria(typeof(Junior))
-                        .List<Junior>().FirstOrDefault(x => x.Id.Equals(id));
 
-                    entity.IsVetted = item.IsVetted;
-                    entity.IsActive = item.IsVetted;
-
-                    SetAudit(entity);
-                    session.SaveOrUpdate(entity);
-
-                    // activate guardians
-                    foreach (var guardian in entity.Guardians)
+                    switch (memberType)
                     {
-                        guardian.IsActive = item.IsVetted;
-                        SetAudit(guardian);
-                        session.SaveOrUpdate(guardian);                        
+                        case (int) MemberType.Guardian:
+                            var guardian = session.CreateCriteria(typeof (Guardian))
+                                .List<Guardian>().FirstOrDefault(x => x.Id.Equals(id));
+
+                            if (guardian != null)
+                            {
+                                ActivateGuardian(guardian);
+                                foreach (var guardianJunior in guardian.Juniors)
+                                {
+                                    ActivateJunior(guardianJunior);
+                                    SetAudit(guardianJunior);
+                                    session.SaveOrUpdate(guardianJunior);
+                                }
+
+                                SetAudit(guardian);
+                                session.SaveOrUpdate(guardian);
+                            }
+                            break;
+                        case (int) MemberType.Junior:
+                            var junior = session.CreateCriteria(typeof (Junior))
+                                .List<Junior>().FirstOrDefault(x => x.Id.Equals(id));
+
+                            if (junior != null)
+                            {
+                                ActivateJunior(junior);
+                                foreach (var juniorGuardian in junior.Guardians)
+                                {
+                                    ActivateGuardian(juniorGuardian);
+                                    SetAudit(juniorGuardian);
+                                    session.SaveOrUpdate(juniorGuardian);
+                                }
+                            }
+                            break;
                     }
+                    //var entity = session.CreateCriteria(typeof(Junior))
+                    //    .List<Junior>().FirstOrDefault(x => x.Id.Equals(id));
+
+                    //entity.IsVetted = item.IsVetted;
+                    //entity.IsActive = item.IsVetted;
+
+                    //SetAudit(entity);
+                    //session.SaveOrUpdate(entity);
+
+                    //// activate guardians
+                    //foreach (var guardian in entity.Guardians)
+                    //{
+                    //    guardian.IsActive = item.IsVetted;
+                    //    SetAudit(guardian);
+                    //    session.SaveOrUpdate(guardian);                        
+                    //}
 
                     transaction.Commit();
                 }
             }
         }
-
+       
         public void Clear()
         {
             ItemsInternal.Clear();
         }
+
+        private void ActivateGuardian(Guardian guardian)
+        {
+            guardian.IsVetted = 1;
+            guardian.IsActive = 1;
+            guardian.Member.IsActive = 1;
+            guardian.AddressDetail.IsActive = 1;
+            guardian.ContactDetail.IsActive = 1;
+        }
+
+        private void ActivateJunior(Junior junior)
+        {
+            junior.IsVetted = 1;
+            junior.IsActive = 1;
+            junior.Member.IsActive = 1;
+            junior.Player.IsActive = 1;
+        }
+
 
         private HttpContextBase HttpContext
         {
