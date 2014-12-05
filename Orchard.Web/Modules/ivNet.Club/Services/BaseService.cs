@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using ivNet.Club.Entities;
+using ivNet.Club.Helpers;
 using ivNet.Club.ViewModel;
 
 using NHibernate;
@@ -72,29 +73,26 @@ namespace ivNet.Club.Services
             return entity ?? addressDetail;
         }     
 
-        protected int CreateAccount(Member member, string email, bool junior)
+        protected int CreateAccount(Member member, string email, bool junior, out string username)
         {
             // create user
-            var userName = junior
+            username = junior
                 ? string.Format("{0}.{1}", member.Firstname, member.Surname)
                     .ToLowerInvariant().Replace(" ", string.Empty)
                 : email;
 
-            var password = string.Format("{0}{1}1", 
-                member.Firstname.ToLowerInvariant(), 
-                member.Firstname.ToUpperInvariant())
-                .Replace(" ", string.Empty);
+            var password = CustomStringHelper.GenerateInitialPassword(member);          
 
             email = email.ToLowerInvariant();
 
             // check if name already exists - if so append member id eg. tom.jones.456
-            var userCheck = _membershipService.GetUser(userName);
+            var userCheck = _membershipService.GetUser(username);
             if (userCheck != null)
             {
-                userName = string.Format("{0}.{1}", userName, member.Id);
+                username = string.Format("{0}.{1}", username, member.Id);
             }
 
-            var user = _membershipService.CreateUser(new CreateUserParams(userName, password, email, null, null, false));
+            var user = _membershipService.CreateUser(new CreateUserParams(username, password, email, null, null, false));
 
             // assign club member role
             var roleRecord = _roleService.GetRoleByName("ivMember");
@@ -119,7 +117,7 @@ namespace ivNet.Club.Services
             }
             return user.Id;
         }
-   
+       
         protected void SetAudit(BaseEntity entity, string merge = null)
         {
             var currentUser = CurrentUser != null ? CurrentUser.UserName : "Non-Authenticated";

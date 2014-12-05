@@ -342,13 +342,15 @@ namespace ivNet.Club.Services
                                 ActivateGuardian(guardian);
                                 foreach (var guardianJunior in guardian.Juniors)
                                 {
-                                    ActivateJunior(guardianJunior, guardian.ContactDetail.Email);
+                                    ActivateJunior(guardianJunior);
                                     SetAudit(guardianJunior);
-                                    session.SaveOrUpdate(guardianJunior);
+                                    CreateUserAccount(session, guardianJunior.Member, guardian.ContactDetail.Email, true);
+                                    session.SaveOrUpdate(guardianJunior);                                   
                                 }
-                             
+
                                 SetAudit(guardian);
-                                session.SaveOrUpdate(guardian);
+                                CreateUserAccount(session, guardian.Member, guardian.ContactDetail.Email);
+                                session.SaveOrUpdate(guardian);                                
                             }
                             break;
                         case (int) MemberType.Junior:
@@ -358,37 +360,27 @@ namespace ivNet.Club.Services
                             if (junior != null)
                             {
                                 ActivateJunior(junior);
+                                SetAudit(junior);
+                                session.SaveOrUpdate(junior);
+                                CreateUserAccount(session, junior.Member, junior.Guardians.First().ContactDetail.Email, true);
+
                                 foreach (var juniorGuardian in junior.Guardians)
                                 {
                                     ActivateGuardian(juniorGuardian);
                                     SetAudit(juniorGuardian);
-                                    session.SaveOrUpdate(juniorGuardian);
+                                    CreateUserAccount(session, juniorGuardian.Member, juniorGuardian.ContactDetail.Email);
+                                    session.SaveOrUpdate(juniorGuardian);                                    
                                 }
                             }
                             break;
                     }
-                    //var entity = session.CreateCriteria(typeof(Junior))
-                    //    .List<Junior>().FirstOrDefault(x => x.Id.Equals(id));
-
-                    //entity.IsVetted = item.IsVetted;
-                    //entity.IsActive = item.IsVetted;
-
-                    //SetAudit(entity);
-                    //session.SaveOrUpdate(entity);
-
-                    //// activate guardians
-                    //foreach (var guardian in entity.Guardians)
-                    //{
-                    //    guardian.IsActive = item.IsVetted;
-                    //    SetAudit(guardian);
-                    //    session.SaveOrUpdate(guardian);                        
-                    //}
 
                     transaction.Commit();
                 }
             }
         }
-       
+
+
         public void Clear()
         {
             ItemsInternal.Clear();
@@ -401,39 +393,40 @@ namespace ivNet.Club.Services
             guardian.Member.IsActive = 1;
             guardian.AddressDetail.IsActive = 1;
             guardian.ContactDetail.IsActive = 1;
-
-            // create website account 
-            if (guardian.Member.UserId == 0)
-            {
-                guardian.Member.UserId =
-                    CreateAccount(guardian.Member,
-                        guardian.ContactDetail.Email, false);
-
-                CreateAcivationEmail(guardian.Member, guardian.Member.UserId, guardian.ContactDetail.Email);
-            }          
+               
         }
      
-        private void ActivateJunior(Junior junior, string eMail)
+        private void ActivateJunior(Junior junior)
         {
             junior.IsVetted = 1;
             junior.IsActive = 1;
             junior.Member.IsActive = 1;
             junior.Player.IsActive = 1;
-
-            // create website account 
-            if (junior.Member.UserId == 0)
-            {
-                junior.Member.UserId =
-                    CreateAccount(junior.Member,
-                        eMail, true);
-
-                CreateAcivationEmail(junior.Member, junior.Member.UserId, eMail);
-            }
         }
 
-        private void CreateAcivationEmail(Member member, int userId, string email)
+        private void CreateUserAccount(ISession session, Member member, string email, bool junior = false)
         {
-            throw new NotImplementedException();
+            // create website account 
+            if (member.UserId != 0) return;
+
+            string username;
+            member.UserId = CreateAccount(member, email, junior, out username);
+            CreateAcivationEmail(session, member, username, email);
+        }
+
+        private void CreateAcivationEmail(ISession session, Member member, string username, string email)
+        {
+            var activationEmail = new ActivationEmail
+            {
+                Email = email,
+                Surname = member.Surname,
+                Firstname = member.Firstname,
+                UserName = username,
+                IsActive = 1    
+            };
+
+            SetAudit(activationEmail);
+            session.SaveOrUpdate(activationEmail);
         }
 
         private HttpContextBase HttpContext

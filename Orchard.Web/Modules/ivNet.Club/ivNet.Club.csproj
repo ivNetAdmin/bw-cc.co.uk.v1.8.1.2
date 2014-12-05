@@ -126,6 +126,12 @@
     <Content Include="packages.config" />
     <Content Include="Scripts\app\new.member.fee.js" />
     <Content Include="Scripts\angular-resource.min.js.map" />
+    <Content Include="Styles\admin.member.list.all.css">
+      <DependentUpon>admin.member.list.all.less</DependentUpon>
+    </Content>
+    <Content Include="Styles\admin.member.list.all.min.css">
+      <DependentUpon>admin.member.list.all.css</DependentUpon>
+    </Content>
     <Content Include="Styles\club.base.css">
       <DependentUpon>club.base.less</DependentUpon>
     </Content>
@@ -158,6 +164,9 @@
     <Content Include="Styles\admin.member.activate.less" />
     <Content Include="Styles\clubadmin.activate.new.members.css.map">
       <DependentUpon>clubadmin.activate.new.members.css</DependentUpon>
+    </Content>
+    <Content Include="Styles\admin.member.list.all.css.map">
+      <DependentUpon>admin.member.list.all.css</DependentUpon>
     </Content>
     <None Include="Styles\admin.member.list.all.less" />
     <None Include="Styles\membership.new.registration.less" />
