@@ -172,7 +172,7 @@ ivNetNewMember.controller('MembershipNewRegistrationController', function ($scop
             var surname = $('input[name="' + surnameField + '"]').val();
 
             $.ajax({
-                url: '/api/club/member/' + surname + firstname + '?action=duplicate&type=junior',                
+                url: '/api/club/registration/' + surname + firstname + '?action=duplicate&type=junior',                
                 type: 'GET',
                 success: function (data) {
                     if (data.length > 0) {
@@ -192,7 +192,7 @@ ivNetNewMember.controller('MembershipNewRegistrationController', function ($scop
     function _checkEmailDuplicates(email) {
 
         $.ajax({
-            url: '/api/club/member/' + email + '?action=duplicate&type=email',
+            url: '/api/club/registration/' + email + '?action=duplicate&type=email',
             type: 'GET',
             success: function (data) {
                 if (data.length > 0) {

@@ -121,7 +121,7 @@
     <Content Include="Scripts\app\admin.member.list.all.js" />
     <Content Include="Scripts\app\admin.member.activate.js" />
     <Content Include="Scripts\app\club.configuration.js" />
-    <Content Include="Scripts\app\member.registration.details.js" />
+    <Content Include="Scripts\app\membership.my.registration.js" />
     <Content Include="Scripts\trNgGrid.min.js" />
     <Content Include="packages.config" />
     <Content Include="Scripts\app\new.member.fee.js" />
@@ -169,6 +169,7 @@
       <DependentUpon>admin.member.list.all.css</DependentUpon>
     </Content>
     <None Include="Styles\admin.member.list.all.less" />
+    <Content Include="Styles\membership.my.registration.less" />
     <None Include="Styles\membership.new.registration.less" />
     <None Include="Styles\new.member.less" />
     <Content Include="Scripts\anjular.js" />
@@ -261,10 +262,11 @@
     <Content Include="Views\Site\Membership\NewRegistration\__Kit.cshtml" />
     <Content Include="Views\Site\Membership\NewRegistration\_Other.cshtml" />
     <Content Include="Views\Site\Membership\NewRegistration\_Button.cshtml" />
+    <Content Include="Views\SecureSite\Membership\MyRegistration\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\Api\AdminMemberController.cs" />
-    <Compile Include="Controllers\ClubAdminController.cs" />
+    <Compile Include="Controllers\AdminSiteController.cs" />
     <Compile Include="Controllers\AdminMemberController.cs" />
     <Compile Include="Controllers\Api\CaptchaController.cs" />
     <Compile Include="Controllers\Api\ConfigurationController.cs" />
@@ -275,6 +277,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
     <Compile Include="Controllers\AdminDocumentation.cs" />
+    <Compile Include="Controllers\SecureSiteController.cs" />
     <Compile Include="Controllers\SiteController.cs" />
     <Compile Include="Entities\ActivationEmail.cs" />
     <Compile Include="Entities\AddressDetail.cs" />

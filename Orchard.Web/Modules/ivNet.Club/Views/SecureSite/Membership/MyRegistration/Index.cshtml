@@ -1,0 +1,37 @@
+﻿@{
+    Script.Require("AngularJS-UI");
+    Script.Require("AngularJS-Resource");
+    Script.Require("Membership.My.Registration");
+
+    Style.Require("Membership.My.Registration");
+}
+
+<div data-ng-app="Membership.My.Registration.App">
+    <div data-ng-controller="MembershipMyRegistrationController">
+
+        <form angular-validator
+              angular-validator-submit="" ng-submit="saveChanges()">
+
+            <div class="form-group">
+                <input type="button" value="Add Gaurdian" class="btn btn-info" ng-click="addGuardian()" />
+                <input type="button" value="Cancel" class="btn btn-warning" ng-click="cancelGuardian()" />
+            </div>
+            @Html.Partial("_Shared/_GuardianDetails")
+            @Html.Partial("_Shared/_GuardianRepeatDetails")
+            <div class="form-group">
+                <input type="button" value="Add Junior" class="btn btn-info" ng-click="addJunior()" />
+                <input type="button" value="Cancel" class="btn btn-warning" ng-click="cancelJunior()" />
+            </div>
+            @Html.Partial("_Shared/_JuniorDetails")
+            @Html.Partial("_Shared/_JuniorRepeatDetails")
+            <div class="form-group">
+                <input id="singlebutton" type="submit" value="Save Changes" class="btn btn-success" />
+                <input type="button" value="Cancel Changes" class="btn btn-warning" />
+            </div>
+        </form>
+
+        <div id="ErrorNoData">Sorry but no registration details are available for <strong>[[USER]]</strong></div>
+    </div>
+</div>
+
+

@@ -23,7 +23,8 @@ namespace ivNet.Club
 
             //rewok
             rdl.AddRange(SiteRoutes());
-            rdl.AddRange(ClubAdminMemberRoutes());
+            rdl.AddRange(SecureSiteRoutes());
+            rdl.AddRange(AdminSiteMemberRoutes());
             return rdl;
         }
 
@@ -255,6 +256,32 @@ namespace ivNet.Club
                             {"area", "ivNet.Club"}
                         },
                         new MvcRouteHandler())
+                }                               
+            };
+        }
+        #endregion
+
+        #region secure site
+        private IEnumerable<RouteDescriptor> SecureSiteRoutes()
+        {
+            return new[]
+            {
+                new RouteDescriptor
+                {
+                    Route = new Route(
+                        "club/member/my-registration",
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Club"},
+                            {"controller", "SecureSite"},
+                            {"action", "MyRegistration"}
+                        },
+                        new RouteValueDictionary(),
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Club"}
+                        },
+                        new MvcRouteHandler())
                 }
                 
                
@@ -263,7 +290,7 @@ namespace ivNet.Club
         #endregion
 
         #region club admin
-        private IEnumerable<RouteDescriptor> ClubAdminMemberRoutes()
+        private IEnumerable<RouteDescriptor> AdminSiteMemberRoutes()
         {
             return new[]
             {
@@ -274,7 +301,7 @@ namespace ivNet.Club
                         new RouteValueDictionary
                         {
                             {"area", "ivNet.Club"},
-                            {"controller", "ClubAdmin"},
+                            {"controller", "AdminSite"},
                             {"action", "ActivateNewMembers"}
                         },
                         new RouteValueDictionary(),
@@ -291,7 +318,7 @@ namespace ivNet.Club
                         new RouteValueDictionary
                         {
                             {"area", "ivNet.Club"},
-                            {"controller", "ClubAdmin"},
+                            {"controller", "AdminSite"},
                             {"action", "ListAllMembers"}
                         },
                         new RouteValueDictionary(),

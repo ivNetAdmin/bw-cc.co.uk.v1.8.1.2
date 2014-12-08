@@ -1,4 +1,4 @@
-﻿var ivNetMemberRegistrationDetails = angular.module("ivNet.Member.Registration.Details.App", ['ngResource', 'trNgGrid', 'ui.event'])
+﻿var ivNetMemberRegistrationDetails = angular.module("Membership.My.Registration.App", ['ngResource', 'trNgGrid', 'ui.event'])
     .filter("editDateField", function() {
         return function(combinedFieldValueUnused, item) {
             var d = item.Dob;
@@ -34,14 +34,14 @@ ivNetMemberRegistrationDetails.factory('memberRegistrationDetails', function ($r
 });
 
 ivNetMemberRegistrationDetails.factory('guardianRegistrationDetails', function ($resource) {
-    return $resource('/api/club/guardian/:id/:type', null,
+    return $resource('/api/club/registration/:id/:type', null,
     {
         'query': { method: 'GET', isArray: false },
         'update': { method: 'PUT' }
     });
 });
 
-ivNetMemberRegistrationDetails.controller('MemberRegistrationDetailsController', function ($scope, memberRegistrationDetails, guardianRegistrationDetails) {
+ivNetMemberRegistrationDetails.controller('MembershipMyRegistrationController', function ($scope, memberRegistrationDetails, guardianRegistrationDetails) {
 
     angular.element(document).ready(function () {        
 
@@ -49,25 +49,34 @@ ivNetMemberRegistrationDetails.controller('MemberRegistrationDetailsController',
     
     guardianRegistrationDetails.query({ id: "registered", type: "user" },
         function(data) {
-
+            $('div#ErrorNoData').hide();
             $('div.memberDetails').hide();      
-
             $('div#guardianRepeatDetails').show();
             $('div#juniorRepeatDetails').show();
+            $('input.btn').hide();
 
-            $scope.data = data;
-            $scope.authenticatedUserName = data.Guardians[0].Email;
-            $scope.authenticatedMemberId = data.Guardians[0].MemberId;
+            //$scope.$apply(function() {
+                $scope.data = data;
+                
+                if (data.Guardians.length > 0) {
+                    $scope.authenticatedUserName = data.Guardians[0].Email;
+                    $scope.authenticatedMemberId = data.Guardians[0].MemberId;
 
-            $scope.guardianCount = data.Guardians.length;
-            $scope.juniorCount = data.Juniors.length;
+                    $scope.guardianCount = data.Guardians.length;
+                    $scope.juniorCount = data.Juniors.length;
 
-            $scope.guardians = data.Guardians;
-            $scope.juniors = data.Juniors;
+                    $scope.guardians = data.Guardians;
+                    $scope.juniors = data.Juniors;
 
-            $scope.guardian = data.NewGuardian;
-            $scope.junior = data.NewJunior;
-         
+                    $scope.guardian = data.NewGuardian;
+                    $scope.junior = data.NewJunior;
+                    $('input.btn').show();
+                } else {
+                    $('div#ErrorNoData').html($('div#ErrorNoData').html().replace('[[USER]]', data.AuthenticatedUser));
+                    $('div#ErrorNoData').show();
+                }
+            //});
+
         },
         function(error) {
             alert(error.data.Message + ' [' + error.data.MessageDetail + ']');

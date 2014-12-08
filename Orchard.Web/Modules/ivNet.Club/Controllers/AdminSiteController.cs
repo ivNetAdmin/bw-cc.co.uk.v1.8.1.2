@@ -8,12 +8,12 @@ using Orchard.Themes;
 
 namespace ivNet.Club.Controllers
 {
-    public class ClubAdminController : BaseController
+    public class AdminSiteController : BaseController
     {
 
         private readonly IOrchardServices _orchardServices;
 
-        public ClubAdminController(IOrchardServices orchardServices)
+        public AdminSiteController(IOrchardServices orchardServices)
         {
             _orchardServices = orchardServices;
             T = NullLocalizer.Instance;
