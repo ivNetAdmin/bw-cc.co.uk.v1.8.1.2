@@ -1,6 +1,7 @@
 ﻿
 using System.Web.Mvc;
 using ivNet.Club.Services;
+using NHibernate.Mapping;
 using Orchard;
 using Orchard.Localization;
 using Orchard.Logging;
@@ -35,6 +36,6 @@ namespace ivNet.Club.Controllers
             return View("Membership/MyRegistration/Index");
         }
 
-        #endregion
+        #endregion       
     }
 }

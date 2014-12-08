@@ -7,10 +7,10 @@ namespace ivNet.Club.ViewModel
     {
         public EditMemberViewModel()
         {
-            Guardians=new List<_MemberViewModel>();
-            Juniors = new List<_MemberViewModel>();
-            NewGuardian=new _MemberViewModel();
-            NewJunior = new _MemberViewModel();
+            Guardians=new List<MemberViewModel>();
+            Juniors = new List<MemberViewModel>();
+            NewGuardian=new MemberViewModel();
+            NewJunior = new MemberViewModel();
         }
         public string Type { get; set; }
         public int MemberType { get; set; }
@@ -18,10 +18,10 @@ namespace ivNet.Club.ViewModel
 
         public string Season { get; set; }
         
-        public List<_MemberViewModel> Guardians { get; set; }
-        public List<_MemberViewModel> Juniors { get; set; }
-        public _MemberViewModel NewGuardian { get; set; }
-        public _MemberViewModel NewJunior { get; set; }
+        public List<MemberViewModel> Guardians { get; set; }
+        public List<MemberViewModel> Juniors { get; set; }
+        public MemberViewModel NewGuardian { get; set; }
+        public MemberViewModel NewJunior { get; set; }
         
     }
 }

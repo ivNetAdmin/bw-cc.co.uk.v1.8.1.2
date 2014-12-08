@@ -13,14 +13,14 @@ namespace ivNet.Club
         {
 
             #region models->entities
-            Mapper.CreateMap<_MemberViewModel, Member>();
-            Mapper.CreateMap<_MemberViewModel, ContactDetail>();
-            Mapper.CreateMap<_MemberViewModel, AddressDetail>();
-
-            Mapper.CreateMap<_MemberViewModel, JuniorInfo>();
-            Mapper.CreateMap<_MemberViewModel, Kit>();
-
             Mapper.CreateMap<MemberViewModel, Member>();
+            Mapper.CreateMap<MemberViewModel, ContactDetail>();
+            Mapper.CreateMap<MemberViewModel, AddressDetail>();
+
+            Mapper.CreateMap<MemberViewModel, JuniorInfo>();
+            Mapper.CreateMap<MemberViewModel, Kit>();
+
+            //Mapper.CreateMap<MemberViewModel, Member>();
             Mapper.CreateMap<ContactViewModel, ContactDetail>();
             Mapper.CreateMap<AddressViewModel, AddressDetail>();
 
@@ -33,13 +33,13 @@ namespace ivNet.Club
 
             #region entities->models
 
-            Mapper.CreateMap<JuniorInfo, _MemberViewModel>();                
+            Mapper.CreateMap<JuniorInfo, MemberViewModel>();                
 
-            Mapper.CreateMap<AddressDetail, _MemberViewModel>();                
+            Mapper.CreateMap<AddressDetail, MemberViewModel>();                
 
-            Mapper.CreateMap<ContactDetail, _MemberViewModel>();                
+            Mapper.CreateMap<ContactDetail, MemberViewModel>();                
 
-            Mapper.CreateMap<Member, _MemberViewModel>()
+            Mapper.CreateMap<Member, MemberViewModel>()
                 .ForMember(v => v.MemberId, m => m.MapFrom(e=>e.Id));         
             
             Mapper.CreateMap<Member, RelatedMemberViewModel>()
@@ -63,8 +63,8 @@ namespace ivNet.Club
             Mapper.CreateMap<ContactDetail, ContactViewModel>();
 
             Mapper.CreateMap<ConfigurationItem, ConfigurationItemViewModel>();
-            Mapper.CreateMap<Member, MemberViewModel>()
-                .ForMember(v => v.MemberId, m => m.MapFrom(e => e.Id));
+            //Mapper.CreateMap<Member, MemberViewModel>()
+            //    .ForMember(v => v.MemberId, m => m.MapFrom(e => e.Id));
             Mapper.CreateMap<Junior, JuniorViewModel>();
                // .ForMember(v => v., m => m.MapFrom(e => e.Id));
             Mapper.CreateMap<IUser, UserViewModel>();       

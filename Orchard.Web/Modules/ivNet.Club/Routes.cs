@@ -16,10 +16,10 @@ namespace ivNet.Club
         public IEnumerable<RouteDescriptor> GetRoutes()
         {
             var rdl = new List<RouteDescriptor>();
-            rdl.AddRange(AdminDocumentationRoutes());
-            rdl.AddRange(MemberRoutes());
-            rdl.AddRange(AdminConfigurationRoutes());
-           // rdl.AddRange(AdminMemberRoutes());
+            //rdl.AddRange(AdminDocumentationRoutes());
+            //rdl.AddRange(MemberRoutes());
+            //rdl.AddRange(AdminConfigurationRoutes());
+            //rdl.AddRange(AdminMemberRoutes());
 
             //rewok
             rdl.AddRange(SiteRoutes());
@@ -28,74 +28,74 @@ namespace ivNet.Club
             return rdl;
         }
 
-        #region admin documentation
-        private IEnumerable<RouteDescriptor> AdminDocumentationRoutes()
-        {
-            return new[]
-            {
-                new RouteDescriptor
-                {
-                    Route = new Route(
-                        "club/admin/user-stories",
-                        new RouteValueDictionary
-                        {
-                            {"area", "ivNet.Club"},
-                            {"controller", "AdminDocumentation"},
-                            {"action", "UserStories"}
-                        },
-                        new RouteValueDictionary(),
-                        new RouteValueDictionary
-                        {
-                            {"area", "ivNet.Club"}
-                        },
-                        new MvcRouteHandler())
-                }
-            };
-        }
-        #endregion 
+        //#region admin documentation
+        //private IEnumerable<RouteDescriptor> AdminDocumentationRoutes()
+        //{
+        //    return new[]
+        //    {
+        //        new RouteDescriptor
+        //        {
+        //            Route = new Route(
+        //                "club/admin/user-stories",
+        //                new RouteValueDictionary
+        //                {
+        //                    {"area", "ivNet.Club"},
+        //                    {"controller", "AdminDocumentation"},
+        //                    {"action", "UserStories"}
+        //                },
+        //                new RouteValueDictionary(),
+        //                new RouteValueDictionary
+        //                {
+        //                    {"area", "ivNet.Club"}
+        //                },
+        //                new MvcRouteHandler())
+        //        }
+        //    };
+        //}
+        //#endregion 
         
-        #region admin configuration
-        private IEnumerable<RouteDescriptor> AdminConfigurationRoutes()
-        {
-            return new[]
-            {
-                new RouteDescriptor
-                {
-                    Route = new Route(
-                        "club/admin/configuration",
-                        new RouteValueDictionary
-                        {
-                            {"area", "ivNet.Club"},
-                            {"controller", "AdminConfiguration"},
-                            {"action", "Index"}
-                        },
-                        new RouteValueDictionary(),
-                        new RouteValueDictionary
-                        {
-                            {"area", "ivNet.Club"}
-                        },
-                        new MvcRouteHandler())
-                }, 
-                //new RouteDescriptor
-                //{
-                //    Route = new Route(
-                //        "club/admin/configuration/new",
-                //        new RouteValueDictionary
-                //        {
-                //            {"area", "ivNet.Club"},
-                //            {"controller", "AdminConfiguration"},
-                //            {"action", "New"}
-                //        },
-                //        new RouteValueDictionary(),
-                //        new RouteValueDictionary
-                //        {
-                //            {"area", "ivNet.Club"}
-                //        },
-                //        new MvcRouteHandler())
-                //}
-            };
-        }
-        #endregion
+        //#region admin configuration
+        //private IEnumerable<RouteDescriptor> AdminConfigurationRoutes()
+        //{
+        //    return new[]
+        //    {
+        //        new RouteDescriptor
+        //        {
+        //            Route = new Route(
+        //                "club/admin/configuration",
+        //                new RouteValueDictionary
+        //                {
+        //                    {"area", "ivNet.Club"},
+        //                    {"controller", "AdminConfiguration"},
+        //                    {"action", "Index"}
+        //                },
+        //                new RouteValueDictionary(),
+        //                new RouteValueDictionary
+        //                {
+        //                    {"area", "ivNet.Club"}
+        //                },
+        //                new MvcRouteHandler())
+        //        }, 
+        //        //new RouteDescriptor
+        //        //{
+        //        //    Route = new Route(
+        //        //        "club/admin/configuration/new",
+        //        //        new RouteValueDictionary
+        //        //        {
+        //        //            {"area", "ivNet.Club"},
+        //        //            {"controller", "AdminConfiguration"},
+        //        //            {"action", "New"}
+        //        //        },
+        //        //        new RouteValueDictionary(),
+        //        //        new RouteValueDictionary
+        //        //        {
+        //        //            {"area", "ivNet.Club"}
+        //        //        },
+        //        //        new MvcRouteHandler())
+        //        //}
+        //    };
+        //}
+        //#endregion
 
         //#region admin member
         //private IEnumerable<RouteDescriptor> AdminMemberRoutes()
@@ -140,100 +140,100 @@ namespace ivNet.Club
         //}
         //#endregion
 
-        #region member
-        private IEnumerable<RouteDescriptor> MemberRoutes()
-        {
-            return new[]
-            {
-                new RouteDescriptor
-                {
-                    Route = new Route(
-                        "club/member/new",
-                        new RouteValueDictionary
-                        {
-                            {"area", "ivNet.Club"},
-                            {"controller", "Member"},
-                            {"action", "New"}
-                        },
-                        new RouteValueDictionary(),
-                        new RouteValueDictionary
-                        {
-                            {"area", "ivNet.Club"}
-                        },
-                        new MvcRouteHandler())
-                },
-                 new RouteDescriptor
-                {
-                    Route = new Route(
-                        "club/member/new/fee",
-                        new RouteValueDictionary
-                        {
-                            {"area", "ivNet.Club"},
-                            {"controller", "Member"},
-                            {"action", "NewFee"}
-                        },
-                        new RouteValueDictionary(),
-                        new RouteValueDictionary
-                        {
-                            {"area", "ivNet.Club"}
-                        },
-                        new MvcRouteHandler())
-                },
-                new RouteDescriptor
-                {
-                    Route = new Route(
-                        "club/member/validate",
-                        new RouteValueDictionary
-                        {
-                            {"area", "ivNet.Club"},
-                            {"controller", "Member"},
-                            {"action", "ValidateCaptcha"}
-                        },
-                        new RouteValueDictionary(),
-                        new RouteValueDictionary
-                        {
-                            {"area", "ivNet.Club"}
-                        },
-                        new MvcRouteHandler())
-                },
-                new RouteDescriptor
-                {
-                    Route = new Route(
-                        "club/member/registraion",
-                        new RouteValueDictionary
-                        {
-                            {"area", "ivNet.Club"},
-                            {"controller", "Member"},
-                            {"action", "MemberRegistration"}
-                        },
-                        new RouteValueDictionary(),
-                        new RouteValueDictionary
-                        {
-                            {"area", "ivNet.Club"}
-                        },
-                        new MvcRouteHandler())
-                },
+        //#region member
+        //private IEnumerable<RouteDescriptor> MemberRoutes()
+        //{
+        //    return new[]
+        //    {
+        //        new RouteDescriptor
+        //        {
+        //            Route = new Route(
+        //                "club/member/new",
+        //                new RouteValueDictionary
+        //                {
+        //                    {"area", "ivNet.Club"},
+        //                    {"controller", "Member"},
+        //                    {"action", "New"}
+        //                },
+        //                new RouteValueDictionary(),
+        //                new RouteValueDictionary
+        //                {
+        //                    {"area", "ivNet.Club"}
+        //                },
+        //                new MvcRouteHandler())
+        //        },
+        //         new RouteDescriptor
+        //        {
+        //            Route = new Route(
+        //                "club/member/new/fee",
+        //                new RouteValueDictionary
+        //                {
+        //                    {"area", "ivNet.Club"},
+        //                    {"controller", "Member"},
+        //                    {"action", "NewFee"}
+        //                },
+        //                new RouteValueDictionary(),
+        //                new RouteValueDictionary
+        //                {
+        //                    {"area", "ivNet.Club"}
+        //                },
+        //                new MvcRouteHandler())
+        //        },
+        //        new RouteDescriptor
+        //        {
+        //            Route = new Route(
+        //                "club/member/validate",
+        //                new RouteValueDictionary
+        //                {
+        //                    {"area", "ivNet.Club"},
+        //                    {"controller", "Member"},
+        //                    {"action", "ValidateCaptcha"}
+        //                },
+        //                new RouteValueDictionary(),
+        //                new RouteValueDictionary
+        //                {
+        //                    {"area", "ivNet.Club"}
+        //                },
+        //                new MvcRouteHandler())
+        //        },
+        //        new RouteDescriptor
+        //        {
+        //            Route = new Route(
+        //                "club/member/registraion",
+        //                new RouteValueDictionary
+        //                {
+        //                    {"area", "ivNet.Club"},
+        //                    {"controller", "Member"},
+        //                    {"action", "MemberRegistration"}
+        //                },
+        //                new RouteValueDictionary(),
+        //                new RouteValueDictionary
+        //                {
+        //                    {"area", "ivNet.Club"}
+        //                },
+        //                new MvcRouteHandler())
+        //        },
                 
-                new RouteDescriptor
-                {
-                    Route = new Route(
-                        "club/member/registraion-details",
-                        new RouteValueDictionary
-                        {
-                            {"area", "ivNet.Club"},
-                            {"controller", "Member"},
-                            {"action", "RegistrationDetails"}
-                        },
-                        new RouteValueDictionary(),
-                        new RouteValueDictionary
-                        {
-                            {"area", "ivNet.Club"}
-                        },
-                        new MvcRouteHandler())
-                }
-            };
-        }
-        #endregion
+        //        new RouteDescriptor
+        //        {
+        //            Route = new Route(
+        //                "club/member/registraion-details",
+        //                new RouteValueDictionary
+        //                {
+        //                    {"area", "ivNet.Club"},
+        //                    {"controller", "Member"},
+        //                    {"action", "RegistrationDetails"}
+        //                },
+        //                new RouteValueDictionary(),
+        //                new RouteValueDictionary
+        //                {
+        //                    {"area", "ivNet.Club"}
+        //                },
+        //                new MvcRouteHandler())
+        //        }
+        //    };
+        //}
+        //#endregion
 
         #region site
         private IEnumerable<RouteDescriptor> SiteRoutes()
@@ -282,8 +282,8 @@ namespace ivNet.Club
                             {"area", "ivNet.Club"}
                         },
                         new MvcRouteHandler())
-                }
-                
+                },
+               
                
             };
         }
@@ -327,7 +327,44 @@ namespace ivNet.Club
                             {"area", "ivNet.Club"}
                         },
                         new MvcRouteHandler())
-                },                
+                },          
+      
+                 new RouteDescriptor
+                {
+                    Route = new Route(
+                        "club/admin/configuration",
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Club"},
+                            {"controller", "AdminSite"},
+                            {"action", "Configuration"}
+                        },
+                        new RouteValueDictionary(),
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Club"}
+                        },
+                        new MvcRouteHandler())
+                },
+
+                  new RouteDescriptor
+                {
+                    Route = new Route(
+                        "club/admin/user-stories",
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Club"},
+                            {"controller", "AdminSite"},
+                            {"action", "UserStories"}
+                        },
+                        new RouteValueDictionary(),
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Club"}
+                        },
+                        new MvcRouteHandler())
+                }
+                
             };
         }
         #endregion

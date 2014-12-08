@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using ivNet.Club.Helpers;
 using ivNet.Club.Services;
 using ivNet.Club.ViewModel;
+using Orchard;
 using Orchard.Logging;
 using System;
 using System.Linq;
@@ -15,10 +16,12 @@ namespace ivNet.Club.Controllers.Api
     public class ConfigurationController : ApiController
     {
         private readonly IConfigurationServices _configurationServices;
+        private readonly IOrchardServices _orchardServices;
 
-        public ConfigurationController(IConfigurationServices configurationServices)
+        public ConfigurationController(IConfigurationServices configurationServices, IOrchardServices orchardServices)
         {
             _configurationServices = configurationServices;
+            _orchardServices = orchardServices;
             Logger = NullLogger.Instance;
         }
 
@@ -26,6 +29,9 @@ namespace ivNet.Club.Controllers.Api
 
         public HttpResponseMessage Get()
         {
+            if (!_orchardServices.Authorizer.Authorize(Permissions.ivConfiguration))
+                return Request.CreateResponse(HttpStatusCode.Forbidden);
+
             try
             {
                 var configurationItemList = _configurationServices.Get();
@@ -78,30 +84,11 @@ namespace ivNet.Club.Controllers.Api
             }
         }
 
-        private HttpResponseMessage GetSeasons()
-        {
-            //var currentSeason = _configurationServices.GetCurrentSeason();
-            var seasonFormat = _configurationServices.GetRegistrationSeasonList();  
-         
-           return Request.CreateResponse(HttpStatusCode.OK,
-                seasonFormat);
-        }
-
-        private HttpResponseMessage GetFeeData()
-        {
-            var configurationItemList = _configurationServices.GetExtraFeeData();
-
-            var returnList = (from configurationItem in configurationItemList
-                              let configurationItemViewModel = new ConfigurationItemViewModel()
-                              select MapperHelper.Map(configurationItemViewModel, configurationItem)).ToList();
-
-            return Request.CreateResponse(HttpStatusCode.OK,
-                returnList);
-        }
-
         [HttpPut]
         public HttpResponseMessage Put(int id, ConfigurationItemViewModel item)
         {
+            if (!_orchardServices.Authorizer.Authorize(Permissions.ivConfiguration))
+                return Request.CreateResponse(HttpStatusCode.Forbidden);
 
             try
             {                
@@ -120,6 +107,27 @@ namespace ivNet.Club.Controllers.Api
                     "An Error has occurred. Report to bp@ivnet.co.uk quoting: " + errorId);
 
             }
+        }
+
+        private HttpResponseMessage GetSeasons()
+        {
+            //var currentSeason = _configurationServices.GetCurrentSeason();
+            var seasonFormat = _configurationServices.GetRegistrationSeasonList();
+
+            return Request.CreateResponse(HttpStatusCode.OK,
+                 seasonFormat);
+        }
+
+        private HttpResponseMessage GetFeeData()
+        {
+            var configurationItemList = _configurationServices.GetExtraFeeData();
+
+            var returnList = (from configurationItem in configurationItemList
+                              let configurationItemViewModel = new ConfigurationItemViewModel()
+                              select MapperHelper.Map(configurationItemViewModel, configurationItem)).ToList();
+
+            return Request.CreateResponse(HttpStatusCode.OK,
+                returnList);
         }
     }
 }

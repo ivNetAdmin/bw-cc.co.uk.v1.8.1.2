@@ -1,4 +1,4 @@
-﻿var ivNetAdminMemberList = angular.module("ivNet.Admin.Member.List.All.App", ['ngResource', 'trNgGrid'])
+﻿var ivNetAdminMemberList = angular.module("Admin.Member.List.All.App", ['ngResource', 'trNgGrid'])
     .filter("dateField", function() {
         return function(combinedFieldValueUnused, item) {
             var d = item.Dob;

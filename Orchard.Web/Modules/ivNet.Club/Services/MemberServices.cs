@@ -30,7 +30,7 @@ namespace ivNet.Club.Services
         EditMemberViewModel Get(int id);
         List<GuardianViewModel> GetGuardians(int id);
         MemberViewModel GetByKey(string key);
-        _MemberViewModel GetFullName(string name);
+        MemberViewModel GetFullName(string name);
         MemberViewModel GetByUserId(int id);
 
         EditMemberViewModel GetRegisteredUser();
@@ -197,7 +197,7 @@ namespace ivNet.Club.Services
                 if (guardian!=null)
                 {
                     adminEditMemberViewModel.MemberType = (int) MemberType.Guardian;
-                    var guardianMemberModel = MapperHelper.Map(new _MemberViewModel(), guardian.Member);
+                    var guardianMemberModel = MapperHelper.Map(new MemberViewModel(), guardian.Member);
                     MapperHelper.Map(guardianMemberModel, guardian.ContactDetail);
                     MapperHelper.Map(guardianMemberModel, guardian.AddressDetail);
                     
@@ -208,7 +208,7 @@ namespace ivNet.Club.Services
 
                     foreach (var junior in guardian.Juniors)
                     {                        
-                        var juniorMemberModel = MapperHelper.Map(new _MemberViewModel(), junior.Member);
+                        var juniorMemberModel = MapperHelper.Map(new MemberViewModel(), junior.Member);
                         MapperHelper.Map(juniorMemberModel, junior.JuniorInfo);
                         juniorMemberModel.Dob = junior.Dob;
                         juniorMemberModel.MemberIsActive = junior.IsActive;
@@ -224,7 +224,7 @@ namespace ivNet.Club.Services
                     {
                         adminEditMemberViewModel.MemberType = (int) MemberType.Junior;
                         
-                        var juniorMemberModel = MapperHelper.Map(new _MemberViewModel(), junior.Member);
+                        var juniorMemberModel = MapperHelper.Map(new MemberViewModel(), junior.Member);
                         MapperHelper.Map(juniorMemberModel, junior.JuniorInfo);
                         
                         juniorMemberModel.Dob = junior.Dob;
@@ -234,7 +234,7 @@ namespace ivNet.Club.Services
 
                         foreach (var juniorGuardian in junior.Guardians)
                         {
-                            var guardianMemberModel = MapperHelper.Map(new _MemberViewModel(), juniorGuardian.Member);
+                            var guardianMemberModel = MapperHelper.Map(new MemberViewModel(), juniorGuardian.Member);
                             MapperHelper.Map(guardianMemberModel, juniorGuardian.ContactDetail);
                             MapperHelper.Map(guardianMemberModel, juniorGuardian.AddressDetail);
                             guardianMemberModel.MemberIsActive = juniorGuardian.IsActive;
@@ -272,11 +272,11 @@ namespace ivNet.Club.Services
             }
         }
 
-        public _MemberViewModel GetFullName(string name)
+        public MemberViewModel GetFullName(string name)
         {
             using (var session = NHibernateHelper.OpenSession())
             {
-                var memberViewModel = new _MemberViewModel();
+                var memberViewModel = new MemberViewModel();
                 var member = session.CreateCriteria(typeof (Member))
                     .List<Member>().FirstOrDefault(x => (x.Surname + x.Firstname).Equals(name));
                 return MapperHelper.Map(memberViewModel, member);
@@ -329,7 +329,7 @@ namespace ivNet.Club.Services
 
                     foreach (var associatedGuardian in associatedGuardianList)
                     {
-                        var guardianViewModel = new _MemberViewModel();
+                        var guardianViewModel = new MemberViewModel();
                         MapperHelper.Map(guardianViewModel, associatedGuardian.Member);
                         MapperHelper.Map(guardianViewModel, associatedGuardian.AddressDetail);
                         MapperHelper.Map(guardianViewModel, associatedGuardian.ContactDetail);
@@ -338,7 +338,7 @@ namespace ivNet.Club.Services
                   
                     foreach (var junior in guardian.Juniors)
                     {
-                        var juniorViewModel = new _MemberViewModel();
+                        var juniorViewModel = new MemberViewModel();
                         MapperHelper.Map(juniorViewModel, junior.Member);
                         MapperHelper.Map(juniorViewModel, junior.JuniorInfo);
                         juniorViewModel.Dob = junior.Dob;
@@ -473,7 +473,7 @@ namespace ivNet.Club.Services
             }
         }
 
-        private List<Guardian> UpdateGuardians(ISession session, List<_MemberViewModel> guardians, out bool activeGaurdians)
+        private List<Guardian> UpdateGuardians(ISession session, List<MemberViewModel> guardians, out bool activeGaurdians)
         {
             var rtnList = new List<Guardian>();
             activeGaurdians = false;
@@ -545,7 +545,7 @@ namespace ivNet.Club.Services
             return rtnList;
         }
 
-        private List<Junior> UpdateJuniors(ISession session, List<_MemberViewModel> juniors, bool activeGaurdians)
+        private List<Junior> UpdateJuniors(ISession session, List<MemberViewModel> juniors, bool activeGaurdians)
         {
             var rtnList = new List<Junior>();
 

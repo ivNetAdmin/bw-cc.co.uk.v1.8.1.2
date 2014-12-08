@@ -45,7 +45,7 @@ namespace ivNet.Club.Controllers
 
                 for (var i = 1; i <= memberCount; i++)
                 {
-                    var guardianViewModel = new _MemberViewModel();
+                    var guardianViewModel = new MemberViewModel();
 
                     MapperHelper.MapNewMember(guardianViewModel, form, "Adult", i);
                     MapperHelper.MapNewContactDetail(guardianViewModel, form, i);
@@ -63,7 +63,7 @@ namespace ivNet.Club.Controllers
                     // get junior club member details
                     for (var i = 1; i <= juniorCount; i++)
                     {
-                        var juniorViewModel = new _MemberViewModel { Dob = MapperHelper.MapNewDob(form, i) };
+                        var juniorViewModel = new MemberViewModel { Dob = MapperHelper.MapNewDob(form, i) };
 
                         MapperHelper.MapNewMember(juniorViewModel, form, "Junior", i);
                         MapperHelper.MapJuniorDetail(juniorViewModel, form, i);

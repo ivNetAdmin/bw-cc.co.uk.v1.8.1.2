@@ -26,7 +26,7 @@
     });
 
 ivNetMemberRegistrationDetails.factory('memberRegistrationDetails', function ($resource) {
-    return $resource('/api/club/member/:id/:type', null,
+    return $resource('/api/club/registration/:id/:type', null,
     {
         'query': { method: 'GET', isArray: false },
         'update': { method: 'PUT' }

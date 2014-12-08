@@ -15,7 +15,7 @@ namespace ivNet.Club.Helpers
     {
         #region form->models
 
-        public static void MapNewMember(_MemberViewModel viewModel, FormCollection form,
+        public static void MapNewMember(MemberViewModel viewModel, FormCollection form,
             string memberType, int counter)
         {
             if (!string.IsNullOrEmpty(form[string.Format("{0}-MemberNo-{1}", memberType, counter)]))
@@ -45,7 +45,7 @@ namespace ivNet.Club.Helpers
             }
         }
 
-        public static void Map(_MemberViewModel viewModel, FormCollection form, string memberType)
+        public static void Map(MemberViewModel viewModel, FormCollection form, string memberType)
         {
             viewModel.Surname = form[string.Format("{0}-Surname", memberType)];
             viewModel.Firstname = form[string.Format("{0}-Firstname", memberType)];
@@ -65,14 +65,14 @@ namespace ivNet.Club.Helpers
             }
         }
 
-        public static void Map(_MemberViewModel viewModel, FormCollection form)
+        public static void Map(MemberViewModel viewModel, FormCollection form)
         {
             viewModel.Dob = DateTime.Parse(form[string.Format("Dob")]);
             viewModel.School = form[string.Format("School")];
             viewModel.Notes = form[string.Format("Notes")];            
         }
 
-        public static void MapNewContactDetail(_MemberViewModel viewModel, FormCollection form, int counter)
+        public static void MapNewContactDetail(MemberViewModel viewModel, FormCollection form, int counter)
         {
             viewModel.Email = form[string.Format("Email-{0}", counter)];
             viewModel.Mobile = form[string.Format("Mobile-{0}", counter)];
@@ -80,7 +80,7 @@ namespace ivNet.Club.Helpers
             viewModel.ContactDetailKey = CustomStringHelper.BuildKey(new[] { viewModel.Email });
         }
 
-        public static void MapNewContactDetail(_MemberViewModel viewModel, FormCollection form)
+        public static void MapNewContactDetail(MemberViewModel viewModel, FormCollection form)
         {
             viewModel.Email = form[string.Format("Email")];
             viewModel.Mobile = form[string.Format("Mobile")];
@@ -88,7 +88,7 @@ namespace ivNet.Club.Helpers
             viewModel.ContactDetailKey = CustomStringHelper.BuildKey(new[] { viewModel.Email });
         }
 
-        public static void MapNewAddressDetail(_MemberViewModel viewModel, FormCollection form, int counter)
+        public static void MapNewAddressDetail(MemberViewModel viewModel, FormCollection form, int counter)
         {
             viewModel.Address = form[string.Format("Address-{0}", counter)];
             viewModel.Postcode = form[string.Format("Postcode-{0}", counter)];
@@ -96,7 +96,7 @@ namespace ivNet.Club.Helpers
             viewModel.AddressDetailKey = CustomStringHelper.BuildKey(new[] { viewModel.Address, viewModel.Postcode });
         }
 
-        public static void MapNewAddressDetail(_MemberViewModel viewModel, FormCollection form)
+        public static void MapNewAddressDetail(MemberViewModel viewModel, FormCollection form)
         {
             viewModel.Address = form[string.Format("Address")];
             viewModel.Postcode = form[string.Format("Postcode")];
@@ -110,7 +110,7 @@ namespace ivNet.Club.Helpers
             return DateTime.Parse(form[string.Format("DOB-{0}", counter)]);
         }
 
-        public static void MapJuniorDetail(_MemberViewModel viewModel, FormCollection form, int counter)
+        public static void MapJuniorDetail(MemberViewModel viewModel, FormCollection form, int counter)
         {
             viewModel.School = form[string.Format("School-{0}", counter)];
             viewModel.Team = form[string.Format("Team-{0}", counter)];
@@ -125,32 +125,32 @@ namespace ivNet.Club.Helpers
 
         #region models->entities
 
-        public static JuniorInfo Map(JuniorInfo entity, _MemberViewModel viewModel)
+        public static JuniorInfo Map(JuniorInfo entity, MemberViewModel viewModel)
         {
             return Mapper.Map(viewModel, entity);
         }
 
-        public static Kit Map(Kit entity, _MemberViewModel viewModel)
+        public static Kit Map(Kit entity, MemberViewModel viewModel)
         {
             return Mapper.Map(viewModel, entity);
         }
 
-        public static Member Map(Member entity, _MemberViewModel viewModel)
+        public static Member Map(Member entity, MemberViewModel viewModel)
         {
             return Mapper.Map(viewModel, entity);
         }
 
-        public static ContactDetail Map(ContactDetail entity, _MemberViewModel viewModel)
+        public static ContactDetail Map(ContactDetail entity, MemberViewModel viewModel)
         {
             return Mapper.Map(viewModel, entity);
         }
 
-        public static AddressDetail Map(AddressDetail entity, _MemberViewModel viewModel)
+        public static AddressDetail Map(AddressDetail entity, MemberViewModel viewModel)
         {
             return Mapper.Map(viewModel, entity);
         }
 
-        public static void UpdateMap(Member entity, _MemberViewModel viewModel)
+        public static void UpdateMap(Member entity, MemberViewModel viewModel)
         {
            entity.Nickname = viewModel.Nickname;
         }
@@ -235,10 +235,10 @@ namespace ivNet.Club.Helpers
             entity.GuardianKey = entity.Member.MemberKey;
         }
 
-        public static Member Map(Member entity, MemberViewModel viewModel)
-        {
-            return Mapper.Map(viewModel, entity);
-        }
+        //public static Member Map(Member entity, MemberViewModel viewModel)
+        //{
+        //    return Mapper.Map(viewModel, entity);
+        //}
 
         public static ContactDetail Map(ContactDetail entity, ContactViewModel viewModel)
         {
@@ -298,22 +298,22 @@ namespace ivNet.Club.Helpers
 
         #region entities->models
 
-        public static _MemberViewModel Map(_MemberViewModel viewModel, AddressDetail entity)
+        public static MemberViewModel Map(MemberViewModel viewModel, AddressDetail entity)
         {
             return Mapper.Map(entity, viewModel);
         }
 
-        public static _MemberViewModel Map(_MemberViewModel viewModel, ContactDetail entity)
+        public static MemberViewModel Map(MemberViewModel viewModel, ContactDetail entity)
         {
             return Mapper.Map(entity, viewModel);
         }
 
-        public static _MemberViewModel Map(_MemberViewModel viewModel, Member entity)
+        public static MemberViewModel Map(MemberViewModel viewModel, Member entity)
         {
             return Mapper.Map(entity, viewModel);
         }
 
-        public static _MemberViewModel Map(_MemberViewModel viewModel, JuniorInfo entity)
+        public static MemberViewModel Map(MemberViewModel viewModel, JuniorInfo entity)
         {
             return Mapper.Map(entity, viewModel);
         }
@@ -373,10 +373,10 @@ namespace ivNet.Club.Helpers
             return Mapper.Map(entity, viewModel);
         }
 
-        public static MemberViewModel Map(MemberViewModel viewModel, Member entity)
-        {
-            return Mapper.Map(entity, viewModel);
-        }
+        //public static MemberViewModel Map(MemberViewModel viewModel, Member entity)
+        //{
+        //    return Mapper.Map(entity, viewModel);
+        //}
 
         public static JuniorViewModel Map(JuniorViewModel viewModel, Junior entity)
         {
@@ -459,35 +459,35 @@ namespace ivNet.Club.Helpers
             return Mapper.Map(entity, viewModel);
         }
 
-        public static MemberViewModel Map(IConfigurationServices configurationServices, MemberViewModel viewModel, Junior entity)
-        {
-            var currentSeason = configurationServices.GetCurrentSeason();
+        //public static MemberViewModel Map(IConfigurationServices configurationServices, MemberViewModel viewModel, Junior entity)
+        //{
+        //    var currentSeason = configurationServices.GetCurrentSeason();
 
-            //// get fee for this current season
-            //foreach (var fee in entity.Player.Fees.Where(fee => fee.Season == currentSeason))
-            //{
-            //    viewModel.Fee = string.Format("{0} - {1}", currentSeason, fee.Amount);
-            //}
+        //    //// get fee for this current season
+        //    //foreach (var fee in entity.Player.Fees.Where(fee => fee.Season == currentSeason))
+        //    //{
+        //    //    viewModel.Fee = string.Format("{0} - {1}", currentSeason, fee.Amount);
+        //    //}
 
-            viewModel.MemberId = entity.Member.Id;
-            viewModel.Surname = entity.Member.Surname;
-            viewModel.Firstname = entity.Member.Firstname;
-            viewModel.Dob = entity.Dob;
-            viewModel.MemberType = string.Format("U{0}", configurationServices.GetJuniorYear(entity.Dob));
-            viewModel.IsActive = entity.IsActive;
-            return viewModel;
-        }
+        //    viewModel.MemberId = entity.Member.Id;
+        //    viewModel.Surname = entity.Member.Surname;
+        //    viewModel.Firstname = entity.Member.Firstname;
+        //    viewModel.Dob = entity.Dob;
+        //    viewModel.MemberType = string.Format("U{0}", configurationServices.GetJuniorYear(entity.Dob));
+        //    viewModel.IsActive = entity.IsActive;
+        //    return viewModel;
+        //}
 
-        public static MemberViewModel Map(MemberViewModel viewModel, Guardian entity)
-        {
-            viewModel.MemberId = entity.Member.Id;
-            viewModel.Surname = entity.Member.Surname;
-            viewModel.Firstname = entity.Member.Firstname;
+        //public static MemberViewModel Map(MemberViewModel viewModel, Guardian entity)
+        //{
+        //    viewModel.MemberId = entity.Member.Id;
+        //    viewModel.Surname = entity.Member.Surname;
+        //    viewModel.Firstname = entity.Member.Firstname;
 
-            viewModel.MemberType = "Guardian";
-            viewModel.IsActive = entity.IsActive;
-            return viewModel;
-        }
+        //    viewModel.MemberType = "Guardian";
+        //    viewModel.IsActive = entity.IsActive;
+        //    return viewModel;
+        //}
         #endregion
 
       
