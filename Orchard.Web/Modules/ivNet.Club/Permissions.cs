@@ -32,6 +32,11 @@ namespace ivNet.Club
             Name = "ivManageMembers"
         };
 
+        public static readonly Permission ivManageFixtures = new Permission
+        {
+            Description = "Manage club fixtures",
+            Name = "ivManageFixtures"
+        };
 
         public Feature Feature { get; set; }
 
@@ -42,7 +47,8 @@ namespace ivNet.Club
                 ivUseMyClub,
                 ivConfiguration,
                 ivManageMembers,
-                ivMyRegistration
+                ivMyRegistration,
+                ivManageFixtures
             };
         }
 

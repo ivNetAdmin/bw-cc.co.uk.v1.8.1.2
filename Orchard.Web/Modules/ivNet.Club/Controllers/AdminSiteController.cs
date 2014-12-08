@@ -49,10 +49,19 @@ namespace ivNet.Club.Controllers
         #region configuration
 
         [Themed]
-        public ActionResult Configuration()
+        public ActionResult ConfigurationGeneral()
         {
             if (!_orchardServices.Authorizer.Authorize(Permissions.ivConfiguration, T("You are not authorized")))
-                Response.Redirect("/Users/Account/AccessDenied?ReturnUrl=%2fclub%2fadmin%2fconfiguration");
+                Response.Redirect("/Users/Account/AccessDenied?ReturnUrl=%2fclub%2fadmin%2fconfiguration%2fgeneral");
+
+            return View("Admin/Configuration/Index");
+        }
+
+        [Themed]
+        public ActionResult ConfigurationTeam()
+        {
+            if (!_orchardServices.Authorizer.Authorize(Permissions.ivConfiguration, T("You are not authorized")))
+                Response.Redirect("/Users/Account/AccessDenied?ReturnUrl=%2fclub%2fadmin%2fconfiguration%2fteam");
 
             return View("Admin/Configuration/Index");
         }

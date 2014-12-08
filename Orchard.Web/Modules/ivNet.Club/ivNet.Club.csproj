@@ -183,7 +183,7 @@
     <Content Include="Views\Admin\ListAll\_memberList.cshtml" />
     <Content Include="Views\Admin\Configuration\Index.cshtml" />
     <Content Include="Views\Admin\UserStories\Index.cshtml" />
-    <Content Include="Views\Admin\UserStories\_UserStories_Member.cshtml" />
+    <Content Include="Views\Admin\UserStories\_Member.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Scripts\Web.config" />
     <Content Include="Styles\Web.config" />
@@ -210,15 +210,14 @@
     <Content Include="Views\Site\Membership\NewRegistration\_Other.cshtml" />
     <Content Include="Views\Site\Membership\NewRegistration\_Button.cshtml" />
     <Content Include="Views\SecureSite\Membership\MyRegistration\Index.cshtml" />
+    <Content Include="Views\Admin\UserStories\_Registration.cshtml" />
+    <Content Include="Views\Admin\UserStories\_Fixtures.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\Api\AdminMemberController.cs" />
     <Compile Include="Controllers\AdminSiteController.cs" />
     <Compile Include="Controllers\Api\CaptchaController.cs" />
     <Compile Include="Controllers\Api\ConfigurationController.cs" />
-    <Compile Include="Controllers\Api\GuardianController.cs" />
-    <Compile Include="Controllers\Api\MemberController.cs" />
-    <Compile Include="Controllers\Api\FeeController.cs" />
     <Compile Include="Controllers\Api\RegistrationController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\SecureSiteController.cs" />
@@ -229,6 +228,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Entities\ConfigurationItem.cs" />
+    <Compile Include="Entities\Fixture.cs" />
+    <Compile Include="Entities\FixtureType.cs" />
+    <Compile Include="Entities\Location.cs" />
     <Compile Include="Entities\Member.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -250,9 +252,12 @@
     <Compile Include="Entities\Kit.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Entities\Opponent.cs" />
     <Compile Include="Entities\Player.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Entities\Team.cs" />
+    <Compile Include="Enums\HomeAway.cs" />
     <Compile Include="Enums\MemberType.cs" />
     <Compile Include="Enums\RegistrationType.cs" />
     <Compile Include="Helpers\HttpRequestMessageExtensions.cs" />
@@ -267,7 +272,6 @@
     <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\MemberServices.cs" />
     <Compile Include="Services\ConfigurationServices.cs" />
-    <Compile Include="Services\RegistrationServices.cs" />
     <Compile Include="StartupShellEvents.cs" />
     <Compile Include="ViewModel\AddressViewModel.cs">
       <SubType>Code</SubType>

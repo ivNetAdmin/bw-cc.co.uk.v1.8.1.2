@@ -332,12 +332,12 @@ namespace ivNet.Club
                  new RouteDescriptor
                 {
                     Route = new Route(
-                        "club/admin/configuration",
+                        "club/admin/configuration/general",
                         new RouteValueDictionary
                         {
                             {"area", "ivNet.Club"},
                             {"controller", "AdminSite"},
-                            {"action", "Configuration"}
+                            {"action", "ConfigurationGeneral"}
                         },
                         new RouteValueDictionary(),
                         new RouteValueDictionary
@@ -347,6 +347,23 @@ namespace ivNet.Club
                         new MvcRouteHandler())
                 },
 
+                 new RouteDescriptor
+                {
+                    Route = new Route(
+                        "club/admin/configuration/fixture/team",
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Club"},
+                            {"controller", "AdminSite"},
+                            {"action", "ConfigurationTeam"}
+                        },
+                        new RouteValueDictionary(),
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Club"}
+                        },
+                        new MvcRouteHandler())
+                },
                   new RouteDescriptor
                 {
                     Route = new Route(
