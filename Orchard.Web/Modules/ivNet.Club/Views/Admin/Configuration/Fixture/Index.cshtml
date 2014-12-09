@@ -5,9 +5,134 @@
     Style.Require("trNgGrid");
 }
 
-<div id="ClubConfiguration" data-ng-app="Club.Configuration.Fixture.App">
+<div id="ClubConfiguration" data-ng-app="Club.Configuration.Fixture.App" class="col-md-12">
     <div data-ng-controller="ConfigurationController">
-    
+        <div class="col-md-6">
+            <div class="col-md-12">
+                <h4>Teams</h4>
+                <table id="teamconfig" tr-ng-grid='' items='teams'>
+                    <thead>
+                        <tr>
+                            <th field-name="Id" display-name="Id" enable-sorting="false" display-align="right" enable-filtering="false">
+                            </th>
+                            <th field-name="Name" display-name="Name" enable-filtering="false">
+                            </th>
+                            <th field-name="IsActive" display-name="Active" enable-filtering="false" enable-filtering="false">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td field-name="Id"></td>
+                            <td field-name="Name"><input type="text" value="{{gridDisplayItem.Name}}" /></td>
+                            <td field-name="IsActive"><input type="checkbox" value="{{gridDisplayItem.IsActive}}" ng-checked="{{gridDisplayItem.IsActive}}" /></td>
+
+                            <td>
+                                <button class="btn btn-default" ng-click="saveItem(gridItem,'teamconfig')">
+                                    <span>{{gridDisplayItem.Id==0?"Add":"Save"}}</span>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>        
+            <div class="col-md-12">
+                <h4>Fixture Types</h4>
+                <table id="fixturetypeconfig" tr-ng-grid='' items='fixturetypes'>
+                    <thead>
+                        <tr>
+                            <th field-name="Id" display-name="Id" enable-sorting="false" display-align="right" enable-filtering="false">
+                            </th>
+                            <th field-name="Name" display-name="Name" enable-filtering="false">
+                            </th>
+                            <th field-name="IsActive" display-name="Active" enable-filtering="false" enable-filtering="false">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td field-name="Id"></td>
+                            <td field-name="Name"><input type="text" value="{{gridDisplayItem.Name}}" /></td>
+                            <td field-name="IsActive"><input type="checkbox" value="{{gridDisplayItem.IsActive}}" ng-checked="{{gridDisplayItem.IsActive}}" /></td>
+
+                            <td>
+                                <button class="btn btn-default" ng-click="saveItem(gridItem,'fixturetypeconfig')">
+                                    <span>{{gridDisplayItem.Id==0?"Add":"Save"}}</span>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h4>Opponents</h4>
+            <table id="opponentconfig" tr-ng-grid='' items='opponents'>
+                <thead>
+                    <tr>
+                        <th field-name="Id" display-name="Id" enable-sorting="false" display-align="right" enable-filtering="false">
+                        </th>
+                        <th field-name="Name" display-name="Name" enable-filtering="false">
+                        </th>
+                        <th field-name="IsActive" display-name="Active" enable-filtering="false" enable-filtering="false">
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td field-name="Id"></td>
+                        <td field-name="Name"><input type="text" value="{{gridDisplayItem.Name}}" /></td>
+                        <td field-name="IsActive"><input type="checkbox" value="{{gridDisplayItem.IsActive}}" ng-checked="{{gridDisplayItem.IsActive}}" /></td>
+
+                        <td>
+                            <button class="btn btn-default" ng-click="saveItem(gridItem,'opponentconfig')">
+                                <span>{{gridDisplayItem.Id==0?"Add":"Save"}}</span>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <div class="col-md-12">
+            <h4>Locations</h4>
+            <table id="locationconfig" tr-ng-grid='' items='locations'>
+                <thead>
+                    <tr>
+                        <th field-name="Id" display-name="Id" enable-sorting="false" display-align="right" enable-filtering="false">
+                        </th>
+                        <th field-name="Name" display-name="Name" enable-filtering="false">
+                        </th>
+                        <th field-name="Postcode" display-name="Postcode" enable-filtering="false">
+                        </th>
+                        <th field-name="Longitude" display-name="Longitude" enable-filtering="false">
+                        </th>
+                        <th field-name="Latitude" display-name="Latitude" enable-filtering="false">
+                        </th>
+                        <th field-name="IsActive" display-name="Active" enable-filtering="false" enable-filtering="false">
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td field-name="Id"></td>
+                        <td field-name="Name"><input type="text" value="{{gridDisplayItem.Name}}" /></td>
+                        <td field-name="Postcode"><input type="text" value="{{gridDisplayItem.Postcode}}" /></td>
+                        <td field-name="Longitude"><input type="text" value="{{gridDisplayItem.Longitude}}" /></td>
+                        <td field-name="Latitude"><input type="text" value="{{gridDisplayItem.Latitude}}" /></td>
+                        <td field-name="IsActive"><input type="checkbox" value="{{gridDisplayItem.IsActive}}" ng-checked="{{gridDisplayItem.IsActive}}" /></td>
+                        <td>
+                            <button class="btn btn-default" ng-click="saveItem(gridItem,'locationconfig')">
+                                <span>{{gridDisplayItem.Id==0?"Add":"Save"}}</span>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
     </div>
 </div>
+
 

@@ -33,9 +33,13 @@ namespace ivNet.Club
 
             #region entities->models
 
-            Mapper.CreateMap<Team, ListItemViewModel>()
-                .ForMember(v => v.Value, m => m.MapFrom(e => e.Id))
-                .ForMember(v => v.Text, m => m.MapFrom(e => e.Name));         
+            Mapper.CreateMap<Team, FixtureItemConfigViewModel>();
+
+            Mapper.CreateMap<Opponent, FixtureItemConfigViewModel>();
+
+            Mapper.CreateMap<FixtureType, FixtureItemConfigViewModel>();
+
+            Mapper.CreateMap<Location, FixtureItemConfigViewModel>();                
 
             Mapper.CreateMap<JuniorInfo, MemberViewModel>();                
 

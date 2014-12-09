@@ -26,9 +26,13 @@ namespace ivNet.Club.Services
         IEnumerable<ConfigurationItem> GetExtraFeeData();
         IEnumerable<ListItemViewModel> GetRegistrationSeasonList();
         IEnumerable<Team> GetTeams();
-        List<ListItemViewModel> GetOpponents();
-        List<ListItemViewModel> GetFixtureTypes();
-        List<LocationViewModel> GetLocations();
+        IEnumerable<Opponent> GetOpponents();
+        IEnumerable<FixtureType> GetFixtureTypes();
+        IEnumerable<Location> GetLocations();
+        void SaveTeam(int id, string name, byte isActive);
+        void SaveOpponent(int id, string name, byte isActive);
+        void SaveFixtureType(int id, string name, byte isActive);
+        void SaveLocation(int id, string name, string postcode,  decimal latitude, decimal longitude, byte isActive);
     }
 
     public class ConfigurationServices : BaseService, IConfigurationServices
@@ -64,10 +68,92 @@ namespace ivNet.Club.Services
                     SetAudit(entity);
                     session.SaveOrUpdate(entity);
                        
-
                     transaction.Commit();
                 }
             }            
+        }
+
+        public void SaveTeam(int id, string name, byte isActive)
+        {
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                using (var transaction = session.BeginTransaction())
+                {
+                    var entity = session.CreateCriteria(typeof(Team))
+                        .List<Team>().FirstOrDefault(x => x.Id.Equals(id)) ?? new Team();
+
+                    entity.Name = name;
+                    entity.IsActive = isActive;
+
+                    SetAudit(entity);
+                    session.SaveOrUpdate(entity);
+
+                    transaction.Commit();
+                }
+            }          
+        }
+
+        public void SaveOpponent(int id, string name, byte isActive)
+        {
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                using (var transaction = session.BeginTransaction())
+                {
+                    var entity = session.CreateCriteria(typeof(Opponent))
+                        .List<Opponent>().FirstOrDefault(x => x.Id.Equals(id)) ?? new Opponent();
+
+                    entity.Name = name;
+                    entity.IsActive = isActive;
+
+                    SetAudit(entity);
+                    session.SaveOrUpdate(entity);
+
+                    transaction.Commit();
+                }
+            }        
+        }
+
+        public void SaveFixtureType(int id, string name, byte isActive)
+        {
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                using (var transaction = session.BeginTransaction())
+                {
+                    var entity = session.CreateCriteria(typeof(FixtureType))
+                        .List<FixtureType>().FirstOrDefault(x => x.Id.Equals(id)) ?? new FixtureType();
+
+                    entity.Name = name;
+                    entity.IsActive = isActive;
+
+                    SetAudit(entity);
+                    session.SaveOrUpdate(entity);
+
+                    transaction.Commit();
+                }
+            }        
+        }
+
+        public void SaveLocation(int id, string name, string postcode, decimal latitude, decimal longitude, byte isActive)
+        {
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                using (var transaction = session.BeginTransaction())
+                {
+                    var entity = session.CreateCriteria(typeof(Location))
+                        .List<Location>().FirstOrDefault(x => x.Id.Equals(id)) ?? new Location();
+
+                    entity.Name = name;
+                    entity.IsActive = isActive;
+                    entity.Postcode = postcode;
+                    entity.Latitude = latitude;
+                    entity.Longitude = longitude;
+
+                    SetAudit(entity);
+                    session.SaveOrUpdate(entity);
+
+                    transaction.Commit();
+                }
+            }        
         }
 
         public string GetCurrentSeason()
@@ -237,26 +323,37 @@ namespace ivNet.Club.Services
         {
             using (var session = NHibernateHelper.OpenSession())
             {
-
                 return session.CreateCriteria(typeof (Team))
                     .List<Team>().OrderBy(x => x.Name);
-
             }
         }
 
-        public List<ListItemViewModel> GetOpponents()
+        public IEnumerable<Opponent> GetOpponents()
         {
-            throw new NotImplementedException();
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                return session.CreateCriteria(typeof(Opponent))
+                    .List<Opponent>().OrderBy(x => x.Name);
+            }
         }
 
-        public List<ListItemViewModel> GetFixtureTypes()
+        public IEnumerable<FixtureType> GetFixtureTypes()
         {
-            throw new NotImplementedException();
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                return session.CreateCriteria(typeof(FixtureType))
+                    .List<FixtureType>().OrderBy(x => x.Name);
+            }
+
         }
 
-        public List<LocationViewModel> GetLocations()
+        public IEnumerable<Location> GetLocations()
         {
-            throw new NotImplementedException();
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                return session.CreateCriteria(typeof(Location))
+                    .List<Location>().OrderBy(x => x.Name);
+            }
         }
 
         public int GetJuniorYear(DateTime dob)

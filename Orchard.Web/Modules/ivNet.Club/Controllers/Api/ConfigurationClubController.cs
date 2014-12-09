@@ -14,12 +14,12 @@ using System.Web.Http;
 
 namespace ivNet.Club.Controllers.Api
 {
-    public class ConfigurationController : ApiController
+    public class ConfigurationClubController : ApiController
     {
         private readonly IConfigurationServices _configurationServices;
         private readonly IOrchardServices _orchardServices;
 
-        public ConfigurationController(IConfigurationServices configurationServices, IOrchardServices orchardServices)
+        public ConfigurationClubController(IConfigurationServices configurationServices, IOrchardServices orchardServices)
         {
             _configurationServices = configurationServices;
             _orchardServices = orchardServices;
@@ -67,15 +67,7 @@ namespace ivNet.Club.Controllers.Api
                     case "seasons":
                         return GetSeasons();                  
                     case "fees":
-                        return GetFeeData();
-                    case "teams":
-                        return GetTeams();                       
-                    case "opponents":
-                        return GetOpponents();
-                    case "fixturetypes":
-                        return GetFixtureTypes();
-                    case "locations":
-                        return GetLocations();  
+                        return GetFeeData();                           
                     default:
                         return Get();
                 }
@@ -137,18 +129,6 @@ namespace ivNet.Club.Controllers.Api
 
             return Request.CreateResponse(HttpStatusCode.OK,
                 returnList);
-        }
-
-        private HttpResponseMessage GetTeams()
-        {
-            var listItemList = _configurationServices.GetTeams();
-
-            var returnList = (from listItem in listItemList
-                              let listItemViewModel = new ListItemViewModel()
-                              select MapperHelper.Map(listItemViewModel, listItem)).ToList();
-
-            return Request.CreateResponse(HttpStatusCode.OK,
-                returnList);
-        }
+        }        
     }
 }

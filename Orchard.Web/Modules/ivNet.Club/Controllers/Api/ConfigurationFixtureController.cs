@@ -1,0 +1,125 @@
+﻿
+using System;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using ivNet.Club.Helpers;
+using ivNet.Club.Services;
+using ivNet.Club.ViewModel;
+using Orchard;
+using Orchard.Logging;
+
+namespace ivNet.Club.Controllers.Api
+{
+    public class ConfigurationFixtureController: ApiController
+    {
+        private readonly IConfigurationServices _configurationServices;
+        private readonly IOrchardServices _orchardServices;
+
+        public ConfigurationFixtureController(IConfigurationServices configurationServices, IOrchardServices orchardServices)
+        {
+            _configurationServices = configurationServices;
+            _orchardServices = orchardServices;
+            Logger = NullLogger.Instance;
+        }
+
+        public ILogger Logger { get; set; }
+
+        public HttpResponseMessage Get()
+        {
+            if (!_orchardServices.Authorizer.Authorize(Permissions.ivConfiguration))
+                return Request.CreateResponse(HttpStatusCode.Forbidden);
+
+            try
+            {
+                return GetFixture();
+            }
+            catch (Exception ex)
+            {
+                var errorId = Guid.NewGuid();
+                Logger.Error(string.Format("{0}: {1}{2} [{3}]", Request.RequestUri, ex.Message,
+                    ex.InnerException == null ? string.Empty : string.Format(" - {0}", ex.InnerException), errorId));
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError,
+                    "An Error has occurred. Report to bp@ivnet.co.uk quoting: " + errorId);
+
+            }
+        }
+
+
+        [HttpPut]
+        public HttpResponseMessage Put(int id, FixtureItemConfigViewModel item)
+        {
+            if (!_orchardServices.Authorizer.Authorize(Permissions.ivConfiguration))
+                return Request.CreateResponse(HttpStatusCode.Forbidden);
+
+            try
+            {
+                switch (item.Type)
+                {
+                    case "teamconfig":
+                        _configurationServices.SaveTeam(id, item.Name,item.IsActive);
+                        break;
+                    case "opponentconfig":
+                        _configurationServices.SaveOpponent(id, item.Name, item.IsActive);
+                        break;
+                    case "fixturetypeconfig":
+                        _configurationServices.SaveFixtureType(id, item.Name, item.IsActive);
+                        break;
+                    case "locationconfig":
+                        _configurationServices.SaveLocation(id, item.Name, item.Postcode, item.Latitude, item.Longitude, item.IsActive);
+                        break;
+
+                }
+                
+
+                return Request.CreateResponse(HttpStatusCode.OK,
+                    "Success");
+            }
+            catch (Exception ex)
+            {
+                var errorId = Guid.NewGuid();
+                Logger.Error(string.Format("{0}: {1}{2} [{3}]", Request.RequestUri, ex.Message,
+                    ex.InnerException == null ? string.Empty : string.Format(" - {0}", ex.InnerException), errorId));
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError,
+                    "An Error has occurred. Report to bp@ivnet.co.uk quoting: " + errorId);
+
+            }
+        }
+
+        private HttpResponseMessage GetFixture()
+        {
+            var fixtureConfigurationViewModel = new FixtureConfigViewModel();
+
+            var teamItemList = _configurationServices.GetTeams();
+            fixtureConfigurationViewModel.Teams = (from listItem in teamItemList
+                                                   let listItemViewModel = new FixtureItemConfigViewModel()
+                                                   select MapperHelper.Map(listItemViewModel, listItem)).ToList();
+            fixtureConfigurationViewModel.Teams.Insert(0, new FixtureItemConfigViewModel());
+
+            var opponentItemList = _configurationServices.GetOpponents();
+            fixtureConfigurationViewModel.Opponents = (from listItem in opponentItemList
+                                                       let listItemViewModel = new FixtureItemConfigViewModel()
+                                                       select MapperHelper.Map(listItemViewModel, listItem)).ToList();
+            fixtureConfigurationViewModel.Opponents.Insert(0, new FixtureItemConfigViewModel());
+
+
+            var fixtureTypeItemList = _configurationServices.GetFixtureTypes();
+            fixtureConfigurationViewModel.FixtureTypes = (from listItem in fixtureTypeItemList
+                                                          let listItemViewModel = new FixtureItemConfigViewModel()
+                                                          select MapperHelper.Map(listItemViewModel, listItem)).ToList();
+            fixtureConfigurationViewModel.FixtureTypes.Insert(0, new FixtureItemConfigViewModel());
+
+            var locationItemList = _configurationServices.GetLocations();
+            fixtureConfigurationViewModel.Locations = (from listItem in locationItemList
+                                                       let listItemViewModel = new FixtureItemConfigViewModel()
+                                                       select MapperHelper.Map(listItemViewModel, listItem)).ToList();
+            fixtureConfigurationViewModel.Locations.Insert(0, new FixtureItemConfigViewModel());
+
+            return Request.CreateResponse(HttpStatusCode.OK,
+                fixtureConfigurationViewModel);
+        }
+    }
+}

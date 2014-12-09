@@ -12,7 +12,7 @@
     });
 
 ivNetClubConfiguration.factory('configuration', function ($resource) {
-    return $resource('/api/club/admin/configuration/:id', null,
+    return $resource('/api/club/admin/configurationclub/:id', null,
     {
         'update': { method: 'PUT' }
     });
@@ -42,11 +42,7 @@ ivNetClubConfiguration.controller('ConfigurationController', function($scope, co
 
                 configuration.update({ id: item.Id }, item,
                     function() {
-                        if (newItem) {                            
-                            window.location.reload();
-                        } else {
-                            alert("Saved OK");
-                        }
+                        window.location.reload();
                     },
                     function(error) {
                         alert(error.data.Message + ' [' + error.data.MessageDetail + ']');

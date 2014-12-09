@@ -298,7 +298,22 @@ namespace ivNet.Club.Helpers
 
         #region entities->models
 
-        public static ListItemViewModel Map(ListItemViewModel viewModel, Team entity)
+        public static FixtureItemConfigViewModel Map(FixtureItemConfigViewModel viewModel, Team entity)
+        {
+            return Mapper.Map(entity, viewModel);
+        }
+
+        public static FixtureItemConfigViewModel Map(FixtureItemConfigViewModel viewModel, Opponent entity)
+        {
+            return Mapper.Map(entity, viewModel);
+        }
+
+        public static FixtureItemConfigViewModel Map(FixtureItemConfigViewModel viewModel, FixtureType entity)
+        {
+            return Mapper.Map(entity, viewModel);
+        }
+
+        public static FixtureItemConfigViewModel Map(FixtureItemConfigViewModel viewModel, Location entity)
         {
             return Mapper.Map(entity, viewModel);
         }
