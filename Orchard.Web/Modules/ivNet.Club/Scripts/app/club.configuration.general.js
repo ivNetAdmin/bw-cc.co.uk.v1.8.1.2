@@ -1,4 +1,4 @@
-﻿var ivNetClubConfiguration = angular.module('Club.Configuration.App', ['ngResource', 'trNgGrid'])
+﻿var ivNetClubConfiguration = angular.module('Club.Configuration.General.App', ['ngResource', 'trNgGrid'])
     .filter("dateField", function() {
         return function(combinedFieldValueUnused, item) {
             var d = item.Date;

@@ -25,6 +25,10 @@ namespace ivNet.Club.Services
         int GetJuniorYear(DateTime dob);
         IEnumerable<ConfigurationItem> GetExtraFeeData();
         IEnumerable<ListItemViewModel> GetRegistrationSeasonList();
+        IEnumerable<Team> GetTeams();
+        List<ListItemViewModel> GetOpponents();
+        List<ListItemViewModel> GetFixtureTypes();
+        List<LocationViewModel> GetLocations();
     }
 
     public class ConfigurationServices : BaseService, IConfigurationServices
@@ -227,6 +231,32 @@ namespace ivNet.Club.Services
                 return rtnList;
             }            
 
+        }
+
+        public IEnumerable<Team> GetTeams()
+        {
+            using (var session = NHibernateHelper.OpenSession())
+            {
+
+                return session.CreateCriteria(typeof (Team))
+                    .List<Team>().OrderBy(x => x.Name);
+
+            }
+        }
+
+        public List<ListItemViewModel> GetOpponents()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<ListItemViewModel> GetFixtureTypes()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<LocationViewModel> GetLocations()
+        {
+            throw new NotImplementedException();
         }
 
         public int GetJuniorYear(DateTime dob)

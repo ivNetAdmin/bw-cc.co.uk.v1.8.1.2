@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using ivNet.Club.Helpers;
 using ivNet.Club.Services;
 using ivNet.Club.ViewModel;
+using NHibernate.Mapping;
 using Orchard;
 using Orchard.Logging;
 using System;
@@ -66,7 +67,15 @@ namespace ivNet.Club.Controllers.Api
                     case "seasons":
                         return GetSeasons();                  
                     case "fees":
-                        return GetFeeData();   
+                        return GetFeeData();
+                    case "teams":
+                        return GetTeams();                       
+                    case "opponents":
+                        return GetOpponents();
+                    case "fixturetypes":
+                        return GetFixtureTypes();
+                    case "locations":
+                        return GetLocations();  
                     default:
                         return Get();
                 }
@@ -117,7 +126,7 @@ namespace ivNet.Club.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK,
                  seasonFormat);
         }
-
+        
         private HttpResponseMessage GetFeeData()
         {
             var configurationItemList = _configurationServices.GetExtraFeeData();
@@ -125,6 +134,18 @@ namespace ivNet.Club.Controllers.Api
             var returnList = (from configurationItem in configurationItemList
                               let configurationItemViewModel = new ConfigurationItemViewModel()
                               select MapperHelper.Map(configurationItemViewModel, configurationItem)).ToList();
+
+            return Request.CreateResponse(HttpStatusCode.OK,
+                returnList);
+        }
+
+        private HttpResponseMessage GetTeams()
+        {
+            var listItemList = _configurationServices.GetTeams();
+
+            var returnList = (from listItem in listItemList
+                              let listItemViewModel = new ListItemViewModel()
+                              select MapperHelper.Map(listItemViewModel, listItem)).ToList();
 
             return Request.CreateResponse(HttpStatusCode.OK,
                 returnList);

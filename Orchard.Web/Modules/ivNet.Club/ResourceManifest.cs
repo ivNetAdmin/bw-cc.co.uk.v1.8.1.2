@@ -15,13 +15,15 @@ namespace ivNet.Club
             manifest.DefineStyle("Membership.New.Registration").SetUrl("membership.new.registration.min.css").SetDependencies("Club.Base");
             manifest.DefineStyle("Membership.My.Registration").SetUrl("membership.my.registration.min.css").SetDependencies("Club.Base");
             manifest.DefineStyle("Admin.Member.Activate").SetUrl("admin.member.activate.min.css").SetDependencies("Club.Base");
-            manifest.DefineStyle("Admin.Member.List.All").SetUrl("admin.members.list.all.min.css").SetDependencies("Club.Base");
+            manifest.DefineStyle("Club.Configuration.General").SetUrl("club.configuration.general.min.css").SetDependencies("Club.Base");
+            manifest.DefineStyle("Club.Configuration.Fixture").SetUrl("club.configuration.fixture.min.css").SetDependencies("Club.Base");
 
             manifest.DefineScript("Membership.New.Registration").SetUrl("app/membership.new.registration.js").SetVersion("1.0").SetDependencies("AngularJS");
             manifest.DefineScript("Membership.My.Registration").SetUrl("app/membership.my.registration.js").SetVersion("1.0").SetDependencies("trNgGrid");
             manifest.DefineScript("Admin.Member.Activate").SetUrl("app/admin.member.activate.js").SetVersion("1.0").SetDependencies("trNgGrid");
             manifest.DefineScript("Admin.Member.List.All").SetUrl("app/admin.member.list.all.js").SetVersion("1.0").SetDependencies("trNgGrid");
-            
+            manifest.DefineScript("Club.Configuration.General").SetUrl("app/club.configuration.general.js").SetVersion("1.0").SetDependencies("trNgGrid");
+            manifest.DefineScript("Club.Configuration.Fixture").SetUrl("app/club.configuration.fixture.js").SetVersion("1.0").SetDependencies("trNgGrid");
 
             #endregion
 
@@ -40,8 +42,7 @@ namespace ivNet.Club
 
             manifest.DefineScript("Club.Member.Registration.Details").SetUrl("app/member.registration.details.js").SetVersion("1.0").SetDependencies("trNgGrid");           
             
-            manifest.DefineScript("Club.Configuration").SetUrl("app/club.configuration.js").SetVersion("1.0").SetDependencies("trNgGrid");
-
+        
             manifest.DefineScript("Club.Admin.Member.List").SetUrl("app/admin.member.list.js").SetVersion("1.0").SetDependencies("trNgGrid");
             
         }

@@ -1,10 +1,11 @@
 ﻿@{
     Script.Require("AngularJS-Resource");
-    Script.Require("Club.Configuration");
+    Script.Require("Club.Configuration.General");
+    Style.Require("Club.Configuration.General");
     Style.Require("trNgGrid");
 }
 
-<div id="ClubConfiguration" data-ng-app="Club.Configuration.App">
+<div id="ClubConfiguration" data-ng-app="Club.Configuration.General.App">
     <div data-ng-controller="ConfigurationController">
         <table tr-ng-grid='' items='myItems'>
             <thead>

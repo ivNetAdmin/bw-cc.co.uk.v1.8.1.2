@@ -298,6 +298,11 @@ namespace ivNet.Club.Helpers
 
         #region entities->models
 
+        public static ListItemViewModel Map(ListItemViewModel viewModel, Team entity)
+        {
+            return Mapper.Map(entity, viewModel);
+        }
+
         public static MemberViewModel Map(MemberViewModel viewModel, AddressDetail entity)
         {
             return Mapper.Map(entity, viewModel);
@@ -488,8 +493,6 @@ namespace ivNet.Club.Helpers
         //    viewModel.IsActive = entity.IsActive;
         //    return viewModel;
         //}
-        #endregion
-
-      
+        #endregion       
     }
 }

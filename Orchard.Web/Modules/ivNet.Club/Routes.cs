@@ -350,12 +350,12 @@ namespace ivNet.Club
                  new RouteDescriptor
                 {
                     Route = new Route(
-                        "club/admin/configuration/fixture/team",
+                        "club/admin/configuration/fixture",
                         new RouteValueDictionary
                         {
                             {"area", "ivNet.Club"},
                             {"controller", "AdminSite"},
-                            {"action", "ConfigurationTeam"}
+                            {"action", "ConfigurationFixture"}
                         },
                         new RouteValueDictionary(),
                         new RouteValueDictionary

@@ -120,7 +120,8 @@
     <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Scripts\app\admin.member.list.all.js" />
     <Content Include="Scripts\app\admin.member.activate.js" />
-    <Content Include="Scripts\app\club.configuration.js" />
+    <Content Include="Scripts\app\club.configuration.fixture.js" />
+    <Content Include="Scripts\app\club.configuration.general.js" />
     <Content Include="Scripts\app\membership.my.registration.js" />
     <Content Include="Scripts\trNgGrid.min.js" />
     <Content Include="packages.config" />
@@ -141,11 +142,29 @@
     <Content Include="Styles\club.base.min.css">
       <DependentUpon>club.base.css</DependentUpon>
     </Content>
+    <Content Include="Styles\club.configuration.fixture.css">
+      <DependentUpon>club.configuration.fixture.less</DependentUpon>
+    </Content>
+    <Content Include="Styles\club.configuration.fixture.min.css">
+      <DependentUpon>club.configuration.fixture.css</DependentUpon>
+    </Content>
+    <Content Include="Styles\club.configuration.general.css">
+      <DependentUpon>club.configuration.general.less</DependentUpon>
+    </Content>
+    <Content Include="Styles\club.configuration.general.min.css">
+      <DependentUpon>club.configuration.general.css</DependentUpon>
+    </Content>
     <Content Include="Styles\clubadmin.activate.new.members.css">
       <DependentUpon>admin.member.activate.less</DependentUpon>
     </Content>
     <Content Include="Styles\clubadmin.activate.new.members.min.css">
       <DependentUpon>clubadmin.activate.new.members.css</DependentUpon>
+    </Content>
+    <Content Include="Styles\membership.my.registration.css">
+      <DependentUpon>membership.my.registration.less</DependentUpon>
+    </Content>
+    <Content Include="Styles\membership.my.registration.min.css">
+      <DependentUpon>membership.my.registration.css</DependentUpon>
     </Content>
     <Content Include="Styles\membership.new.registration.css">
       <DependentUpon>membership.new.registration.less</DependentUpon>
@@ -169,6 +188,17 @@
     </Content>
     <None Include="Styles\admin.member.list.all.less" />
     <Content Include="Styles\membership.my.registration.less" />
+    <Content Include="Styles\membership.my.registration.css.map">
+      <DependentUpon>membership.my.registration.css</DependentUpon>
+    </Content>
+    <Content Include="Styles\club.configuration.general.less" />
+    <Content Include="Styles\club.configuration.general.css.map">
+      <DependentUpon>club.configuration.general.css</DependentUpon>
+    </Content>
+    <Content Include="Styles\club.configuration.fixture.less" />
+    <Content Include="Styles\club.configuration.fixture.css.map">
+      <DependentUpon>club.configuration.fixture.css</DependentUpon>
+    </Content>
     <None Include="Styles\membership.new.registration.less" />
     <None Include="Styles\new.member.less" />
     <Content Include="Scripts\anjular.js" />
@@ -181,7 +211,7 @@
     <Content Include="Views\Admin\ActivateNewMembers\Index.cshtml" />
     <Content Include="Views\Admin\ListAll\Index.cshtml" />
     <Content Include="Views\Admin\ListAll\_memberList.cshtml" />
-    <Content Include="Views\Admin\Configuration\Index.cshtml" />
+    <Content Include="Views\Admin\Configuration\General\Index.cshtml" />
     <Content Include="Views\Admin\UserStories\Index.cshtml" />
     <Content Include="Views\Admin\UserStories\_Member.cshtml" />
     <Content Include="Web.config" />
@@ -212,6 +242,7 @@
     <Content Include="Views\SecureSite\Membership\MyRegistration\Index.cshtml" />
     <Content Include="Views\Admin\UserStories\_Registration.cshtml" />
     <Content Include="Views\Admin\UserStories\_Fixtures.cshtml" />
+    <Content Include="Views\Admin\Configuration\Fixture\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\Api\AdminMemberController.cs" />
@@ -288,6 +319,7 @@
     <Compile Include="ViewModel\JuniorVettingViewModel.cs" />
     <Compile Include="ViewModel\ListItemViewModel.cs" />
     <Compile Include="ViewModel\JuniorViewModel.cs" />
+    <Compile Include="ViewModel\LocationViewModel.cs" />
     <Compile Include="ViewModel\NewMemberViewModel.cs" />
     <Compile Include="ViewModel\RecaptchaViewModel.cs" />
     <Compile Include="ViewModel\RegisteredGuardianViewModel.cs" />

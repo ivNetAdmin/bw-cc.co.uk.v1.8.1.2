@@ -54,16 +54,16 @@ namespace ivNet.Club.Controllers
             if (!_orchardServices.Authorizer.Authorize(Permissions.ivConfiguration, T("You are not authorized")))
                 Response.Redirect("/Users/Account/AccessDenied?ReturnUrl=%2fclub%2fadmin%2fconfiguration%2fgeneral");
 
-            return View("Admin/Configuration/Index");
+            return View("Admin/Configuration/General/Index");
         }
 
         [Themed]
-        public ActionResult ConfigurationTeam()
+        public ActionResult ConfigurationFixture()
         {
             if (!_orchardServices.Authorizer.Authorize(Permissions.ivConfiguration, T("You are not authorized")))
                 Response.Redirect("/Users/Account/AccessDenied?ReturnUrl=%2fclub%2fadmin%2fconfiguration%2fteam");
 
-            return View("Admin/Configuration/Index");
+            return View("Admin/Configuration/Fixture/Index");
         }
 
         #endregion
