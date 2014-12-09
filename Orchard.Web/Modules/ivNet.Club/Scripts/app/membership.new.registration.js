@@ -145,7 +145,7 @@ ivNetNewMember.controller('MembershipNewRegistrationController', function ($scop
     function _setupSeasons() {
 
         $.ajax({
-            url: '/api/club/configuration/seasons',
+            url: '/api/club/configurationclub/seasons',
             type: 'GET',
             success: function (data) {
                 $scope.seasons = data;

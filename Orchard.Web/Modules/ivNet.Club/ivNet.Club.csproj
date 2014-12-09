@@ -123,6 +123,7 @@
     <Content Include="Scripts\app\club.configuration.fixture.js" />
     <Content Include="Scripts\app\club.configuration.general.js" />
     <Content Include="Scripts\app\membership.my.registration.js" />
+    <Content Include="Scripts\app\membership.new.fee.js" />
     <Content Include="Scripts\trNgGrid.min.js" />
     <Content Include="packages.config" />
     <Content Include="Scripts\angular-resource.min.js.map" />
@@ -199,6 +200,7 @@
     <Content Include="Styles\club.configuration.fixture.css.map">
       <DependentUpon>club.configuration.fixture.css</DependentUpon>
     </Content>
+    <Content Include="Styles\membership.new.fee.less" />
     <None Include="Styles\membership.new.registration.less" />
     <None Include="Styles\new.member.less" />
     <Content Include="Scripts\anjular.js" />
@@ -243,6 +245,8 @@
     <Content Include="Views\Admin\UserStories\_Registration.cshtml" />
     <Content Include="Views\Admin\UserStories\_Fixtures.cshtml" />
     <Content Include="Views\Admin\Configuration\Fixture\Index.cshtml" />
+    <Content Include="Views\Admin\UserStories\_Configuration.cshtml" />
+    <Content Include="Views\Site\Membership\NewFee\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\Api\AdminMemberController.cs" />
@@ -250,6 +254,7 @@
     <Compile Include="Controllers\Api\CaptchaController.cs" />
     <Compile Include="Controllers\Api\ConfigurationClubController.cs" />
     <Compile Include="Controllers\Api\ConfigurationFixtureController.cs" />
+    <Compile Include="Controllers\Api\FeeController.cs" />
     <Compile Include="Controllers\Api\RegistrationController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\SecureSiteController.cs" />
@@ -304,6 +309,7 @@
     <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\MemberServices.cs" />
     <Compile Include="Services\ConfigurationServices.cs" />
+    <Compile Include="Services\PlayerServices.cs" />
     <Compile Include="StartupShellEvents.cs" />
     <Compile Include="ViewModel\AddressViewModel.cs">
       <SubType>Code</SubType>

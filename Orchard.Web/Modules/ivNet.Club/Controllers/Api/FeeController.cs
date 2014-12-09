@@ -9,27 +9,29 @@ namespace ivNet.Club.Controllers.Api
 {
     public class FeeController : ApiController
     {
-        //private readonly IRegistrationServices _registrationServices;
+        private readonly IPlayerServices _playerServices;
 
-        //public FeeController(IRegistrationServices registrationServices)
-        //{
-        //    _registrationServices = registrationServices;
-        //}
+        public FeeController(IPlayerServices playerServices)
+        {
+            _playerServices = playerServices;
+        }
 
-        //public HttpResponseMessage Get()
-        //{
-        //    try
-        //    {
-        //        var registrationIdList = _registrationServices.Get();           
+        public HttpResponseMessage Get()
+        {
+            try
+            {
+                //var registrationIdList = _playerServices.Get();
 
-        //        return Request.CreateResponse(HttpStatusCode.OK,
-        //            registrationIdList);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError,
-        //            ex.Message);
-        //    }       
-        //}
+                //return Request.CreateResponse(HttpStatusCode.OK,
+                //    registrationIdList);
+
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError,
+                    ex.Message);
+            }
+        }
     }
 }

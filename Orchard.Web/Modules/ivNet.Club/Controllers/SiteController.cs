@@ -75,7 +75,7 @@ namespace ivNet.Club.Controllers
                     _memberServices.UpdateMember(editMemberViewModel);
                 }
 
-                return new RedirectResult("~/club/member/new/fee");
+                return RedirectToAction("NewMemberFee");
             }
             catch (Exception ex)
             {
@@ -85,6 +85,16 @@ namespace ivNet.Club.Controllers
                 return View("Error", errorId);
             }
         }
+        #endregion
+
+        #region fee
+
+        [Themed]
+        public ActionResult NewMemberFee()
+        {
+            return View("Membership/NewFee/Index");
+        }
+
         #endregion
     }
 }

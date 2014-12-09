@@ -13,7 +13,6 @@ namespace ivNet.Club.Controllers.Api
 {
     public class AdminMemberController : ApiController
     {
-
          private readonly IMemberServices _memberServices;
          private readonly IOrchardServices _orchardServices;
 

@@ -1,0 +1,44 @@
+﻿@{
+    Script.Require("AngularJS-Resource");
+    Script.Require("Membership.New.Fee");
+    
+    Style.Require("Membership.New.Fee");
+    Style.Require("trNgGrid");
+}
+
+<div data-ng-app="Membership.New.Fee.App">
+    <div data-ng-controller="NewMemberFeeController">
+        <table tr-ng-grid='' items='items' enable-filtering="false" enable-sorting="false">
+            <thead>
+                <tr>
+                    <th field-name="Surname" display-name="Surname">
+                    </th>
+                    <th field-name="Firstname" display-name="Firstname">
+                    </th>
+                    <th field-name="Dob" display-name="DOB" display-format="dobField:gridItem">
+                    </th>
+                    <th field-name="Team" display-name="Team">
+                    </th>
+                    <th field-name="Season" display-name="Season">
+                    </th>
+                    <th field-name="Fee" display-name="Fee">
+                    </th>
+                </tr>
+            </thead>
+        </table>
+
+        <ul id="extraFeeItems" class="form-group reg-form">
+            <li ng-repeat="item in extraItems">
+                <label for="{{item.Name}}">{{item.Name}}</label>
+                <span>{{item.Number}}</span>
+                <input name="{{item.Name}}" type="checkbox" value="{{item.Number}}" class="ng-scope" ng-click="updateTotal()">
+            </li>
+        </ul>
+        <div>
+            <span>Total: </span>
+            <span>{{paymentTotal}}</span>
+        </div>
+
+    </div>
+</div>
+
