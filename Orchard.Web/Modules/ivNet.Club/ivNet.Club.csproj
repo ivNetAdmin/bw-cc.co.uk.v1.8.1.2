@@ -118,6 +118,7 @@
     <Content Include="Scripts\angular-ui-utils.js" />
     <Content Include="Scripts\angular-ui-utils.min.js" />
     <Content Include="Scripts\angular.min.js.map" />
+    <Content Include="Scripts\app\admin.fixture.new.js" />
     <Content Include="Scripts\app\admin.member.list.all.js" />
     <Content Include="Scripts\app\admin.member.activate.js" />
     <Content Include="Scripts\app\club.configuration.fixture.js" />
@@ -193,6 +194,7 @@
     <Content Include="Styles\admin.member.list.all.css.map">
       <DependentUpon>admin.member.list.all.css</DependentUpon>
     </Content>
+    <Content Include="Styles\admin.fixture.new.less" />
     <None Include="Styles\admin.member.list.all.less" />
     <Content Include="Styles\membership.my.registration.less" />
     <Content Include="Styles\membership.my.registration.css.map">
@@ -256,8 +258,10 @@
     <Content Include="Views\Admin\Configuration\Fixture\Index.cshtml" />
     <Content Include="Views\Admin\UserStories\_Configuration.cshtml" />
     <Content Include="Views\Site\Membership\NewFee\Index.cshtml" />
+    <Content Include="Views\Admin\Fixture\New\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\Api\AdminFixtureController.cs" />
     <Compile Include="Controllers\Api\AdminMemberController.cs" />
     <Compile Include="Controllers\AdminSiteController.cs" />
     <Compile Include="Controllers\Api\CaptchaController.cs" />
@@ -316,6 +320,7 @@
     <Compile Include="Routes.cs" />
     <Compile Include="RoutesApi.cs" />
     <Compile Include="Services\BaseService.cs" />
+    <Compile Include="Services\FixtureServices.cs" />
     <Compile Include="Services\MemberServices.cs" />
     <Compile Include="Services\ConfigurationServices.cs" />
     <Compile Include="Services\PlayerServices.cs" />
@@ -328,6 +333,7 @@
     <Compile Include="ViewModel\ConfigurationItemViewModel.cs" />
     <Compile Include="ViewModel\ContactViewModel.cs" />
     <Compile Include="ViewModel\FixtureConfigViewModel.cs" />
+    <Compile Include="ViewModel\FixtureViewModel.cs" />
     <Compile Include="ViewModel\GuardianViewModel.cs">
       <SubType>Code</SubType>
     </Compile>

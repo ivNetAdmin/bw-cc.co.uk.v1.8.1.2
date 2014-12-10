@@ -333,6 +333,7 @@ namespace ivNet.Club.Services
                         MapperHelper.Map(guardianViewModel, associatedGuardian.Member);
                         MapperHelper.Map(guardianViewModel, associatedGuardian.AddressDetail);
                         MapperHelper.Map(guardianViewModel, associatedGuardian.ContactDetail);
+                        guardianViewModel.MemberIsActive = associatedGuardian.IsActive;
                         editMemberViewModel.Guardians.Add(guardianViewModel);                        
                     }
                   
@@ -342,6 +343,7 @@ namespace ivNet.Club.Services
                         MapperHelper.Map(juniorViewModel, junior.Member);
                         MapperHelper.Map(juniorViewModel, junior.JuniorInfo);
                         juniorViewModel.Dob = junior.Dob;
+                        juniorViewModel.MemberIsActive = junior.IsActive;
                         editMemberViewModel.Juniors.Add(juniorViewModel);
                     }
                 }

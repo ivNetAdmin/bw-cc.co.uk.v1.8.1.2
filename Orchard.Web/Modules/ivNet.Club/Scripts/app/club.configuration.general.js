@@ -21,7 +21,7 @@ ivNetClubConfiguration.factory('configuration', function ($resource) {
 ivNetClubConfiguration.controller('ConfigurationController', function($scope, configuration) {
     configuration.query(
         function (data) {
-            $scope.myItems = data;
+            $scope.dataItems = data;
         },
         function(error) {
             alert(error.data.Message + ' [' + error.data.MessageDetail + ']');

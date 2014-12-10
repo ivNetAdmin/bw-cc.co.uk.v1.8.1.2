@@ -117,7 +117,7 @@ ivNetAdminMemberList.controller('AdminMemberListController', function ($scope, a
     };
 
     $scope.toggleGuardianActivity = function (guardian) {
-        if (!guardian.IsActive) {
+        if (!guardian.MemberIsActive) {
             alert("If you continue then all of this guardians junior wards will also be deactivated, unless the junior has another 'active' guardian");
         }
     };

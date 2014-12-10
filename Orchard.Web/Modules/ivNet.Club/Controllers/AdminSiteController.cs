@@ -45,6 +45,15 @@ namespace ivNet.Club.Controllers
         }
         #endregion
 
+        #region fixture
+
+        [Themed]
+        public ActionResult CreateNewFixture()
+        {
+            return View("Admin/Fixture/New/Index");
+        }
+
+        #endregion
 
         #region configuration
 

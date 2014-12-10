@@ -21,6 +21,9 @@
             $('div#juniorRepeatDetails').find('input.disabled').each(function(index, item) {
                 $(item).attr('disabled', '');
             });
+
+            $('input[type="checkbox"]').attr('disabled', '');
+
         }
     };
 });

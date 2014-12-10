@@ -345,7 +345,24 @@ namespace ivNet.Club
                         },
                         new MvcRouteHandler())
                 },          
-      
+                new RouteDescriptor
+                {
+                    Route = new Route(
+                        "club/admin/fixture/new",
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Club"},
+                            {"controller", "AdminSite"},
+                            {"action", "CreateNewFixture"}
+                        },
+                        new RouteValueDictionary(),
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Club"}
+                        },
+                        new MvcRouteHandler())
+                },        
+                
                  new RouteDescriptor
                 {
                     Route = new Route(

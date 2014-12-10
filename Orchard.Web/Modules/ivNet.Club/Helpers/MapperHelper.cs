@@ -298,6 +298,24 @@ namespace ivNet.Club.Helpers
 
         #region entities->models
 
+        public static FixtureViewModel Map(FixtureViewModel viewModel, Fixture entity)
+        {
+            return new FixtureViewModel
+            {
+                Id = entity.Id,
+                Date = entity.Date,
+                HomeAway = entity.HomeAway,
+                Team = entity.Team.Name,
+                TeamId = entity.Team.Id,
+                Opponent = entity.Opponent.Name,
+                OpponentId = entity.Opponent.Id,
+                FixtureType = entity.FixtureType.Name,
+                FixtureTypeId = entity.FixtureType.Id,
+                Location = entity.Location.Name,
+                LocationId = entity.Location.Id
+            };
+        }
+
         public static FixtureItemConfigViewModel Map(FixtureItemConfigViewModel viewModel, Team entity)
         {
             return Mapper.Map(entity, viewModel);
@@ -508,6 +526,6 @@ namespace ivNet.Club.Helpers
         //    viewModel.IsActive = entity.IsActive;
         //    return viewModel;
         //}
-        #endregion       
+        #endregion        
     }
 }

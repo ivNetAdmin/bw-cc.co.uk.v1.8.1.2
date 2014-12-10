@@ -45,7 +45,16 @@ AdminMemberActivate.controller('AdminMemberController', function ($scope, adminM
 
     init();  
 
-    $scope.activateJunior = function (item) {
+    $scope.activateMember = function (item) {
+
+        switch(item.MemberType) {
+            case 1:
+                alert("Activating a guatdian will also activate all juniors associated with this guardian");
+                break;
+            case 2:
+                alert("Activating a junior will also activate all guardians associated with this junior");
+                break;
+        }
 
         adminMemberActivateUpdate.update({ id: item.MemberId }, { MemberType: item.MemberType, Type: 'activate' },
             function() {
@@ -56,7 +65,8 @@ AdminMemberActivate.controller('AdminMemberController', function ($scope, adminM
             }
         );
 
-        //$('div#AdminMemberActivate table tr').each(function (index, tr) {
+
+       //$('div#AdminMemberActivate table tr').each(function (index, tr) {
         //    if (tr.children[0].innerText == item.JuniorId) {
 
         //        item.IsVetted = $(tr).find('td[field-name="IsVetted"]').find('input:checked').length;
@@ -76,7 +86,7 @@ AdminMemberActivate.controller('AdminMemberController', function ($scope, adminM
     function init() {
         adminMemberActivate.query({ id: "activate", type: "list" },
      function (data) {
-         $scope.myItems = data;
+         $scope.dataItems = data;
      },
      function (error) {
          alert(error.data.Message + ' [' + error.data.MessageDetail + ']');

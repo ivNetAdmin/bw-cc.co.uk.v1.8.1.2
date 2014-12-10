@@ -8,7 +8,7 @@
 
 <div id="AdminMemberActivate" data-ng-app="Admin.Member.Activate.App">
     <div data-ng-controller="AdminMemberController">
-        <table tr-ng-grid='' items='myItems' enable-filtering="false" enable-sorting="false">
+        <table tr-ng-grid='' items='dataItems' enable-filtering="false" enable-sorting="false">
             <thead>
                 <tr>
                     <th field-name="MemberId" display-name="Id" display-align="right">
@@ -30,10 +30,10 @@
             <tbody>
                 <tr>
 
-                    <td field-name="IsVetted"><input type="checkbox" value="{{gridDisplayItem.IsVetted}}" ng-checked="{{gridDisplayItem.IsVetted}}" /></td>
+                    <td field-name="IsVetted"><input type="checkbox" value="{{gridDisplayItem.IsVetted}}" ng-checked="{{gridDisplayItem.IsVetted}}" /> /></td>
 
                     <td>
-                        <button class="btn btn-default" ng-click="activateJunior(gridItem)">
+                        <button class="btn btn-default" ng-click="activateMember(gridItem)">
                             <span>Save</span>
                         </button>
                     </td>

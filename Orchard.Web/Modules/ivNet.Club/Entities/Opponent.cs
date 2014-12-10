@@ -1,11 +1,18 @@
 ﻿
+using System.Collections.Generic;
 using FluentNHibernate.Mapping;
 
 namespace ivNet.Club.Entities
 {
     public class Opponent : BaseEntity
     {
+        public virtual void Init()
+        {
+            Locations = new List<Location>();
+        }
+
         public virtual string Name { get; set; }
+        public virtual IList<Location> Locations { get; set; }
     }
 
     public class OpponentMap : ClassMap<Opponent>
@@ -14,6 +21,10 @@ namespace ivNet.Club.Entities
         {
             Id(x => x.Id);
             Map(x => x.Name).Not.Nullable().Length(120).UniqueKey("ix_Opponent_Unique");
+
+            HasMany(x => x.Locations)
+             .Inverse()
+             .Cascade.All();
 
             Map(x => x.IsActive);
 
