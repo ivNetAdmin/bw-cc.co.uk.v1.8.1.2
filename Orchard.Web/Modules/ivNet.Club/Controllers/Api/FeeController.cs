@@ -20,12 +20,8 @@ namespace ivNet.Club.Controllers.Api
         {
             try
             {
-                //var registrationIdList = _playerServices.Get();
-
-                //return Request.CreateResponse(HttpStatusCode.OK,
-                //    registrationIdList);
-
-                return Request.CreateResponse(HttpStatusCode.OK);
+                var playerList = _playerServices.GetCachedJuniorRegistrations();
+                return Request.CreateResponse(HttpStatusCode.OK, playerList);
             }
             catch (Exception ex)
             {

@@ -570,13 +570,13 @@ namespace ivNet.Club.Services
                                     {
                                         juniorViewModel.Surname,
                                         juniorViewModel.Firstname,
-                                        juniorViewModel.Dob.ToShortDateString()
+                                        juniorViewModel.Dob.GetValueOrDefault().ToShortDateString()
                                     });
                 }
 
                 junior.JuniorKey = juniorViewModel.MemberKey;
 
-                junior.Dob = juniorViewModel.Dob;
+                junior.Dob = juniorViewModel.Dob.GetValueOrDefault();
 
                 // check data has not already been saved
                 junior.Member = DuplicateCheck(session, junior.Member,

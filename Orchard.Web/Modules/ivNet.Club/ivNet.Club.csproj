@@ -167,6 +167,12 @@
     <Content Include="Styles\membership.my.registration.min.css">
       <DependentUpon>membership.my.registration.css</DependentUpon>
     </Content>
+    <Content Include="Styles\membership.new.fee.css">
+      <DependentUpon>membership.new.fee.less</DependentUpon>
+    </Content>
+    <Content Include="Styles\membership.new.fee.min.css">
+      <DependentUpon>membership.new.fee.css</DependentUpon>
+    </Content>
     <Content Include="Styles\membership.new.registration.css">
       <DependentUpon>membership.new.registration.less</DependentUpon>
     </Content>
@@ -201,6 +207,9 @@
       <DependentUpon>club.configuration.fixture.css</DependentUpon>
     </Content>
     <Content Include="Styles\membership.new.fee.less" />
+    <Content Include="Styles\membership.new.fee.css.map">
+      <DependentUpon>membership.new.fee.css</DependentUpon>
+    </Content>
     <None Include="Styles\membership.new.registration.less" />
     <None Include="Styles\new.member.less" />
     <Content Include="Scripts\anjular.js" />
@@ -323,7 +332,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModel\JuniorGuardianViewModel.cs" />
-    <Compile Include="ViewModel\JuniorRegistrationViewModel.cs" />
+    <Compile Include="ViewModel\JuniorNewRegistrationFeeViewModel.cs" />
     <Compile Include="ViewModel\JuniorVettingViewModel.cs" />
     <Compile Include="ViewModel\ListItemViewModel.cs" />
     <Compile Include="ViewModel\JuniorViewModel.cs" />

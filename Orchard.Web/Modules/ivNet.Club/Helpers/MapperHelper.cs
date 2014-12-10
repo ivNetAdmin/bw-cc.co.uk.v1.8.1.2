@@ -449,7 +449,7 @@ namespace ivNet.Club.Helpers
             return viewModel;
         }
 
-        public static JuniorRegistrationViewModel Map(JuniorRegistrationViewModel viewModel, Junior entity)
+        public static JuniorNewRegistrationFeeViewModel Map(JuniorNewRegistrationFeeViewModel viewModel, Junior entity)
         {
             viewModel.Surname = entity.Member.Surname;
             viewModel.Firstname = entity.Member.Firstname;
@@ -457,7 +457,7 @@ namespace ivNet.Club.Helpers
             return viewModel;
         }
 
-        public static JuniorRegistrationViewModel Map(JuniorRegistrationViewModel viewModel, Junior entity , string currentSeason)
+        public static JuniorNewRegistrationFeeViewModel Map(JuniorNewRegistrationFeeViewModel viewModel, Junior entity , string currentSeason)
         {
             // get fee for this current season
             foreach (var fee in entity.Player.Fees.Where(fee => fee.Season == currentSeason))

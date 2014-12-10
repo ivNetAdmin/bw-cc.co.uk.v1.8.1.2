@@ -92,6 +92,16 @@ namespace ivNet.Club.Controllers.Api
 
             try
             {
+                if (!string.IsNullOrEmpty(memberViewModel.NewGuardian.Surname))
+                {
+                    memberViewModel.Guardians.Add(memberViewModel.NewGuardian);
+                }
+
+                if (!string.IsNullOrEmpty(memberViewModel.NewJunior.Surname))
+                {
+                    memberViewModel.Juniors.Add(memberViewModel.NewJunior);
+                }
+
                 _memberServices.UpdateMember(memberViewModel);
 
                 return Request.CreateResponse(HttpStatusCode.OK,

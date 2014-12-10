@@ -11,19 +11,19 @@
         };
     })
     .directive('myPostRepeatDirective', function() {
-        return function(scope, element, attrs) {
-            if (scope.$last) {
+    return function(scope, element, attrs) {
+        if (scope.$last) {
 
-                $('div#guardianRepeatDetails').find('input.disabled').each(function(index, item) {
-                    $(item).attr('disabled', '');
-                });
-
-                $('div#juniorRepeatDetails').find('input.disabled').each(function(index, item) {
-                    $(item).attr('disabled', '');
-                });
-            }
+            $('div#guardianRepeatDetails').find('input.disabled').each(function(index, item) {
+                $(item).attr('disabled', '');
+            });
+           
+            $('div#juniorRepeatDetails').find('input.disabled').each(function(index, item) {
+                $(item).attr('disabled', '');
+            });
         }
-    });
+    };
+});
 
 ivNetMemberRegistrationDetails.factory('memberRegistrationDetails', function ($resource) {
     return $resource('/api/club/registration/:id/:type', null,
@@ -54,6 +54,7 @@ ivNetMemberRegistrationDetails.controller('MembershipMyRegistrationController', 
             $('div#guardianRepeatDetails').show();
             $('div#juniorRepeatDetails').show();
             $('input.btn').hide();
+            $('.hide-me').hide();
 
             //$scope.$apply(function() {
                 $scope.data = data;
@@ -99,6 +100,8 @@ ivNetMemberRegistrationDetails.controller('MembershipMyRegistrationController', 
         $('div#guardianDetails').find('input.required').each(function(index, item) {
             $(item).attr('required', '');
         });
+
+        $('.hide-me').show();
 
         $('div#guardianDetails').show();
     };
@@ -153,7 +156,7 @@ ivNetMemberRegistrationDetails.controller('MembershipMyRegistrationController', 
     function checkEmailDuplicates(email) {
 
         $.ajax({
-            url: '/api/club/member/' + email + '/email-check',
+            url: '/api/club/registration/' + email + '?action=duplicate&type=email',
             type: 'GET',
             success: function (data) {
                 if (data.length > 0) {

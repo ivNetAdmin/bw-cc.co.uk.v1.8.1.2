@@ -17,6 +17,7 @@ namespace ivNet.Club
             manifest.DefineStyle("Membership.New.Registration").SetUrl("membership.new.registration.min.css").SetDependencies("Club.Base");
             manifest.DefineStyle("Membership.My.Registration").SetUrl("membership.my.registration.min.css").SetDependencies("Club.Base");
             manifest.DefineStyle("Admin.Member.Activate").SetUrl("admin.member.activate.min.css").SetDependencies("Club.Base");
+            manifest.DefineStyle("Admin.Member.List.All").SetUrl("admin.member.list.all.min.css").SetDependencies("Club.Base");
             manifest.DefineStyle("Club.Configuration.General").SetUrl("club.configuration.general.min.css").SetDependencies("Club.Base");
             manifest.DefineStyle("Club.Configuration.Fixture").SetUrl("club.configuration.fixture.min.css").SetDependencies("Club.Base");
 
