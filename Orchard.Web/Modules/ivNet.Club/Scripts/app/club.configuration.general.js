@@ -29,8 +29,6 @@ ivNetClubConfiguration.controller('ConfigurationController', function($scope, co
 
     $scope.saveItem = function(item) {
 
-        var newItem = item.Id == 0;
-
         $('div#ClubConfiguration table tr').each(function(index, tr) {
             if (tr.children[0].innerText == item.Id) {
                 item.Name = $(tr).find('td[field-name="Name"]').find('input').val();

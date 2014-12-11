@@ -6,7 +6,7 @@ namespace ivNet.Club.ViewModel
     public class FixtureViewModel
     {
         public int Id { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
         public int HomeAway { get; set; }
         public string Team { get; set; }
         public int TeamId { get; set; }

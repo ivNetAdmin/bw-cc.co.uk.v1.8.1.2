@@ -6,7 +6,6 @@ using ivNet.Club.Entities;
 using ivNet.Club.Enums;
 using ivNet.Club.Services;
 using ivNet.Club.ViewModel;
-using NHibernate.Transform;
 using Orchard.Security;
 
 namespace ivNet.Club.Helpers
@@ -298,6 +297,21 @@ namespace ivNet.Club.Helpers
 
         #region entities->models
 
+        public static TeamViewModel Map(TeamViewModel viewModel, Team entity)
+        {
+            return new TeamViewModel {Id = entity.Id, Name = entity.Name};
+        }
+
+        public static OpponentViewModel Map(OpponentViewModel viewModel, Opponent entity)
+        {
+            return new OpponentViewModel { Id = entity.Id, Name = entity.Name };
+        }
+
+        public static FixtureTypeViewModel Map(FixtureTypeViewModel viewModel, FixtureType entity)
+        {
+            return new FixtureTypeViewModel { Id = entity.Id, Name = entity.Name };
+        }
+
         public static FixtureViewModel Map(FixtureViewModel viewModel, Fixture entity)
         {
             return new FixtureViewModel
@@ -526,6 +540,6 @@ namespace ivNet.Club.Helpers
         //    viewModel.IsActive = entity.IsActive;
         //    return viewModel;
         //}
-        #endregion        
+        #endregion       
     }
 }

@@ -5,51 +5,104 @@
     Style.Require("trNgGrid");
 }
 
-<div id="ClubConfiguration" data-ng-app="Admin.Fixture.New.App">
+<div id="ClubConfiguration" data-ng-app="Admin.Fixture.New.App" class="col-md-12">
     <div data-ng-controller="AdminFixtureController">
-    
+        <table tr-ng-grid='' items='fixtures'>
+            <thead>
+                <tr>
+                    <th field-name="Id" display-name="Id" enable-filtering="false" enable-sorting="false" display-align="right">
+                    </th>
+                    <th field-name="Date" display-name="Date" display-format="dateField:gridItem">
+                    </th>
+                    <th field-name="Team" display-name="Team">
+                    </th>
+                    <th field-name="Opponent" display-name="Opponent">
+                    </th>
+                    <th field-name="HomeAway" display-name="HomeAway" display-format="homeAwayField:gridItem">
+                    </th>                   
+                    <th field-name="Location" display-name="Location">
+                    </th>
+                    <th field-name="FixtureType" display-name="Fixture">
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td field-name="Id"></td>
+                    <td field-name="Date"><input type="date" value="{{gridDisplayItem.Date}}" /></td>
+                    <td field-name="Team">
+                        <select value="{{gridDisplayItem.Team}}">
+                            <option ng-repeat="team in teams" value="{{team.Id}}">{{team.Name}}</option>                         
+                        </select>
+                    </td>
+                    <td field-name="Opponent">
+                        <select ng-options="opponent as opponent.Name for opponent in opponents"
+                                ng-model="opponent" ng-change="opponentChange(opponent)"></select>
+                    </td>
+                    <td field-name="HomeAway">
+                        <select value="{{gridDisplayItem.HomeAway}}">                           
+                            <option value="1">Home</option>
+                            <option value="2">Away</option>
+                        </select>
+                    </td>
+                    
+                    <td field-name="Location"><input type="text" value="{{gridDisplayItem.Location}}" /></td>
+                    <td field-name="FixtureType">
+                        <select value="{{gridDisplayItem.FixtureType}}">
+                            <option ng-repeat="fixturetype in fixturetypes" value="{{fixturetype.Id}}">{{fixturetype.Name}}</option>
+                        </select>
+                    </td>
+
+                    <td>
+                        <button class="btn btn-default" ng-click="saveItem(gridItem)">
+                            <span>{{gridDisplayItem.Id==0?"Add":"Save"}}</span>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
 
         @*<div id="ClubConfiguration" data-ng-app="Club.Configuration.General.App">
-                <div data-ng-controller="ConfigurationController">
-                    <table tr-ng-grid='' items='myItems'>
-                        <thead>
-                            <tr>
-                                <th field-name="Id" display-name="Id" enable-filtering="false" enable-sorting="false" display-align="right">
-                                </th>
-                                <th field-name="Name" display-name="Name" enable-filtering="false">
-                                </th>
-                                <th field-name="ItemGroup" display-name="Group" enable-filtering="false">
-                                </th>
-                                <th field-name="Text" display-name="Text" enable-filtering="false">
-                                </th>
-                                <th field-name="Date" display-name="Date" display-format="dateField:gridItem" enable-filtering="false">
-                                </th>
-                                <th field-name="Number" display-name="Number" enable-filtering="false">
-                                </th>
-                                <th field-name="IsActive" display-name="Active" enable-filtering="false">
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td field-name="Id"></td>
-                                <td field-name="Name"><input type="text" value="{{gridDisplayItem.Name}}" /></td>
-                                <td field-name="ItemGroup"><input type="text" value="{{gridDisplayItem.ItemGroup}}" /></td>
-                                <td field-name="Text"><input type="text" value="{{gridDisplayItem.Text}}" /></td>
-                                <td field-name="Date"><input type="date" value="{{gridDisplayItem.Date}}" /></td>
-                                <td field-name="Number"><input type="number" value="{{gridDisplayItem.Number}}" /></td>
-                                <td field-name="IsActive"><input type="checkbox" value="{{gridDisplayItem.IsActive}}" ng-checked="{{gridDisplayItem.IsActive}}" /></td>
+        <div data-ng-controller="ConfigurationController">
+            <table tr-ng-grid='' items='dataItems'>
+                <thead>
+                    <tr>
+                        <th field-name="Id" display-name="Id" enable-filtering="false" enable-sorting="false" display-align="right">
+                        </th>
+                        <th field-name="Name" display-name="Name" enable-filtering="false">
+                        </th>
+                        <th field-name="ItemGroup" display-name="Group" enable-filtering="false">
+                        </th>
+                        <th field-name="Text" display-name="Text" enable-filtering="false">
+                        </th>
+                        <th field-name="Date" display-name="Date" display-format="dateField:gridItem" enable-filtering="false">
+                        </th>
+                        <th field-name="Number" display-name="Number" enable-filtering="false">
+                        </th>
+                        <th field-name="IsActive" display-name="Active" enable-filtering="false">
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td field-name="Id"></td>
+                        <td field-name="Name"><input type="text" value="{{gridDisplayItem.Name}}" /></td>
+                        <td field-name="ItemGroup"><input type="text" value="{{gridDisplayItem.ItemGroup}}" /></td>
+                        <td field-name="Text"><input type="text" value="{{gridDisplayItem.Text}}" /></td>
+                        <td field-name="Date"><input type="date" value="{{gridDisplayItem.Date}}" /></td>
+                        <td field-name="Number"><input type="number" value="{{gridDisplayItem.Number}}" /></td>
+                        <td field-name="IsActive"><input type="checkbox" value="{{gridDisplayItem.IsActive}}" ng-checked="{{gridDisplayItem.IsActive}}" /></td>
 
-                                <td>
-                                    <button class="btn btn-default" ng-click="saveItem(gridItem)">
-                                        <span>{{gridDisplayItem.Id==0?"Add":"Save"}}</span>
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>*@
+                        <td>
+                            <button class="btn btn-default" ng-click="saveItem(gridItem)">
+                                <span>{{gridDisplayItem.Id==0?"Add":"Save"}}</span>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>*@

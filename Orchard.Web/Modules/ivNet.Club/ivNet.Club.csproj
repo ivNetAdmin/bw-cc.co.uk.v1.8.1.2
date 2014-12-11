@@ -128,6 +128,12 @@
     <Content Include="Scripts\trNgGrid.min.js" />
     <Content Include="packages.config" />
     <Content Include="Scripts\angular-resource.min.js.map" />
+    <Content Include="Styles\admin.fixture.new.css">
+      <DependentUpon>admin.fixture.new.less</DependentUpon>
+    </Content>
+    <Content Include="Styles\admin.fixture.new.min.css">
+      <DependentUpon>admin.fixture.new.css</DependentUpon>
+    </Content>
     <Content Include="Styles\admin.member.list.all.css">
       <DependentUpon>admin.member.list.all.less</DependentUpon>
     </Content>
@@ -195,6 +201,9 @@
       <DependentUpon>admin.member.list.all.css</DependentUpon>
     </Content>
     <Content Include="Styles\admin.fixture.new.less" />
+    <Content Include="Styles\admin.fixture.new.css.map">
+      <DependentUpon>admin.fixture.new.css</DependentUpon>
+    </Content>
     <None Include="Styles\admin.member.list.all.less" />
     <Content Include="Styles\membership.my.registration.less" />
     <Content Include="Styles\membership.my.registration.css.map">
@@ -329,10 +338,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModel\CaptchaViewModel.cs" />
+    <Compile Include="ViewModel\EditFixtureViewModel.cs" />
     <Compile Include="ViewModel\EditMemberViewModel.cs" />
     <Compile Include="ViewModel\ConfigurationItemViewModel.cs" />
     <Compile Include="ViewModel\ContactViewModel.cs" />
     <Compile Include="ViewModel\FixtureConfigViewModel.cs" />
+    <Compile Include="ViewModel\FixtureTypeViewModel.cs" />
     <Compile Include="ViewModel\FixtureViewModel.cs" />
     <Compile Include="ViewModel\GuardianViewModel.cs">
       <SubType>Code</SubType>
@@ -344,12 +355,14 @@
     <Compile Include="ViewModel\JuniorViewModel.cs" />
     <Compile Include="ViewModel\LocationViewModel.cs" />
     <Compile Include="ViewModel\NewMemberViewModel.cs" />
+    <Compile Include="ViewModel\OpponentViewModel.cs" />
     <Compile Include="ViewModel\RecaptchaViewModel.cs" />
     <Compile Include="ViewModel\RegisteredGuardianViewModel.cs" />
     <Compile Include="ViewModel\RegistrationUpdateViewModel.cs" />
     <Compile Include="ViewModel\RegistrationViewModel.cs" />
     <Compile Include="ViewModel\RelatedMemberViewModel.cs" />
     <Compile Include="ViewModel\FixtureItemConfigViewModel.cs" />
+    <Compile Include="ViewModel\TeamViewModel.cs" />
     <Compile Include="ViewModel\UserViewModel.cs" />
     <Compile Include="ViewModel\MemberViewModel.cs" />
   </ItemGroup>
