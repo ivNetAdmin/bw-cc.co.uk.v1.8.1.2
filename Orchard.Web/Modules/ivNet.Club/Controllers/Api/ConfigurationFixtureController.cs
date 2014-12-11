@@ -1,5 +1,7 @@
 ﻿
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -7,17 +9,19 @@ using System.Web.Http;
 using ivNet.Club.Helpers;
 using ivNet.Club.Services;
 using ivNet.Club.ViewModel;
+using NHibernate.Mapping;
 using Orchard;
 using Orchard.Logging;
 
 namespace ivNet.Club.Controllers.Api
 {
-    public class ConfigurationFixtureController: ApiController
+    public class ConfigurationFixtureController : ApiController
     {
         private readonly IConfigurationServices _configurationServices;
         private readonly IOrchardServices _orchardServices;
 
-        public ConfigurationFixtureController(IConfigurationServices configurationServices, IOrchardServices orchardServices)
+        public ConfigurationFixtureController(IConfigurationServices configurationServices,
+            IOrchardServices orchardServices)
         {
             _configurationServices = configurationServices;
             _orchardServices = orchardServices;
@@ -33,7 +37,7 @@ namespace ivNet.Club.Controllers.Api
 
             try
             {
-                return GetFixture();
+                return Request.CreateResponse(HttpStatusCode.OK, GetFixture());
             }
             catch (Exception ex)
             {
@@ -47,6 +51,10 @@ namespace ivNet.Club.Controllers.Api
             }
         }
 
+        public HttpResponseMessage Get(int id, string type)
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, GetFixtureConfig(type, id));
+        }
 
         [HttpPut]
         public HttpResponseMessage Put(int id, FixtureItemConfigViewModel item)
@@ -59,7 +67,7 @@ namespace ivNet.Club.Controllers.Api
                 switch (item.Type)
                 {
                     case "teamconfig":
-                        _configurationServices.SaveTeam(id, item.Name,item.IsActive);
+                        _configurationServices.SaveTeam(id, item.Name, item.IsActive);
                         break;
                     case "opponentconfig":
                         _configurationServices.SaveOpponent(id, item.Name, item.IsActive);
@@ -72,7 +80,6 @@ namespace ivNet.Club.Controllers.Api
                         break;
 
                 }
-                
 
                 return Request.CreateResponse(HttpStatusCode.OK,
                     "Success");
@@ -89,37 +96,50 @@ namespace ivNet.Club.Controllers.Api
             }
         }
 
-        private HttpResponseMessage GetFixture()
+        private FixtureConfigViewModel GetFixture()
         {
             var fixtureConfigurationViewModel = new FixtureConfigViewModel();
 
             var teamItemList = _configurationServices.GetTeams();
             fixtureConfigurationViewModel.Teams = (from listItem in teamItemList
-                                                   let listItemViewModel = new FixtureItemConfigViewModel()
-                                                   select MapperHelper.Map(listItemViewModel, listItem)).ToList();
+                let listItemViewModel = new FixtureItemConfigViewModel()
+                select MapperHelper.Map(listItemViewModel, listItem)).ToList();
             fixtureConfigurationViewModel.Teams.Insert(0, new FixtureItemConfigViewModel());
 
             var opponentItemList = _configurationServices.GetOpponents();
             fixtureConfigurationViewModel.Opponents = (from listItem in opponentItemList
-                                                       let listItemViewModel = new FixtureItemConfigViewModel()
-                                                       select MapperHelper.Map(listItemViewModel, listItem)).ToList();
+                let listItemViewModel = new FixtureItemConfigViewModel()
+                select MapperHelper.Map(listItemViewModel, listItem)).ToList();
             fixtureConfigurationViewModel.Opponents.Insert(0, new FixtureItemConfigViewModel());
-
 
             var fixtureTypeItemList = _configurationServices.GetFixtureTypes();
             fixtureConfigurationViewModel.FixtureTypes = (from listItem in fixtureTypeItemList
-                                                          let listItemViewModel = new FixtureItemConfigViewModel()
-                                                          select MapperHelper.Map(listItemViewModel, listItem)).ToList();
+                let listItemViewModel = new FixtureItemConfigViewModel()
+                select MapperHelper.Map(listItemViewModel, listItem)).ToList();
             fixtureConfigurationViewModel.FixtureTypes.Insert(0, new FixtureItemConfigViewModel());
 
             var locationItemList = _configurationServices.GetLocations();
             fixtureConfigurationViewModel.Locations = (from listItem in locationItemList
-                                                       let listItemViewModel = new FixtureItemConfigViewModel()
-                                                       select MapperHelper.Map(listItemViewModel, listItem)).ToList();
+                let listItemViewModel = new FixtureItemConfigViewModel()
+                select MapperHelper.Map(listItemViewModel, listItem)).ToList();
             fixtureConfigurationViewModel.Locations.Insert(0, new FixtureItemConfigViewModel());
 
-            return Request.CreateResponse(HttpStatusCode.OK,
-                fixtureConfigurationViewModel);
+            return fixtureConfigurationViewModel;
+        }
+
+        private IEnumerable<FixtureItemConfigViewModel> GetFixtureConfig(string type, int id)
+        {
+            switch (type)
+            {
+                case "opponent-locations":
+                    var locationList = _configurationServices.GetLocationsByOpponentId(id);
+
+                    return (from listItem in locationList
+                        let listItemViewModel = new FixtureItemConfigViewModel()
+                        select MapperHelper.Map(listItemViewModel, listItem)).ToList();
+            }
+
+            return new List<FixtureItemConfigViewModel>();
         }
     }
 }

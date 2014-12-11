@@ -9,11 +9,15 @@ namespace ivNet.Club.ViewModel
         {
             Fixtures = new List<FixtureViewModel>();
             Teams = new List<TeamViewModel>();
+            Opponents = new List<OpponentViewModel>();
+            Locations = new List<LocationViewModel>();
+            FixtureTypes = new List<FixtureTypeViewModel>();            
         }
 
         public List<FixtureViewModel> Fixtures { get; set; }
         public List<TeamViewModel> Teams { get; set; }
         public List<OpponentViewModel> Opponents { get; set; }
+        public List<LocationViewModel> Locations { get; set; }
         public List<FixtureTypeViewModel> FixtureTypes { get; set; }
     }
 }

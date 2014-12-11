@@ -15,7 +15,8 @@ namespace ivNet.Club.Services
 {
     public interface IFixtureServices : IDependency
     {
-        IEnumerable<Fixture> GetAll();
+        List<FixtureViewModel> GetAll();
+        void SaveFixture(FixtureViewModel item);
     }
 
     public class FixtureServices : BaseService, IFixtureServices
@@ -27,13 +28,55 @@ namespace ivNet.Club.Services
         {
         }
 
-        public IEnumerable<Fixture> GetAll()
+        public List<FixtureViewModel> GetAll()
         {
             using (var session = NHibernateHelper.OpenSession())
             {
-                return session.CreateCriteria(typeof(Fixture))
+                var fixtureList = session.CreateCriteria(typeof(Fixture))
                     .List<Fixture>();
+
+                return fixtureList.Select(fixture => MapperHelper.Map(new FixtureViewModel(), fixture)).ToList();                
             }
+        }
+
+        public void SaveFixture(FixtureViewModel item)
+        {
+
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                using (var transaction = session.BeginTransaction())
+                {
+                    var entity = session.CreateCriteria(typeof (Fixture))
+                        .List<Fixture>().FirstOrDefault(x => x.Id.Equals(item.Id)) ?? new Fixture();
+
+                    var team = session.CreateCriteria(typeof(Team))
+                       .List<Team>().FirstOrDefault(x => x.Id.Equals(item.TeamId));
+
+                    var opponent = session.CreateCriteria(typeof (Opponent))
+                        .List<Opponent>().FirstOrDefault(x => x.Id.Equals(item.OpponentId));
+
+                    var location = session.CreateCriteria(typeof (Location))
+                        .List<Location>().FirstOrDefault(x => x.Id.Equals(item.LocationId));
+
+                    var fixureType = session.CreateCriteria(typeof (FixtureType))
+                        .List<FixtureType>().FirstOrDefault(x => x.Id.Equals(item.FixtureTypeId));
+
+                    entity.Date = item.Date.GetValueOrDefault();
+                    entity.FixtureKey = CustomStringHelper.BuildKey(new[] {team.Name, entity.Date.ToShortDateString()});
+                    entity.FixtureType = fixureType;
+                    entity.HomeAway = item.HomeAway;
+                    entity.Location = location;
+                    entity.Opponent = opponent;
+                    entity.Team = team;
+
+                    entity.IsActive = 1;
+
+                    SetAudit(entity);
+                    session.SaveOrUpdate(entity);
+
+                    transaction.Commit();
+                }
+            }       
         }
     }
 }

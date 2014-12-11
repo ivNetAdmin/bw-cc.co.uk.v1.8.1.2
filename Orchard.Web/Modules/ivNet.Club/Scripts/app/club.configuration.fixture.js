@@ -26,11 +26,13 @@ ivNetClubConfiguration.controller('ConfigurationController', function ($scope, c
         $scope.data.Type = type;
 
         $('table#' + type + ' tr').each(function (index, tr) {
-            if (tr.children[0].innerText == item.Id) {
+            if (tr.children[0].innerText == item.Id) {               
                 item.Name = $(tr).find('td[field-name="Name"]').find('input').val();
                 item.Postcode = $(tr).find('td[field-name="Postcode"]').find('input').val();
                 item.Longitude = $(tr).find('td[field-name="Longitude"]').find('input').val();
                 item.Latitude = $(tr).find('td[field-name="Latitude"]').find('input').val();
+                item.TeamId = $(tr).find('td[field-name="Team"]').find('select').val();
+                item.OpponentId = $(tr).find('td[field-name="Opponent"]').find('select').val();
                 item.IsActive = $(tr).find('td[field-name="IsActive"]').find('input:checked').length;
             }
         });
@@ -43,14 +45,14 @@ ivNetClubConfiguration.controller('ConfigurationController', function ($scope, c
                 configData = { Type: type, Name: item.Name, IsActive: item.IsActive };            
                 break;
             case "locationconfig":
-                configData = { Type: type, Name: item.Name, Postcode: item.Postcode, Longitude: item.Longitude, Latitude: item.Latitude, IsActive: item.IsActive };
+                configData = { Type: type, Name: item.Name, Postcode: item.Postcode, Longitude: item.Longitude, Latitude: item.Latitude, IsActive: item.IsActive};
                 break;
 
         }
 
         configuration.update({ id: item.Id }, configData,
                    function () {
-                       window.location.reload();
+                      window.location.reload();
                    },
                    function (error) {
                        alert(error.data.Message + ' [' + error.data.MessageDetail + ']');

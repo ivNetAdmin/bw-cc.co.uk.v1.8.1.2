@@ -110,6 +110,7 @@
                         </th>
                         <th field-name="Latitude" display-name="Latitude" enable-filtering="false">
                         </th>
+                     
                         <th field-name="IsActive" display-name="Active" enable-filtering="false" enable-filtering="false">
                         </th>
                     </tr>
@@ -121,6 +122,7 @@
                         <td field-name="Postcode"><input type="text" value="{{gridDisplayItem.Postcode}}" /></td>
                         <td field-name="Longitude"><input type="text" value="{{gridDisplayItem.Longitude}}" /></td>
                         <td field-name="Latitude"><input type="text" value="{{gridDisplayItem.Latitude}}" /></td>
+
                         <td field-name="IsActive"><input type="checkbox" value="{{gridDisplayItem.IsActive}}" ng-checked="{{gridDisplayItem.IsActive}}" /></td>
                         <td>
                             <button class="btn btn-default" ng-click="saveItem(gridItem,'locationconfig')">

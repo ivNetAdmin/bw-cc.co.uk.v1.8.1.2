@@ -297,6 +297,18 @@ namespace ivNet.Club.Helpers
 
         #region entities->models
 
+        public static LocationViewModel Map(LocationViewModel viewModel, Location entity)
+        {
+            return new LocationViewModel
+            {
+                Id = entity.Id,
+                Name = entity.Name,
+                Postcode = entity.Postcode,
+                Longitude = entity.Longitude,
+                Latitude = entity.Latitude
+            };
+        }
+
         public static TeamViewModel Map(TeamViewModel viewModel, Team entity)
         {
             return new TeamViewModel {Id = entity.Id, Name = entity.Name};

@@ -13,7 +13,7 @@ namespace ivNet.Club.Entities
 
         public virtual DateTime Date { get; set; }
         public virtual int HomeAway { get; set; }
-        public virtual int FixtureKey { get; set; }
+        public virtual string FixtureKey { get; set; }
     }
 
     public class FixtureMap : ClassMap<Fixture>

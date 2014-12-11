@@ -26,13 +26,15 @@ namespace ivNet.Club.Services
         IEnumerable<ConfigurationItem> GetExtraFeeData();
         IEnumerable<ListItemViewModel> GetRegistrationSeasonList();
         IEnumerable<Team> GetTeams();
-        IEnumerable<Opponent> GetOpponents();
+        IEnumerable<Opponent> GetOpponents();        
         IEnumerable<FixtureType> GetFixtureTypes();
         IEnumerable<Location> GetLocations();
+        IEnumerable<Location> GetLocationsByOpponentId(int id);
         void SaveTeam(int id, string name, byte isActive);
         void SaveOpponent(int id, string name, byte isActive);
         void SaveFixtureType(int id, string name, byte isActive);
-        void SaveLocation(int id, string name, string postcode,  decimal latitude, decimal longitude, byte isActive);
+        void SaveLocation(int id, string name, string postcode, decimal latitude, decimal longitude, byte isActive);
+        
     }
 
     public class ConfigurationServices : BaseService, IConfigurationServices
@@ -140,13 +142,13 @@ namespace ivNet.Club.Services
                 using (var transaction = session.BeginTransaction())
                 {
                     var entity = session.CreateCriteria(typeof(Location))
-                        .List<Location>().FirstOrDefault(x => x.Id.Equals(id)) ?? new Location();
+                        .List<Location>().FirstOrDefault(x => x.Id.Equals(id)) ?? new Location();                 
 
                     entity.Name = name;
                     entity.IsActive = isActive;
                     entity.Postcode = postcode;
                     entity.Latitude = latitude;
-                    entity.Longitude = longitude;
+                    entity.Longitude = longitude;           
 
                     SetAudit(entity);
                     session.SaveOrUpdate(entity);
@@ -353,6 +355,15 @@ namespace ivNet.Club.Services
             {
                 return session.CreateCriteria(typeof(Location))
                     .List<Location>().OrderBy(x => x.Name);
+            }
+        }
+
+        public IEnumerable<Location> GetLocationsByOpponentId(int id)
+        {
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                return session.CreateCriteria(typeof(Location))
+                    .List<Location>().Where(l=>l.Opponent.Id.Equals(id)).OrderBy(x => x.Name);
             }
         }
 

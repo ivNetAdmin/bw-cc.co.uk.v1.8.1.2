@@ -18,40 +18,54 @@
 });
 
 ivNetClubFixture.factory('fixture', function ($resource) {
-    return $resource('/api/club/adminfixture/fixture/:id', null,
+    return $resource('/api/club/admin/adminfixture/:id', null,
     {
         'query': { method: 'GET', isArray: false },
         'update': { method: 'PUT' }
     });
 });
 
-ivNetClubFixture.controller('AdminFixtureController', function ($scope, fixture) {
+ivNetClubFixture.factory('fixtureconfigurationitem', function ($resource) {
+    return $resource('/api/club/admin/configurationfixture/:id?type=:type', null,
+    {
+    });
+});
+
+ivNetClubFixture.controller('AdminFixtureController', function ($scope, fixture, fixtureconfigurationitem) {
 
     init();
 
-    $scope.opponentChange = function(opponent) {
-        alert(opponent.Id);
+    $scope.opponentChange = function (opponent) {
+
+        fixtureconfigurationitem.query({ id: opponent.Id, type: "opponent-locations" },
+        function (data) {
+            $scope.locations = data;
+        },
+        function (error) {
+            alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
+        });
+
     };
 
-    $scope.saveItem = function(item) {
+    $scope.saveItem = function (item) {
+     
         $('div#ClubConfiguration table tr').each(function (index, tr) {
-            if (tr.children[0].innerText == item.Id) {
+            if (tr.children[0].innerText == item.Id) {                
                 item.Date = $(tr).find('td[field-name="Date"]').find('input').val();
                 item.Team = $(tr).find('td[field-name="Team"]').find('select').val();
                 item.Opponent = $(tr).find('td[field-name="Opponent"]').find('select').val();
                 item.HomeAway = $(tr).find('td[field-name="HomeAway"]').find('select').val();
                 item.Location = $(tr).find('td[field-name="Location"]').find('select').val();
                 item.FixtureType = $(tr).find('td[field-name="FixtureType"]').find('select').val();
-
-                //alert(item.FixtureType);
-                //configuration.update({ id: item.Id }, item,
-                //    function () {
-                //        window.location.reload();
-                //    },
-                //    function (error) {
-                //        alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
-                //    }
-                //);
+                         
+                fixture.update({ id: item.Id }, { Date: item.Date, TeamId: item.Team, OpponentId: item.Opponent, HomeAway: item.HomeAway, LocationId: item.Location, FixtureTypeId: item.FixtureType },
+                    function () {
+                        window.location.reload();
+                    },
+                    function (error) {
+                        alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
+                    }
+                );
             }
         });
     };

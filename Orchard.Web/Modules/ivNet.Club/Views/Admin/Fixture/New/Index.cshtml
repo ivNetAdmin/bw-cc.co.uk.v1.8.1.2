@@ -29,28 +29,30 @@
             <tbody>
                 <tr>
                     <td field-name="Id"></td>
-                    <td field-name="Date"><input type="date" value="{{gridDisplayItem.Date}}" /></td>
+                    <td field-name="Date"><input type="date" value="{{gridDisplayItem.Date}}" required /></td>
                     <td field-name="Team">
-                        <select value="{{gridDisplayItem.Team}}">
-                            <option ng-repeat="team in teams" value="{{team.Id}}">{{team.Name}}</option>                         
-                        </select>
+                        <select ng-options="team as team.Name for team in teams track by team.Id"
+                                ng-model="team"  required></select>
                     </td>
                     <td field-name="Opponent">
-                        <select ng-options="opponent as opponent.Name for opponent in opponents"
-                                ng-model="opponent" ng-change="opponentChange(opponent)"></select>
+                        <select ng-options="opponent as opponent.Name for opponent in opponents track by opponent.Id"
+                                ng-model="opponent" required></select>
                     </td>
                     <td field-name="HomeAway">
-                        <select value="{{gridDisplayItem.HomeAway}}">                           
+                        <select value="{{gridDisplayItem.HomeAway}}" required>
+                            <option value="?" selected="selected"></option>                           
                             <option value="1">Home</option>
                             <option value="2">Away</option>
                         </select>
                     </td>
                     
-                    <td field-name="Location"><input type="text" value="{{gridDisplayItem.Location}}" /></td>
+                    <td field-name="Location">
+                        <select ng-options="location as location.Name for location in opponents track by location.Id"
+                                ng-model="opponent"></select>
+                    </td>
                     <td field-name="FixtureType">
-                        <select value="{{gridDisplayItem.FixtureType}}">
-                            <option ng-repeat="fixturetype in fixturetypes" value="{{fixturetype.Id}}">{{fixturetype.Name}}</option>
-                        </select>
+                        <select ng-options="fixturetype as fixturetype.Name for fixturetype in fixturetypes track by fixturetype.Id"
+                                ng-model="opponent" required></select>
                     </td>
 
                     <td>
