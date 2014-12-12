@@ -128,6 +128,7 @@
     <Content Include="Scripts\trNgGrid.min.js" />
     <Content Include="packages.config" />
     <Content Include="Scripts\angular-resource.min.js.map" />
+    <Content Include="Scripts\ui-bootstrap-tpls-0.12.0.js" />
     <Content Include="Styles\admin.fixture.new.css">
       <DependentUpon>admin.fixture.new.less</DependentUpon>
     </Content>

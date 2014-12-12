@@ -45,6 +45,8 @@ namespace ivNet.Club.Controllers.Api
             if (!_orchardServices.Authorizer.Authorize(Permissions.ivManageFixtures))
                 return Request.CreateResponse(HttpStatusCode.Forbidden);
 
+            item.Id = id;
+
             _fixtureServices.SaveFixture(item);
 
             try

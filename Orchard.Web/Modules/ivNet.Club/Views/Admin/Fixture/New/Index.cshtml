@@ -1,6 +1,8 @@
 ﻿@{
     Script.Require("AngularJS-Resource");
-    Script.Require("Admin.Fixture.New");
+    Script.Require("UI.Bootstrap"); 
+    Script.Require("Admin.Fixture.New");    
+    
     Style.Require("Admin.Fixture.New");
     Style.Require("trNgGrid");
 }
@@ -30,29 +32,21 @@
                 <tr>
                     <td field-name="Id"></td>
                     <td field-name="Date"><input type="date" value="{{gridDisplayItem.Date}}" required /></td>
-                    <td field-name="Team">
-                        <select ng-options="team as team.Name for team in teams track by team.Id"
-                                ng-model="team"  required></select>
+                    <td field-name="Team">                        
+                        <input type="text" ng-model="gridDisplayItem.Team" typeahead="team.Name for team in teams | filter:$viewValue | limitTo:8" class="form-control" />
                     </td>
                     <td field-name="Opponent">
-                        <select ng-options="opponent as opponent.Name for opponent in opponents track by opponent.Id"
-                                ng-model="opponent" required></select>
+                        <input type="text" ng-model="gridDisplayItem.Opponent" typeahead="opponent.Name for opponent in opponents | filter:$viewValue | limitTo:8" class="form-control" />
                     </td>
                     <td field-name="HomeAway">
-                        <select value="{{gridDisplayItem.HomeAway}}" required>
-                            <option value="?" selected="selected"></option>                           
-                            <option value="1">Home</option>
-                            <option value="2">Away</option>
-                        </select>
+                        <input type="text" ng-model="gridDisplayItem.HomeAway" typeahead="homeaway for homeaway in homeoraway | filter:$viewValue | limitTo:8" class="form-control" />
                     </td>
                     
                     <td field-name="Location">
-                        <select ng-options="location as location.Name for location in opponents track by location.Id"
-                                ng-model="opponent"></select>
+                        <input type="text" ng-model="gridDisplayItem.Location" typeahead="location.Name for location in locations | filter:$viewValue | limitTo:8" class="form-control" />
                     </td>
                     <td field-name="FixtureType">
-                        <select ng-options="fixturetype as fixturetype.Name for fixturetype in fixturetypes track by fixturetype.Id"
-                                ng-model="opponent" required></select>
+                        <input type="text" ng-model="gridDisplayItem.FixtureType" typeahead="fixturetype.Name for fixturetype in fixturetypes | filter:$viewValue | limitTo:8" class="form-control" />
                     </td>
 
                     <td>

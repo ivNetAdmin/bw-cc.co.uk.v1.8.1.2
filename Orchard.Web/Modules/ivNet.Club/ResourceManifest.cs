@@ -36,6 +36,9 @@ namespace ivNet.Club
             manifest.DefineScript("Club.Configuration.General").SetUrl("app/club.configuration.general.js").SetVersion("1.0").SetDependencies("trNgGrid");
             manifest.DefineScript("Club.Configuration.Fixture").SetUrl("app/club.configuration.fixture.js").SetVersion("1.0").SetDependencies("trNgGrid");
 
+            manifest.DefineScript("UI.Bootstrap").SetUrl("ui-bootstrap-tpls-0.12.0.js").SetVersion("0.12.0").SetDependencies("AngularJS");
+            
+
             #endregion
 
             manifest.DefineStyle("trNgGrid").SetUrl("trNgGrid.min.css").SetDependencies("Bootstrap");

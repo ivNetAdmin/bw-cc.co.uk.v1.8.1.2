@@ -50,16 +50,16 @@ namespace ivNet.Club.Services
                         .List<Fixture>().FirstOrDefault(x => x.Id.Equals(item.Id)) ?? new Fixture();
 
                     var team = session.CreateCriteria(typeof(Team))
-                       .List<Team>().FirstOrDefault(x => x.Id.Equals(item.TeamId));
+                       .List<Team>().FirstOrDefault(x => x.Name.Equals(item.Team));
 
                     var opponent = session.CreateCriteria(typeof (Opponent))
-                        .List<Opponent>().FirstOrDefault(x => x.Id.Equals(item.OpponentId));
+                        .List<Opponent>().FirstOrDefault(x => x.Name.Equals(item.Opponent));
 
                     var location = session.CreateCriteria(typeof (Location))
-                        .List<Location>().FirstOrDefault(x => x.Id.Equals(item.LocationId));
+                        .List<Location>().FirstOrDefault(x => x.Name.Equals(item.Location));
 
                     var fixureType = session.CreateCriteria(typeof (FixtureType))
-                        .List<FixtureType>().FirstOrDefault(x => x.Id.Equals(item.FixtureTypeId));
+                        .List<FixtureType>().FirstOrDefault(x => x.Name.Equals(item.FixtureType));
 
                     entity.Date = item.Date.GetValueOrDefault();
                     entity.FixtureKey = CustomStringHelper.BuildKey(new[] {team.Name, entity.Date.ToShortDateString()});
