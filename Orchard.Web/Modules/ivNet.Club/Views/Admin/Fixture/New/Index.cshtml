@@ -20,7 +20,7 @@
                     </th>
                     <th field-name="Opponent" display-name="Opponent">
                     </th>
-                    <th field-name="HomeAway" display-name="HomeAway" display-format="homeAwayField:gridItem">
+                    <th field-name="HomeAway" display-name="HomeAway">
                     </th>                   
                     <th field-name="Location" display-name="Location">
                     </th>
@@ -43,7 +43,7 @@
                     </td>
                     
                     <td field-name="Location">
-                        <input type="text" ng-model="gridDisplayItem.Location" typeahead="location.Name for location in locations | filter:$viewValue | limitTo:8" class="form-control" />
+                        <input type="text" ng-model="gridDisplayItem.Location" typeahead="location.Postcode for location in locations | filter:$viewValue | limitTo:8" class="form-control" />
                     </td>
                     <td field-name="FixtureType">
                         <input type="text" ng-model="gridDisplayItem.FixtureType" typeahead="fixturetype.Name for fixturetype in fixturetypes | filter:$viewValue | limitTo:8" class="form-control" />

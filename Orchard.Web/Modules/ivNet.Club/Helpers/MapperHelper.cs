@@ -337,7 +337,7 @@ namespace ivNet.Club.Helpers
                 OpponentId = entity.Opponent.Id,
                 FixtureType = entity.FixtureType.Name,
                 FixtureTypeId = entity.FixtureType.Id,
-                Location = entity.Location.Name,
+                Location = entity.Location.Postcode,
                 LocationId = entity.Location.Id
             };
         }

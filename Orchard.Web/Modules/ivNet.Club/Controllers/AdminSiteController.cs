@@ -53,6 +53,12 @@ namespace ivNet.Club.Controllers
             return View("Admin/Fixture/New/Index");
         }
 
+        [Themed]
+        public ActionResult SelectTeamForFixture()
+        {
+            return View("Admin/Fixture/Team/Index");
+        }
+
         #endregion
 
         #region configuration

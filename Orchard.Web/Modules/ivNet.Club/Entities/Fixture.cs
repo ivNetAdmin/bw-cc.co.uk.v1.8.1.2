@@ -12,7 +12,7 @@ namespace ivNet.Club.Entities
         public virtual FixtureType FixtureType { get; set; }
 
         public virtual DateTime Date { get; set; }
-        public virtual int HomeAway { get; set; }
+        public virtual string HomeAway { get; set; }
         public virtual string FixtureKey { get; set; }
     }
 
@@ -32,7 +32,7 @@ namespace ivNet.Club.Entities
             References(x => x.FixtureType);
 
             Map(x => x.Date);
-            Map(x => x.HomeAway);  
+            Map(x => x.HomeAway).Length(10);  
 
             Map(x => x.IsActive);
 

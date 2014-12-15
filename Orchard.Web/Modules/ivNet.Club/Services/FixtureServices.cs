@@ -56,14 +56,14 @@ namespace ivNet.Club.Services
                         .List<Opponent>().FirstOrDefault(x => x.Name.Equals(item.Opponent));
 
                     var location = session.CreateCriteria(typeof (Location))
-                        .List<Location>().FirstOrDefault(x => x.Name.Equals(item.Location));
+                        .List<Location>().FirstOrDefault(x => x.Postcode.Equals(item.Location));
 
-                    var fixureType = session.CreateCriteria(typeof (FixtureType))
+                    var fixtureType = session.CreateCriteria(typeof (FixtureType))
                         .List<FixtureType>().FirstOrDefault(x => x.Name.Equals(item.FixtureType));
 
                     entity.Date = item.Date.GetValueOrDefault();
                     entity.FixtureKey = CustomStringHelper.BuildKey(new[] {team.Name, entity.Date.ToShortDateString()});
-                    entity.FixtureType = fixureType;
+                    entity.FixtureType = fixtureType;
                     entity.HomeAway = item.HomeAway;
                     entity.Location = location;
                     entity.Opponent = opponent;

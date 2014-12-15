@@ -7,7 +7,7 @@ namespace ivNet.Club.ViewModel
     {
         public int Id { get; set; }
         public DateTime? Date { get; set; }
-        public int HomeAway { get; set; }
+        public string HomeAway { get; set; }
         public string Team { get; set; }
         public int TeamId { get; set; }
         public string Opponent { get; set; }

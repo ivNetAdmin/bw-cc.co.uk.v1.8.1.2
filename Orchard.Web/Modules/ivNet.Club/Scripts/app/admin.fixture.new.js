@@ -33,9 +33,7 @@ ivNetClubFixture.factory('fixtureconfigurationitem', function ($resource) {
 
 ivNetClubFixture.controller('AdminFixtureController', function ($scope, fixture, fixtureconfigurationitem) {
 
-    init();
-
-    $scope.homeoraway = ['Home', 'Away'];
+    init();   
 
     $scope.opponentChange = function (opponent) {
 
@@ -59,7 +57,7 @@ ivNetClubFixture.controller('AdminFixtureController', function ($scope, fixture,
                 item.HomeAway = $(tr).find('td[field-name="HomeAway"]').find('input').val();
                 item.Location = $(tr).find('td[field-name="Location"]').find('input').val();
                 item.FixtureType = $(tr).find('td[field-name="FixtureType"]').find('input').val();
-                         
+
                 fixture.update({ id: item.Id }, { Date: item.Date, Team: item.Team, Opponent: item.Opponent, HomeAway: item.HomeAway, Location: item.Location, FixtureType: item.FixtureType },
                     function () {
                         window.location.reload();
@@ -82,6 +80,7 @@ ivNetClubFixture.controller('AdminFixtureController', function ($scope, fixture,
                $scope.opponents = data.Opponents;
                $scope.fixturetypes = data.FixtureTypes;
                $scope.locations = data.Locations;
+               $scope.homeoraway = data.HomeOrAway;
            },
         function (error) {
             alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
