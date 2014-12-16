@@ -1,21 +1,15 @@
 ﻿var ivNetClubFixture = angular.module('Admin.Fixture.New.App', ['ngResource', 'trNgGrid', 'ui.bootstrap'])
-.filter("dateField", function () {
-    return function (combinedFieldValueUnused, item) {
-        var d = item.Date;
+    .filter("dateField", function() {
+        return function(combinedFieldValueUnused, item) {
+            var d = item.Date;
 
-        var curr_date = d.substr(8, 2);
-        var curr_month = d.substr(5, 2);
-        var curr_year = d.substr(0, 4);
+            var curr_date = d.substr(8, 2);
+            var curr_month = d.substr(5, 2);
+            var curr_year = d.substr(0, 4);
 
-        return curr_year + "-" + curr_month + "-" + curr_date;
-    };
-})
-.filter("homeAwayField", function () {
-    return function (combinedFieldValueUnused, item) {
-        var d = item.HomeAway;
-        return d == 1 ? "Home" : d == 2 ? "Away" : "";
-    };
-});
+            return curr_year + "-" + curr_month + "-" + curr_date;
+        };
+    });
 
 ivNetClubFixture.factory('fixture', function ($resource) {
     return $resource('/api/club/admin/adminfixture/:id', null,

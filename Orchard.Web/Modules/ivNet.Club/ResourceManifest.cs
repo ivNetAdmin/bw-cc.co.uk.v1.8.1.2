@@ -20,6 +20,7 @@ namespace ivNet.Club
             manifest.DefineStyle("Admin.Member.Activate").SetUrl("admin.member.activate.min.css").SetDependencies("Club.Base");
             manifest.DefineStyle("Admin.Member.List.All").SetUrl("admin.member.list.all.min.css").SetDependencies("Club.Base");
             manifest.DefineStyle("Admin.Fixture.New").SetUrl("admin.fixture.new.min.css").SetDependencies("Club.Base");
+            manifest.DefineStyle("Admin.Team.New").SetUrl("admin.team.new.min.css").SetDependencies("Club.Base");
             
             manifest.DefineStyle("Club.Configuration.General").SetUrl("club.configuration.general.min.css").SetDependencies("Club.Base");
             manifest.DefineStyle("Club.Configuration.Fixture").SetUrl("club.configuration.fixture.min.css").SetDependencies("Club.Base");
@@ -32,6 +33,7 @@ namespace ivNet.Club
             manifest.DefineScript("Admin.Member.Activate").SetUrl("app/admin.member.activate.js").SetVersion("1.0").SetDependencies("trNgGrid");
             manifest.DefineScript("Admin.Member.List.All").SetUrl("app/admin.member.list.all.js").SetVersion("1.0").SetDependencies("trNgGrid");
             manifest.DefineScript("Admin.Fixture.New").SetUrl("app/admin.fixture.new.js").SetVersion("1.0").SetDependencies("trNgGrid");
+            manifest.DefineScript("Admin.Team.New").SetUrl("app/admin.team.new.js").SetVersion("1.0").SetDependencies("trNgGrid");
             
             manifest.DefineScript("Club.Configuration.General").SetUrl("app/club.configuration.general.js").SetVersion("1.0").SetDependencies("trNgGrid");
             manifest.DefineScript("Club.Configuration.Fixture").SetUrl("app/club.configuration.fixture.js").SetVersion("1.0").SetDependencies("trNgGrid");

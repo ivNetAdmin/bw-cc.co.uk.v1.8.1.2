@@ -1,1 +1,48 @@
-﻿"hello mum"
+﻿@{
+    Script.Require("AngularJS-Resource");
+    Script.Require("UI.Bootstrap");
+    Script.Require("Admin.Team.New");
+
+    Style.Require("Admin.Team.New");
+    Style.Require("trNgGrid");
+}
+
+<div data-ng-app="Admin.Team.New.App" class="col-md-12">
+    <div data-ng-controller="AdminTeamController">
+        <div class="col-md-9">
+            <table tr-ng-grid='' items='fixtures' selected-items="selectedFixtures" selection-mode="SingleRow">
+                <thead>
+                    <tr>
+                        <th field-name=" id" display-name="Id" enable-filtering="false" enable-sorting="false" display-align="right">
+                        </th>
+                        <th field-name="Date" display-name="Date" display-format="dateField:gridItem"></th>
+                        <th field-name="Team" display-name="Team"></th>
+                        <th field-name="Opponent" display-name="Opponent"></th>
+                        <th field-name="HomeAway" display-name="HomeAway"></th>
+                        <th field-name="FixtureType" display-name="Fixture"></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="col-md-3 selected-fixture">
+            <div class="col-md-12">
+                {{selectedFixture.Date | date:"dd/MM/yyyy"}}<br />{{selectedFixture.Team}} v {{selectedFixture.Opponent}}<br />{{selectedFixture.HomeAway}}, {{selectedFixture.FixtureType}}
+            </div>
+            <ul>
+                <li ng-repeat="player in teamSelection track by $index">
+                    <div class="col-md-12">
+                        <span class="col-md-2">{{$index+1}}</span>
+                        <span class="col-md-10"><input type="text" ng-model="player" typeahead="player.Name for player in players | filter:$viewValue | limitTo:8" class="form-control" typeahead-on-select="onSelect($item, $index, $label)" /></span>
+                    </div>
+                </li>
+            </ul>
+            <div class="col-md-12">
+                <span class="col-md-2"></span>
+                <span class="col-md-10">
+                    <input type="button" value="Save Selection" class="btn btn-success" ng-click="saveTeamSelection()" />
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+

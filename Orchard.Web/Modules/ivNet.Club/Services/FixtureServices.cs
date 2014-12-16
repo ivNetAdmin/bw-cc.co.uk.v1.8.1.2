@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using ivNet.Club.Entities;
+using ivNet.Club.Enums;
 using ivNet.Club.Helpers;
 using ivNet.Club.ViewModel;
 using Orchard;
@@ -17,15 +18,20 @@ namespace ivNet.Club.Services
     {
         List<FixtureViewModel> GetAll();
         void SaveFixture(FixtureViewModel item);
+        AdminFixtureViewModel GetAdminFixtureViewModel();
     }
 
     public class FixtureServices : BaseService, IFixtureServices
     {
+        private readonly IConfigurationServices _configurationServices;
+
         public FixtureServices(IMembershipService membershipService, 
             IAuthenticationService authenticationService, 
-            IRoleService roleService, IRepository<UserRolesPartRecord> userRolesRepository) 
+            IRoleService roleService, IRepository<UserRolesPartRecord> userRolesRepository,
+            IConfigurationServices configurationServices) 
             : base(membershipService, authenticationService, roleService, userRolesRepository)
         {
+            _configurationServices = configurationServices;
         }
 
         public List<FixtureViewModel> GetAll()
@@ -77,6 +83,38 @@ namespace ivNet.Club.Services
                     transaction.Commit();
                 }
             }       
+        }
+
+        public AdminFixtureViewModel GetAdminFixtureViewModel()
+        {
+            var adminFixtureViewModel = new AdminFixtureViewModel { Fixtures = GetAll() };
+            // need to map entity within session becase of lazy-loading
+            var teamList = _configurationServices.GetTeams();
+            var opponentList = _configurationServices.GetOpponents();
+            var locationList = _configurationServices.GetLocations();
+            var fixtureTypeList = _configurationServices.GetFixtureTypes();            
+
+            adminFixtureViewModel.Teams = (from listItem in teamList
+                                           let listItemViewModel = new TeamViewModel()
+                                           select MapperHelper.Map(listItemViewModel, listItem)).ToList();
+
+            adminFixtureViewModel.Opponents = (from listItem in opponentList
+                                               let listItemViewModel = new OpponentViewModel()
+                                               select MapperHelper.Map(listItemViewModel, listItem)).ToList();
+
+            adminFixtureViewModel.Locations = (from listItem in locationList
+                                               let listItemViewModel = new LocationViewModel()
+                                               select MapperHelper.Map(listItemViewModel, listItem)).ToList();
+
+            adminFixtureViewModel.FixtureTypes = (from listItem in fixtureTypeList
+                                                  let listItemViewModel = new FixtureTypeViewModel()
+                                                  select MapperHelper.Map(listItemViewModel, listItem)).ToList();
+
+            adminFixtureViewModel.HomeOrAway.Add(HomeAway.Home.ToString());
+            adminFixtureViewModel.HomeOrAway.Add(HomeAway.Away.ToString());
+
+            return adminFixtureViewModel;
+
         }
     }
 }

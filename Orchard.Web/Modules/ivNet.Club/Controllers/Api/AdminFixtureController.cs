@@ -68,37 +68,11 @@ namespace ivNet.Club.Controllers.Api
             }
         }
 
-        private EditFixtureViewModel GetFixtures()
+        private AdminFixtureViewModel GetFixtures()
         {
-            var editFixtureViewModel = new EditFixtureViewModel {Fixtures = _fixtureServices.GetAll()};
-            // need to map entity within session becase of lazy-loading
-            var teamList = _configurationServices.GetTeams();
-            var opponentList = _configurationServices.GetOpponents();
-            var locationList = _configurationServices.GetLocations();
-            var fixtureTypeList = _configurationServices.GetFixtureTypes();
-
-            editFixtureViewModel.Fixtures.Insert(0, new FixtureViewModel());
-
-            editFixtureViewModel.Teams = (from listItem in teamList
-                let listItemViewModel = new TeamViewModel()
-                select MapperHelper.Map(listItemViewModel, listItem)).ToList();
-
-            editFixtureViewModel.Opponents = (from listItem in opponentList
-                let listItemViewModel = new OpponentViewModel()
-                select MapperHelper.Map(listItemViewModel, listItem)).ToList();
-
-            editFixtureViewModel.Locations = (from listItem in locationList
-                let listItemViewModel = new LocationViewModel()
-                select MapperHelper.Map(listItemViewModel, listItem)).ToList();
-
-            editFixtureViewModel.FixtureTypes = (from listItem in fixtureTypeList
-                let listItemViewModel = new FixtureTypeViewModel()
-                select MapperHelper.Map(listItemViewModel, listItem)).ToList();
-
-            editFixtureViewModel.HomeOrAway.Add(HomeAway.Home.ToString());
-            editFixtureViewModel.HomeOrAway.Add(HomeAway.Away.ToString());
-
-            return editFixtureViewModel;
+            var adminFixtureViewModel = _fixtureServices.GetAdminFixtureViewModel();
+                adminFixtureViewModel.Fixtures.Insert(0, new FixtureViewModel());
+            return adminFixtureViewModel;
         }
     }
 }

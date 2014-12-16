@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace ivNet.Club.ViewModel
 {
-    public class EditFixtureViewModel
+    public class AdminFixtureViewModel
     {
-        public EditFixtureViewModel()
+        public AdminFixtureViewModel()
         {
             Fixtures = new List<FixtureViewModel>();
             Teams = new List<TeamViewModel>();

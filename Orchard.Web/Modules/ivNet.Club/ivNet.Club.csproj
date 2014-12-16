@@ -121,6 +121,7 @@
     <Content Include="Scripts\app\admin.fixture.new.js" />
     <Content Include="Scripts\app\admin.member.list.all.js" />
     <Content Include="Scripts\app\admin.member.activate.js" />
+    <Content Include="Scripts\app\admin.team.new.js" />
     <Content Include="Scripts\app\club.configuration.fixture.js" />
     <Content Include="Scripts\app\club.configuration.general.js" />
     <Content Include="Scripts\app\membership.my.registration.js" />
@@ -222,6 +223,7 @@
     <Content Include="Styles\membership.new.fee.css.map">
       <DependentUpon>membership.new.fee.css</DependentUpon>
     </Content>
+    <Content Include="Styles\admin.team.new.less" />
     <None Include="Styles\membership.new.registration.less" />
     <None Include="Styles\new.member.less" />
     <Content Include="Scripts\anjular.js" />
@@ -275,6 +277,7 @@
     <Compile Include="Controllers\Api\AdminFixtureController.cs" />
     <Compile Include="Controllers\Api\AdminMemberController.cs" />
     <Compile Include="Controllers\AdminSiteController.cs" />
+    <Compile Include="Controllers\Api\AdminTeamController.cs" />
     <Compile Include="Controllers\Api\CaptchaController.cs" />
     <Compile Include="Controllers\Api\ConfigurationClubController.cs" />
     <Compile Include="Controllers\Api\ConfigurationFixtureController.cs" />
@@ -317,6 +320,7 @@
     <Compile Include="Entities\Player.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Entities\Senior.cs" />
     <Compile Include="Entities\Team.cs" />
     <Compile Include="Enums\HomeAway.cs" />
     <Compile Include="Enums\MemberType.cs" />
@@ -340,7 +344,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModel\CaptchaViewModel.cs" />
-    <Compile Include="ViewModel\EditFixtureViewModel.cs" />
+    <Compile Include="ViewModel\AdminFixtureViewModel.cs" />
     <Compile Include="ViewModel\EditMemberViewModel.cs" />
     <Compile Include="ViewModel\ConfigurationItemViewModel.cs" />
     <Compile Include="ViewModel\ContactViewModel.cs" />
@@ -358,12 +362,14 @@
     <Compile Include="ViewModel\LocationViewModel.cs" />
     <Compile Include="ViewModel\NewMemberViewModel.cs" />
     <Compile Include="ViewModel\OpponentViewModel.cs" />
+    <Compile Include="ViewModel\PlayerViewModel.cs" />
     <Compile Include="ViewModel\RecaptchaViewModel.cs" />
     <Compile Include="ViewModel\RegisteredGuardianViewModel.cs" />
     <Compile Include="ViewModel\RegistrationUpdateViewModel.cs" />
     <Compile Include="ViewModel\RegistrationViewModel.cs" />
     <Compile Include="ViewModel\RelatedMemberViewModel.cs" />
     <Compile Include="ViewModel\FixtureItemConfigViewModel.cs" />
+    <Compile Include="ViewModel\TeamAdminViewModel.cs" />
     <Compile Include="ViewModel\TeamViewModel.cs" />
     <Compile Include="ViewModel\UserViewModel.cs" />
     <Compile Include="ViewModel\MemberViewModel.cs" />

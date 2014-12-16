@@ -342,6 +342,29 @@ namespace ivNet.Club.Helpers
             };
         }
 
+        public static PlayerViewModel Map(PlayerViewModel viewModel, Junior entity)
+        {
+            return new PlayerViewModel
+            {
+                  MemberId = entity.Member.Id,
+                  PlayerNumber = entity.Player.Number,
+                  Name = string.Format("{0}, {1}", entity.Member.Surname,entity.Member.Firstname),
+                  Nickname = entity.Member.Nickname,
+                  Dob = entity.Dob
+            };
+        }
+
+        public static PlayerViewModel Map(PlayerViewModel viewModel, Senior entity)
+        {
+            return new PlayerViewModel
+            {
+                MemberId = entity.Member.Id,
+                PlayerNumber = entity.Player.Number,
+                Name = string.Format("{0}, {1}", entity.Member.Surname, entity.Member.Firstname),
+                Nickname = entity.Member.Nickname
+            };
+        }
+
         public static FixtureItemConfigViewModel Map(FixtureItemConfigViewModel viewModel, Team entity)
         {
             return Mapper.Map(entity, viewModel);

@@ -20,6 +20,7 @@ namespace ivNet.Club.Services
     public interface IPlayerServices : IDependency
     {
         List<JuniorNewRegistrationFeeViewModel> GetCachedJuniorRegistrations();
+        List<PlayerViewModel> GetActivePlayers();
     }
 
     public class PlayerServices : BaseService, IPlayerServices
@@ -64,6 +65,29 @@ namespace ivNet.Club.Services
             }           
         }
 
+        public List<PlayerViewModel> GetActivePlayers()
+        {
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                var juniorPlayerList = session.CreateCriteria(typeof(Junior))
+                 .List<Junior>().Where(x => x.Player.IsActive.Equals(1)).ToList();
+
+                var seniorPlayerList = session.CreateCriteria(typeof(Senior))
+                 .List<Senior>().Where(x => x.Player.IsActive.Equals(1)).ToList();
+
+                var playerList= juniorPlayerList.Select(player => MapperHelper.Map(new PlayerViewModel(), player)).ToList();
+                foreach (var player in playerList)
+                {
+                    player.Name = string.Format("{0} [U{1}]", player.Name, GetJuniorYear(player.Dob));                  
+                }
+                              
+                playerList.AddRange(
+                    seniorPlayerList.Select(player => MapperHelper.Map(new PlayerViewModel(), player)).ToList());
+
+                return playerList;
+            }
+        }
+
         public void Clear()
         {
             ItemsInternal.Clear();
@@ -87,7 +111,6 @@ namespace ivNet.Club.Services
                 return items;
             }
         }
-
 
         private void AddFees(List<JuniorNewRegistrationFeeViewModel> juniorNewRegistrationFeeViewModelList)
         {
@@ -118,30 +141,6 @@ namespace ivNet.Club.Services
         {
             return _configurationServices.GetJuniorYear(dob);
         }
-
-        //      public List<JuniorRegistrationViewModel> Get()
-        //{
-        //    var currentSeason = _configurationServices.GetCurrentSeason();
-
-        //    using (var session = NHibernateHelper.OpenSession())
-        //    {
-        //        var memberIdList = ItemsInternal;
-
-        //        var juniorList = session
-        //            .CreateCriteria(typeof (Junior))
-        //            .Add(Restrictions.In("Member.Id", memberIdList))
-        //            .List<Junior>();
-
-        //        var juniorRegistrationViewModelList =  (
-        //            from junior in juniorList
-        //            let juniorRegistrationViewModel = new JuniorRegistrationViewModel()
-        //            select MapperHelper.Map(juniorRegistrationViewModel, junior, currentSeason)).OrderBy(vm => vm.Dob).ToList();
-
-        //        AddFees(juniorRegistrationViewModelList);
-
-        //        return juniorRegistrationViewModelList;
-        //    }          
-        //}
-        
+      
     }
 }
