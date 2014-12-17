@@ -121,6 +121,7 @@
     <Content Include="Scripts\app\admin.fixture.new.js" />
     <Content Include="Scripts\app\admin.member.list.all.js" />
     <Content Include="Scripts\app\admin.member.activate.js" />
+    <Content Include="Scripts\app\admin.stats.new.js" />
     <Content Include="Scripts\app\admin.team.new.js" />
     <Content Include="Scripts\app\club.configuration.fixture.js" />
     <Content Include="Scripts\app\club.configuration.general.js" />
@@ -233,6 +234,7 @@
     <Content Include="Styles\admin.team.new.css.map">
       <DependentUpon>admin.team.new.css</DependentUpon>
     </Content>
+    <Content Include="Styles\admin.stats.new.less" />
     <None Include="Styles\membership.new.registration.less" />
     <None Include="Styles\new.member.less" />
     <Content Include="Scripts\anjular.js" />
@@ -281,6 +283,8 @@
     <Content Include="Views\Site\Membership\NewFee\Index.cshtml" />
     <Content Include="Views\Admin\Fixture\New\Index.cshtml" />
     <Content Include="Views\Admin\Fixture\Team\Index.cshtml" />
+    <Content Include="Views\Admin\Fixture\Stats\Index.cshtml" />
+    <Content Include="Views\Admin\Fixture\_Shared\_List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\Api\AdminFixtureController.cs" />
@@ -291,6 +295,7 @@
     <Compile Include="Controllers\Api\ConfigurationClubController.cs" />
     <Compile Include="Controllers\Api\ConfigurationFixtureController.cs" />
     <Compile Include="Controllers\Api\FeeController.cs" />
+    <Compile Include="Controllers\Api\FixtureController.cs" />
     <Compile Include="Controllers\Api\RegistrationController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\SecureSiteController.cs" />
@@ -301,6 +306,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Entities\ConfigurationItem.cs" />
+    <Compile Include="Entities\CricketStat.cs" />
     <Compile Include="Entities\Fixture.cs" />
     <Compile Include="Entities\FixtureType.cs" />
     <Compile Include="Entities\Location.cs" />
@@ -329,6 +335,7 @@
     <Compile Include="Entities\Player.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Entities\PlayerStat.cs" />
     <Compile Include="Entities\Senior.cs" />
     <Compile Include="Entities\Team.cs" />
     <Compile Include="Entities\TeamSelection.cs" />
@@ -360,6 +367,7 @@
     <Compile Include="ViewModel\ConfigurationItemViewModel.cs" />
     <Compile Include="ViewModel\ContactViewModel.cs" />
     <Compile Include="ViewModel\FixtureConfigViewModel.cs" />
+    <Compile Include="ViewModel\FixtureListViewModel.cs" />
     <Compile Include="ViewModel\FixtureTypeViewModel.cs" />
     <Compile Include="ViewModel\FixtureViewModel.cs" />
     <Compile Include="ViewModel\GuardianViewModel.cs">

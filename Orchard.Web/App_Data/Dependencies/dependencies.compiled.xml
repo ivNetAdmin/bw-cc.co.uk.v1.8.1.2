@@ -8,9 +8,9 @@
   </Dependency>
   <Dependency>
     <ExtensionId>ivNet.Club</ExtensionId>
-    <LoaderName>PrecompiledExtensionLoader</LoaderName>
-    <VirtualPath>~/Modules/ivNet.Club/bin/ivNet.Club.dll</VirtualPath>
-    <Hash>df5a27719a4de5</Hash>
+    <LoaderName>DynamicExtensionLoader</LoaderName>
+    <VirtualPath>~/Modules/ivNet.Club/ivNet.Club.csproj</VirtualPath>
+    <Hash>26dd18adab5428f8</Hash>
   </Dependency>
   <Dependency>
     <ExtensionId>Lucene</ExtensionId>

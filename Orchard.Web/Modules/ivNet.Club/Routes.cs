@@ -379,6 +379,23 @@ namespace ivNet.Club
                         },
                         new MvcRouteHandler())
                 },        
+                new RouteDescriptor
+                {
+                    Route = new Route(
+                        "club/admin/fixture/match-stats",
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Club"},
+                            {"controller", "AdminSite"},
+                            {"action", "RecordMatchStats"}
+                        },
+                        new RouteValueDictionary(),
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Club"}
+                        },
+                        new MvcRouteHandler())
+                },        
                  new RouteDescriptor
                 {
                     Route = new Route(

@@ -10,19 +10,9 @@
 <div data-ng-app="Admin.Team.New.App" class="col-md-12">
     <div data-ng-controller="AdminTeamController">
         <div class="col-md-9">
-            <table tr-ng-grid='' items='fixtures' selected-items="selectedFixtures" selection-mode="SingleRow">
-                <thead>
-                    <tr>
-                        <th field-name=" id" display-name="Id" enable-filtering="false" enable-sorting="false" display-align="right">
-                        </th>
-                        <th field-name="Date" display-name="Date" display-format="dateField:gridItem"></th>
-                        <th field-name="Team" display-name="Team"></th>
-                        <th field-name="Opponent" display-name="Opponent"></th>
-                        <th field-name="HomeAway" display-name="HomeAway"></th>
-                        <th field-name="FixtureType" display-name="Fixture"></th>
-                    </tr>
-                </thead>
-            </table>
+            
+            @Html.Partial("Admin/Fixture/_Shared/_List")
+           
         </div>
         <div class="col-md-3 selected-fixture">
             <div class="col-md-12">

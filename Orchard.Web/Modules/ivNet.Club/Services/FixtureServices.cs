@@ -6,6 +6,7 @@ using ivNet.Club.Entities;
 using ivNet.Club.Enums;
 using ivNet.Club.Helpers;
 using ivNet.Club.ViewModel;
+using NHibernate;
 using Orchard;
 using Orchard.Data;
 using Orchard.Roles.Models;
@@ -22,6 +23,7 @@ namespace ivNet.Club.Services
         void SaveTeamSelection(int fixtureId, AdminTeamSelectionViewModel teamSelectionViewModel);
 
         TeamSelectionAdminViewModel GetTeamSelectionAdminViewModel(int id);
+        FixtureListViewModel GetFixtureViewModel();
     }
 
     public class FixtureServices : BaseService, IFixtureServices
@@ -94,48 +96,72 @@ namespace ivNet.Club.Services
             {
                 using (var transaction = session.BeginTransaction())
                 {
-                    var entity = session.CreateCriteria(typeof (TeamSelection))
-                        .List<TeamSelection>().FirstOrDefault(x => x.Id.Equals(teamSelectionViewModel.TeamSelectionId)) ??
+                    var teamSelection = session.CreateCriteria(typeof (TeamSelection))
+                        .List<TeamSelection>().FirstOrDefault(x => x.Fixture.Id.Equals(fixtureId)) ??
                                  new TeamSelection();
                                       
-                    if (entity.Players == null)
+                    if (teamSelection.Players == null)
                     {
-                        entity.Init();
+                        teamSelection.Init();
+                        teamSelection.IsActive = 1;
                     }
                     else
                     {
-                        foreach (var player in entity.Players)
+                        foreach (var player in teamSelection.Players)
                         {
-                            entity.RemovePlayer(player);
+                            teamSelection.RemovePlayer(player);
                         }
                     }
+                   
+                    SetAudit(teamSelection);                    
 
-                    entity.IsActive = 1;
-
-                    SetAudit(entity);                    
-
-                    entity.Fixture = session.CreateCriteria(typeof(Fixture))
+                    teamSelection.Fixture = session.CreateCriteria(typeof(Fixture))
                        .List<Fixture>().FirstOrDefault(x => x.Id.Equals(fixtureId));
 
                     foreach (var playerViewModel in teamSelectionViewModel.TeamSelection)
                     {
                         if (!string.IsNullOrEmpty(playerViewModel.Name))
                         {
-                            entity.AddPlayer(
+                            teamSelection.AddPlayer(
                                 session.CreateCriteria(typeof (Player))
                                     .List<Player>().FirstOrDefault(x => x.Number.Equals(playerViewModel.PlayerNumber))
                                 );
                         }
                     }
 
-                    session.SaveOrUpdate(entity);
-                    if (entity.Fixture != null) entity.Fixture.TeamSelection = entity;
-                    session.SaveOrUpdate(entity.Fixture);
+                    session.SaveOrUpdate(teamSelection);
+                    if (teamSelection.Fixture != null) teamSelection.Fixture.TeamSelection = teamSelection;
+                    session.SaveOrUpdate(teamSelection.Fixture);
+                    var fixtutreId = teamSelection.Fixture == null ? 0 : teamSelection.Fixture.Id;
+
+                    // create player stats -get existing ones or create new ones, delete old ones then save new ones
+                    var playerStatList = teamSelection.Players.Select(player => GetPlayerStat(session, fixtutreId, player.Number)).ToList();
+
+                    // delete any existing stats
+                    var queryString = string.Format("delete {0} where Fixture.Id = :id", typeof(PlayerStat));
+                    session.CreateQuery(queryString)
+                           .SetParameter("id", fixtureId)
+                           .ExecuteUpdate();
+
+                    // add new stats
+                    foreach (var playerStat in playerStatList)
+                    {
+                        playerStat.Fixture = teamSelection.Fixture;
+
+                        SetAudit(playerStat.CricketStat);
+                        playerStat.CricketStat.IsActive = 1;
+                        session.SaveOrUpdate(playerStat.CricketStat);                        
+
+                        SetAudit(playerStat);
+                        playerStat.IsActive = 1;
+                        session.SaveOrUpdate(playerStat);
+                    }                  
+
                     transaction.Commit();
                 }
             }
         }
-
+     
         public TeamSelectionAdminViewModel GetTeamSelectionAdminViewModel(int id)
         {           
             using (var session = NHibernateHelper.OpenSession())
@@ -160,6 +186,11 @@ namespace ivNet.Club.Services
 
                 return teamSelectionAdminViewModel;
             }            
+        }
+
+        public FixtureListViewModel GetFixtureViewModel()
+        {
+            return new FixtureListViewModel { Fixtures = GetAll() };
         }
 
         public AdminFixtureViewModel GetAdminFixtureViewModel()
@@ -193,5 +224,16 @@ namespace ivNet.Club.Services
             return adminFixtureViewModel;
 
         }
+
+        private PlayerStat GetPlayerStat(ISession session, int fixtureId, string playerNumber)
+        {
+            var playerStat = session.CreateCriteria(typeof(PlayerStat))
+                    .List<PlayerStat>().FirstOrDefault(x => x.Fixture.Id.Equals(fixtureId) && x.Player.Number.Equals(playerNumber)) ??
+                             new PlayerStat();
+
+            if (playerStat.CricketStat == null) playerStat.CricketStat = new CricketStat();
+            return playerStat;
+        }
+
     }
 }

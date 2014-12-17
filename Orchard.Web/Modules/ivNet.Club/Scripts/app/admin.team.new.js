@@ -20,6 +20,7 @@ ivNetClubTeam.factory('team', function ($resource) {
 });
 
 ivNetClubTeam.controller('AdminTeamController', function($scope, team) {
+
     init();
 
     function init() {
