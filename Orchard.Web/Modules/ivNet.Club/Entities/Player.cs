@@ -10,9 +10,11 @@ namespace ivNet.Club.Entities
         public virtual string Team { get; set; }
         public virtual Kit Kit { get; set; }
         public virtual IList<Fee> Fees { get; set; }
+        public virtual IList<TeamSelection> TeamSelections { get; set; }
 
         public virtual void Init()
         {
+            TeamSelections = new List<TeamSelection>();
             Fees = new List<Fee>();
             Kit = new Kit();
         }
@@ -27,6 +29,11 @@ namespace ivNet.Club.Entities
             Map(x => x.Team).Nullable().Length(50);
 
             References(x => x.Kit);
+
+            HasManyToMany(x => x.TeamSelections)
+               .Inverse()
+               .Cascade.SaveUpdate()
+               .Table("ivNetTeamSelectionPlayer");
 
             HasMany(x => x.Fees)
                 .Inverse()

@@ -25,27 +25,27 @@ ivNetClubTeam.controller('AdminTeamController', function($scope, team) {
     function init() {
 
         team.query(
-           function (data) {
-               $scope.data = data;
-               $scope.fixtures = data.AdminFixtureViewModel.Fixtures;
-               $scope.teams = data.AdminFixtureViewModel.Teams;
-               $scope.opponents = data.AdminFixtureViewModel.Opponents;
-               $scope.fixturetypes = data.AdminFixtureViewModel.FixtureTypes;
-               $scope.locations = data.AdminFixtureViewModel.Locations;
-               $scope.homeoraway = data.AdminFixtureViewModel.HomeOrAway;
-               $scope.onMediaPlayerStateChange = data.onMediaPlayerStateChange;
+            function(data) {
+                $scope.data = data;
+                $scope.fixtures = data.AdminFixtureViewModel.Fixtures;
+                $scope.teams = data.AdminFixtureViewModel.Teams;
+                $scope.opponents = data.AdminFixtureViewModel.Opponents;
+                $scope.fixturetypes = data.AdminFixtureViewModel.FixtureTypes;
+                $scope.locations = data.AdminFixtureViewModel.Locations;
+                $scope.homeoraway = data.AdminFixtureViewModel.HomeOrAway;
+                $scope.onMediaPlayerStateChange = data.onMediaPlayerStateChange;
 
-               $scope.players = data.Players;
-               $scope.teamSelection = data.TeamSelection;
-           },
-        function (error) {
-            alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
-        });
+                $scope.players = data.Players;
+                $scope.teamSelection = data.TeamSelection;
+            },
+            function(error) {
+                alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
+            });
 
         $scope.selectedFixtures = [];
     }
 
-    $scope.$watch("selectedFixtures.length", function (newLength) {
+    $scope.$watch("selectedFixtures.length", function(newLength) {
         if (newLength > 0) {
             $scope.selectedFixture = $scope.selectedFixtures[newLength - 1];
             $('div.selected-fixture').show();
@@ -55,12 +55,20 @@ ivNetClubTeam.controller('AdminTeamController', function($scope, team) {
         }
     });
 
-    $scope.onSelect = function ($item, $model, $label) {
+    $scope.onSelect = function($item, $model, $label) {
         $scope.teamSelection[$model].PlayerNumber = $item.PlayerNumber;
         $scope.teamSelection[$model].Name = $item.Name;
     };
 
     $scope.saveTeamSelection = function() {
-        alert($scope.selectedFixture.Id + ":" + $scope.teamSelection[0].PlayerNumber);
+
+        team.update({ id: $scope.selectedFixture.Id }, { TeamSelection: $scope.teamSelection },
+            function() {
+                window.location.reload();
+            },
+            function(error) {
+                alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
+            }
+        );
     };
 });

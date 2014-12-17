@@ -16,9 +16,11 @@ namespace ivNet.Club.Services
 {
     public interface IFixtureServices : IDependency
     {
-        List<FixtureViewModel> GetAll();
-        void SaveFixture(FixtureViewModel item);
+        List<FixtureViewModel> GetAll();      
         AdminFixtureViewModel GetAdminFixtureViewModel();
+        void SaveFixture(FixtureViewModel item);
+        void SaveTeamSelection(int fixtureId, AdminTeamSelectionViewModel teamSelectionViewModel);
+        
     }
 
     public class FixtureServices : BaseService, IFixtureServices
@@ -83,6 +85,51 @@ namespace ivNet.Club.Services
                     transaction.Commit();
                 }
             }       
+        }
+
+        public void SaveTeamSelection(int fixtureId, AdminTeamSelectionViewModel teamSelectionViewModel)
+        {
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                using (var transaction = session.BeginTransaction())
+                {
+                    var entity = session.CreateCriteria(typeof (TeamSelection))
+                        .List<TeamSelection>().FirstOrDefault(x => x.Id.Equals(teamSelectionViewModel.TeamSelectionId)) ??
+                                 new TeamSelection();
+                                      
+                    if (entity.Players == null)
+                    {
+                        entity.Init();
+                    }
+                    else
+                    {
+                        foreach (var player in entity.Players)
+                        {
+                            entity.RemovePlayer(player);
+                        }
+                    }
+
+                    entity.Fixture = session.CreateCriteria(typeof(Fixture))
+                       .List<Fixture>().FirstOrDefault(x => x.Id.Equals(fixtureId));
+
+                    foreach (var playerViewModel 
+                        in teamSelectionViewModel.TeamSelection.Where(
+                            playerViewModel => !string.IsNullOrEmpty(playerViewModel.PlayerNumber)))
+                    {
+                        entity.AddPlayer(
+                            session.CreateCriteria(typeof (Player))
+                                .List<Player>().FirstOrDefault(x => x.Number.Equals(playerViewModel.PlayerNumber))
+                            );
+                    }
+
+                    entity.IsActive = 1;
+
+                    SetAudit(entity);
+                    session.SaveOrUpdate(entity);
+
+                    transaction.Commit();
+                }
+            }
         }
 
         public AdminFixtureViewModel GetAdminFixtureViewModel()

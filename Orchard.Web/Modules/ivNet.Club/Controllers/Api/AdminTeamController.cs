@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -36,6 +37,33 @@ namespace ivNet.Club.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK,
                 GetTeamAdminViewModel());
         }
+
+
+        [HttpPut]
+        public HttpResponseMessage Put(int id, AdminTeamSelectionViewModel teamSelection)
+        {
+            if (!_orchardServices.Authorizer.Authorize(Permissions.ivManageFixtures))
+                return Request.CreateResponse(HttpStatusCode.Forbidden);
+        
+            try
+            {
+                _fixtureServices.SaveTeamSelection(id, teamSelection);
+
+                return Request.CreateResponse(HttpStatusCode.OK,
+                  "Success");
+            }
+            catch (Exception ex)
+            {
+                var errorId = Guid.NewGuid();
+                Logger.Error(string.Format("{0}: {1}{2} [{3}]", Request.RequestUri, ex.Message,
+                    ex.InnerException == null ? string.Empty : string.Format(" - {0}", ex.InnerException), errorId));
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError,
+                    "An Error has occurred. Report to bp@ivnet.co.uk quoting: " + errorId);
+
+            }
+        }
+
 
         private TeamAdminViewModel GetTeamAdminViewModel()
         {

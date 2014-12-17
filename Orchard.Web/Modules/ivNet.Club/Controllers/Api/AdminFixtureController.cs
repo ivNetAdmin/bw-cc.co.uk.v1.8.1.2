@@ -45,14 +45,14 @@ namespace ivNet.Club.Controllers.Api
         public HttpResponseMessage Put(int id, FixtureViewModel item)
         {
             if (!_orchardServices.Authorizer.Authorize(Permissions.ivManageFixtures))
-                return Request.CreateResponse(HttpStatusCode.Forbidden);
-
-            item.Id = id;
-
-            _fixtureServices.SaveFixture(item);
+                return Request.CreateResponse(HttpStatusCode.Forbidden);           
 
             try
             {
+                item.Id = id;
+
+                _fixtureServices.SaveFixture(item);
+
                 return Request.CreateResponse(HttpStatusCode.OK,
                   "Success");
             }

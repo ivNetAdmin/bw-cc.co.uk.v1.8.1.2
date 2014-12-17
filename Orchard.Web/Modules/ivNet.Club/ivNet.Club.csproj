@@ -142,6 +142,12 @@
     <Content Include="Styles\admin.member.list.all.min.css">
       <DependentUpon>admin.member.list.all.css</DependentUpon>
     </Content>
+    <Content Include="Styles\admin.team.new.css">
+      <DependentUpon>admin.team.new.less</DependentUpon>
+    </Content>
+    <Content Include="Styles\admin.team.new.min.css">
+      <DependentUpon>admin.team.new.css</DependentUpon>
+    </Content>
     <Content Include="Styles\club.base.css">
       <DependentUpon>club.base.less</DependentUpon>
     </Content>
@@ -224,6 +230,9 @@
       <DependentUpon>membership.new.fee.css</DependentUpon>
     </Content>
     <Content Include="Styles\admin.team.new.less" />
+    <Content Include="Styles\admin.team.new.css.map">
+      <DependentUpon>admin.team.new.css</DependentUpon>
+    </Content>
     <None Include="Styles\membership.new.registration.less" />
     <None Include="Styles\new.member.less" />
     <Content Include="Scripts\anjular.js" />
@@ -322,6 +331,7 @@
     </Compile>
     <Compile Include="Entities\Senior.cs" />
     <Compile Include="Entities\Team.cs" />
+    <Compile Include="Entities\TeamSelection.cs" />
     <Compile Include="Enums\HomeAway.cs" />
     <Compile Include="Enums\MemberType.cs" />
     <Compile Include="Enums\RegistrationType.cs" />
@@ -343,6 +353,7 @@
     <Compile Include="ViewModel\AddressViewModel.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ViewModel\AdminTeamSelectionViewModel.cs" />
     <Compile Include="ViewModel\CaptchaViewModel.cs" />
     <Compile Include="ViewModel\AdminFixtureViewModel.cs" />
     <Compile Include="ViewModel\EditMemberViewModel.cs" />
