@@ -326,7 +326,7 @@ namespace ivNet.Club.Helpers
 
         public static FixtureViewModel Map(FixtureViewModel viewModel, Fixture entity)
         {
-            return new FixtureViewModel
+            var fixtureViewModel = new FixtureViewModel
             {
                 Id = entity.Id,
                 Date = entity.Date,
@@ -338,8 +338,11 @@ namespace ivNet.Club.Helpers
                 FixtureType = entity.FixtureType.Name,
                 FixtureTypeId = entity.FixtureType.Id,
                 Location = entity.Location.Postcode,
-                LocationId = entity.Location.Id
+                LocationId = entity.Location.Id,
+                TeamSelectionId = entity.TeamSelection == null ? 0 : entity.TeamSelection.Id
             };
+
+            return fixtureViewModel;
         }
 
         public static PlayerViewModel Map(PlayerViewModel viewModel, Junior entity)
@@ -348,7 +351,7 @@ namespace ivNet.Club.Helpers
             {
                   MemberId = entity.Member.Id,
                   PlayerNumber = entity.Player.Number,
-                  Name = string.Format("{0}, {1}", entity.Member.Surname,entity.Member.Firstname),
+                  Name = entity.Player.Name,
                   Nickname = entity.Member.Nickname,
                   Dob = entity.Dob
             };

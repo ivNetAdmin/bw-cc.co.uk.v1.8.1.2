@@ -32,7 +32,7 @@
                 <li ng-repeat="player in teamSelection track by $index">
                     <div class="col-md-12">
                         <span class="col-md-2">{{$index+1}}</span>
-                        <span class="col-md-10"><input type="text" ng-model="player" typeahead="player.Name for player in players | filter:$viewValue | limitTo:8" class="form-control" typeahead-on-select="onSelect($item, $index, $label)" /></span>
+                        <span class="col-md-10"><input type="text" ng-model="teamSelection[$index].Name" typeahead="player.Name for player in players | filter:$viewValue | limitTo:8" class="form-control" typeahead-on-select="onSelect($item, $index, $label)" /></span>
                     </div>
                 </li>
             </ul>

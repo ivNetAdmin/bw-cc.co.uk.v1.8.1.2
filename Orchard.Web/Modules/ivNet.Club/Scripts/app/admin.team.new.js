@@ -48,6 +48,15 @@ ivNetClubTeam.controller('AdminTeamController', function($scope, team) {
     $scope.$watch("selectedFixtures.length", function(newLength) {
         if (newLength > 0) {
             $scope.selectedFixture = $scope.selectedFixtures[newLength - 1];
+
+            team.query({ Id: $scope.selectedFixture.TeamSelectionId },
+                function(data) {
+                    $scope.teamSelection = data.TeamSelection;
+                },
+                function(error) {
+                    alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
+                });
+        
             $('div.selected-fixture').show();
         } else {
             $('div.selected-fixture').hide();

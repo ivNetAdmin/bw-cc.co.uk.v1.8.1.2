@@ -7,7 +7,7 @@ namespace ivNet.Club.Entities
     public class TeamSelection : BaseEntity
     {
         public virtual Fixture Fixture { get; set; }       
-        public virtual List<Player> Players { get; set; }
+        public virtual IList<Player> Players { get; set; }
 
         public virtual void Init()
         {

@@ -20,7 +20,8 @@ namespace ivNet.Club.Services
         AdminFixtureViewModel GetAdminFixtureViewModel();
         void SaveFixture(FixtureViewModel item);
         void SaveTeamSelection(int fixtureId, AdminTeamSelectionViewModel teamSelectionViewModel);
-        
+
+        TeamSelectionAdminViewModel GetTeamSelectionAdminViewModel(int id);
     }
 
     public class FixtureServices : BaseService, IFixtureServices
@@ -109,27 +110,56 @@ namespace ivNet.Club.Services
                         }
                     }
 
+                    entity.IsActive = 1;
+
+                    SetAudit(entity);                    
+
                     entity.Fixture = session.CreateCriteria(typeof(Fixture))
                        .List<Fixture>().FirstOrDefault(x => x.Id.Equals(fixtureId));
 
-                    foreach (var playerViewModel 
-                        in teamSelectionViewModel.TeamSelection.Where(
-                            playerViewModel => !string.IsNullOrEmpty(playerViewModel.PlayerNumber)))
+                    foreach (var playerViewModel in teamSelectionViewModel.TeamSelection)
                     {
-                        entity.AddPlayer(
-                            session.CreateCriteria(typeof (Player))
-                                .List<Player>().FirstOrDefault(x => x.Number.Equals(playerViewModel.PlayerNumber))
-                            );
+                        if (!string.IsNullOrEmpty(playerViewModel.Name))
+                        {
+                            entity.AddPlayer(
+                                session.CreateCriteria(typeof (Player))
+                                    .List<Player>().FirstOrDefault(x => x.Number.Equals(playerViewModel.PlayerNumber))
+                                );
+                        }
                     }
 
-                    entity.IsActive = 1;
-
-                    SetAudit(entity);
                     session.SaveOrUpdate(entity);
-
+                    if (entity.Fixture != null) entity.Fixture.TeamSelection = entity;
+                    session.SaveOrUpdate(entity.Fixture);
                     transaction.Commit();
                 }
             }
+        }
+
+        public TeamSelectionAdminViewModel GetTeamSelectionAdminViewModel(int id)
+        {           
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                var teamSelectionAdminViewModel = new TeamSelectionAdminViewModel();
+
+                var entity = session.CreateCriteria(typeof(TeamSelection))
+                        .List<TeamSelection>().FirstOrDefault(x => x.Id.Equals(id)) ??
+                                 new TeamSelection();
+
+                foreach (var player in entity.Players)
+                {                    
+                    teamSelectionAdminViewModel.TeamSelection.Add(new PlayerViewModel{Name = player.Name, PlayerNumber = player.Number});
+                }
+
+                var selectionCount = entity.Players.Count;
+
+                for (var i = selectionCount; i < 13; i++)
+                {
+                    teamSelectionAdminViewModel.TeamSelection.Add(new PlayerViewModel());
+                }
+
+                return teamSelectionAdminViewModel;
+            }            
         }
 
         public AdminFixtureViewModel GetAdminFixtureViewModel()

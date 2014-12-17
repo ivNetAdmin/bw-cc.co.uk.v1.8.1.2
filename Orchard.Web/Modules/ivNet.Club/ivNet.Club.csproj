@@ -381,6 +381,7 @@
     <Compile Include="ViewModel\RelatedMemberViewModel.cs" />
     <Compile Include="ViewModel\FixtureItemConfigViewModel.cs" />
     <Compile Include="ViewModel\TeamAdminViewModel.cs" />
+    <Compile Include="ViewModel\TeamSelectionAdminViewModel.cs" />
     <Compile Include="ViewModel\TeamViewModel.cs" />
     <Compile Include="ViewModel\UserViewModel.cs" />
     <Compile Include="ViewModel\MemberViewModel.cs" />

@@ -609,6 +609,8 @@ namespace ivNet.Club.Services
                 junior.Player.Number = junior.Member.Id.ToString(CultureInfo.InvariantCulture)
                     .PadLeft(6, '0');
 
+                junior.Player.Name = string.Format("{0}, {1}", junior.Member.Surname, junior.Member.Firstname);
+
                 if (!activeGaurdians) junior.IsActive = 0;
                 
                 SetAudit(junior.Player);

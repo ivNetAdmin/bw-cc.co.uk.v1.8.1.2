@@ -38,6 +38,14 @@ namespace ivNet.Club.Controllers.Api
                 GetTeamAdminViewModel());
         }
 
+        public HttpResponseMessage Get(int id)
+        {
+            if (!_orchardServices.Authorizer.Authorize(Permissions.ivManageFixtures))
+                return Request.CreateResponse(HttpStatusCode.Forbidden);
+
+            return Request.CreateResponse(HttpStatusCode.OK,
+                GetTeamSelectionAdminViewModel(id));
+        }    
 
         [HttpPut]
         public HttpResponseMessage Put(int id, AdminTeamSelectionViewModel teamSelection)
@@ -64,7 +72,6 @@ namespace ivNet.Club.Controllers.Api
             }
         }
 
-
         private TeamAdminViewModel GetTeamAdminViewModel()
         {
             return new TeamAdminViewModel
@@ -72,6 +79,11 @@ namespace ivNet.Club.Controllers.Api
                 AdminFixtureViewModel = GetFixtures(),
                 Players = GetPlayers()
             };
+        }
+
+        private TeamSelectionAdminViewModel GetTeamSelectionAdminViewModel(int id)
+        {
+            return _fixtureServices.GetTeamSelectionAdminViewModel(id);
         }
 
         private AdminFixtureViewModel GetFixtures()

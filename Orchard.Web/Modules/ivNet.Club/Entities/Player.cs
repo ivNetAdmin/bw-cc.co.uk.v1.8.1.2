@@ -7,6 +7,7 @@ namespace ivNet.Club.Entities
     public class Player : BaseEntity
     {
         public virtual string Number { get; set; }
+        public virtual string Name { get; set; }        
         public virtual string Team { get; set; }
         public virtual Kit Kit { get; set; }
         public virtual IList<Fee> Fees { get; set; }
@@ -26,6 +27,7 @@ namespace ivNet.Club.Entities
         {
             Id(x => x.Id);
             Map(x => x.Number).Not.Nullable().Length(50);
+            Map(x => x.Name).Not.Nullable().Length(50);
             Map(x => x.Team).Nullable().Length(50);
 
             References(x => x.Kit);

@@ -16,5 +16,6 @@ namespace ivNet.Club.ViewModel
         public int FixtureTypeId { get; set; }
         public string Location { get; set; }
         public int LocationId { get; set; }
+        public int TeamSelectionId { get; set; }
     }
 }
