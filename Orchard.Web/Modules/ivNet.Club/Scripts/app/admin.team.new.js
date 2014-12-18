@@ -50,7 +50,7 @@ ivNetClubTeam.controller('AdminTeamController', function($scope, team) {
         if (newLength > 0) {
             $scope.selectedFixture = $scope.selectedFixtures[newLength - 1];
 
-            team.query({ Id: $scope.selectedFixture.TeamSelectionId },
+            team.query({ Id: $scope.selectedFixture.Id },
                 function(data) {
                     $scope.teamSelection = data.TeamSelection;
                 },

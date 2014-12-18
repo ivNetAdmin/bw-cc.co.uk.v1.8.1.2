@@ -107,8 +107,11 @@ namespace ivNet.Club.Services
                     }
                     else
                     {
-                        foreach (var player in teamSelection.Players)
+                        var playerNumbers = teamSelection.Players.Select(player => player.Number).ToList();
+
+                        foreach (var playerNumber in playerNumbers)
                         {
+                            var player = GetPlayer(session, playerNumber);
                             teamSelection.RemovePlayer(player);
                         }
                     }
@@ -134,9 +137,14 @@ namespace ivNet.Club.Services
                     session.SaveOrUpdate(teamSelection.Fixture);
                     var fixtutreId = teamSelection.Fixture == null ? 0 : teamSelection.Fixture.Id;
 
-                    // create player stats -get existing ones or create new ones, delete old ones then save new ones
-                    var playerStatList = teamSelection.Players.Select(player => GetPlayerStat(session, fixtutreId, player.Number)).ToList();
-
+                    // create player stats - get existing ones or create new ones, delete old ones then save new ones
+                    var playerStatList = new List<PlayerStat>();
+                    foreach (var player in teamSelection.Players)
+                    {
+                        var playerStat = GetPlayerStat(session, fixtutreId, player.Number);
+                        playerStatList.Add(playerStat);
+                    }
+                  
                     // delete any existing stats
                     var queryString = string.Format("delete {0} where Fixture.Id = :id", typeof(PlayerStat));
                     session.CreateQuery(queryString)
@@ -145,8 +153,7 @@ namespace ivNet.Club.Services
 
                     // add new stats
                     foreach (var playerStat in playerStatList)
-                    {
-                        playerStat.Fixture = teamSelection.Fixture;
+                    {                      
 
                         SetAudit(playerStat.CricketStat);
                         playerStat.CricketStat.IsActive = 1;
@@ -169,8 +176,10 @@ namespace ivNet.Club.Services
                 var teamSelectionAdminViewModel = new TeamSelectionAdminViewModel();
 
                 var entity = session.CreateCriteria(typeof(TeamSelection))
-                        .List<TeamSelection>().FirstOrDefault(x => x.Id.Equals(id)) ??
+                        .List<TeamSelection>().FirstOrDefault(x => x.Fixture.Id.Equals(id)) ??
                                  new TeamSelection();
+
+                if (entity.Players==null) entity.Init();
 
                 foreach (var player in entity.Players)
                 {                    
@@ -225,6 +234,20 @@ namespace ivNet.Club.Services
 
         }
 
+        private Player GetPlayer(ISession session, string playerNumber)
+        {
+            return session.CreateCriteria(typeof (Player))
+                .List<Player>().FirstOrDefault(x => x.Number.Equals(playerNumber)) ??
+                   new Player();
+        }
+
+        private Fixture GetFixture(ISession session, int fixtureId)
+        {
+            return session.CreateCriteria(typeof(Fixture))
+                .List<Fixture>().FirstOrDefault(x => x.Id.Equals(fixtureId)) ??
+                   new Fixture();
+        }
+
         private PlayerStat GetPlayerStat(ISession session, int fixtureId, string playerNumber)
         {
             var playerStat = session.CreateCriteria(typeof(PlayerStat))
@@ -232,6 +255,8 @@ namespace ivNet.Club.Services
                              new PlayerStat();
 
             if (playerStat.CricketStat == null) playerStat.CricketStat = new CricketStat();
+            if (playerStat.Player == null) playerStat.Player = GetPlayer(session, playerNumber);
+            if (playerStat.Fixture == null) playerStat.Fixture = GetFixture(session, fixtureId);
             return playerStat;
         }
 

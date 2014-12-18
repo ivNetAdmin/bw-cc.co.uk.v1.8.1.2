@@ -143,6 +143,12 @@
     <Content Include="Styles\admin.member.list.all.min.css">
       <DependentUpon>admin.member.list.all.css</DependentUpon>
     </Content>
+    <Content Include="Styles\admin.stats.new.css">
+      <DependentUpon>admin.stats.new.less</DependentUpon>
+    </Content>
+    <Content Include="Styles\admin.stats.new.min.css">
+      <DependentUpon>admin.stats.new.css</DependentUpon>
+    </Content>
     <Content Include="Styles\admin.team.new.css">
       <DependentUpon>admin.team.new.less</DependentUpon>
     </Content>
@@ -235,6 +241,9 @@
       <DependentUpon>admin.team.new.css</DependentUpon>
     </Content>
     <Content Include="Styles\admin.stats.new.less" />
+    <Content Include="Styles\admin.stats.new.css.map">
+      <DependentUpon>admin.stats.new.css</DependentUpon>
+    </Content>
     <None Include="Styles\membership.new.registration.less" />
     <None Include="Styles\new.member.less" />
     <Content Include="Scripts\anjular.js" />
