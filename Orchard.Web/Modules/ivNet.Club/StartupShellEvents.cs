@@ -39,6 +39,8 @@ namespace ivNet.Club
 
             Mapper.CreateMap<FixtureType, FixtureItemConfigViewModel>();
 
+            Mapper.CreateMap<HowOut, FixtureItemConfigViewModel>();
+
             Mapper.CreateMap<Location, FixtureItemConfigViewModel>();                
 
             Mapper.CreateMap<JuniorInfo, MemberViewModel>();                

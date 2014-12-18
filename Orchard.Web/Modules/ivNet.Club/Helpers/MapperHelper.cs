@@ -297,6 +297,28 @@ namespace ivNet.Club.Helpers
 
         #region entities->models
 
+        public static PlayerStatViewModel Map(PlayerStatViewModel viewModel, PlayerStat entity)
+        {
+            var playerStatViewModel = new PlayerStatViewModel
+            {
+                FixtureId = entity.Fixture.Id,
+                PlayerName = entity.Player.Name,
+                PlayerNumber = entity.Player.Number,
+                Captain = entity.CricketStat.Captain,
+                Catches = entity.CricketStat.Catches,
+                Innings = entity.CricketStat.Innings,
+                Keeper = entity.CricketStat.Keeper,
+                Maidens = entity.CricketStat.Maidens,
+                NotOut = entity.CricketStat.NotOut,
+                Overs = entity.CricketStat.Overs,
+                Runs = entity.CricketStat.Runs,
+                RunsConceeded = entity.CricketStat.RunsConceeded,
+                Wickets = entity.CricketStat.Wickets
+            };
+
+            return playerStatViewModel;
+        }
+
         public static LocationViewModel Map(LocationViewModel viewModel, Location entity)
         {
             return new LocationViewModel
@@ -323,6 +345,7 @@ namespace ivNet.Club.Helpers
         {
             return new FixtureTypeViewModel { Id = entity.Id, Name = entity.Name };
         }
+
 
         public static FixtureViewModel Map(FixtureViewModel viewModel, Fixture entity)
         {
@@ -379,6 +402,11 @@ namespace ivNet.Club.Helpers
         }
 
         public static FixtureItemConfigViewModel Map(FixtureItemConfigViewModel viewModel, FixtureType entity)
+        {
+            return Mapper.Map(entity, viewModel);
+        }
+
+        public static FixtureItemConfigViewModel Map(FixtureItemConfigViewModel viewModel, HowOut entity)
         {
             return Mapper.Map(entity, viewModel);
         }
@@ -578,6 +606,8 @@ namespace ivNet.Club.Helpers
         //    viewModel.IsActive = entity.IsActive;
         //    return viewModel;
         //}
-        #endregion       
+        #endregion
+
+        
     }
 }

@@ -1,17 +1,12 @@
 ﻿
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-using ivNet.Club.Enums;
-using ivNet.Club.Helpers;
 using ivNet.Club.Services;
 using ivNet.Club.ViewModel;
 using Orchard;
 using Orchard.Logging;
+using System;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
 
 namespace ivNet.Club.Controllers.Api
 {

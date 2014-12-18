@@ -28,6 +28,7 @@ namespace ivNet.Club.Services
         IEnumerable<Team> GetTeams();
         IEnumerable<Opponent> GetOpponents();        
         IEnumerable<FixtureType> GetFixtureTypes();
+        IEnumerable<HowOut> GetHowOut();
         IEnumerable<Location> GetLocations();
         IEnumerable<Location> GetLocationsByOpponentId(int id);
         void SaveTeam(int id, string name, byte isActive);
@@ -348,6 +349,16 @@ namespace ivNet.Club.Services
             }
 
         }
+
+        public IEnumerable<HowOut> GetHowOut()
+        {
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                return session.CreateCriteria(typeof(HowOut))
+                    .List<HowOut>().OrderBy(x => x.Name);
+            }
+
+        }        
 
         public IEnumerable<Location> GetLocations()
         {

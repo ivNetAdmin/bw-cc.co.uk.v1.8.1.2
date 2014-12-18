@@ -9,7 +9,7 @@ namespace ivNet.Club.Entities
         public virtual Team Team { get; set; }
         public virtual Opponent Opponent { get; set; }        
         public virtual Location Location { get; set; }
-        public virtual FixtureType FixtureType { get; set; }
+        public virtual FixtureType FixtureType { get; set; }        
         public virtual TeamSelection TeamSelection { get; set; }        
 
         public virtual DateTime Date { get; set; }

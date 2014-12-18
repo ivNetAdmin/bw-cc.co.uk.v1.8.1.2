@@ -24,6 +24,7 @@ namespace ivNet.Club.Services
 
         TeamSelectionAdminViewModel GetTeamSelectionAdminViewModel(int id);
         FixtureListViewModel GetFixtureViewModel();
+        AdminFixtureStatViewModel GetAdminFixtureStatViewModel(int fixtureId);
     }
 
     public class FixtureServices : BaseService, IFixtureServices
@@ -138,13 +139,9 @@ namespace ivNet.Club.Services
                     var fixtutreId = teamSelection.Fixture == null ? 0 : teamSelection.Fixture.Id;
 
                     // create player stats - get existing ones or create new ones, delete old ones then save new ones
-                    var playerStatList = new List<PlayerStat>();
-                    foreach (var player in teamSelection.Players)
-                    {
-                        var playerStat = GetPlayerStat(session, fixtutreId, player.Number);
-                        playerStatList.Add(playerStat);
-                    }
-                  
+                    var playerStatList = 
+                        teamSelection.Players.Select(player => GetPlayerStat(session, fixtutreId, player.Number)).ToList();
+
                     // delete any existing stats
                     var queryString = string.Format("delete {0} where Fixture.Id = :id", typeof(PlayerStat));
                     session.CreateQuery(queryString)
@@ -202,6 +199,24 @@ namespace ivNet.Club.Services
             return new FixtureListViewModel { Fixtures = GetAll() };
         }
 
+        public AdminFixtureStatViewModel GetAdminFixtureStatViewModel(int fixtureId)
+        {
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                var adminFixtureStatViewModel = new AdminFixtureStatViewModel();
+
+                var playerStatList = session.CreateCriteria(typeof(PlayerStat))
+                    .List<PlayerStat>().Where(x=>x.Fixture.Id.Equals(fixtureId)).ToList();
+
+                foreach (var playerStat in playerStatList)
+                {
+                    adminFixtureStatViewModel.PlayerStats.Add(MapperHelper.Map(new PlayerStatViewModel(), playerStat));
+                }
+
+                return adminFixtureStatViewModel;
+            }            
+        }
+
         public AdminFixtureViewModel GetAdminFixtureViewModel()
         {
             var adminFixtureViewModel = new AdminFixtureViewModel { Fixtures = GetAll() };
@@ -256,7 +271,8 @@ namespace ivNet.Club.Services
 
             if (playerStat.CricketStat == null) playerStat.CricketStat = new CricketStat();
             if (playerStat.Player == null) playerStat.Player = GetPlayer(session, playerNumber);
-            if (playerStat.Fixture == null) playerStat.Fixture = GetFixture(session, fixtureId);
+            if (playerStat.Fixture == null) playerStat.Fixture = GetFixture(session, fixtureId);            
+
             return playerStat;
         }
 

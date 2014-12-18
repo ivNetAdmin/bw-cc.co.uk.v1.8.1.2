@@ -17,6 +17,7 @@ ivNetClubConfiguration.controller('ConfigurationController', function ($scope, c
             $scope.opponents = data.Opponents;
             $scope.fixturetypes = data.FixtureTypes;
             $scope.locations = data.Locations;
+            $scope.howout = data.HowOut;
         },
         function(error) {
             alert(error.data.Message + ' [' + error.data.MessageDetail + ']');

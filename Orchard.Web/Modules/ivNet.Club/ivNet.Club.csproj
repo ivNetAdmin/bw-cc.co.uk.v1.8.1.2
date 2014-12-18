@@ -87,6 +87,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Microsoft.AspNet.WebApi.Client.5.1.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Http, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -294,9 +295,11 @@
     <Content Include="Views\Admin\Fixture\Team\Index.cshtml" />
     <Content Include="Views\Admin\Fixture\Stats\Index.cshtml" />
     <Content Include="Views\Admin\Fixture\_Shared\_List.cshtml" />
+    <Content Include="Views\Admin\Fixture\Stats\_PlayerStats.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\Api\AdminFixtureController.cs" />
+    <Compile Include="Controllers\Api\AdminFixtureStatController.cs" />
     <Compile Include="Controllers\Api\AdminMemberController.cs" />
     <Compile Include="Controllers\AdminSiteController.cs" />
     <Compile Include="Controllers\Api\AdminTeamController.cs" />
@@ -318,6 +321,7 @@
     <Compile Include="Entities\CricketStat.cs" />
     <Compile Include="Entities\Fixture.cs" />
     <Compile Include="Entities\FixtureType.cs" />
+    <Compile Include="Entities\HowOut.cs" />
     <Compile Include="Entities\Location.cs" />
     <Compile Include="Entities\Member.cs">
       <SubType>Code</SubType>
@@ -369,6 +373,7 @@
     <Compile Include="ViewModel\AddressViewModel.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ViewModel\AdminFixtureStatViewModel.cs" />
     <Compile Include="ViewModel\AdminTeamSelectionViewModel.cs" />
     <Compile Include="ViewModel\CaptchaViewModel.cs" />
     <Compile Include="ViewModel\AdminFixtureViewModel.cs" />
@@ -390,6 +395,7 @@
     <Compile Include="ViewModel\LocationViewModel.cs" />
     <Compile Include="ViewModel\NewMemberViewModel.cs" />
     <Compile Include="ViewModel\OpponentViewModel.cs" />
+    <Compile Include="ViewModel\PlayerStatViewModel.cs" />
     <Compile Include="ViewModel\PlayerViewModel.cs" />
     <Compile Include="ViewModel\RecaptchaViewModel.cs" />
     <Compile Include="ViewModel\RegisteredGuardianViewModel.cs" />

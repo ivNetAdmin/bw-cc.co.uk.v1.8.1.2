@@ -18,7 +18,14 @@ ivNetClubStats.factory('fixture', function ($resource) {
     });
 });
 
-ivNetClubStats.controller('AdminStatsController', function ($scope, fixture) {
+ivNetClubStats.factory('fixturestat', function ($resource) {
+    return $resource('/api/club/admin/adminfixturestat/:id', null,
+    {
+        'query': { method: 'GET', isArray: false },
+    });
+});
+
+ivNetClubStats.controller('AdminStatsController', function ($scope, fixture, fixturestat) {
     
     init();
 
@@ -40,7 +47,16 @@ ivNetClubStats.controller('AdminStatsController', function ($scope, fixture) {
         if (newLength > 0) {
             $scope.selectedFixture = $scope.selectedFixtures[newLength - 1];           
 
+            fixturestat.query({ Id: $scope.selectedFixture.Id },
+              function (data) {
+                  $scope.playerStats = data.PlayerStats;
+              },
+              function (error) {
+                  alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
+              });
+
             $('div.selected-fixture').show();
+            $('div.fixture-list').hide();
         } else {
             $('div.selected-fixture').hide();
             $scope.selectedFixture = null;

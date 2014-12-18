@@ -118,6 +118,12 @@ namespace ivNet.Club.Controllers.Api
                 select MapperHelper.Map(listItemViewModel, listItem)).ToList();
             fixtureConfigurationViewModel.FixtureTypes.Insert(0, new FixtureItemConfigViewModel());
 
+            var howOutItemList = _configurationServices.GetHowOut();
+            fixtureConfigurationViewModel.HowOut = (from listItem in howOutItemList
+                let listItemViewModel = new FixtureItemConfigViewModel()
+                select MapperHelper.Map(listItemViewModel, listItem)).ToList();
+            fixtureConfigurationViewModel.HowOut.Insert(0, new FixtureItemConfigViewModel());
+
             var locationItemList = _configurationServices.GetLocations();
             fixtureConfigurationViewModel.Locations = (from listItem in locationItemList
                 let listItemViewModel = new FixtureItemConfigViewModel()
