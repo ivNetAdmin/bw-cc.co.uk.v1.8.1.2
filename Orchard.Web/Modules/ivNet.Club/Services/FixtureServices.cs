@@ -224,7 +224,8 @@ namespace ivNet.Club.Services
             var teamList = _configurationServices.GetTeams();
             var opponentList = _configurationServices.GetOpponents();
             var locationList = _configurationServices.GetLocations();
-            var fixtureTypeList = _configurationServices.GetFixtureTypes();            
+            var fixtureTypeList = _configurationServices.GetFixtureTypes();
+            //var howOutList = _configurationServices.GetHowOut();            
 
             adminFixtureViewModel.Teams = (from listItem in teamList
                                            let listItemViewModel = new TeamViewModel()
@@ -241,6 +242,10 @@ namespace ivNet.Club.Services
             adminFixtureViewModel.FixtureTypes = (from listItem in fixtureTypeList
                                                   let listItemViewModel = new FixtureTypeViewModel()
                                                   select MapperHelper.Map(listItemViewModel, listItem)).ToList();
+
+            //adminFixtureViewModel.HowOut = (from listItem in howOutList
+            //                                      let listItemViewModel = new HowOutViewModel()
+            //                                      select MapperHelper.Map(listItemViewModel, listItem)).ToList();
 
             adminFixtureViewModel.HomeOrAway.Add(HomeAway.Home.ToString());
             adminFixtureViewModel.HomeOrAway.Add(HomeAway.Away.ToString());

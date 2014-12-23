@@ -387,6 +387,7 @@
     <Compile Include="ViewModel\GuardianViewModel.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ViewModel\HowOutViewModel.cs" />
     <Compile Include="ViewModel\JuniorGuardianViewModel.cs" />
     <Compile Include="ViewModel\JuniorNewRegistrationFeeViewModel.cs" />
     <Compile Include="ViewModel\JuniorVettingViewModel.cs" />

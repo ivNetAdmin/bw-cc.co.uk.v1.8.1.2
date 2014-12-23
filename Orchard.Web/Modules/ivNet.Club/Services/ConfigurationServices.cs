@@ -34,8 +34,8 @@ namespace ivNet.Club.Services
         void SaveTeam(int id, string name, byte isActive);
         void SaveOpponent(int id, string name, byte isActive);
         void SaveFixtureType(int id, string name, byte isActive);
-        void SaveLocation(int id, string name, string postcode, decimal latitude, decimal longitude, byte isActive);
-        
+        void SaveHowOut(int id, string name, byte isActive);
+        void SaveLocation(int id, string name, string postcode, decimal latitude, decimal longitude, byte isActive);        
     }
 
     public class ConfigurationServices : BaseService, IConfigurationServices
@@ -124,6 +124,26 @@ namespace ivNet.Club.Services
                 {
                     var entity = session.CreateCriteria(typeof(FixtureType))
                         .List<FixtureType>().FirstOrDefault(x => x.Id.Equals(id)) ?? new FixtureType();
+
+                    entity.Name = name;
+                    entity.IsActive = isActive;
+
+                    SetAudit(entity);
+                    session.SaveOrUpdate(entity);
+
+                    transaction.Commit();
+                }
+            }        
+        }
+
+        public void SaveHowOut(int id, string name, byte isActive)
+        {
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                using (var transaction = session.BeginTransaction())
+                {
+                    var entity = session.CreateCriteria(typeof(HowOut))
+                        .List<HowOut>().FirstOrDefault(x => x.Id.Equals(id)) ?? new HowOut();
 
                     entity.Name = name;
                     entity.IsActive = isActive;

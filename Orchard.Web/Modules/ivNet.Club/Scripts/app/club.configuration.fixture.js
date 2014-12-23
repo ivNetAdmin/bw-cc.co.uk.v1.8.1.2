@@ -43,6 +43,7 @@ ivNetClubConfiguration.controller('ConfigurationController', function ($scope, c
             case "teamconfig":
             case "opponentconfig":
             case "fixturetypeconfig":
+            case "howoutconfig":
                 configData = { Type: type, Name: item.Name, IsActive: item.IsActive };            
                 break;
             case "locationconfig":

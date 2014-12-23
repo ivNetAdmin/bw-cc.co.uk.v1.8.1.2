@@ -75,6 +75,9 @@ namespace ivNet.Club.Controllers.Api
                     case "fixturetypeconfig":
                         _configurationServices.SaveFixtureType(id, item.Name, item.IsActive);
                         break;
+                    case "howoutconfig":
+                        _configurationServices.SaveHowOut(id, item.Name, item.IsActive);
+                        break;
                     case "locationconfig":
                         _configurationServices.SaveLocation(id, item.Name, item.Postcode, item.Latitude, item.Longitude, item.IsActive);
                         break;

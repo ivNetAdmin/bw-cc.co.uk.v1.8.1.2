@@ -318,7 +318,7 @@ namespace ivNet.Club.Helpers
 
             return playerStatViewModel;
         }
-
+     
         public static LocationViewModel Map(LocationViewModel viewModel, Location entity)
         {
             return new LocationViewModel
@@ -329,6 +329,11 @@ namespace ivNet.Club.Helpers
                 Longitude = entity.Longitude,
                 Latitude = entity.Latitude
             };
+        }
+
+        public static HowOutViewModel Map(HowOutViewModel viewModel, HowOut entity)
+        {
+            return new HowOutViewModel { Id = entity.Id, Name = entity.Name };
         }
 
         public static TeamViewModel Map(TeamViewModel viewModel, Team entity)
@@ -390,7 +395,7 @@ namespace ivNet.Club.Helpers
                 Nickname = entity.Member.Nickname
             };
         }
-
+     
         public static FixtureItemConfigViewModel Map(FixtureItemConfigViewModel viewModel, Team entity)
         {
             return Mapper.Map(entity, viewModel);
@@ -606,8 +611,6 @@ namespace ivNet.Club.Helpers
         //    viewModel.IsActive = entity.IsActive;
         //    return viewModel;
         //}
-        #endregion
-
-        
+        #endregion        
     }
 }
