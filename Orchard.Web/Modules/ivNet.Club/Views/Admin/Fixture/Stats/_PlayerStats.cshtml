@@ -1,9 +1,9 @@
-﻿<table tr-ng-grid='' items='playerStats'>
+﻿<table tr-ng-grid='' items='playerStats' id='playerStatsTable'>
     <thead>
         <tr>
             <th field-name="PlayerName" display-name="Name" enable-filtering="false" enable-sorting="false"></th>            
             <th field-name="Runs" display-name="R" enable-filtering="false" enable-sorting="false"></th>
-            <th field-name="NotOut" display-name="N/O" enable-filtering="false" enable-sorting="false"></th>
+            <th field-name="HowOut" display-name="H/O" enable-filtering="false" enable-sorting="false"></th>
             <th field-name="Overs" display-name="O" enable-filtering="false" enable-sorting="false"></th>
             <th field-name="Wickets" display-name="W" enable-filtering="false" enable-sorting="false"></th>
             <th field-name="RunsConceeded" display-name="R/C" enable-filtering="false" enable-sorting="false"></th>
@@ -12,4 +12,35 @@
             <th field-name="Keeper" display-name="Keeper" enable-filtering="false" enable-sorting="false"></th>
         </tr>
     </thead>
+    <tbody>
+        <tr>
+            <td field-name="Runs">
+                <input type="text" ng-model="gridDisplayItem.Runs" class="form-control" />
+            </td>
+            <td field-name="HowOut">    
+                <select style="width:120px" ng-model="gridDisplayItem.HowOut" ng-options="out.Name for out in howout track by out.Id"><option value="">Select</option></select>             
+            </td>
+            <td field-name="Overs">
+                <input type="text" ng-model="gridDisplayItem.Overs" class="form-control" />
+            </td>
+            <td field-name="Wickets">
+                <input type="text" ng-model="gridDisplayItem.Wickets" class="form-control" />
+            </td>
+            <td field-name="RunsConceeded">
+                <input type="text" ng-model="gridDisplayItem.RunsConceeded" class="form-control" />
+            </td>
+            <td field-name="Catches">
+                <input type="text" ng-model="gridDisplayItem.Catches" class="form-control" />
+            </td>
+            <td field-name="Captain">
+                <input type="text" ng-model="gridDisplayItem.Captain" class="form-control" />
+            </td>
+            <td field-name="Keeper">
+                <input type="text" ng-model="gridDisplayItem.Keeper" class="form-control" />
+            </td>
+        </tr>
+    </tbody>
 </table>
+<button class="btn btn-default" ng-click="saveItem()">
+    <span>Save</span>
+</button>

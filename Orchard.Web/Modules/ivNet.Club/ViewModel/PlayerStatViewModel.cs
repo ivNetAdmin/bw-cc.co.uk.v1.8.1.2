@@ -23,7 +23,7 @@ namespace ivNet.Club.ViewModel
         [DataMember]
         public int Maidens { get; set; }
         [DataMember]
-        public int NotOut { get; set; }
+        public int HowOut { get; set; }
         [DataMember]
         public int Overs { get; set; }
         [DataMember]
@@ -42,7 +42,7 @@ namespace ivNet.Club.ViewModel
         [DataMember]
         public string BattingAverage
         {
-            get { return (Innings - NotOut) == 0 ? "0" : string.Format("{0:.##}", Runs/(Innings - NotOut)); }
+            get { return (Innings - HowOut) == 0 ? "0" : string.Format("{0:.##}", Runs/(Innings - HowOut)); }
             private set { }
         }
 

@@ -7,7 +7,7 @@ namespace ivNet.Club.Entities
     {
         public virtual int Innings { get; set; }
         public virtual int Runs { get; set; }
-        public virtual int NotOut { get; set; }
+        public virtual int HowOut { get; set; }
 
         public virtual int Overs { get; set; }
         public virtual int Maidens { get; set; }
@@ -29,7 +29,7 @@ namespace ivNet.Club.Entities
 
             Map(x => x.Innings);
             Map(x => x.Runs);
-            Map(x => x.NotOut);
+            Map(x => x.HowOut);
 
             Map(x => x.Overs);
             Map(x => x.Maidens);

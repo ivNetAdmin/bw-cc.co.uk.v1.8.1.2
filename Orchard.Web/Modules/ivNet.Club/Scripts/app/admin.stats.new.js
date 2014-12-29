@@ -50,6 +50,7 @@ ivNetClubStats.controller('AdminStatsController', function ($scope, fixture, fix
             fixturestat.query({ Id: $scope.selectedFixture.Id },
               function (data) {
                   $scope.playerStats = data.PlayerStats;
+                  $scope.howout = data.HowOut;
               },
               function (error) {
                   alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
@@ -63,4 +64,16 @@ ivNetClubStats.controller('AdminStatsController', function ($scope, fixture, fix
         }
     });
 
+    $scope.saveItem = function () {
+        
+        $('table#playerStatsTable tr').each(function (index, tr) {
+
+            if ($(tr).find('td[field-name="PlayerName"]').length > 0) {            
+                $scope.playerStats[index - 2].Runs = $(tr).find('td[field-name="Runs"]').find('input').val();
+                $scope.playerStats[index - 2].HowOut = $(tr).find('td[field-name="HowOut"]').find('select').val();
+            }
+        });
+
+        alert(JSON.stringify($scope.playerStats));
+    };
 });

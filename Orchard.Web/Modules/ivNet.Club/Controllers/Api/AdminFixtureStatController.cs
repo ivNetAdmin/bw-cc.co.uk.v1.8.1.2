@@ -41,6 +41,7 @@ namespace ivNet.Club.Controllers.Api
                 fixtureStat.PlayerStats.Add(playerStat);
             }
 
+            fixtureStat.HowOut = _configurationServices.GetHowOut();
             return Request.CreateResponse(HttpStatusCode.OK,
                 fixtureStat);
         }
