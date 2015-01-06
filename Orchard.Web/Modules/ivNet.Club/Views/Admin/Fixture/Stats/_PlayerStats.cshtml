@@ -1,15 +1,16 @@
-﻿<table tr-ng-grid='' items='playerStats' id='playerStatsTable'>
+﻿<table tr-ng-grid='' items='playerStats' id='playerStatsTable' enable-filtering="false" enable-sorting="false">
     <thead>
         <tr>
-            <th field-name="PlayerName" display-name="Name" enable-filtering="false" enable-sorting="false"></th>            
-            <th field-name="Runs" display-name="R" enable-filtering="false" enable-sorting="false"></th>
-            <th field-name="HowOut" display-name="H/O" enable-filtering="false" enable-sorting="false"></th>
-            <th field-name="Overs" display-name="O" enable-filtering="false" enable-sorting="false"></th>
-            <th field-name="Wickets" display-name="W" enable-filtering="false" enable-sorting="false"></th>
-            <th field-name="RunsConceeded" display-name="R/C" enable-filtering="false" enable-sorting="false"></th>
-            <th field-name="Catches" display-name="C" enable-filtering="false" enable-sorting="false"></th>
-            <th field-name="Captain" display-name="Captain" enable-filtering="false" enable-sorting="false"></th>
-            <th field-name="Keeper" display-name="Keeper" enable-filtering="false" enable-sorting="false"></th>
+            <th field-name="PlayerName" display-name="Name"></th>
+            <th field-name="Runs" display-name="R"></th>
+            <th field-name="HowOut" display-name="H/O"></th>
+            <th field-name="Overs" display-name="O"></th>
+            <th field-name="Maidens" display-name="M"></th>
+            <th field-name="Wickets" display-name="W"></th>
+            <th field-name="RunsConceeded" display-name="R/C"></th>
+            <th field-name="Catches" display-name="C"></th>
+            <th field-name="Captain" display-name="Captain"></th>
+            <th field-name="Keeper" display-name="Keeper"></th>
         </tr>
     </thead>
     <tbody>
@@ -17,11 +18,14 @@
             <td field-name="Runs">
                 <input type="text" ng-model="gridDisplayItem.Runs" class="form-control" />
             </td>
-            <td field-name="HowOut">    
-                <select style="width:120px" ng-model="gridDisplayItem.HowOut" ng-options="out.Name for out in howout track by out.Id"><option value="">Select</option></select>             
+            <td field-name="HowOut">
+                <select style="width:120px" ng-model="gridDisplayItem.HowOut" ng-options="out.Name for out in howout track by out.Id"><option value="">Select</option></select>
             </td>
             <td field-name="Overs">
                 <input type="text" ng-model="gridDisplayItem.Overs" class="form-control" />
+            </td>
+            <td field-name="Maidens">
+                <input type="text" ng-model="gridDisplayItem.Maidens" class="form-control" />
             </td>
             <td field-name="Wickets">
                 <input type="text" ng-model="gridDisplayItem.Wickets" class="form-control" />
@@ -33,10 +37,10 @@
                 <input type="text" ng-model="gridDisplayItem.Catches" class="form-control" />
             </td>
             <td field-name="Captain">
-                <input type="text" ng-model="gridDisplayItem.Captain" class="form-control" />
+                <select style="width:80px" ng-model="gridDisplayItem.Captain" ng-options="yn.Text for yn in yesno track by yn.Id"><option value="">No</option></select>
             </td>
             <td field-name="Keeper">
-                <input type="text" ng-model="gridDisplayItem.Keeper" class="form-control" />
+                <select style="width:80px" ng-model="gridDisplayItem.Keeper" ng-options="yn.Text for yn in yesno track by yn.Id"><option value="">No</option></select>
             </td>
         </tr>
     </tbody>

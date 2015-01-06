@@ -13,6 +13,9 @@ namespace ivNet.Club
         {
 
             #region models->entities
+
+            Mapper.CreateMap<PlayerStatViewModel, CricketStat>();
+
             Mapper.CreateMap<MemberViewModel, Member>();
             Mapper.CreateMap<MemberViewModel, ContactDetail>();
             Mapper.CreateMap<MemberViewModel, AddressDetail>();

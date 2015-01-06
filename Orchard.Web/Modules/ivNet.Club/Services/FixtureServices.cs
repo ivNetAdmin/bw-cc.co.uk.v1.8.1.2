@@ -19,12 +19,15 @@ namespace ivNet.Club.Services
     {
         List<FixtureViewModel> GetAll();      
         AdminFixtureViewModel GetAdminFixtureViewModel();
+        
         void SaveFixture(FixtureViewModel item);
         void SaveTeamSelection(int fixtureId, AdminTeamSelectionViewModel teamSelectionViewModel);
+        void SaveFixtureStats(List<PlayerStatViewModel> stats);
 
         TeamSelectionAdminViewModel GetTeamSelectionAdminViewModel(int id);
         FixtureListViewModel GetFixtureViewModel();
         AdminFixtureStatViewModel GetAdminFixtureStatViewModel(int fixtureId);
+        
     }
 
     public class FixtureServices : BaseService, IFixtureServices
@@ -165,7 +168,37 @@ namespace ivNet.Club.Services
                 }
             }
         }
-     
+
+        public void SaveFixtureStats(List<PlayerStatViewModel> stats)
+        {
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                using (var transaction = session.BeginTransaction())
+                {
+                    foreach (var playerStatViewModel in stats)
+                    {
+                        var playerStat = session.CreateCriteria(typeof(PlayerStat))
+                       .List<PlayerStat>().FirstOrDefault(x => x.Fixture.Id.Equals(playerStatViewModel.FixtureId)
+                           && x.Player.Number.Equals(playerStatViewModel.PlayerNumber)) ??
+                                new PlayerStat();
+
+                        // map player stat and save
+                        MapperHelper.Map(playerStat.CricketStat, playerStatViewModel);
+                        if (playerStat.CricketStat != null)
+                        {
+                            SetAudit(playerStat.CricketStat);
+                            session.SaveOrUpdate(playerStat.CricketStat);
+
+                            SetAudit(playerStat);
+                            session.SaveOrUpdate(playerStat);
+                        }
+                    }
+
+                    transaction.Commit();
+                }
+            }
+        }
+
         public TeamSelectionAdminViewModel GetTeamSelectionAdminViewModel(int id)
         {           
             using (var session = NHibernateHelper.OpenSession())

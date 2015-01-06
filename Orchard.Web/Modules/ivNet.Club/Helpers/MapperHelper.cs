@@ -124,6 +124,11 @@ namespace ivNet.Club.Helpers
 
         #region models->entities
 
+        public static CricketStat Map(CricketStat entity, PlayerStatViewModel viewModel)
+        {
+            return Mapper.Map(viewModel, entity);
+        }
+
         public static JuniorInfo Map(JuniorInfo entity, MemberViewModel viewModel)
         {
             return Mapper.Map(viewModel, entity);
@@ -611,6 +616,6 @@ namespace ivNet.Club.Helpers
         //    viewModel.IsActive = entity.IsActive;
         //    return viewModel;
         //}
-        #endregion        
+        #endregion      
     }
 }

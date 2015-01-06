@@ -1,10 +1,14 @@
 ﻿
+using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using ivNet.Club.Entities;
 using ivNet.Club.Services;
 using ivNet.Club.ViewModel;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Orchard;
 using Orchard.Logging;
 
@@ -42,9 +46,38 @@ namespace ivNet.Club.Controllers.Api
             }
 
             fixtureStat.HowOut = _configurationServices.GetHowOut();
+            fixtureStat.YesNo = new List<ListItemViewModel>
+            {                
+                new ListItemViewModel {Id = 1, Text = "Yes"}
+            };
+
             return Request.CreateResponse(HttpStatusCode.OK,
                 fixtureStat);
         }
+
+        [HttpPut]
+        public HttpResponseMessage Put(int id, Newtonsoft.Json.Linq.JArray item)
+        {
+            try
+            {
+
+                var stats = item.ToObject<List<PlayerStatViewModel>>();
+                _fixtureServices.SaveFixtureStats(stats);
+
+                return Request.CreateResponse(HttpStatusCode.OK,
+                    "Success");
+            }
+            catch (Exception ex)
+            {
+                var errorId = Guid.NewGuid();
+                Logger.Error(string.Format("{0}: {1}{2} [{3}]", Request.RequestUri, ex.Message,
+                    ex.InnerException == null ? string.Empty : string.Format(" - {0}", ex.InnerException), errorId));
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError,
+                    "An Error has occurred. Report to bp@ivnet.co.uk quoting: " + errorId);
+            }
+        }
+
 
         private AdminFixtureStatViewModel GetFixtureStat(int fixtureId)
         {

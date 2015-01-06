@@ -22,6 +22,7 @@ ivNetClubStats.factory('fixturestat', function ($resource) {
     return $resource('/api/club/admin/adminfixturestat/:id', null,
     {
         'query': { method: 'GET', isArray: false },
+        'update': { method: 'PUT' }
     });
 });
 
@@ -51,6 +52,7 @@ ivNetClubStats.controller('AdminStatsController', function ($scope, fixture, fix
               function (data) {
                   $scope.playerStats = data.PlayerStats;
                   $scope.howout = data.HowOut;
+                  $scope.yesno = data.YesNo;
               },
               function (error) {
                   alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
@@ -64,16 +66,34 @@ ivNetClubStats.controller('AdminStatsController', function ($scope, fixture, fix
         }
     });
 
-    $scope.saveItem = function () {
-        
-        $('table#playerStatsTable tr').each(function (index, tr) {
+    $scope.saveItem = function() {
 
-            if ($(tr).find('td[field-name="PlayerName"]').length > 0) {            
+        $('table#playerStatsTable tr').each(function(index, tr) {
+
+            if ($(tr).find('td[field-name="PlayerName"]').length > 0) {
                 $scope.playerStats[index - 2].Runs = $(tr).find('td[field-name="Runs"]').find('input').val();
                 $scope.playerStats[index - 2].HowOut = $(tr).find('td[field-name="HowOut"]').find('select').val();
+                $scope.playerStats[index - 2].Overs = $(tr).find('td[field-name="Overs"]').find('input').val();
+                $scope.playerStats[index - 2].Maidens = $(tr).find('td[field-name="Maidens"]').find('input').val();
+                $scope.playerStats[index - 2].Wickets = $(tr).find('td[field-name="Wickets"]').find('input').val();
+                $scope.playerStats[index - 2].RunsConceeded = $(tr).find('td[field-name="RunsConceeded"]').find('input').val();
+                $scope.playerStats[index - 2].Catches = $(tr).find('td[field-name="Catches"]').find('input').val();
+                $scope.playerStats[index - 2].Captain = $(tr).find('td[field-name="Captain"]').find('select').val();
+                $scope.playerStats[index - 2].Keeper = $(tr).find('td[field-name="Keeper"]').find('select').val();
+
+                if ($scope.playerStats[index - 2].HowOut == "") $scope.playerStats[index - 2].HowOut = "0";
+                if ($scope.playerStats[index - 2].Captain == "") $scope.playerStats[index - 2].Captain = "0";
+                if ($scope.playerStats[index - 2].Keeper == "") $scope.playerStats[index - 2].Keeper = "0";
             }
         });
 
-        alert(JSON.stringify($scope.playerStats));
+        fixturestat.update({ id: $scope.selectedFixture.Id }, JSON.stringify($scope.playerStats),
+            function() {
+                window.location.reload();
+            },
+            function(error) {
+                alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
+            }
+        );
     };
 });
