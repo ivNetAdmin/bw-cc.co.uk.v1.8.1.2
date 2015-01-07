@@ -86,7 +86,7 @@ ivNetClubStats.controller('AdminStatsController', function ($scope, fixture, fix
                 if ($scope.playerStats[index - 2].Keeper == "") $scope.playerStats[index - 2].Keeper = "0";
             }
         });
-
+        //alert(JSON.stringify($scope.playerStats));
         fixturestat.update({ id: $scope.selectedFixture.Id }, JSON.stringify($scope.playerStats),
             function() {
                 window.location.reload();

@@ -314,7 +314,7 @@ namespace ivNet.Club.Helpers
                 Innings = entity.CricketStat.Innings,
                 Keeper = entity.CricketStat.Keeper,
                 Maidens = entity.CricketStat.Maidens,
-                HowOut = entity.CricketStat.HowOut,
+                HowOut = entity.CricketStat.HowOut.ToString(),
                 Overs = entity.CricketStat.Overs,
                 Runs = entity.CricketStat.Runs,
                 RunsConceeded = entity.CricketStat.RunsConceeded,

@@ -182,10 +182,10 @@ namespace ivNet.Club.Services
                            && x.Player.Number.Equals(playerStatViewModel.PlayerNumber)) ??
                                 new PlayerStat();
 
-                        // map player stat and save
-                        MapperHelper.Map(playerStat.CricketStat, playerStatViewModel);
+                        // map player stat and save                        
                         if (playerStat.CricketStat != null)
                         {
+                            MapperHelper.Map(playerStat.CricketStat, playerStatViewModel);
                             SetAudit(playerStat.CricketStat);
                             session.SaveOrUpdate(playerStat.CricketStat);
 

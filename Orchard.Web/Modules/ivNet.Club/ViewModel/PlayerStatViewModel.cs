@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Runtime.Serialization;
 
 namespace ivNet.Club.ViewModel
@@ -23,7 +24,7 @@ namespace ivNet.Club.ViewModel
         [DataMember]
         public int Maidens { get; set; }
         [DataMember]
-        public int HowOut { get; set; }
+        public string HowOut { get; set; }
         [DataMember]
         public int Overs { get; set; }
         [DataMember]
@@ -42,7 +43,7 @@ namespace ivNet.Club.ViewModel
         [DataMember]
         public string BattingAverage
         {
-            get { return (Innings - HowOut) == 0 ? "0" : string.Format("{0:.##}", Runs/(Innings - HowOut)); }
+            get { return (Innings - Convert.ToUInt32(HowOut)) == 0 ? "0" : string.Format("{0:.##}", Runs / (Innings - Convert.ToUInt32(HowOut))); }
             private set { }
         }
 
