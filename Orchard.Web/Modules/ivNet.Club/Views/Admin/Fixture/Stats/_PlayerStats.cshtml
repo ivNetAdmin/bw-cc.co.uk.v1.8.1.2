@@ -19,12 +19,12 @@
                 <input type="text" ng-model="gridDisplayItem.Runs" class="form-control" />
             </td>
             <td field-name="HowOut">
-                @*<select style="width:120px" ng-model="gridDisplayItem.HowOut" ng-options="out.Name for out in howout track by out.Id"><option value="">Select</option></select>*@
-                <select style="width:120px" ng-model="gridDisplayItem.HowOut">
-                    <option ng-selected="{{hw.Id == gridDisplayItem.HowOut}}"
-                            ng-repeat="hw in howout"
-                            value="{{hw.Id}}">
-                        {{hw.Name}}
+                @*<select style="width:115px" ng-model="gridDisplayItem.HowOut" ng-options="out.Name for out in howout track by out.Id"><option value="">Select</option></select>*@
+                <select style="width:115px" ng-model="gridDisplayItem.HowOut">
+                    <option ng-selected="{{opt.Id == gridDisplayItem.HowOut}}"
+                            ng-repeat="opt in howout"
+                            value="{{opt.Id}}">
+                        {{opt.Name}}
                     </option>
                 </select>
             </td>
@@ -44,10 +44,24 @@
                 <input type="text" ng-model="gridDisplayItem.Catches" class="form-control" />
             </td>
             <td field-name="Captain">
-                <select style="width:80px" ng-model="gridDisplayItem.Captain" ng-options="yn.Text for yn in yesno track by yn.Id"><option value="">No</option></select>
+                @*<select style="width:80px" ng-model="gridDisplayItem.Captain" ng-options="yn.Text for yn in yesno track by yn.Id"><option value="">No</option></select>*@
+                <select style="width:80px" ng-model="gridDisplayItem.Captain">
+                    <option ng-selected="{{opt.Id == gridDisplayItem.Captain}}"
+                            ng-repeat="opt in yesno"
+                            value="{{opt.Id}}">
+                        {{opt.Text}}
+                    </option>
+                </select>
             </td>
             <td field-name="Keeper">
-                <select style="width:80px" ng-model="gridDisplayItem.Keeper" ng-options="yn.Text for yn in yesno track by yn.Id"><option value="">No</option></select>
+                @*<select style="width:80px" ng-model="gridDisplayItem.Keeper" ng-options="yn.Text for yn in yesno track by yn.Id"><option value="">No</option></select>*@
+                <select style="width:80px" ng-model="gridDisplayItem.Keeper">
+                    <option ng-selected="{{opt.Id == gridDisplayItem.Keeper}}"
+                            ng-repeat="opt in yesno"
+                            value="{{opt.Id}}">
+                        {{opt.Text}}
+                    </option>
+                </select>
             </td>
         </tr>
     </tbody>

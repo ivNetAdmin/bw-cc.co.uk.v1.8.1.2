@@ -14,13 +14,13 @@ namespace ivNet.Club.ViewModel
         [DataMember]
         public string PlayerNumber { get; set; }
         [DataMember]
-        public int Captain { get; set; }
+        public string Captain { get; set; }
         [DataMember]
         public int Catches { get; set; }
         [DataMember]
         public int Innings { get; set; }
         [DataMember]
-        public int Keeper { get; set; }
+        public string Keeper { get; set; }
         [DataMember]
         public int Maidens { get; set; }
         [DataMember]

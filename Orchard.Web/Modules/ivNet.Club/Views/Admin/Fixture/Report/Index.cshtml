@@ -1,0 +1,26 @@
+﻿@{
+    Script.Require("AngularJS-Resource");
+    Script.Require("UI.Bootstrap");
+    Script.Require("Admin.Stats.New");
+
+    Style.Require("Admin.Stats.New");
+    Style.Require("trNgGrid");
+}
+
+<div data-ng-app="Admin.Stats.New.App" class="col-md-12">
+    <div data-ng-controller="AdminStatsController">
+        <div class="col-md-9 fixture-list">
+            @Html.Partial("Admin/Fixture/_Shared/_List")
+        </div>
+
+        @*<div class="col-md-9 selected-fixture">
+            @Html.Partial("Admin/Fixture/Stats/_PlayerStats")
+        </div>*@
+
+        <div class="col-md-3 selected-fixture">
+            <div class="col-md-12">
+                {{selectedFixture.Date | date:"dd/MM/yyyy"}}<br />{{selectedFixture.Team}} v {{selectedFixture.Opponent}}<br />{{selectedFixture.HomeAway}}, {{selectedFixture.FixtureType}}
+            </div>
+        </div>
+    </div>
+</div>

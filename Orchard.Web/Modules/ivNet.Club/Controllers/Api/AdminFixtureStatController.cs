@@ -48,6 +48,7 @@ namespace ivNet.Club.Controllers.Api
             fixtureStat.HowOut = _configurationServices.GetHowOut();
             fixtureStat.YesNo = new List<ListItemViewModel>
             {                
+                new ListItemViewModel {Id = 0, Text = "No"},
                 new ListItemViewModel {Id = 1, Text = "Yes"}
             };
 

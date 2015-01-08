@@ -64,6 +64,12 @@ namespace ivNet.Club.Controllers
         {
             return View("Admin/Fixture/Stats/Index");
         }
+
+         [Themed]
+        public ActionResult RecordMatchReport()
+        {
+            return View("Admin/Fixture/Report/Index");
+        }        
         
         #endregion
 

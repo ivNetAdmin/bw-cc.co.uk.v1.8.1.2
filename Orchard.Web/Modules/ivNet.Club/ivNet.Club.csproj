@@ -296,6 +296,7 @@
     <Content Include="Views\Admin\Fixture\Stats\Index.cshtml" />
     <Content Include="Views\Admin\Fixture\_Shared\_List.cshtml" />
     <Content Include="Views\Admin\Fixture\Stats\_PlayerStats.cshtml" />
+    <Content Include="Views\Admin\Fixture\Report\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\Api\AdminFixtureController.cs" />
