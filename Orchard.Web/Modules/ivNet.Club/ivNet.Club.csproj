@@ -598,6 +598,7 @@
     <Compile Include="Entities\ConfigurationItem.cs" />
     <Compile Include="Entities\CricketStat.cs" />
     <Compile Include="Entities\Fixture.cs" />
+    <Compile Include="Entities\FixtureResult.cs" />
     <Compile Include="Entities\FixtureType.cs" />
     <Compile Include="Entities\HowOut.cs" />
     <Compile Include="Entities\Location.cs" />
@@ -660,6 +661,7 @@
     <Compile Include="ViewModel\ContactViewModel.cs" />
     <Compile Include="ViewModel\FixtureConfigViewModel.cs" />
     <Compile Include="ViewModel\FixtureListViewModel.cs" />
+    <Compile Include="ViewModel\FixtureResultViewModel.cs" />
     <Compile Include="ViewModel\FixtureTypeViewModel.cs" />
     <Compile Include="ViewModel\FixtureViewModel.cs" />
     <Compile Include="ViewModel\GuardianViewModel.cs">

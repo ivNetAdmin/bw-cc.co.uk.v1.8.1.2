@@ -9,10 +9,12 @@ namespace ivNet.Club.Entities
         public virtual Team Team { get; set; }
         public virtual Opponent Opponent { get; set; }        
         public virtual Location Location { get; set; }
-        public virtual FixtureType FixtureType { get; set; }        
+        public virtual FixtureType FixtureType { get; set; }
+        public virtual FixtureResult FixtureResult { get; set; } 
         public virtual TeamSelection TeamSelection { get; set; }        
 
         public virtual DateTime Date { get; set; }
+        public virtual string Score { get; set; }
         public virtual string HomeAway { get; set; }
         public virtual string FixtureKey { get; set; }
     }
@@ -31,9 +33,11 @@ namespace ivNet.Club.Entities
             References(x => x.Opponent);
             References(x => x.Location);
             References(x => x.FixtureType);
+            References(x => x.FixtureResult);
             References(x => x.TeamSelection);
 
             Map(x => x.Date);
+            Map(x => x.Score).Length(255);  
             Map(x => x.HomeAway).Length(10);  
 
             Map(x => x.IsActive);

@@ -356,6 +356,10 @@ namespace ivNet.Club.Helpers
             return new FixtureTypeViewModel { Id = entity.Id, Name = entity.Name };
         }
 
+        public static FixtureResultViewModel Map(FixtureResultViewModel viewModel, FixtureType entity)
+        {
+            return new FixtureResultViewModel { Id = entity.Id, Name = entity.Name };
+        }
 
         public static FixtureViewModel Map(FixtureViewModel viewModel, Fixture entity)
         {
@@ -412,6 +416,11 @@ namespace ivNet.Club.Helpers
         }
 
         public static FixtureItemConfigViewModel Map(FixtureItemConfigViewModel viewModel, FixtureType entity)
+        {
+            return Mapper.Map(entity, viewModel);
+        }
+
+        public static FixtureItemConfigViewModel Map(FixtureItemConfigViewModel viewModel, FixtureResult entity)
         {
             return Mapper.Map(entity, viewModel);
         }

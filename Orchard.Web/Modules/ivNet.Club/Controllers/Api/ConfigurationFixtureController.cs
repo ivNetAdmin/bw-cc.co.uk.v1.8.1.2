@@ -75,6 +75,9 @@ namespace ivNet.Club.Controllers.Api
                     case "fixturetypeconfig":
                         _configurationServices.SaveFixtureType(id, item.Name, item.IsActive);
                         break;
+                    case "fixtureresultconfig":
+                        _configurationServices.SaveFixtureResult(id, item.Name, item.IsActive);
+                        break;
                     case "howoutconfig":
                         _configurationServices.SaveHowOut(id, item.Name, item.IsActive);
                         break;
@@ -120,6 +123,12 @@ namespace ivNet.Club.Controllers.Api
                 let listItemViewModel = new FixtureItemConfigViewModel()
                 select MapperHelper.Map(listItemViewModel, listItem)).ToList();
             fixtureConfigurationViewModel.FixtureTypes.Insert(0, new FixtureItemConfigViewModel());
+
+            var fixtureResultItemList = _configurationServices.GetFixtureResults();
+            fixtureConfigurationViewModel.FixtureResults = (from listItem in fixtureResultItemList
+                                                          let listItemViewModel = new FixtureItemConfigViewModel()
+                                                          select MapperHelper.Map(listItemViewModel, listItem)).ToList();
+            fixtureConfigurationViewModel.FixtureResults.Insert(0, new FixtureItemConfigViewModel());
 
             var howOutItemList = _configurationServices.GetHowOut();
             fixtureConfigurationViewModel.HowOut = (from listItem in howOutItemList

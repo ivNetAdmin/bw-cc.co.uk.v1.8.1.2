@@ -16,6 +16,7 @@ ivNetClubConfiguration.controller('ConfigurationController', function ($scope, c
             $scope.teams = data.Teams;
             $scope.opponents = data.Opponents;
             $scope.fixturetypes = data.FixtureTypes;
+            $scope.fixtureresults = data.FixtureResults;
             $scope.locations = data.Locations;
             $scope.howout = data.HowOut;
         },
@@ -43,6 +44,7 @@ ivNetClubConfiguration.controller('ConfigurationController', function ($scope, c
             case "teamconfig":
             case "opponentconfig":
             case "fixturetypeconfig":
+            case "fixtureresultconfig":
             case "howoutconfig":
                 configData = { Type: type, Name: item.Name, IsActive: item.IsActive };            
                 break;

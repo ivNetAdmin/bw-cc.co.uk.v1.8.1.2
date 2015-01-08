@@ -28,12 +28,14 @@ namespace ivNet.Club.Services
         IEnumerable<Team> GetTeams();
         IEnumerable<Opponent> GetOpponents();        
         IEnumerable<FixtureType> GetFixtureTypes();
+        IEnumerable<FixtureResult> GetFixtureResults();
         IEnumerable<HowOut> GetHowOut();
         IEnumerable<Location> GetLocations();
         IEnumerable<Location> GetLocationsByOpponentId(int id);
         void SaveTeam(int id, string name, byte isActive);
         void SaveOpponent(int id, string name, byte isActive);
         void SaveFixtureType(int id, string name, byte isActive);
+        void SaveFixtureResult(int id, string name, byte isActive);
         void SaveHowOut(int id, string name, byte isActive);
         void SaveLocation(int id, string name, string postcode, decimal latitude, decimal longitude, byte isActive);        
     }
@@ -134,6 +136,26 @@ namespace ivNet.Club.Services
                     transaction.Commit();
                 }
             }        
+        }
+
+        public void SaveFixtureResult(int id, string name, byte isActive)
+        {
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                using (var transaction = session.BeginTransaction())
+                {
+                    var entity = session.CreateCriteria(typeof(FixtureResult))
+                        .List<FixtureResult>().FirstOrDefault(x => x.Id.Equals(id)) ?? new FixtureResult();
+
+                    entity.Name = name;
+                    entity.IsActive = isActive;
+
+                    SetAudit(entity);
+                    session.SaveOrUpdate(entity);
+
+                    transaction.Commit();
+                }
+            }
         }
 
         public void SaveHowOut(int id, string name, byte isActive)
@@ -366,6 +388,16 @@ namespace ivNet.Club.Services
             {
                 return session.CreateCriteria(typeof(FixtureType))
                     .List<FixtureType>().OrderBy(x => x.Name);
+            }
+
+        }
+
+        public IEnumerable<FixtureResult> GetFixtureResults()
+        {
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                return session.CreateCriteria(typeof(FixtureResult))
+                    .List<FixtureResult>().OrderBy(x => x.Name);
             }
 
         }

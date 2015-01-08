@@ -42,6 +42,8 @@ namespace ivNet.Club
 
             Mapper.CreateMap<FixtureType, FixtureItemConfigViewModel>();
 
+            Mapper.CreateMap<FixtureResult, FixtureItemConfigViewModel>();
+
             Mapper.CreateMap<HowOut, FixtureItemConfigViewModel>();
 
             Mapper.CreateMap<Location, FixtureItemConfigViewModel>();                
