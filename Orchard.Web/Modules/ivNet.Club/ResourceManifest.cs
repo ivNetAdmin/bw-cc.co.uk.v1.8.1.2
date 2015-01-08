@@ -27,6 +27,7 @@ namespace ivNet.Club
             manifest.DefineStyle("Club.Configuration.General").SetUrl("club.configuration.general.min.css").SetDependencies("Club.Base");
             manifest.DefineStyle("Club.Configuration.Fixture").SetUrl("club.configuration.fixture.min.css").SetDependencies("Club.Base");
 
+            manifest.DefineScript("CKEditor").SetUrl("ckeditor/ckeditor.js").SetDependencies("jQueryUI");
 
             manifest.DefineScript("Membership.New.Fee").SetUrl("app/membership.new.fee.js").SetVersion("1.0").SetDependencies("trNgGrid");
             manifest.DefineScript("Membership.New.Registration").SetUrl("app/membership.new.registration.js").SetVersion("1.0").SetDependencies("AngularJS");

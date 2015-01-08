@@ -32,6 +32,8 @@ ivNetClubReport.controller('AdminReportController', function ($scope, fixture, f
 
 	function init() {
 
+	    CKEDITOR.replace('MatchReport');
+
 		fixture.query(
             function (data) {
             	$scope.data = data;
@@ -66,28 +68,34 @@ ivNetClubReport.controller('AdminReportController', function ($scope, fixture, f
 		}
 	});
 
-	//$scope.saveItem = function () {
+	$scope.saveItem = function () {
+	    var data = CKEDITOR.instances.MatchReport.getData();
 
-	//	$('table#playerStatsTable tr').each(function (index, tr) {
+	    alert(data);
+	};
 
-	//		if ($(tr).find('td[field-name="PlayerName"]').length > 0) {
-	//			$scope.playerStats[index - 2].Runs = $(tr).find('td[field-name="Runs"]').find('input').val();
-	//			$scope.playerStats[index - 2].HowOut = $(tr).find('td[field-name="HowOut"]').find('select').val();
-	//			$scope.playerStats[index - 2].Overs = $(tr).find('td[field-name="Overs"]').find('input').val();
-	//			$scope.playerStats[index - 2].Maidens = $(tr).find('td[field-name="Maidens"]').find('input').val();
-	//			$scope.playerStats[index - 2].Wickets = $(tr).find('td[field-name="Wickets"]').find('input').val();
-	//			$scope.playerStats[index - 2].RunsConceeded = $(tr).find('td[field-name="RunsConceeded"]').find('input').val();
-	//			$scope.playerStats[index - 2].Catches = $(tr).find('td[field-name="Catches"]').find('input').val();
-	//			$scope.playerStats[index - 2].Captain = $(tr).find('td[field-name="Captain"]').find('select').val();
-	//			$scope.playerStats[index - 2].Keeper = $(tr).find('td[field-name="Keeper"]').find('select').val();
+    //$scope.saveItem = function () {
 
-	//			if ($scope.playerStats[index - 2].HowOut == "") $scope.playerStats[index - 2].HowOut = "0";
-	//			if ($scope.playerStats[index - 2].Captain == "") $scope.playerStats[index - 2].Captain = "0";
-	//			if ($scope.playerStats[index - 2].Keeper == "") $scope.playerStats[index - 2].Keeper = "0";
-	//		}
-	//	});
-	//	//alert(JSON.stringify($scope.playerStats));
-	//	fixturestat.update({ id: $scope.selectedFixture.Id }, JSON.stringify($scope.playerStats),
+    //	$('table#playerStatsTable tr').each(function (index, tr) {
+
+    //		if ($(tr).find('td[field-name="PlayerName"]').length > 0) {
+    //			$scope.playerStats[index - 2].Runs = $(tr).find('td[field-name="Runs"]').find('input').val();
+    //			$scope.playerStats[index - 2].HowOut = $(tr).find('td[field-name="HowOut"]').find('select').val();
+    //			$scope.playerStats[index - 2].Overs = $(tr).find('td[field-name="Overs"]').find('input').val();
+    //			$scope.playerStats[index - 2].Maidens = $(tr).find('td[field-name="Maidens"]').find('input').val();
+    //			$scope.playerStats[index - 2].Wickets = $(tr).find('td[field-name="Wickets"]').find('input').val();
+    //			$scope.playerStats[index - 2].RunsConceeded = $(tr).find('td[field-name="RunsConceeded"]').find('input').val();
+    //			$scope.playerStats[index - 2].Catches = $(tr).find('td[field-name="Catches"]').find('input').val();
+    //			$scope.playerStats[index - 2].Captain = $(tr).find('td[field-name="Captain"]').find('select').val();
+    //			$scope.playerStats[index - 2].Keeper = $(tr).find('td[field-name="Keeper"]').find('select').val();
+
+    //			if ($scope.playerStats[index - 2].HowOut == "") $scope.playerStats[index - 2].HowOut = "0";
+    //			if ($scope.playerStats[index - 2].Captain == "") $scope.playerStats[index - 2].Captain = "0";
+    //			if ($scope.playerStats[index - 2].Keeper == "") $scope.playerStats[index - 2].Keeper = "0";
+    //		}
+    //	});
+    //	//alert(JSON.stringify($scope.playerStats));
+    //	fixturestat.update({ id: $scope.selectedFixture.Id }, JSON.stringify($scope.playerStats),
     //        function () {
     //        	window.location.reload();
     //        },
@@ -95,5 +103,5 @@ ivNetClubReport.controller('AdminReportController', function ($scope, fixture, f
     //        	alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
     //        }
     //    );
-	//};
+    //};
 });
