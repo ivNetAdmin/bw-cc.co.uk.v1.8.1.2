@@ -122,6 +122,7 @@
     <Content Include="Scripts\app\admin.fixture.new.js" />
     <Content Include="Scripts\app\admin.member.list.all.js" />
     <Content Include="Scripts\app\admin.member.activate.js" />
+    <Content Include="Scripts\app\admin.report.new.js" />
     <Content Include="Scripts\app\admin.stats.new.js" />
     <Content Include="Scripts\app\admin.team.new.js" />
     <Content Include="Scripts\app\club.configuration.fixture.js" />
@@ -297,6 +298,7 @@
     <Content Include="Views\Admin\Fixture\_Shared\_List.cshtml" />
     <Content Include="Views\Admin\Fixture\Stats\_PlayerStats.cshtml" />
     <Content Include="Views\Admin\Fixture\Report\Index.cshtml" />
+    <Content Include="Views\Admin\Fixture\Report\_MatchReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\Api\AdminFixtureController.cs" />

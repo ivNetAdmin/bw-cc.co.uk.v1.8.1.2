@@ -53,7 +53,7 @@ namespace ivNet.Club
         //    };
         //}
         //#endregion 
-        
+
         //#region admin configuration
         //private IEnumerable<RouteDescriptor> AdminConfigurationRoutes()
         //{
@@ -213,7 +213,7 @@ namespace ivNet.Club
         //                },
         //                new MvcRouteHandler())
         //        },
-                
+
         //        new RouteDescriptor
         //        {
         //            Route = new Route(
