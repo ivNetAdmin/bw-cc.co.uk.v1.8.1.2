@@ -6,6 +6,7 @@ namespace ivNet.Club.Entities
     public class MatchReport : BaseEntity
     {
         public virtual string Report { get; set; }
+        public virtual Fixture Fixture { get; set; }
     }
 
     public class MatchReportMap : ClassMap<MatchReport>
@@ -14,7 +15,9 @@ namespace ivNet.Club.Entities
         {
             Id(x => x.Id);
 
-            Map(x => x.Report).CustomSqlType("NVARCHAR(Max)");
+            Map(x => x.Report).CustomSqlType("ntext");
+
+            References(x => x.Fixture);
 
             Map(x => x.IsActive);
 

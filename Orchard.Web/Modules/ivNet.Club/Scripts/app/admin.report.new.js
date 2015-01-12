@@ -51,25 +51,19 @@ ivNetClubReport.controller('AdminReportController', function ($scope, fixture, f
 			$scope.selectedFixture = $scope.selectedFixtures[newLength - 1];
 
 		    fixturereport.query({ Id: $scope.selectedFixture.Id },
-		        function(data) {
-
+		        function (data) {
+		            $scope.score = data.FixtureScore;
+		            $scope.fixtureResult = data.FixtureResult;
+		            $scope.results = data.Results;
+		            CKEDITOR.instances.MatchReport.setData(data.MatchReport);
 		        },
 		        function(error) {
 		            alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
 		        });
-
-			//fixturestat.query({ Id: $scope.selectedFixture.Id },
-            //  function (data) {
-            //  	$scope.playerStats = data.PlayerStats;
-            //  	$scope.howout = data.HowOut;
-            //  	$scope.yesno = data.YesNo;
-            //  },
-            //  function (error) {
-            //  	alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
-            //  });
-
+		
 			$('div.selected-fixture').show();
 			$('div.fixture-list').hide();
+
 		} else {
 			$('div.selected-fixture').hide();
 			$scope.selectedFixture = null;
@@ -77,9 +71,17 @@ ivNetClubReport.controller('AdminReportController', function ($scope, fixture, f
 	});
 
 	$scope.saveItem = function () {
-	    var data = CKEDITOR.instances.MatchReport.getData();
+	    var report = CKEDITOR.instances.MatchReport.getData();
 
-	    alert(data);
+	    fixturereport.update({ id: $scope.selectedFixture.Id }, { FixtureScore: $scope.score, FixtureResult: $scope.fixtureResult, MatchReport: report },
+           function () {
+               window.location.reload();
+           },
+           function (error) {
+               alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
+           }
+       );
+
 	};
 
     //$scope.saveItem = function () {

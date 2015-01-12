@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -31,16 +32,43 @@ namespace ivNet.Club.Controllers.Api
             if (!_orchardServices.Authorizer.Authorize(Permissions.ivManageFixtures))
                 return Request.CreateResponse(HttpStatusCode.Forbidden);
 
-            var fixtureStat = GetFixtureReport(id);
-          
+            var fixtureReport = GetFixtureReport(id);          
 
             return Request.CreateResponse(HttpStatusCode.OK,
-                fixtureStat);
+                fixtureReport);
         }
 
         private AdminFixtureReportViewModel GetFixtureReport(int fixtureId)
         {
             return _fixtureServices.GetAdminFixtureReportViewModel(fixtureId);
         }
+
+
+        [HttpPut]
+        public HttpResponseMessage Put(int id, AdminFixtureReportViewModel matchReport)
+        {
+            if (!_orchardServices.Authorizer.Authorize(Permissions.ivManageFixtures))
+                return Request.CreateResponse(HttpStatusCode.Forbidden);
+
+            try
+            {
+                _fixtureServices.SaveMatchReport(id, matchReport);
+
+                return Request.CreateResponse(HttpStatusCode.OK,
+                  "Success");
+            }
+            catch (Exception ex)
+            {
+                var errorId = Guid.NewGuid();
+                Logger.Error(string.Format("{0}: {1}{2} [{3}]", Request.RequestUri, ex.Message,
+                    ex.InnerException == null ? string.Empty : string.Format(" - {0}", ex.InnerException), errorId));
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError,
+                    "An Error has occurred. Report to bp@ivnet.co.uk quoting: " + errorId);
+
+            }
+        }
+
+      
     }
 }

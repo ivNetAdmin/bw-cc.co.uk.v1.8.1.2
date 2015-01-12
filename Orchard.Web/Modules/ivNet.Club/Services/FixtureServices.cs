@@ -23,12 +23,14 @@ namespace ivNet.Club.Services
         void SaveFixture(FixtureViewModel item);
         void SaveTeamSelection(int fixtureId, AdminTeamSelectionViewModel teamSelectionViewModel);
         void SaveFixtureStats(List<PlayerStatViewModel> stats);
+        void SaveMatchReport(int id, AdminFixtureReportViewModel matchReport);
 
         TeamSelectionAdminViewModel GetTeamSelectionAdminViewModel(int id);
         FixtureListViewModel GetFixtureViewModel();
         AdminFixtureStatViewModel GetAdminFixtureStatViewModel(int fixtureId);
 
         AdminFixtureReportViewModel GetAdminFixtureReportViewModel(int fixtureId);
+        
     }
 
     public class FixtureServices : BaseService, IFixtureServices
@@ -93,6 +95,43 @@ namespace ivNet.Club.Services
                     transaction.Commit();
                 }
             }       
+        }
+
+        public void SaveMatchReport(int id, AdminFixtureReportViewModel viewModel)
+        {
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                using (var transaction = session.BeginTransaction())
+                {
+                    var fixture = session.CreateCriteria(typeof(Fixture))
+                       .List<Fixture>().FirstOrDefault(x => x.Id.Equals(id));
+
+                    if (fixture != null)
+                    {
+                        if (fixture.MatchReport == null)
+                        {
+                            fixture.MatchReport=new MatchReport();
+                        }
+
+                        fixture.MatchReport.Report = viewModel.MatchReport;
+
+                        fixture.MatchReport.IsActive = 1;
+                        SetAudit(fixture.MatchReport);
+                        session.SaveOrUpdate(fixture.MatchReport);
+
+                        var fixtureResult = session.CreateCriteria(typeof(FixtureResult))
+                       .List<FixtureResult>().FirstOrDefault(x => x.Id.Equals(viewModel.FixtureResult));
+
+                        fixture.Score = viewModel.FixtureScore;
+                        fixture.FixtureResult = fixtureResult;
+
+                        SetAudit(fixture);
+                        session.SaveOrUpdate(fixture);
+                    }
+
+                    transaction.Commit();
+                }
+            }
         }
 
         public void SaveTeamSelection(int fixtureId, AdminTeamSelectionViewModel teamSelectionViewModel)
@@ -198,7 +237,7 @@ namespace ivNet.Club.Services
                     transaction.Commit();
                 }
             }
-        }
+        }    
 
         public TeamSelectionAdminViewModel GetTeamSelectionAdminViewModel(int id)
         {           
@@ -255,9 +294,15 @@ namespace ivNet.Club.Services
         {
             using (var session = NHibernateHelper.OpenSession())
             {
-                var adminFixtureStatViewModel = new AdminFixtureReportViewModel();
-
-               
+                var fixture = GetFixture(session, fixtureId);
+                var adminFixtureStatViewModel = new AdminFixtureReportViewModel
+                {
+                    FixtureId = fixtureId,
+                    Results = _configurationServices.GetFixtureResults(),
+                    FixtureResult = fixture.FixtureResult == null ? 0 : fixture.FixtureResult.Id,
+                    FixtureScore = fixture.Score,
+                    MatchReport = fixture.MatchReport == null ? string.Empty : fixture.MatchReport.Report,                    
+                };
 
                 return adminFixtureStatViewModel;
             }

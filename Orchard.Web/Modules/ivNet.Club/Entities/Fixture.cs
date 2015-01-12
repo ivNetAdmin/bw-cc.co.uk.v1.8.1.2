@@ -10,7 +10,8 @@ namespace ivNet.Club.Entities
         public virtual Opponent Opponent { get; set; }        
         public virtual Location Location { get; set; }
         public virtual FixtureType FixtureType { get; set; }
-        public virtual FixtureResult FixtureResult { get; set; } 
+        public virtual FixtureResult FixtureResult { get; set; }
+        public virtual MatchReport MatchReport { get; set; } 
         public virtual TeamSelection TeamSelection { get; set; }        
 
         public virtual DateTime Date { get; set; }
@@ -35,6 +36,7 @@ namespace ivNet.Club.Entities
             References(x => x.FixtureType);
             References(x => x.FixtureResult);
             References(x => x.TeamSelection);
+            References(x => x.MatchReport);            
 
             Map(x => x.Date);
             Map(x => x.Score).Length(255);  

@@ -23,11 +23,18 @@
                 {{selectedFixture.Date | date:"dd/MM/yyyy"}}<br />{{selectedFixture.Team}} v {{selectedFixture.Opponent}}<br />{{selectedFixture.HomeAway}}, {{selectedFixture.FixtureType}}
             </div>
             <div class="col-md-12">
-                <select><option/></select>
+                Result:
+                <select style="width:115px" ng-model="fixtureResult">
+                    <option ng-selected="{{opt.Id == fixtureResult}}"
+                            ng-repeat="opt in results"
+                            value="{{opt.Id}}">
+                        {{opt.Name}}
+                    </option>
+                </select>
             </div>
             <div class="col-md-12">
                 Score:
-                <textarea></textarea>
+                <textarea ng-model="score"></textarea>
             </div>
         </div>
     </div>
