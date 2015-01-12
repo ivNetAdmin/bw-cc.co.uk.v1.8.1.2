@@ -50,6 +50,14 @@ ivNetClubReport.controller('AdminReportController', function ($scope, fixture, f
 		if (newLength > 0) {
 			$scope.selectedFixture = $scope.selectedFixtures[newLength - 1];
 
+		    fixturereport.query({ Id: $scope.selectedFixture.Id },
+		        function(data) {
+
+		        },
+		        function(error) {
+		            alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
+		        });
+
 			//fixturestat.query({ Id: $scope.selectedFixture.Id },
             //  function (data) {
             //  	$scope.playerStats = data.PlayerStats;

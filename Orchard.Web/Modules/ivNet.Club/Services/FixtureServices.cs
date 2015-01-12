@@ -27,7 +27,8 @@ namespace ivNet.Club.Services
         TeamSelectionAdminViewModel GetTeamSelectionAdminViewModel(int id);
         FixtureListViewModel GetFixtureViewModel();
         AdminFixtureStatViewModel GetAdminFixtureStatViewModel(int fixtureId);
-        
+
+        AdminFixtureReportViewModel GetAdminFixtureReportViewModel(int fixtureId);
     }
 
     public class FixtureServices : BaseService, IFixtureServices
@@ -248,6 +249,18 @@ namespace ivNet.Club.Services
 
                 return adminFixtureStatViewModel;
             }            
+        }
+
+        public AdminFixtureReportViewModel GetAdminFixtureReportViewModel(int fixtureId)
+        {
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                var adminFixtureStatViewModel = new AdminFixtureReportViewModel();
+
+               
+
+                return adminFixtureStatViewModel;
+            }
         }
 
         public AdminFixtureViewModel GetAdminFixtureViewModel()

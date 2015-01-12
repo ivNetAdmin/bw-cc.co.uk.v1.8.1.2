@@ -577,6 +577,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\Api\AdminFixtureController.cs" />
+    <Compile Include="Controllers\Api\AdminFixtureReportController.cs" />
     <Compile Include="Controllers\Api\AdminFixtureStatController.cs" />
     <Compile Include="Controllers\Api\AdminMemberController.cs" />
     <Compile Include="Controllers\AdminSiteController.cs" />
@@ -602,6 +603,7 @@
     <Compile Include="Entities\FixtureType.cs" />
     <Compile Include="Entities\HowOut.cs" />
     <Compile Include="Entities\Location.cs" />
+    <Compile Include="Entities\MatchReport.cs" />
     <Compile Include="Entities\Member.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -652,6 +654,7 @@
     <Compile Include="ViewModel\AddressViewModel.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ViewModel\AdminFixtureReportViewModel.cs" />
     <Compile Include="ViewModel\AdminFixtureStatViewModel.cs" />
     <Compile Include="ViewModel\AdminTeamSelectionViewModel.cs" />
     <Compile Include="ViewModel\CaptchaViewModel.cs" />
