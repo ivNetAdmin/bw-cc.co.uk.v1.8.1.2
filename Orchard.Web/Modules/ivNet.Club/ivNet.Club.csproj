@@ -110,8 +110,22 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\bwcc_addresses.sql" />
+    <Content Include="App_Data\bwcc_contacttypes.sql" />
+    <Content Include="App_Data\bwcc_fixtures.sql" />
+    <Content Include="App_Data\bwcc_fixturestats.sql" />
+    <Content Include="App_Data\bwcc_howout.sql" />
+    <Content Include="App_Data\bwcc_matchreports.sql" />
+    <Content Include="App_Data\bwcc_members %2810%29.sql" />
+    <Content Include="App_Data\bwcc_member_address.sql" />
+    <Content Include="App_Data\bwcc_member_contact.sql" />
+    <Content Include="App_Data\bwcc_member_payments.sql" />
+    <Content Include="App_Data\bwcc_opposition.sql" />
+    <Content Include="App_Data\bwcc_resulttype.sql" />
+    <Content Include="App_Data\bwcc_teams.sql" />
     <Content Include="App_Data\config.data.sqlce" />
     <Content Include="App_Data\ivNet.Club - Copy.sdf" />
+    <Content Include="App_Data\ivNet.Club.kpe.sdf" />
     <Content Include="App_Data\ivNet.Club.sdf" />
     <Content Include="Scripts\app\admin.member.list.contacts.js" />
     <Content Include="Scripts\ckeditor\adapters\jquery.js" />
@@ -607,6 +621,7 @@
     <Compile Include="Controllers\AdminSiteController.cs" />
     <Compile Include="Controllers\Api\AdminTeamController.cs" />
     <Compile Include="Controllers\Api\CaptchaController.cs" />
+    <Compile Include="Controllers\Api\BWCCDataLoadController.cs" />
     <Compile Include="Controllers\Api\ConfigurationClubController.cs" />
     <Compile Include="Controllers\Api\ConfigurationFixtureController.cs" />
     <Compile Include="Controllers\Api\FeeController.cs" />
@@ -664,12 +679,14 @@
     <Compile Include="Helpers\MapperHelper.cs" />
     <Compile Include="Helpers\NHibernateHelper.cs" />
     <Compile Include="Helpers\CustomStringHelper.cs" />
+    <Compile Include="Helpers\NhTransformers.cs" />
     <Compile Include="Migrations.cs" />
     <Compile Include="Permissions.cs" />
     <Compile Include="ResourceManifest.cs" />
     <Compile Include="Routes.cs" />
     <Compile Include="RoutesApi.cs" />
     <Compile Include="Services\BaseService.cs" />
+    <Compile Include="Services\BWCCDataServices.cs" />
     <Compile Include="Services\FixtureServices.cs" />
     <Compile Include="Services\MemberServices.cs" />
     <Compile Include="Services\ConfigurationServices.cs" />
