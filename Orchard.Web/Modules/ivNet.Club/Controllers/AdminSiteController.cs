@@ -43,6 +43,16 @@ namespace ivNet.Club.Controllers
 
             return View("Admin/ListAll/Index");
         }
+
+          [Themed]
+        public ActionResult ListContacts()
+        {
+            if (!_orchardServices.Authorizer.Authorize(Permissions.ivManageMembers, T("You are not authorized")))
+                Response.Redirect("/Users/Account/AccessDenied?ReturnUrl=%2fclub%2fadmin%2fmember%2flist");
+
+            return View("Admin/ListContacts/Index");
+        }
+        
         #endregion
 
         #region fixture

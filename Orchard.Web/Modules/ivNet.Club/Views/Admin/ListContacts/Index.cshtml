@@ -1,0 +1,36 @@
+﻿@{
+    Script.Require("AngularJS-Resource");
+    Script.Require("Admin.Member.List.Contacts");
+
+    Style.Require("Admin.Member.List.Contacts");
+    Style.Require("trNgGrid");
+}
+
+<div id="AdminContacts" data-ng-app="Admin.Member.List.Contacts.App" class="col-md-12">
+    <div data-ng-controller="AdminContactListController">
+        contact list
+    </div>
+</div>
+
+
+    @*<div id="AdminMembers" data-ng-app="Admin.Member.List.All.App" class="col-md-12">
+            <div data-ng-controller="AdminMemberListController">
+                <fieldset>
+                    @Html.Partial("Admin/ListAll/_MemberList")
+                    <div id="memberDetail">
+                        @Html.Partial("_Shared/_GuardianDetails")
+                        @Html.Partial("_Shared/_JuniorDetails")
+                        @Html.Partial("_Shared/_JuniorRepeatDetails")
+                        @Html.Partial("_Shared/_GuardianRepeatDetails")
+                        <div class="form-group">
+                            <span class="col-md-6">
+                                <input id="singlebutton" type="button" value="Save Changes" class="btn btn-success" ng-click="saveChanges()">
+                            </span>
+                            <span class="col-md-6 text-right">
+                                <input type="button" value="Back to List" class="btn btn-warning" ng-click="backToList()" />
+                            </span>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>*@

@@ -344,6 +344,23 @@ namespace ivNet.Club
                             {"area", "ivNet.Club"}
                         },
                         new MvcRouteHandler())
+                },                 
+                new RouteDescriptor
+                {
+                    Route = new Route(
+                        "club/admin/member/contact-list",
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Club"},
+                            {"controller", "AdminSite"},
+                            {"action", "ListContacts"}
+                        },
+                        new RouteValueDictionary(),
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Club"}
+                        },
+                        new MvcRouteHandler())
                 },          
                 new RouteDescriptor
                 {

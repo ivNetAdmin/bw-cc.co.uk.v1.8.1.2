@@ -113,6 +113,7 @@
     <Content Include="App_Data\config.data.sqlce" />
     <Content Include="App_Data\ivNet.Club - Copy.sdf" />
     <Content Include="App_Data\ivNet.Club.sdf" />
+    <Content Include="Scripts\app\admin.member.list.contacts.js" />
     <Content Include="Scripts\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\ckeditor\build-config.js" />
     <Content Include="Scripts\ckeditor\ckeditor.js" />
@@ -409,6 +410,18 @@
     <Content Include="Styles\admin.member.list.all.min.css">
       <DependentUpon>admin.member.list.all.css</DependentUpon>
     </Content>
+    <Content Include="Styles\admin.member.list.contacts.css">
+      <DependentUpon>admin.member.list.contacts.less</DependentUpon>
+    </Content>
+    <Content Include="Styles\admin.member.list.contacts.min.css">
+      <DependentUpon>admin.member.list.contacts.css</DependentUpon>
+    </Content>
+    <Content Include="Styles\admin.report.new.css">
+      <DependentUpon>admin.report.new.less</DependentUpon>
+    </Content>
+    <Content Include="Styles\admin.report.new.min.css">
+      <DependentUpon>admin.report.new.css</DependentUpon>
+    </Content>
     <Content Include="Styles\admin.stats.new.css">
       <DependentUpon>admin.stats.new.less</DependentUpon>
     </Content>
@@ -521,6 +534,14 @@
     <Content Include="Styles\admin.stats.new.css.map">
       <DependentUpon>admin.stats.new.css</DependentUpon>
     </Content>
+    <Content Include="Styles\admin.member.list.contacts.less" />
+    <Content Include="Styles\admin.member.list.contacts.css.map">
+      <DependentUpon>admin.member.list.contacts.css</DependentUpon>
+    </Content>
+    <Content Include="Styles\admin.report.new.less" />
+    <Content Include="Styles\admin.report.new.css.map">
+      <DependentUpon>admin.report.new.css</DependentUpon>
+    </Content>
     <None Include="Styles\membership.new.registration.less" />
     <None Include="Styles\new.member.less" />
     <Content Include="Scripts\anjular.js" />
@@ -574,8 +595,11 @@
     <Content Include="Views\Admin\Fixture\Stats\_PlayerStats.cshtml" />
     <Content Include="Views\Admin\Fixture\Report\Index.cshtml" />
     <Content Include="Views\Admin\Fixture\Report\_MatchReport.cshtml" />
+    <Content Include="Views\Admin\UserStories\_Contacts.cshtml" />
+    <Content Include="Views\Admin\ListContacts\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\Api\AdminContactController.cs" />
     <Compile Include="Controllers\Api\AdminFixtureController.cs" />
     <Compile Include="Controllers\Api\AdminFixtureReportController.cs" />
     <Compile Include="Controllers\Api\AdminFixtureStatController.cs" />
