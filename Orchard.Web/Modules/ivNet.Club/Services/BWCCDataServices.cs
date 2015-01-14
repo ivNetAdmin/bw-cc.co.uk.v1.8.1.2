@@ -11,12 +11,13 @@ using Orchard.Data;
 using Orchard.Roles.Models;
 using Orchard.Roles.Services;
 using Orchard.Security;
+using Remotion.Linq.Parsing.Structure.IntermediateModel;
 
 namespace ivNet.Club.Services
 {
     public interface IBwccDataServices : IDependency
     {
-        List<MemberViewModel> GetMembers();
+        string GetMembers();
     }
 
     public class BwccDataServices : BaseService, IBwccDataServices
@@ -28,44 +29,84 @@ namespace ivNet.Club.Services
         {
         }
 
-        public List<MemberViewModel> GetMembers()
+        public string GetMembers()
         {
             using (var session = NHibernateHelper.OpenSession())
             {
-                var memberViewModel = new MemberViewModel();
+                try
+                {                 
 
-                //const string sql = "SELECT [id],[title],[firstname],[surname],[nickname],[email]," +
-                //                   "[dob],[hometelephone],[worktelephone],[mobiletelephone],[agegroup]," +
-                //                   "[medicalnotes],[medication],[diet],[school],[notactive],[createdby]," +
-                //                   "[createdate],[modifiedby],[modifieddate] FROM [bwcc_members]";
+                    //const string sql = "SELECT [id],[title],[firstname],[surname],[nickname],[email]," +
+                    //                   "[dob],[hometelephone],[worktelephone],[mobiletelephone],[agegroup]," +
+                    //                   "[medicalnotes],[medication],[diet],[school],[notactive],[createdby]," +
+                    //                   "[createdate],[modifiedby],[modifieddate] FROM [bwcc_members]";
 
-                const string sql = "select bwcc_members.*, bwcc_member_contact.* " +
-                                   "from bwcc_members " +
-                                   "right outer join bwcc_member_contact on bwcc_members.id = bwcc_member_contact.contactid";
+                    //const string sql = "select bwcc_members.*, bwcc_member_contact.* " +
+                    //                   "from bwcc_members " +
+                    //                   "right outer join bwcc_member_contact on bwcc_members.id = bwcc_member_contact.contactid";
 
-                var query = session.CreateSQLQuery(sql);
-                var results = query.DynamicList();
-               
-               var  retList = new List<MemberViewModel>();
+                    const string membersSql = "select * from bwcc_members";
 
-                foreach (var result in results)
-                {
-                    retList.Add(new MemberViewModel
+                    var membersQuery = session.CreateSQLQuery(membersSql);
+                    var members = membersQuery.DynamicList();
+
+                    //var retList = new List<MemberViewModel>();
+
+                    foreach (var member in members)
                     {
-                        MemberKey = result.contacttype.ToString(),
-                        Surname = result.surname, 
-                        Firstname = result.firstname,
-                        Nickname = result.nickname,
-                        ContactDetailKey = result.email,
-                        Email = result.email,
-                        Mobile = result.mobiletelephone,
-                        OtherTelephone = string.Format("{0}{1}", result.hometelephone, string.IsNullOrEmpty(result.worktelephone) ? string.Empty : string.Format(" - {0}", result.worktelephone))
+                        var editMemberViewModel = new EditMemberViewModel();
 
-                    });
+                        var memberContactSql = string.Format("select * from bwcc_member_contact where memberid = {0}",
+                            member.id);
+
+                        var memberContactQuery = session.CreateSQLQuery(memberContactSql);
+                        if (memberContactQuery.List().Count == 0)
+                        {
+                            // guardian
+                        }
+                        else
+                        {
+                            // junior
+                            var memberContacts = memberContactQuery.List();
+                            foreach (var memberContact in memberContacts)
+                            {
+                                var contactSql = string.Format("select * from bwcc_member where memberid = {0}",
+                               memberContact[2]);
+
+                                var contactQuery = session.CreateSQLQuery(contactSql);
+                                var contact = contactQuery.DynamicList();
+                            }
+                        }
+
+                        
+
+                       
+
+                        //retList.Add(new MemberViewModel
+                        //{
+                        //    MemberKey = result.contacttype.ToString(),
+                        //    Surname = result.surname,
+                        //    Firstname = result.firstname,
+                        //    Nickname = result.nickname,
+                        //    ContactDetailKey = result.email,
+                        //    Email = result.email,
+                        //    Mobile = result.mobiletelephone,
+                        //    OtherTelephone =
+                        //        string.Format("{0}{1}", result.hometelephone,
+                        //            string.IsNullOrEmpty(result.worktelephone)
+                        //                ? string.Empty
+                        //                : string.Format(" - {0}", result.worktelephone))
+
+                        //});
+                    }
+
+                    return "done";
                 }
-
-                return retList;
-
+                catch (Exception ex)
+                {
+                    return string.Format("{0} {1}", ex.Message,
+                        ex.InnerException == null ? string.Empty : string.Format("[{0}]", ex.InnerException.Message));
+                }
                 //key = CustomStringHelper.BuildKey(new[] { key });
 
 

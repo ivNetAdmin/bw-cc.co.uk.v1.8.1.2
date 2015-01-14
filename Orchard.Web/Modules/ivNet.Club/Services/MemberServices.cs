@@ -21,7 +21,7 @@ namespace ivNet.Club.Services
 {
     public interface IMemberServices : IDependency
     {
-        void CreateNewMember(NewMemberViewModel viewModel);
+        //void CreateNewMember(NewMemberViewModel viewModel);
 
         //void CreateGuardian(EditMemberViewModel registrationList);
         void UpdateMember(EditMemberViewModel registrationUpdateList);
@@ -61,16 +61,16 @@ namespace ivNet.Club.Services
             _authenticationService = authenticationService;
         }
 
-        public void CreateNewMember(NewMemberViewModel viewModel)
-        {
-            using (var session = NHibernateHelper.OpenSession())
-            {
-                using (var transaction = session.BeginTransaction())
-                {
-                    transaction.Commit();
-                }
-            }
-        }
+        //public void CreateNewMember(NewMemberViewModel viewModel)
+        //{
+        //    using (var session = NHibernateHelper.OpenSession())
+        //    {
+        //        using (var transaction = session.BeginTransaction())
+        //        {
+        //            transaction.Commit();
+        //        }
+        //    }
+        //}
 
         public void UpdateMember(EditMemberViewModel editMemberViewModel)
         {
