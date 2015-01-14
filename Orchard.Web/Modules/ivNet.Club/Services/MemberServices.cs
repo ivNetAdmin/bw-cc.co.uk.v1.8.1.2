@@ -88,7 +88,7 @@ namespace ivNet.Club.Services
 
                     foreach (var junior in juniorList)
                     {
-                        // save or update junior
+                        // save or update junior                        
                         SetAudit(junior);
                         session.SaveOrUpdate(junior);
                         Add(junior.Member.Id);
@@ -535,8 +535,11 @@ namespace ivNet.Club.Services
                 SetAudit(guardian.AddressDetail);
                 session.SaveOrUpdate(guardian.AddressDetail);
 
-                // add junior details               
-                rtnList.Add(guardian);
+                // add junior details       
+                //check if junior already in list
+                var alreadyExists = rtnList.Any(g => g.Member.MemberKey == guardian.Member.MemberKey);
+                if (alreadyExists)
+                    rtnList.Add(guardian);         
 
                 if (!activeGaurdians)
                 {
@@ -556,7 +559,7 @@ namespace ivNet.Club.Services
                 // get junior or create a new one
                 var junior = session.CreateCriteria(typeof(Junior))
                     .List<Junior>().FirstOrDefault(
-                        x => x.Member.Id.Equals(juniorViewModel.MemberId)) ??
+                        x => x.Member.MemberKey.Equals(juniorViewModel.MemberKey)) ??
                              new Junior();
 
                 if (junior.Id == 0)
@@ -616,7 +619,10 @@ namespace ivNet.Club.Services
                 SetAudit(junior.Player);
                 session.SaveOrUpdate(junior.Player);
 
-                rtnList.Add(junior);                             
+                //check if junior already in list
+                var alreadyExists = rtnList.Any(j => j.Member.MemberKey == junior.Member.MemberKey);
+                if (alreadyExists)
+                    rtnList.Add(junior);                             
             }
 
             return rtnList;

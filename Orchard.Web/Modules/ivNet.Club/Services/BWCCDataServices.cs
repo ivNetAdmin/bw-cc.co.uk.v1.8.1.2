@@ -1,10 +1,13 @@
 ﻿
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using ivNet.Club.Entities;
 using ivNet.Club.Helpers;
 using ivNet.Club.ViewModel;
+using NHibernate;
 using NHibernate.Mapping;
 using Orchard;
 using Orchard.Data;
@@ -17,103 +20,225 @@ namespace ivNet.Club.Services
 {
     public interface IBwccDataServices : IDependency
     {
-        string GetMembers();
+        List<EditMemberViewModel> GetMembers();
     }
 
     public class BwccDataServices : BaseService, IBwccDataServices
     {
-        public BwccDataServices(IMembershipService membershipService, 
-            IAuthenticationService authenticationService, 
-            IRoleService roleService, IRepository<UserRolesPartRecord> userRolesRepository) 
+        private const string MembersSql = "SELECT bwcc_members.id " +
+                                          ",title " +
+                                          ",firstname " +
+                                          ",surname " +
+                                          ",nickname " +
+                                          ",email " +
+                                          ",dob " +
+                                          ",hometelephone " +
+                                          ",worktelephone " +
+                                          ",mobiletelephone " +
+                                          ",agegroup " +
+                                          ",medicalnotes " +
+                                          ",medication " +
+                                          ",diet " +
+                                          ",school " +
+                                          ",notactive " +
+                                          ",createdby " +
+                                          ",createdate " +
+                                          ",modifiedby " +
+                                          ",modifieddate " +
+                                          "FROM bwcc_members";
+
+        public BwccDataServices(IMembershipService membershipService,
+            IAuthenticationService authenticationService,
+            IRoleService roleService, IRepository<UserRolesPartRecord> userRolesRepository)
             : base(membershipService, authenticationService, roleService, userRolesRepository)
         {
         }
 
-        public string GetMembers()
+        public List<EditMemberViewModel> GetMembers()
         {
             using (var session = NHibernateHelper.OpenSession())
             {
-                try
-                {                 
 
-                    //const string sql = "SELECT [id],[title],[firstname],[surname],[nickname],[email]," +
-                    //                   "[dob],[hometelephone],[worktelephone],[mobiletelephone],[agegroup]," +
-                    //                   "[medicalnotes],[medication],[diet],[school],[notactive],[createdby]," +
-                    //                   "[createdate],[modifiedby],[modifieddate] FROM [bwcc_members]";
+                var rtnList = new List<EditMemberViewModel>();
 
-                    //const string sql = "select bwcc_members.*, bwcc_member_contact.* " +
-                    //                   "from bwcc_members " +
-                    //                   "right outer join bwcc_member_contact on bwcc_members.id = bwcc_member_contact.contactid";
+                var members = GetBwccMembers(session);
 
-                    const string membersSql = "select * from bwcc_members";
+                foreach (var member in members)
+                {
+                    var editMemberViewModel = new EditMemberViewModel();
 
-                    var membersQuery = session.CreateSQLQuery(membersSql);
-                    var members = membersQuery.DynamicList();
+                    var memberContacts = GetBwccContacts(session, (int) member[0]);
 
-                    //var retList = new List<MemberViewModel>();
+                    var memberContactList = memberContacts as IList<dynamic> ?? memberContacts.ToList();
 
-                    foreach (var member in members)
+                    if (!memberContactList.Any())
                     {
-                        var editMemberViewModel = new EditMemberViewModel();
-
-                        var memberContactSql = string.Format("select * from bwcc_member_contact where memberid = {0}",
-                            member.id);
-
-                        var memberContactQuery = session.CreateSQLQuery(memberContactSql);
-                        if (memberContactQuery.List().Count == 0)
+                        // guardian   
+                        if (ValidGuardian(session, (int) member[0]))
                         {
-                            // guardian
-                        }
-                        else
-                        {
-                            // junior
-                            var memberContacts = memberContactQuery.List();
-                            foreach (var memberContact in memberContacts)
+                            editMemberViewModel.Guardians.Add(GetBwccGuardian(session, member));
+                            // add juniors
+                            var juniors = GetJuniors(session, (int) member[0]);
+
+                            foreach (var junior in juniors)
                             {
-                                var contactSql = string.Format("select * from bwcc_member where memberid = {0}",
-                               memberContact[2]);
-
-                                var contactQuery = session.CreateSQLQuery(contactSql);
-                                var contact = contactQuery.DynamicList();
+                                editMemberViewModel.Juniors.Add(GetBwccJunior(junior));
                             }
                         }
+                    }                  
 
-                        
-
-                       
-
-                        //retList.Add(new MemberViewModel
-                        //{
-                        //    MemberKey = result.contacttype.ToString(),
-                        //    Surname = result.surname,
-                        //    Firstname = result.firstname,
-                        //    Nickname = result.nickname,
-                        //    ContactDetailKey = result.email,
-                        //    Email = result.email,
-                        //    Mobile = result.mobiletelephone,
-                        //    OtherTelephone =
-                        //        string.Format("{0}{1}", result.hometelephone,
-                        //            string.IsNullOrEmpty(result.worktelephone)
-                        //                ? string.Empty
-                        //                : string.Format(" - {0}", result.worktelephone))
-
-                        //});
-                    }
-
-                    return "done";
+                    rtnList.Add(editMemberViewModel);
                 }
-                catch (Exception ex)
-                {
-                    return string.Format("{0} {1}", ex.Message,
-                        ex.InnerException == null ? string.Empty : string.Format("[{0}]", ex.InnerException.Message));
-                }
-                //key = CustomStringHelper.BuildKey(new[] { key });
 
+                return rtnList;
 
-                //var member = session.CreateCriteria(typeof(Member))
-                //    .List<Member>().FirstOrDefault(x => x.MemberKey.Equals(key));
-                //return MapperHelper.Map(memberViewModel, member);
             }
+        }
+        
+        private bool ValidGuardian(ISession session, int memberId)
+        {
+            var memberContactSql =
+                string.Format(
+                    "SELECT id,memberid,contactid,contacttype,emergencycontact " +
+                    "FROM bwcc_member_contact " +
+                    "WHERE contactid = {0} AND contacttype in (1,2,6)",
+                    memberId);
+
+            var memberContactQuery = session.CreateSQLQuery(memberContactSql);
+            return memberContactQuery.List<dynamic>().Any();
+        }      
+
+        private MemberViewModel GetBwccGuardian(ISession session, dynamic member)
+        {
+            var guardian = new MemberViewModel
+            {
+                Email = string.IsNullOrEmpty(member[5]) ? GetUniqueEmail((int) member[0]) : member[5]
+            };
+
+            var address = GetBwccAddress(session, (int) member[0]);
+
+            PopulateAddress(guardian, address);
+
+            PopulateContactDetails(guardian, member);
+
+            PopulateMemberDetails(guardian, member);
+
+            return guardian;
+
+        }
+
+        private MemberViewModel GetBwccJunior(dynamic member)
+        {
+            var junior = new MemberViewModel();                     
+
+            PopulateMemberDetails(junior, member);
+            junior.Dob = DateTime.Parse(member[6].ToString());
+            junior.MemberKey = CustomStringHelper.BuildKey(new[] { junior.Surname, junior.Firstname, junior.Dob.GetValueOrDefault().ToShortDateString() });
+            
+            junior.School = member[14];
+            junior.Notes = string.Format("{0} {1} {2}", member[11], member[12], member[13]);
+            return junior;
+
+        }
+        
+        private string GetUniqueEmail(int memberId)
+        {
+            return string.Format("unknown{0}@bwcc.co.uk", memberId);
+        }
+
+        private void PopulateMemberDetails(MemberViewModel member, dynamic memberDetail)
+        {
+            // populate member
+            member.Surname = memberDetail[3];
+            member.Firstname = memberDetail[2];
+            member.Nickname = memberDetail[4];
+            member.MemberKey = CustomStringHelper.BuildKey(new[] {member.Email});
+        }
+
+        private void PopulateContactDetails(MemberViewModel guardian, dynamic member)
+        {
+            // populate contact                     
+            guardian.Mobile = member[9];
+            guardian.OtherTelephone = string.Format("{0}{1}", member[7],
+                string.IsNullOrEmpty(member[8])
+                    ? string.Empty
+                    : string.IsNullOrEmpty(member[7]) ? member[8] : string.Format(", {0}", member[8]));
+            guardian.ContactDetailKey = CustomStringHelper.BuildKey(new[] {guardian.Email});
+
+        }
+
+        private void PopulateAddress(MemberViewModel guardian, dynamic address)
+        {
+            // populate address 
+            if (address == null)
+            {
+                guardian.Address = "Unknown";
+                guardian.Postcode = "Unknown";
+                guardian.AddressDetailKey =
+                    CustomStringHelper.BuildKey(new[] { guardian.Address, guardian.Postcode });
+            }
+            else
+            {
+                guardian.Address = string.Format("{0}{1}", address[1],
+                    string.IsNullOrEmpty(address[2]) ? string.Empty : string.Format(", {0}", address[2]));
+                guardian.Postcode = address[5];
+                guardian.Town = address[3];
+                guardian.AddressDetailKey =
+                    CustomStringHelper.BuildKey(new[] {guardian.Address, guardian.Postcode});
+            }
+        }
+
+        private dynamic GetBwccAddress(ISession session, int memberId)
+        {
+            // get address
+            var memberAddreessSql =
+                string.Format(
+                    "SELECT id,memberid,addressid FROM bwcc_member_address WHERE memberid = {0} order by addressid",
+                    memberId);
+
+            var addressMemberQuery = session.CreateSQLQuery(memberAddreessSql);
+            var addressMember = addressMemberQuery.List<dynamic>().LastOrDefault();
+
+            if (addressMember == null) return null;
+
+            var addreessSql =
+                string.Format(
+                    "SELECT id,address1,address2,towncity,county,postcode FROM bwcc_addresses WHERE id = {0}",
+                    (int) addressMember[2]);
+
+            var addressQuery = session.CreateSQLQuery(addreessSql);
+            return addressQuery.List<dynamic>().FirstOrDefault();
+        }
+
+        private static IEnumerable<dynamic> GetBwccContacts(ISession session, int memberId)
+        {
+            var memberContactSql =
+                string.Format(
+                    "SELECT id,memberid,contactid,contacttype,emergencycontact " +
+                    "FROM bwcc_member_contact " +
+                    "WHERE memberid = {0}",
+                    memberId);
+
+            var memberContactQuery = session.CreateSQLQuery(memberContactSql);
+            return memberContactQuery.List<dynamic>();
+        }
+
+        private IEnumerable<dynamic> GetJuniors(ISession session, int guardianId)
+        {
+            var juniorsSql =
+                string.Format(
+                    "{0} INNER JOIN bwcc_member_contact on bwcc_members.id = bwcc_member_contact.memberid " +
+                    "and bwcc_member_contact.contactid = {1}", MembersSql, guardianId);
+
+            var juniorsQuery = session.CreateSQLQuery(juniorsSql);
+            return juniorsQuery.List<dynamic>();
+        }
+
+
+        private static IEnumerable<dynamic> GetBwccMembers(ISession session)
+        {
+            var membersQuery = session.CreateSQLQuery(MembersSql);
+            return membersQuery.List<dynamic>();
         }
     }
 }
