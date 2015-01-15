@@ -26,6 +26,7 @@ namespace ivNet.Club.Services
         //void CreateGuardian(EditMemberViewModel registrationList);
         void UpdateMember(EditMemberViewModel registrationUpdateList);
 
+        List<MemberViewModel> GetPaginated(int currentPage, string orderBy, bool orderByReverse, int pageItems, string filterBy, string filterByFields);
         List<RelatedMemberViewModel> GetAll(byte vetted);
         EditMemberViewModel Get(int id);
         List<GuardianViewModel> GetGuardians(int id);
@@ -157,6 +158,37 @@ namespace ivNet.Club.Services
         //        }
         //    }
         //}
+
+        public List<MemberViewModel> GetPaginated(int currentPage, string orderBy, bool orderByReverse, int pageItems,
+            string filterBy,
+            string filterByFields)
+        {
+
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                var returnList = new List<MemberViewModel>();
+
+                var guardianList = session.CreateCriteria(typeof (Guardian))
+                    .List<Guardian>().Where(x => x.IsVetted.Equals(1)).ToList();
+
+                var guardians = (from guardian in guardianList
+                    let memberViewModel = new MemberViewModel()
+                    select MapperHelper.Map(memberViewModel, guardian)).ToList();
+
+                var juniorList = session.CreateCriteria(typeof (Junior))
+                    .List<Junior>().Where(x => x.IsVetted.Equals(1)).ToList();
+
+                var juniors = (from junior in juniorList
+                    let memberViewModel = new MemberViewModel()
+                    select MapperHelper.Map(memberViewModel, junior)).ToList();
+
+                returnList.AddRange(guardians);
+                returnList.AddRange(juniors);
+
+                return returnList;
+            }
+
+        }
 
         public List<RelatedMemberViewModel> GetAll(byte vetted)
         {
@@ -309,7 +341,7 @@ namespace ivNet.Club.Services
         {
             var user = _authenticationService.GetAuthenticatedUser();
             return _authenticationService.GetAuthenticatedUser();
-        }     
+        }
 
         public EditMemberViewModel GetRegisteredUser()
         {

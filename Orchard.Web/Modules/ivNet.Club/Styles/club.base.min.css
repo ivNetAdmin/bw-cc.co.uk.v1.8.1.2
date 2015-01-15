@@ -1,1 +1,6 @@
 ﻿body{background-color:#fff}
+
+#loading-indicator {
+    display: none;
+  margin-top: 20px;
+}

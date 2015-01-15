@@ -126,6 +126,7 @@
     <Content Include="App_Data\config.data.sqlce" />
     <Content Include="App_Data\ivNet.Club - Copy.sdf" />
     <Content Include="App_Data\ivNet.Club.kpe.sdf" />
+    <Content Include="App_Data\ivNet.Club.Loaded.sdf" />
     <Content Include="App_Data\ivNet.Club.sdf" />
     <Content Include="Scripts\app\admin.member.list.contacts.js" />
     <Content Include="Scripts\ckeditor\adapters\jquery.js" />

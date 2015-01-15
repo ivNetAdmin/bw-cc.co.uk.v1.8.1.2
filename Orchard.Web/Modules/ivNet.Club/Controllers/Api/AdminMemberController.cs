@@ -1,11 +1,13 @@
 ﻿
 using System;
+using System.Collections;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using ivNet.Club.Enums;
 using ivNet.Club.Services;
 using ivNet.Club.ViewModel;
+using Newtonsoft.Json;
 using Orchard;
 using Orchard.Logging;
 
@@ -24,6 +26,12 @@ namespace ivNet.Club.Controllers.Api
         }
 
         public ILogger Logger { get; set; }
+
+        public HttpResponseMessage Get(int currentPage, string orderBy, bool orderByReverse, int pageItems, string filterBy, string filterByFields)
+        {         
+            return Request.CreateResponse(HttpStatusCode.OK,
+                                     _memberServices.GetPaginated(currentPage, orderBy, orderByReverse, pageItems, filterBy, filterByFields));
+        }
 
         public HttpResponseMessage Get(string id, string type)
         {

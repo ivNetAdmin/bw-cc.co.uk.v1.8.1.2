@@ -29,6 +29,13 @@ ivNetAdminMemberList.factory('adminMemberList', function ($resource) {
     });
 });
 
+ivNetAdminMemberList.factory('adminPaginatedMemberList', function ($resource) {
+    return $resource('/api/club/adminmember/:id/:gridOptions', null,
+    {
+        'query': { method: 'GET', isArray: true },
+    });
+});
+
 ivNetAdminMemberList.factory('adminMember', function ($resource) {
     return $resource('/api/club/adminmember/:id', null,
     {
@@ -38,7 +45,7 @@ ivNetAdminMemberList.factory('adminMember', function ($resource) {
     });
 });
 
-ivNetAdminMemberList.controller('AdminMemberListController', function ($scope, adminMemberList, adminMember) {
+ivNetAdminMemberList.controller('AdminMemberListController', function ($scope, adminMemberList, adminMember, adminPaginatedMemberList) {
 
     init();
     
@@ -122,16 +129,38 @@ ivNetAdminMemberList.controller('AdminMemberListController', function ($scope, a
         }
     };
 
-    function init() {
-        $('div#memberDetail').hide();
+    $scope.onServerSideItemsRequested = function (currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {
+        
+        if (filterBy == null) {
+            filterBy = "";
+        }
 
-        adminMemberList.query({ id: "all", type: "list" },
+        if (orderBy == null) {
+            orderBy = "Surname";
+        }
+
+        adminPaginatedMemberList.query({ CurrentPage: currentPage, OrderBy: orderBy, OrderByReverse: orderByReverse, PageItems: pageItems, FilterBy: filterBy, FilterByFields: angular.toJson(filterByFields) },
             function (data) {
                 $scope.members = data;
+                $('#loading-indicator').hide();
             },
-            function (error) {
-                alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
-            });
+        function (error) {
+            alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
+        });
 
+        //adminMemberList.query({ id: "all", type: "list" },
+        //function (data) {
+        //    $scope.members = data;
+        //    $('#loading-indicator').hide();
+        //},
+        //function (error) {
+        //    alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
+        //});
+
+    };
+
+    function init() {      
+        $('div#memberDetail').hide();
+        $('#loading-indicator').show();    
     }
 });

@@ -302,6 +302,38 @@ namespace ivNet.Club.Helpers
 
         #region entities->models
 
+        public static MemberViewModel Map(MemberViewModel viewModel, Guardian entity)
+        {
+
+            var memberViewModel = new MemberViewModel
+            {
+                MemberId = entity.Member.Id,
+                Surname = entity.Member.Surname,
+                Firstname = entity.Member.Firstname,
+                MemberIsActive = entity.Member.IsActive,
+                MemberType = "Gaurdian"
+            };
+
+            return memberViewModel;
+        }
+
+
+        public static MemberViewModel Map(MemberViewModel viewModel, Junior entity)
+        {
+
+            var memberViewModel = new MemberViewModel
+            {
+                MemberId = entity.Member.Id,
+                Surname = entity.Member.Surname,
+                Firstname = entity.Member.Firstname,
+                Dob = entity.Dob,
+                MemberIsActive = entity.Member.IsActive,
+                MemberType = "Junior"
+            };
+
+            return memberViewModel;
+        }
+
         public static PlayerStatViewModel Map(PlayerStatViewModel viewModel, PlayerStat entity)
         {
             var playerStatViewModel = new PlayerStatViewModel
