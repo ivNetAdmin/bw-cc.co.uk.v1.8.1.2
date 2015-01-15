@@ -485,7 +485,7 @@ namespace ivNet.Club.Services
                 // get guardian or create a new one
                 var guardian = session.CreateCriteria(typeof(Guardian))
                     .List<Guardian>().FirstOrDefault(
-                        x => x.Member.Id.Equals(guardianViewModel.MemberId)) ??
+                        x => x.Member.MemberKey.Equals(guardianViewModel.MemberKey)) ??
                                new Guardian();
 
                 if (guardian.Id == 0)
@@ -538,7 +538,7 @@ namespace ivNet.Club.Services
                 // add junior details       
                 //check if junior already in list
                 var alreadyExists = rtnList.Any(g => g.Member.MemberKey == guardian.Member.MemberKey);
-                if (alreadyExists)
+                if (!alreadyExists)
                     rtnList.Add(guardian);         
 
                 if (!activeGaurdians)
@@ -621,7 +621,7 @@ namespace ivNet.Club.Services
 
                 //check if junior already in list
                 var alreadyExists = rtnList.Any(j => j.Member.MemberKey == junior.Member.MemberKey);
-                if (alreadyExists)
+                if (!alreadyExists)
                     rtnList.Add(junior);                             
             }
 
