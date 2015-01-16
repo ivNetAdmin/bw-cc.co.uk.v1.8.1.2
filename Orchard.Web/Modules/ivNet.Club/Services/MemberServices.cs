@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Web;
 using FluentNHibernate.Utils;
 using ivNet.Club.Entities;
@@ -179,34 +180,43 @@ namespace ivNet.Club.Services
                 var fields = JsonConvert.DeserializeObject<dynamic>(filterByFields);
                               
 
-                var whereClause = string.Empty;
+                var whereClause = new StringBuilder();
                 if (fields.Surname != null)
                 {
-                    whereClause = string.Format("ivnetMember.Surname like '%{0}%' ", fields.Surname);
+                    whereClause.Append(string.Format("ivnetMember.Surname like '%{0}%' ", fields.Surname));
 
                 }
 
                 if (fields.Firstname != null)
                 {
-                    whereClause = string.Format("{0}ivnetMember.Firstname like '%{1}%' ",
-                        string.IsNullOrEmpty(whereClause) ? string.Empty : " and ", fields.Firstname);
+                    whereClause.Append(string.Format("{0}ivnetMember.Firstname like '%{1}%' ",
+                        whereClause.Length==0 ? string.Empty : " and ", fields.Firstname));
 
                 }
 
-                if (!string.IsNullOrEmpty(whereClause))
+                if (fields.MemberType != null)
+                {
+                    const string guardian = "guardian";
+                    const string junior = "junior";
+                    
+                    if (guardian.Contains(((string)fields.MemberType).ToLowerInvariant()))
+                    {
+                        whereClause.Append(string.Format("{0}ivNetGuardian.GuardianId>0 ",
+                            whereClause.Length == 0 ? string.Empty : " and "));
+                    }
+
+                    if (junior.Contains(((string)fields.MemberType).ToLowerInvariant()))
+                    {
+                        whereClause.Append(string.Format("{0}ivNetJunior.JuniorId>0 ",
+                            whereClause.Length == 0 ? string.Empty : " and "));
+                    }
+                }
+
+                if (whereClause.Length>0)
                 {
                     sql = string.Format("{0} where {1}", sql, whereClause);
                 }
-
-                    
-
-                //if (!string.IsNullOrEmpty(filterBy))
-                //{
-                //    sql = string.Format("{0} where " +
-                //                        "ivnetMember.Surname like '%{1}%' " +
-                //                        "or ivnetMember.Firstname like '%{1}%' ", sql, filterBy);
-                //}
-
+           
                 var memberContactQuery = session.CreateSQLQuery(sql);
                 var members = memberContactQuery.DynamicList();
 
@@ -216,8 +226,8 @@ namespace ivNet.Club.Services
                     Surname = member.Surname, 
                     Firstname = member.Firstname, 
                     MemberIsActive = member.IsActive, 
-                    Dob = member.Dob, MemberType = member.GuardianID == null ? "Junior" : "Guradian"
-                }).ToList();
+                    Dob = member.Dob, MemberType = member.GuardianID == null ? "Junior" : "Guardian"
+                }).ToList();             
 
                 switch (orderBy)
                 {
@@ -241,15 +251,8 @@ namespace ivNet.Club.Services
                         return orderByReverse ? 
                             returnList.OrderByDescending(m => m.Surname).Skip(pageItems * currentPage).Take(pageItems).ToList() : 
                             returnList.OrderBy(m => m.Surname).Skip(pageItems * currentPage).Take(pageItems).ToList();
-                }
-               // if (string.IsNullOrEmpty(orderBy))
-               // {
-                    
-               // }
-
-               // return returnList.Skip(pageItems * currentPage).Take(pageItems).ToList();
+                }            
             }
-
         }      
 
         public List<RelatedMemberViewModel> GetAll(byte vetted)
