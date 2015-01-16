@@ -212,6 +212,19 @@ namespace ivNet.Club.Services
                     }
                 }
 
+                if (fields.IsActive != null)
+                {
+                    if (Extensions.ToLowerInvariantString(fields.IsActive)=="y")
+                    {
+                        whereClause.Append(string.Format("{0}ivnetMember.IsActive=1 ",
+                            whereClause.Length == 0 ? string.Empty : " and "));
+                    }
+                    else if (Extensions.ToLowerInvariantString(fields.IsActive) == "n")
+                    {
+                        whereClause.Append(string.Format("{0}ivnetMember.IsActive=0 ",
+                            whereClause.Length == 0 ? string.Empty : " and "));
+                    }                  
+                }
                 if (whereClause.Length>0)
                 {
                     sql = string.Format("{0} where {1}", sql, whereClause);
