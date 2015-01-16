@@ -131,6 +131,8 @@ ivNetAdminMemberList.controller('AdminMemberListController', function ($scope, a
 
     $scope.onServerSideItemsRequested = function (currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {
         
+        $('#loading-indicator').show();
+
         if (filterBy == null) {
             filterBy = "";
         }
@@ -145,6 +147,7 @@ ivNetAdminMemberList.controller('AdminMemberListController', function ($scope, a
                 $('#loading-indicator').hide();
             },
         function (error) {
+            $('#loading-indicator').hide();
             alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
         });
 

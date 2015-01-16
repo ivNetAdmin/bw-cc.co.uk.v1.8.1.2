@@ -9,6 +9,7 @@ using ivNet.Club.Entities;
 using ivNet.Club.Enums;
 using ivNet.Club.Helpers;
 using ivNet.Club.ViewModel;
+using Newtonsoft.Json;
 using NHibernate;
 using NHibernate.Mapping;
 using Orchard;
@@ -166,29 +167,90 @@ namespace ivNet.Club.Services
 
             using (var session = NHibernateHelper.OpenSession())
             {
-                var returnList = new List<MemberViewModel>();
+                var sql = "select ivnetMember.MemberId,ivnetMember.Surname,ivnetMember.Firstname," +
+                                   "ivNetJunior.DOB,ivNetJunior.JuniorId," +
+                                   "ivNetGuardian.GuardianId," +
+                                   "ivnetMember.IsActive " +
+                                   "from ivnetMember " +
+                                   "left outer join ivNetJunior on ivnetMember.MemberId = ivNetJunior.MemberId " +
+                                   "left outer join ivNetGuardian on ivnetMember.MemberId = ivNetGuardian.MemberId";
 
-                var guardianList = session.CreateCriteria(typeof (Guardian))
-                    .List<Guardian>().Where(x => x.IsVetted.Equals(1)).ToList();
 
-                var guardians = (from guardian in guardianList
-                    let memberViewModel = new MemberViewModel()
-                    select MapperHelper.Map(memberViewModel, guardian)).ToList();
+                var fields = JsonConvert.DeserializeObject<dynamic>(filterByFields);
+                              
 
-                var juniorList = session.CreateCriteria(typeof (Junior))
-                    .List<Junior>().Where(x => x.IsVetted.Equals(1)).ToList();
+                var whereClause = string.Empty;
+                if (fields.Surname != null)
+                {
+                    whereClause = string.Format("ivnetMember.Surname like '%{0}%' ", fields.Surname);
 
-                var juniors = (from junior in juniorList
-                    let memberViewModel = new MemberViewModel()
-                    select MapperHelper.Map(memberViewModel, junior)).ToList();
+                }
 
-                returnList.AddRange(guardians);
-                returnList.AddRange(juniors);
+                if (fields.Firstname != null)
+                {
+                    whereClause = string.Format("{0}ivnetMember.Firstname like '%{1}%' ",
+                        string.IsNullOrEmpty(whereClause) ? string.Empty : " and ", fields.Firstname);
 
-                return returnList;
+                }
+
+                if (!string.IsNullOrEmpty(whereClause))
+                {
+                    sql = string.Format("{0} where {1}", sql, whereClause);
+                }
+
+                    
+
+                //if (!string.IsNullOrEmpty(filterBy))
+                //{
+                //    sql = string.Format("{0} where " +
+                //                        "ivnetMember.Surname like '%{1}%' " +
+                //                        "or ivnetMember.Firstname like '%{1}%' ", sql, filterBy);
+                //}
+
+                var memberContactQuery = session.CreateSQLQuery(sql);
+                var members = memberContactQuery.DynamicList();
+
+                var returnList = members.Select(member => new MemberViewModel
+                {
+                    MemberId = member.MemberID, 
+                    Surname = member.Surname, 
+                    Firstname = member.Firstname, 
+                    MemberIsActive = member.IsActive, 
+                    Dob = member.Dob, MemberType = member.GuardianID == null ? "Junior" : "Guradian"
+                }).ToList();
+
+                switch (orderBy)
+                {
+                    case "IsActive":
+                        return orderByReverse ?
+                           returnList.OrderByDescending(m => m.MemberIsActive).Skip(pageItems * currentPage).Take(pageItems).ToList() :
+                           returnList.OrderBy(m => m.MemberIsActive).Skip(pageItems * currentPage).Take(pageItems).ToList();
+                    case "Dob":
+                        return orderByReverse ?
+                           returnList.OrderByDescending(m => m.Dob).Skip(pageItems * currentPage).Take(pageItems).ToList() :
+                           returnList.OrderBy(m => m.Dob).Skip(pageItems * currentPage).Take(pageItems).ToList();
+                    case "MemberType":
+                        return orderByReverse ?
+                           returnList.OrderByDescending(m => m.MemberType).Skip(pageItems * currentPage).Take(pageItems).ToList() :
+                           returnList.OrderBy(m => m.MemberType).Skip(pageItems * currentPage).Take(pageItems).ToList();
+                    case "Firstname":
+                        return orderByReverse ?
+                           returnList.OrderByDescending(m => m.Firstname).Skip(pageItems * currentPage).Take(pageItems).ToList() :
+                           returnList.OrderBy(m => m.Firstname).Skip(pageItems * currentPage).Take(pageItems).ToList();
+                    default:
+                        return orderByReverse ? 
+                            returnList.OrderByDescending(m => m.Surname).Skip(pageItems * currentPage).Take(pageItems).ToList() : 
+                            returnList.OrderBy(m => m.Surname).Skip(pageItems * currentPage).Take(pageItems).ToList();
+                }
+               // if (string.IsNullOrEmpty(orderBy))
+               // {
+                    
+               // }
+
+               // return returnList.Skip(pageItems * currentPage).Take(pageItems).ToList();
             }
 
-        }
+        }      
 
         public List<RelatedMemberViewModel> GetAll(byte vetted)
         {
@@ -443,6 +505,30 @@ namespace ivNet.Club.Services
         public void Clear()
         {
             ItemsInternal.Clear();
+        }
+
+        private List<Junior> MemberGirdFilter(List<Junior> juniorList, string filterBy, string filterByFields)
+        {
+            if (!string.IsNullOrEmpty(filterBy))
+            {
+                juniorList =
+                    juniorList.Where(m => m.Member.Surname.Contains(filterBy) 
+                        || m.Member.Firstname.Contains(filterBy))
+                        .ToList();
+            }
+            return juniorList;
+        }
+
+        private List<Guardian> MemberGirdFilter(List<Guardian> guardianList, string filterBy, string filterByFields)
+        {
+            if (!string.IsNullOrEmpty(filterBy))
+            {
+                guardianList =
+                    guardianList.Where(m => m.Member.Surname.Contains(filterBy)
+                        || m.Member.Firstname.Contains(filterBy))
+                        .ToList();
+            }
+            return guardianList;
         }
 
         private void ActivateGuardian(Guardian guardian)
