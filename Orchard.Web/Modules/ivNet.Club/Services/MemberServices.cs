@@ -35,13 +35,14 @@ namespace ivNet.Club.Services
         MemberViewModel GetByKey(string key);
         MemberViewModel GetFullName(string name);
         MemberViewModel GetByUserId(int id);
-
+        ContactAdminViewModel GetContactAdminViewModel();
         EditMemberViewModel GetRegisteredUser();
 
        // List<JuniorVettingViewModel> GetNonVetted();
         void Activate(int id, int memberType);
         
-        IUser AuthenticatedUser();        
+        IUser AuthenticatedUser();
+        
     }
 
     public class MemberServices : BaseService, IMemberServices
@@ -295,6 +296,72 @@ namespace ivNet.Club.Services
             }
         }
 
+        public ContactAdminViewModel GetContactAdminViewModel()
+        {
+            var contactAdminViewModel = new ContactAdminViewModel();
+
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                var guardians = session.CreateCriteria(typeof (Guardian))
+                    .List<Guardian>();
+
+                var juniorKeylist = new List<string>();
+
+                foreach (var guardian in guardians)
+                {
+                    var guardianViewModel = new MemberViewModel
+                    {
+                        MemberType = "Guardian",
+                        Surname = guardian.Member.Surname,
+                        Firstname = guardian.Member.Firstname,
+                        Address = guardian.AddressDetail.Address,
+                        Town = guardian.AddressDetail.Town,
+                        Postcode = guardian.AddressDetail.Postcode,
+                        OtherTelephone = guardian.ContactDetail.OtherTelephone,
+                        Mobile = guardian.ContactDetail.Mobile,
+                        Email = guardian.ContactDetail.Email
+                    };
+
+                    foreach (var junior in guardian.Juniors)
+                    {
+                        if (juniorKeylist.Count == 0)
+                        {
+                            juniorKeylist.Add(junior.JuniorKey);
+                        }
+                        else
+                        {
+                            if (!juniorKeylist.Contains(junior.JuniorKey))
+                            {
+                                var juniorViewModel = new JuniorContactViewModel
+                                {
+                                    Surname = junior.Member.Surname,
+                                    Firstname = junior.Member.Firstname,
+                                    Dob = junior.Dob.ToShortDateString(),
+                                    Notes = junior.JuniorInfo.Notes,
+                                    Address = guardian.AddressDetail.Address,
+                                    Town = guardian.AddressDetail.Town,
+                                    Postcode = guardian.AddressDetail.Postcode,
+                                    OtherTelephone = guardian.ContactDetail.OtherTelephone,
+                                    Mobile = guardian.ContactDetail.Mobile,
+                                    Email = guardian.ContactDetail.Email
+                                };
+
+                                contactAdminViewModel.JuniorContacts.Add(juniorViewModel);
+                                juniorKeylist.Add(junior.JuniorKey);
+                            }
+                        }
+                        
+
+                       
+                    }
+
+                    //contactAdminViewModel.Contacts.Add(guardianViewModel);
+                }
+            }
+
+            return contactAdminViewModel;
+        }
+
         public EditMemberViewModel Get(int id)
         {
             using (var session = NHibernateHelper.OpenSession())
@@ -413,7 +480,7 @@ namespace ivNet.Club.Services
 
                 return viewModel;
             }
-        }
+        }      
 
         public IUser AuthenticatedUser()
         {

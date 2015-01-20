@@ -29,6 +29,8 @@ namespace ivNet.Club
             manifest.DefineStyle("Club.Configuration.Fixture").SetUrl("club.configuration.fixture.min.css").SetDependencies("Club.Base");
 
             manifest.DefineScript("CKEditor").SetUrl("ckeditor/ckeditor.js").SetDependencies("jQueryUI");
+            manifest.DefineScript("AngularSanitize").SetUrl("angular-sanitize.js").SetDependencies("AngularJS");
+            manifest.DefineScript("NgCsv").SetUrl("ng-csv.min.js").SetDependencies("AngularSanitize");
 
             manifest.DefineScript("Membership.New.Fee").SetUrl("app/membership.new.fee.js").SetVersion("1.0").SetDependencies("trNgGrid");
             manifest.DefineScript("Membership.New.Registration").SetUrl("app/membership.new.registration.js").SetVersion("1.0").SetDependencies("AngularJS");
@@ -53,7 +55,7 @@ namespace ivNet.Club
             manifest.DefineStyle("trNgGrid").SetUrl("trNgGrid.min.css").SetDependencies("Bootstrap");
             manifest.DefineStyle("Club.New.Member").SetUrl("new.member.min.css");
 
-            manifest.DefineScript("trNgGrid").SetUrl("trNgGrid.min.js").SetVersion("1.2.9").SetDependencies("AngularJS");
+            manifest.DefineScript("trNgGrid").SetUrl("trNgGrid.min.js").SetVersion("1.2.9").SetDependencies("AngularJS");           
 
             manifest.DefineScript("AngularJS").SetUrl("anjular.min.js").SetVersion("1.2.9").SetDependencies("jQueryUI");
             manifest.DefineScript("AngularJS-Resource").SetUrl("angular-resource.min.js").SetVersion("1.2.18").SetDependencies("AngularJS");

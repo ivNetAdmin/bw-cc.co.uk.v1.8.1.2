@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using ivNet.Club.Services;
+using ivNet.Club.ViewModel;
 using Orchard;
 using Orchard.Logging;
 
@@ -32,9 +33,9 @@ namespace ivNet.Club.Controllers.Api
                 GetContactAdminViewModel());
         }
 
-        private object GetContactAdminViewModel()
+        private ContactAdminViewModel GetContactAdminViewModel()
         {
-            return "";
+            return _memberServices.GetContactAdminViewModel();
         }
     }
 }

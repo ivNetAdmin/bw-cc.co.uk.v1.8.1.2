@@ -1,4 +1,4 @@
-﻿var ivNetAdminContactList = angular.module("Admin.Member.List.Contacts.App", ['ngResource', 'trNgGrid'])
+﻿var ivNetAdminContactList = angular.module("Admin.Member.List.Contacts.App", ['ngResource', 'trNgGrid', 'ngCsv'])
     .filter("dateField", function () {
         return function (combinedFieldValueUnused, item) {
             var d = item.Dob;
@@ -33,12 +33,13 @@ ivNetAdminContactList.controller('AdminContactListController', function ($scope,
    
     init();
 
-    function init() {
-        $('div#contactDetail').hide();
-
+    function init() {       
+        $('#loading-indicator').show();
         adminContactList.query(
             function(data) {
-                $scope.members = data;
+                $scope.contacts = data.JuniorContacts;
+                $('#loading-indicator').hide();
+               
             },
             function(error) {
                 alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
