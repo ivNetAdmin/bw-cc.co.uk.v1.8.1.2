@@ -1,0 +1,11 @@
+﻿Name: ivNet.Mail
+AntiForgery: enabled
+Author: ivNet Ltd
+Website: http://www.ivnet.co.uk
+Version: 1.0
+OrchardVersion: 1.8.1
+Description: Email module
+Category: ivNet
+Features:
+    ivNet.Mail:
+        Description: Email & Captcha module

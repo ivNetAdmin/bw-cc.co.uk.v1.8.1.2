@@ -32,8 +32,8 @@
   </Dependency>
   <Dependency>
     <ModuleName>ivNet.BWCC</ModuleName>
-    <VirtualPath>~/Themes/ivNet.BWCC/ivNet.BWCC.csproj</VirtualPath>
-    <LoaderName>DynamicExtensionLoader</LoaderName>
+    <VirtualPath>~/Themes/ivNet.BWCC/bin/ivNet.BWCC.dll</VirtualPath>
+    <LoaderName>PrecompiledExtensionLoader</LoaderName>
     <References />
   </Dependency>
   <Dependency>
@@ -111,6 +111,55 @@
         <Name>Orchard.Roles</Name>
         <LoaderName>PrecompiledExtensionLoader</LoaderName>
         <VirtualPath>~/Modules/Orchard.Roles/bin/Orchard.Roles.dll</VirtualPath>
+      </Reference>
+      <Reference>
+        <Name>Orchard.Tokens</Name>
+        <LoaderName>PrecompiledExtensionLoader</LoaderName>
+        <VirtualPath>~/Modules/Orchard.Tokens/bin/Orchard.Tokens.dll</VirtualPath>
+      </Reference>
+      <Reference>
+        <Name>Orchard.Workflows</Name>
+        <LoaderName>PrecompiledExtensionLoader</LoaderName>
+        <VirtualPath>~/Modules/Orchard.Workflows/bin/Orchard.Workflows.dll</VirtualPath>
+      </Reference>
+    </References>
+  </Dependency>
+  <Dependency>
+    <ModuleName>Orchard.Email</ModuleName>
+    <VirtualPath>~/Modules/Orchard.Email/bin/Orchard.Email.dll</VirtualPath>
+    <LoaderName>PrecompiledExtensionLoader</LoaderName>
+    <References>
+      <Reference>
+        <Name>Orchard.Forms</Name>
+        <LoaderName>PrecompiledExtensionLoader</LoaderName>
+        <VirtualPath>~/Modules/Orchard.Forms/bin/Orchard.Forms.dll</VirtualPath>
+      </Reference>
+      <Reference>
+        <Name>Orchard.Tokens</Name>
+        <LoaderName>PrecompiledExtensionLoader</LoaderName>
+        <VirtualPath>~/Modules/Orchard.Tokens/bin/Orchard.Tokens.dll</VirtualPath>
+      </Reference>
+      <Reference>
+        <Name>Orchard.Workflows</Name>
+        <LoaderName>PrecompiledExtensionLoader</LoaderName>
+        <VirtualPath>~/Modules/Orchard.Workflows/bin/Orchard.Workflows.dll</VirtualPath>
+      </Reference>
+    </References>
+  </Dependency>
+  <Dependency>
+    <ModuleName>ivNet.Mail</ModuleName>
+    <VirtualPath>~/Modules/ivNet.Mail/ivNet.Mail.csproj</VirtualPath>
+    <LoaderName>DynamicExtensionLoader</LoaderName>
+    <References>
+      <Reference>
+        <Name>Orchard.Email</Name>
+        <LoaderName>PrecompiledExtensionLoader</LoaderName>
+        <VirtualPath>~/Modules/Orchard.Email/bin/Orchard.Email.dll</VirtualPath>
+      </Reference>
+      <Reference>
+        <Name>Orchard.Forms</Name>
+        <LoaderName>PrecompiledExtensionLoader</LoaderName>
+        <VirtualPath>~/Modules/Orchard.Forms/bin/Orchard.Forms.dll</VirtualPath>
       </Reference>
       <Reference>
         <Name>Orchard.Tokens</Name>
@@ -585,28 +634,6 @@
         <Name>Orchard.Widgets</Name>
         <LoaderName>PrecompiledExtensionLoader</LoaderName>
         <VirtualPath>~/Modules/Orchard.Widgets/bin/Orchard.Widgets.dll</VirtualPath>
-      </Reference>
-    </References>
-  </Dependency>
-  <Dependency>
-    <ModuleName>Orchard.Email</ModuleName>
-    <VirtualPath>~/Modules/Orchard.Email/bin/Orchard.Email.dll</VirtualPath>
-    <LoaderName>PrecompiledExtensionLoader</LoaderName>
-    <References>
-      <Reference>
-        <Name>Orchard.Forms</Name>
-        <LoaderName>PrecompiledExtensionLoader</LoaderName>
-        <VirtualPath>~/Modules/Orchard.Forms/bin/Orchard.Forms.dll</VirtualPath>
-      </Reference>
-      <Reference>
-        <Name>Orchard.Tokens</Name>
-        <LoaderName>PrecompiledExtensionLoader</LoaderName>
-        <VirtualPath>~/Modules/Orchard.Tokens/bin/Orchard.Tokens.dll</VirtualPath>
-      </Reference>
-      <Reference>
-        <Name>Orchard.Workflows</Name>
-        <LoaderName>PrecompiledExtensionLoader</LoaderName>
-        <VirtualPath>~/Modules/Orchard.Workflows/bin/Orchard.Workflows.dll</VirtualPath>
       </Reference>
     </References>
   </Dependency>

@@ -244,6 +244,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ivNet.BWCC", "Orchard.Web\T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orchard.Alias", "Orchard.Web\Modules\Orchard.Alias\Orchard.Alias.csproj", "{475B6C45-B27C-438B-8966-908B9D6D1077}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ivNet.Mail", "Orchard.Web\Modules\ivNet.Mail\ivNet.Mail.csproj", "{B91059A2-A025-4546-A40D-E346DDD1A460}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CodeCoverage|Any CPU = CodeCoverage|Any CPU
@@ -1022,6 +1024,16 @@ Global
 		{475B6C45-B27C-438B-8966-908B9D6D1077}.FxCop|Any CPU.Build.0 = Release|Any CPU
 		{475B6C45-B27C-438B-8966-908B9D6D1077}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{475B6C45-B27C-438B-8966-908B9D6D1077}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B91059A2-A025-4546-A40D-E346DDD1A460}.CodeCoverage|Any CPU.ActiveCfg = Release|Any CPU
+		{B91059A2-A025-4546-A40D-E346DDD1A460}.CodeCoverage|Any CPU.Build.0 = Release|Any CPU
+		{B91059A2-A025-4546-A40D-E346DDD1A460}.Coverage|Any CPU.ActiveCfg = Release|Any CPU
+		{B91059A2-A025-4546-A40D-E346DDD1A460}.Coverage|Any CPU.Build.0 = Release|Any CPU
+		{B91059A2-A025-4546-A40D-E346DDD1A460}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B91059A2-A025-4546-A40D-E346DDD1A460}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B91059A2-A025-4546-A40D-E346DDD1A460}.FxCop|Any CPU.ActiveCfg = Release|Any CPU
+		{B91059A2-A025-4546-A40D-E346DDD1A460}.FxCop|Any CPU.Build.0 = Release|Any CPU
+		{B91059A2-A025-4546-A40D-E346DDD1A460}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B91059A2-A025-4546-A40D-E346DDD1A460}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1102,5 +1114,6 @@ Global
 		{59476B94-2C18-4F46-9A8F-EE0C1EFADA4B} = {E9C9F120-07BA-4DFB-B9C3-3AFB9D44C9D5}
 		{E16BFFD5-E953-40AA-A6C8-4AEB4832AB6D} = {74492CBC-7201-417E-BC29-28B4C25A58B0}
 		{475B6C45-B27C-438B-8966-908B9D6D1077} = {E9C9F120-07BA-4DFB-B9C3-3AFB9D44C9D5}
+		{B91059A2-A025-4546-A40D-E346DDD1A460} = {E9C9F120-07BA-4DFB-B9C3-3AFB9D44C9D5}
 	EndGlobalSection
 EndGlobal

@@ -67,6 +67,9 @@
       <HintPath>..\..\lib\nuget\NuGet.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Recaptcha">
+      <HintPath>..\packages\recaptcha.1.0.5.0\lib\.NetFramework 4.0\Recaptcha.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.ComponentModel.DataAnnotations">
@@ -162,6 +165,7 @@
     <Content Include="Media\Default\RecipeJournal\5d895b3dfcad4672978f831d59f32803" />
     <Content Include="Media\Default\RecipeJournal\web.config" />
     <Content Include="Media\web.config" />
+    <Content Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
