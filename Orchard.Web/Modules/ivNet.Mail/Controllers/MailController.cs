@@ -1,4 +1,6 @@
 ﻿
+using System.Web.Routing;
+using Orchard.Themes;
 using Recaptcha;
 using System;
 using System.Net;
@@ -21,7 +23,14 @@ namespace ivNet.Mail.Controllers
             _orchardServices = orchardServices;
         }
 
-        [HttpPost, RecaptchaControlMvc.CaptchaValidator]
+        [Themed]
+        public ActionResult Fail(string reason)
+        {
+            ViewData["reason"] = reason;
+            return View("Fail");
+        }
+
+        [HttpPost, RecaptchaControlMvc.CaptchaValidator, Themed]
         public ActionResult Send(FormCollection viewModel, bool captchaValid, string captchaErrorMessage)
         {
             try
@@ -37,11 +46,11 @@ namespace ivNet.Mail.Controllers
                     return Redirect("~/contact-success");
                 }
 
-                return Redirect("~/contact");
+                return View("contact", viewModel);
             }
             catch (Exception ex)
-            {
-                return Redirect(string.Format("~/contact-failed/?error={0}", ex.Message));
+            {                
+                return Redirect(string.Format("~/mail/contact-failed/{0}", ex.Message));
             }
         }
 

@@ -42,6 +42,18 @@ namespace ivNet.Mail
                             {"area", "ivNet.Mail"}
                         },
                         new MvcRouteHandler())
+                },
+                 new RouteDescriptor
+                {
+                    Route = new Route(
+                        "mail/contact-failed/{reason}",
+                        new RouteValueDictionary(new{ area="ivNet.Mail", controller ="Mail", action="Fail"}),             
+                        new RouteValueDictionary(),
+                        new RouteValueDictionary
+                        {
+                            {"area", "ivNet.Mail"}
+                        },
+                        new MvcRouteHandler())
                 }
             };
         }
