@@ -16,7 +16,8 @@ namespace ivNet.Club
 
             Mapper.CreateMap<PlayerStatViewModel, CricketStat>();
 
-            Mapper.CreateMap<MemberViewModel, Member>();
+            Mapper.CreateMap<MemberViewModel, Member>()
+                .ForMember(v => v.IsActive, m => m.MapFrom(e => e.MemberIsActive));        
             Mapper.CreateMap<MemberViewModel, ContactDetail>();
             Mapper.CreateMap<MemberViewModel, AddressDetail>();
 
@@ -55,10 +56,12 @@ namespace ivNet.Club
             Mapper.CreateMap<ContactDetail, MemberViewModel>();                
 
             Mapper.CreateMap<Member, MemberViewModel>()
-                .ForMember(v => v.MemberId, m => m.MapFrom(e=>e.Id));         
+                .ForMember(v => v.MemberId, m => m.MapFrom(e=>e.Id))
+                .ForMember(v => v.MemberIsActive, m => m.MapFrom(e => e.IsActive));         
             
             Mapper.CreateMap<Member, RelatedMemberViewModel>()
-                .ForMember(v => v.MemberId, m => m.MapFrom(e => e.Id));      
+                .ForMember(v => v.MemberId, m => m.MapFrom(e => e.Id))
+                 .ForMember(v => v.IsActive, m => m.MapFrom(e => e.IsActive));     
 
             Mapper.CreateMap<Junior, JuniorDetailViewModel>()
                 .ForMember(v => v.MemberId, m => m.MapFrom(e => e.Member.Id))

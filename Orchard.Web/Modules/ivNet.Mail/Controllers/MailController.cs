@@ -24,9 +24,9 @@ namespace ivNet.Mail.Controllers
         }
 
         [Themed]
-        public ActionResult Fail(string reason)
+        public ActionResult Fail()
         {
-            ViewData["reason"] = reason;
+            ViewData["reason"] = TempData["reason"] ;
             return View("Fail");
         }
 
@@ -49,8 +49,9 @@ namespace ivNet.Mail.Controllers
                 return View("contact", viewModel);
             }
             catch (Exception ex)
-            {                
-                return Redirect(string.Format("~/mail/contact-failed/{0}", ex.Message));
+            {
+                TempData["reason"] = ex.Message;
+                return Redirect(string.Format("~/mail/contact-failed"));
             }
         }
 

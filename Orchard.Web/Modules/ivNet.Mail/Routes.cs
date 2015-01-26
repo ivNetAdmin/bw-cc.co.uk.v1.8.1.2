@@ -46,7 +46,7 @@ namespace ivNet.Mail
                  new RouteDescriptor
                 {
                     Route = new Route(
-                        "mail/contact-failed/{reason}",
+                        "mail/contact-failed",
                         new RouteValueDictionary(new{ area="ivNet.Mail", controller ="Mail", action="Fail"}),             
                         new RouteValueDictionary(),
                         new RouteValueDictionary

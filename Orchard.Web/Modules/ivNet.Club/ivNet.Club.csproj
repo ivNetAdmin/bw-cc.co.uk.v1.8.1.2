@@ -125,8 +125,6 @@
     <Content Include="App_Data\bwcc_teams.sql" />
     <Content Include="App_Data\config.data.sqlce" />
     <Content Include="App_Data\ivNet.Club - Copy.sdf" />
-    <Content Include="App_Data\ivNet.Club.kpe.sdf" />
-    <Content Include="App_Data\ivNet.Club.Loaded.sdf" />
     <Content Include="App_Data\ivNet.Club.sdf" />
     <Content Include="Scripts\angular-sanitize.js" />
     <Content Include="Scripts\app\admin.member.list.contacts.js" />
