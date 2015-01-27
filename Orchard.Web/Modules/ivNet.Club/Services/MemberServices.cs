@@ -324,35 +324,35 @@ namespace ivNet.Club.Services
 
                     foreach (var junior in guardian.Juniors)
                     {
-                        if (juniorKeylist.Count == 0)
+                        if (junior.Member.IsActive == 1)
                         {
-                            juniorKeylist.Add(junior.JuniorKey);
-                        }
-                        else
-                        {
-                            if (!juniorKeylist.Contains(junior.JuniorKey))
+                            if (juniorKeylist.Count == 0)
                             {
-                                var juniorViewModel = new JuniorContactViewModel
-                                {
-                                    Surname = junior.Member.Surname,
-                                    Firstname = junior.Member.Firstname,
-                                    Dob = junior.Dob.ToShortDateString(),
-                                    Notes = junior.JuniorInfo.Notes,
-                                    Address = guardian.AddressDetail.Address,
-                                    Town = guardian.AddressDetail.Town,
-                                    Postcode = guardian.AddressDetail.Postcode,
-                                    OtherTelephone = guardian.ContactDetail.OtherTelephone,
-                                    Mobile = guardian.ContactDetail.Mobile,
-                                    Email = guardian.ContactDetail.Email
-                                };
-
-                                contactAdminViewModel.JuniorContacts.Add(juniorViewModel);
                                 juniorKeylist.Add(junior.JuniorKey);
                             }
-                        }
-                        
+                            else
+                            {
+                                if (!juniorKeylist.Contains(junior.JuniorKey))
+                                {
+                                    var juniorViewModel = new JuniorContactViewModel
+                                    {
+                                        Surname = junior.Member.Surname,
+                                        Firstname = junior.Member.Firstname,
+                                        Dob = junior.Dob.ToShortDateString(),
+                                        Notes = junior.JuniorInfo.Notes,
+                                        Address = guardian.AddressDetail.Address,
+                                        Town = guardian.AddressDetail.Town,
+                                        Postcode = guardian.AddressDetail.Postcode,
+                                        OtherTelephone = guardian.ContactDetail.OtherTelephone,
+                                        Mobile = guardian.ContactDetail.Mobile,
+                                        Email = guardian.ContactDetail.Email
+                                    };
 
-                       
+                                    contactAdminViewModel.JuniorContacts.Add(juniorViewModel);
+                                    juniorKeylist.Add(junior.JuniorKey);
+                                }
+                            }
+                        }
                     }
 
                     //contactAdminViewModel.Contacts.Add(guardianViewModel);

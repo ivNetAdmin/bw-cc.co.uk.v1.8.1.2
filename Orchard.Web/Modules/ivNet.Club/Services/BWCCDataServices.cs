@@ -121,10 +121,9 @@ namespace ivNet.Club.Services
 
             PopulateContactDetails(guardian, member);
 
-            PopulateMemberDetails(guardian, member);
+            PopulateMemberDetails(guardian, member);          
 
             return guardian;
-
         }
 
         private MemberViewModel GetBwccJunior(dynamic member)
@@ -137,6 +136,7 @@ namespace ivNet.Club.Services
             
             junior.School = member[14];
             junior.Notes = string.Format("{0} {1} {2}", member[11], member[12], member[13]);
+        
             return junior;
 
         }
@@ -152,6 +152,7 @@ namespace ivNet.Club.Services
             member.Surname = memberDetail[3];
             member.Firstname = memberDetail[2];
             member.Nickname = memberDetail[4];
+            member.MemberIsActive = Convert.ToByte(memberDetail[15]) == 0 ? (byte) 1 : (byte) 0;
             member.MemberKey = CustomStringHelper.BuildKey(new[] {member.Email});
         }
 

@@ -111,12 +111,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\bwcc_addresses.sql" />
+    <Content Include="App_Data\bwcc_all_data.sql" />
     <Content Include="App_Data\bwcc_contacttypes.sql" />
     <Content Include="App_Data\bwcc_fixtures.sql" />
     <Content Include="App_Data\bwcc_fixturestats.sql" />
     <Content Include="App_Data\bwcc_howout.sql" />
     <Content Include="App_Data\bwcc_matchreports.sql" />
-    <Content Include="App_Data\bwcc_members %2810%29.sql" />
+    <Content Include="App_Data\bwcc_members.sql" />
     <Content Include="App_Data\bwcc_member_address.sql" />
     <Content Include="App_Data\bwcc_member_contact.sql" />
     <Content Include="App_Data\bwcc_member_payments.sql" />
