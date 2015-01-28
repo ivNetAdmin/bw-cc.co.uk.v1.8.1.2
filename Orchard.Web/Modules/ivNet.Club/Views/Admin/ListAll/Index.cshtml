@@ -1,6 +1,7 @@
 ﻿@{
     Script.Require("AngularJS-Resource");
-    Script.Require("Admin.Member.List.All");    
+    Script.Require("Admin.Member.List.All");
+    Script.Require("NgCsv");  
 
     Style.Require("Admin.Member.List.All");
     Style.Require("trNgGrid");
@@ -9,7 +10,10 @@
 <div id="AdminMembers" data-ng-app="Admin.Member.List.All.App" class="col-md-12">
     <div data-ng-controller="AdminMemberListController">
         <fieldset>
-            @Html.Partial("Admin/ListAll/_MemberList")
+            <div id="memberList">
+                @Html.Partial("Admin/ListAll/_MemberList")
+                <button type="button" ng-csv="getExportMembers()" csv-header="[Surname, Firstname, Dob, MemberType]" filename="list.csv">Export</button>
+            </div>
             <div id="memberDetail">
                 @Html.Partial("_Shared/_GuardianDetails")
                 @Html.Partial("_Shared/_JuniorDetails")

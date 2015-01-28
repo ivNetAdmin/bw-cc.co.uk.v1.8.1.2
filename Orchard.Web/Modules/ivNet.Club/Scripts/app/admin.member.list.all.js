@@ -1,4 +1,4 @@
-﻿var ivNetAdminMemberList = angular.module("Admin.Member.List.All.App", ['ngResource', 'trNgGrid'])
+﻿var ivNetAdminMemberList = angular.module("Admin.Member.List.All.App", ['ngResource', 'trNgGrid', 'ngCsv'])
     .filter("dateField", function() {
         return function(combinedFieldValueUnused, item) {
             var d = item.Dob;
@@ -160,6 +160,10 @@ ivNetAdminMemberList.controller('AdminMemberListController', function ($scope, a
         //    alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
         //});
 
+    };
+
+    $scope.getExportMembers = function() {
+        return $scope.members;
     };
 
     function init() {      
