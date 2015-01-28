@@ -11,7 +11,7 @@
     <div data-ng-controller="AdminContactListController">
         @Html.Partial("Admin/ListContacts/Junior/_ContactList")
         
-        <button type="button" ng-csv="contacts" csv-header="['Surname', 'Firstname', 'Dob', 'Address, 'Town', 'Postcode', 'Notes']" filename="junior.csv">Export</button>
+        <button type="button" ng-csv="contacts" csv-header="[Surname, Firstname, Dob, Address, Town, Postcode, Email, Mobile, OtherTelephone, Notes]" filename="junior.csv">Export</button>
 
     </div>
 </div>
