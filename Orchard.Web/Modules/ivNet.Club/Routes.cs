@@ -348,7 +348,7 @@ namespace ivNet.Club
                 new RouteDescriptor
                 {
                     Route = new Route(
-                        "club/admin/member/contact-list",
+                        "club/admin/member/contact-list/{id}",
                         new RouteValueDictionary
                         {
                             {"area", "ivNet.Club"},

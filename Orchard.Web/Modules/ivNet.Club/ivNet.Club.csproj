@@ -612,8 +612,8 @@
     <Content Include="Views\Admin\Fixture\Report\Index.cshtml" />
     <Content Include="Views\Admin\Fixture\Report\_MatchReport.cshtml" />
     <Content Include="Views\Admin\UserStories\_Contacts.cshtml" />
-    <Content Include="Views\Admin\ListContacts\Index.cshtml" />
-    <Content Include="Views\Admin\ListContacts\_contactList.cshtml" />
+    <Content Include="Views\Admin\ListContacts\Junior\Index.cshtml" />
+    <Content Include="Views\Admin\ListContacts\Junior\_contactList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\Api\AdminContactController.cs" />
