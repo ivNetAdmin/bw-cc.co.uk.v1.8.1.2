@@ -226,6 +226,12 @@ namespace ivNet.Club.Services
                             whereClause.Length == 0 ? string.Empty : " and "));
                     }                  
                 }
+
+                if (fields.AgeGroup != null)
+                {
+                    // do some stuff with dates
+                }
+
                 if (whereClause.Length>0)
                 {
                     sql = string.Format("{0} where {1}", sql, whereClause);
@@ -240,32 +246,67 @@ namespace ivNet.Club.Services
                     Surname = member.Surname, 
                     Firstname = member.Firstname, 
                     MemberIsActive = member.IsActive, 
-                    Dob = member.Dob, MemberType = member.GuardianID == null ? "Junior" : "Guardian"
+                    Dob = member.Dob,                   
+                    MemberType = member.GuardianID == null ? "Junior" : "Guardian"
                 }).ToList();             
+
+                var rtnList = new List<MemberViewModel>();
 
                 switch (orderBy)
                 {
                     case "IsActive":
-                        return orderByReverse ?
-                           returnList.OrderByDescending(m => m.MemberIsActive).Skip(pageItems * currentPage).Take(pageItems).ToList() :
-                           returnList.OrderBy(m => m.MemberIsActive).Skip(pageItems * currentPage).Take(pageItems).ToList();
+                        rtnList = orderByReverse
+                            ? returnList.OrderByDescending(m => m.MemberIsActive)
+                                .Skip(pageItems*currentPage)
+                                .Take(pageItems)
+                                .ToList()
+                            : returnList.OrderBy(m => m.MemberIsActive)
+                                .Skip(pageItems*currentPage)
+                                .Take(pageItems)
+                                .ToList();
+                        break;
                     case "Dob":
-                        return orderByReverse ?
-                           returnList.OrderByDescending(m => m.Dob).Skip(pageItems * currentPage).Take(pageItems).ToList() :
-                           returnList.OrderBy(m => m.Dob).Skip(pageItems * currentPage).Take(pageItems).ToList();
+                        rtnList = orderByReverse
+                            ? returnList.OrderByDescending(m => m.Dob)
+                                .Skip(pageItems*currentPage)
+                                .Take(pageItems)
+                                .ToList()
+                            : returnList.OrderBy(m => m.Dob).Skip(pageItems*currentPage).Take(pageItems).ToList();
+                        break;
                     case "MemberType":
-                        return orderByReverse ?
-                           returnList.OrderByDescending(m => m.MemberType).Skip(pageItems * currentPage).Take(pageItems).ToList() :
-                           returnList.OrderBy(m => m.MemberType).Skip(pageItems * currentPage).Take(pageItems).ToList();
+                        rtnList = orderByReverse
+                            ? returnList.OrderByDescending(m => m.MemberType)
+                                .Skip(pageItems*currentPage)
+                                .Take(pageItems)
+                                .ToList()
+                            : returnList.OrderBy(m => m.MemberType).Skip(pageItems*currentPage).Take(pageItems).ToList();
+                        break;
                     case "Firstname":
-                        return orderByReverse ?
-                           returnList.OrderByDescending(m => m.Firstname).Skip(pageItems * currentPage).Take(pageItems).ToList() :
-                           returnList.OrderBy(m => m.Firstname).Skip(pageItems * currentPage).Take(pageItems).ToList();
+                        rtnList = orderByReverse
+                            ? returnList.OrderByDescending(m => m.Firstname)
+                                .Skip(pageItems*currentPage)
+                                .Take(pageItems)
+                                .ToList()
+                            : returnList.OrderBy(m => m.Firstname).Skip(pageItems*currentPage).Take(pageItems).ToList();
+                        break;
                     default:
-                        return orderByReverse ? 
-                            returnList.OrderByDescending(m => m.Surname).Skip(pageItems * currentPage).Take(pageItems).ToList() : 
-                            returnList.OrderBy(m => m.Surname).Skip(pageItems * currentPage).Take(pageItems).ToList();
-                }            
+                        rtnList = orderByReverse
+                            ? returnList.OrderByDescending(m => m.Surname)
+                                .Skip(pageItems*currentPage)
+                                .Take(pageItems)
+                                .ToList()
+                            : returnList.OrderBy(m => m.Surname).Skip(pageItems*currentPage).Take(pageItems).ToList();
+                        break;
+                }
+
+                foreach (var member in rtnList)
+                {
+                    member.AgeGroup = member.Dob == null
+                        ? ""
+                        : string.Format("U{0}", _configurationServices.GetJuniorYear(member.Dob.GetValueOrDefault()));
+                }
+
+                return rtnList;
             }
         }      
 

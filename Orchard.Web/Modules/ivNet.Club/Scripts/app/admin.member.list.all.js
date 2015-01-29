@@ -162,8 +162,16 @@ ivNetAdminMemberList.controller('AdminMemberListController', function ($scope, a
 
     };
 
-    $scope.getExportMembers = function() {
-        return $scope.members;
+    $scope.getExportMembers = function () {
+        var exportMembers = [];
+
+        $scope.members.forEach(function(item) {
+            exportMembers.push({ "Surname": item.Surname, "Firstname": item.Firstname, "Dob": item.Dob, "MemberType": item.MemberType, "IsActive": item.MemberIsActive });
+
+
+        });
+
+        return exportMembers;
     };
 
     function init() {      

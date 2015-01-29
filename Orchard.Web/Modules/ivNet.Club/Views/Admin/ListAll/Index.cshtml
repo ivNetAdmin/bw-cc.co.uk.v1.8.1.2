@@ -12,7 +12,7 @@
         <fieldset>
             <div id="memberList">
                 @Html.Partial("Admin/ListAll/_MemberList")
-                <button type="button" ng-csv="getExportMembers()" csv-header="[Surname, Firstname, Dob, MemberType]" filename="list.csv">Export</button>
+                <button type="button" ng-csv="getExportMembers()" csv-header="[Surname, Firstname]" filename="list.csv">Export</button>
             </div>
             <div id="memberDetail">
                 @Html.Partial("_Shared/_GuardianDetails")
