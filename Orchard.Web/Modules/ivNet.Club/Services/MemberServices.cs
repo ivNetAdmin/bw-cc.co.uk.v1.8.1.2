@@ -229,7 +229,13 @@ namespace ivNet.Club.Services
 
                 if (fields.AgeGroup != null)
                 {
-                    // do some stuff with dates
+                    DateTime startDate;
+                    DateTime endDate;
+                    _configurationServices.GetAgeGroupSearchDates(fields.AgeGroup.ToString(), out startDate, out endDate);
+
+
+                    whereClause.Append(string.Format("{0}ivNetJunior.DOB >= '{1}' and ivNetJunior.DOB <= '{2}'",
+                        whereClause.Length == 0 ? string.Empty : " and ", startDate, endDate));
                 }
 
                 if (whereClause.Length>0)
@@ -657,33 +663,33 @@ namespace ivNet.Club.Services
 
         private void ActivateGuardian(Guardian guardian)
         {
-            //guardian.IsVetted = 1;
-            //guardian.IsActive = 1;
-            //guardian.Member.IsActive = 1;
-            //guardian.AddressDetail.IsActive = 1;
-            //guardian.ContactDetail.IsActive = 1;
-
-            // for data load only
             guardian.IsVetted = 1;
-            guardian.IsActive = guardian.Member.IsActive;
-            //guardian.Member.IsActive = 1;
-            guardian.AddressDetail.IsActive = guardian.Member.IsActive;
-            guardian.ContactDetail.IsActive = guardian.Member.IsActive;
+            guardian.IsActive = 1;
+            guardian.Member.IsActive = 1;
+            guardian.AddressDetail.IsActive = 1;
+            guardian.ContactDetail.IsActive = 1;
+
+            //// for data load only
+            //guardian.IsVetted = 1;
+            //guardian.IsActive = guardian.Member.IsActive;
+            ////guardian.Member.IsActive = 1;
+            //guardian.AddressDetail.IsActive = guardian.Member.IsActive;
+            //guardian.ContactDetail.IsActive = guardian.Member.IsActive;
                
         }
      
         private void ActivateJunior(Junior junior)
         {
-        //    junior.IsVetted = 1;
-        //    junior.IsActive = 1;
-        //    junior.Member.IsActive = 1;
-        //    junior.Player.IsActive = 1;
-
-            // for data load only
             junior.IsVetted = 1;
-            junior.IsActive = junior.Member.IsActive;
-            //junior.Member.IsActive = 1;
-            junior.Player.IsActive = junior.Member.IsActive;
+            junior.IsActive = 1;
+            junior.Member.IsActive = 1;
+            junior.Player.IsActive = 1;
+
+            //// for data load only
+            //junior.IsVetted = 1;
+            //junior.IsActive = junior.Member.IsActive;
+            ////junior.Member.IsActive = 1;
+            //junior.Player.IsActive = junior.Member.IsActive;
         }
 
         private void CreateUserAccount(ISession session, Member member, string email, bool junior = false)

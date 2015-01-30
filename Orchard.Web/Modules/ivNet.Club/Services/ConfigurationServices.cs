@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Caching;
 using ivNet.Club.Entities;
@@ -37,7 +38,8 @@ namespace ivNet.Club.Services
         void SaveFixtureType(int id, string name, byte isActive);
         void SaveFixtureResult(int id, string name, byte isActive);
         void SaveHowOut(int id, string name, byte isActive);
-        void SaveLocation(int id, string name, string postcode, decimal latitude, decimal longitude, byte isActive);        
+        void SaveLocation(int id, string name, string postcode, decimal latitude, decimal longitude, byte isActive);
+        void GetAgeGroupSearchDates(string ageGroup, out DateTime startDate, out DateTime endDate);
     }
 
     public class ConfigurationServices : BaseService, IConfigurationServices
@@ -199,6 +201,19 @@ namespace ivNet.Club.Services
                     transaction.Commit();
                 }
             }        
+        }
+
+        public void GetAgeGroupSearchDates(string ageGroup, out DateTime startDate, out DateTime endDate)
+        {
+            var now = DateTime.Now;
+           
+            var ageYear = Convert.ToInt32(Regex.Replace(ageGroup, "[^0-9]", ""));
+            var juniorTeamDate = GetJuniorTeamDate() ?? new DateTime(2015, 8, 1);
+
+            startDate = new DateTime(now.Year - ageYear, juniorTeamDate.Month,juniorTeamDate.Day);
+            juniorTeamDate = juniorTeamDate.AddDays(-1);
+            endDate = new DateTime(now.Year - ageYear+1, juniorTeamDate.Month, juniorTeamDate.Day);
+
         }
 
         public string GetCurrentSeason()
@@ -432,24 +447,8 @@ namespace ivNet.Club.Services
 
         public int GetJuniorYear(DateTime dob)
         {
-            if (HttpContext.Current.Cache["juniourTeamDate"] == null)
-            {
-
-                using (var session = NHibernateHelper.OpenSession())
-                {
-                    var entity = session.CreateCriteria(typeof (ConfigurationItem))
-                        .List<ConfigurationItem>()
-                        .FirstOrDefault(
-                            x => x.Name.Replace(" ", string.Empty).ToLowerInvariant().Equals("juniorteamdate"));
-
-                    if (entity == null) return 0;
-
-                    HttpContext.Current.Cache["juniourTeamDate"] = entity.Date;
-
-                }
-            }
-
-            var juniourTeamDate = (DateTime?) HttpContext.Current.Cache["juniourTeamDate"];
+           
+            var juniourTeamDate = GetJuniorTeamDate();
             // at the 01/01 this year junior would be
             var age = DateTime.Now.Year - dob.Year;
 
@@ -465,6 +464,25 @@ namespace ivNet.Club.Services
             }
 
             return age;           
+        }
+
+        private DateTime? GetJuniorTeamDate()
+        {
+            using (var session = NHibernateHelper.OpenSession())
+            {
+
+                if (HttpContext.Current.Cache["juniourTeamDate"] == null)
+                {
+                    var entity = session.CreateCriteria(typeof(ConfigurationItem))
+                   .List<ConfigurationItem>()
+                   .FirstOrDefault(
+                       x => x.Name.Replace(" ", string.Empty).ToLowerInvariant().Equals("juniorteamdate"));
+
+                    HttpContext.Current.Cache["juniourTeamDate"] = entity == null ? null : entity.Date;
+                }
+
+                return(DateTime?)HttpContext.Current.Cache["juniourTeamDate"];
+            }
         }
     }
 }
