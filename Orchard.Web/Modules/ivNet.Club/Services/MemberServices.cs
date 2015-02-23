@@ -167,6 +167,18 @@ namespace ivNet.Club.Services
             string filterByFields)
         {
 
+            //    string SQL = "UPDATE [sometable] SET someDateTimeColumn= @NewTime WHERE ID= @ID";
+
+            //using (var cn = new SqlCeConnection("connection string here"))
+            //using (var cmd = new SqlCeCommand(SQL, cn))
+            //{
+            //    cmd.Parameters.Add("@NewTime", SqlDbType.DateTime).Value = timeStamp;
+            //    cmd.Parameters.Add("@ID", SqlDbType.Integer).Value = recordID;
+
+            //    cn.Open();
+            //    cmd.ExecuteNonQuery();
+            //}
+
             using (var session = NHibernateHelper.OpenSession())
             {
                 var sql = "select ivnetMember.MemberId,ivnetMember.Surname,ivnetMember.Firstname," +
@@ -234,8 +246,8 @@ namespace ivNet.Club.Services
                     _configurationServices.GetAgeGroupSearchDates(fields.AgeGroup.ToString(), out startDate, out endDate);
 
 
-                    whereClause.Append(string.Format("{0}ivNetJunior.DOB >= '{1}' and ivNetJunior.DOB <= '{2}'",
-                        whereClause.Length == 0 ? string.Empty : " and ", startDate, endDate));
+                    whereClause.Append(string.Format("{0}(ivNetJunior.DOB >= '{1}' and ivNetJunior.DOB <= '{2}')",
+                        whereClause.Length == 0 ? string.Empty : " and ", startDate.ToString("yyyy-MM-dd hh:mm:ss"), endDate.ToString("yyyy-MM-dd hh:mm:ss")));
                 }
 
                 if (whereClause.Length>0)

@@ -203,19 +203,6 @@ namespace ivNet.Club.Services
             }        
         }
 
-        public void GetAgeGroupSearchDates(string ageGroup, out DateTime startDate, out DateTime endDate)
-        {
-            var now = DateTime.Now;
-           
-            var ageYear = Convert.ToInt32(Regex.Replace(ageGroup, "[^0-9]", ""));
-            var juniorTeamDate = GetJuniorTeamDate() ?? new DateTime(2015, 8, 1);
-
-            startDate = new DateTime(now.Year - ageYear, juniorTeamDate.Month,juniorTeamDate.Day);
-            juniorTeamDate = juniorTeamDate.AddDays(-1);
-            endDate = new DateTime(now.Year - ageYear+1, juniorTeamDate.Month, juniorTeamDate.Day);
-
-        }
-
         public string GetCurrentSeason()
         {
             if (HttpContext.Current.Cache["currentSeason"] != null) return HttpContext.Current.Cache["currentSeason"].ToString();
@@ -447,18 +434,18 @@ namespace ivNet.Club.Services
 
         public int GetJuniorYear(DateTime dob)
         {
-           
-            var juniourTeamDate = GetJuniorTeamDate();
+
+            var juniorTeamDate = GetJuniorTeamDate() ?? new DateTime(2015, 8, 1);
             // at the 01/01 this year junior would be
             var age = DateTime.Now.Year - dob.Year;
 
-            // if junior's birthday is after juniourTeamDate then junior will play a year older
-            if (dob.Month > juniourTeamDate.GetValueOrDefault().Month)
+            // if junior's birthday is after juniorTeamDate then junior will play a year older
+            if (dob.Month > juniorTeamDate.Month)
             {
                 age++;
             }
-            else if (dob.Month == juniourTeamDate.GetValueOrDefault().Month &&
-                     dob.Day >= juniourTeamDate.GetValueOrDefault().Day)
+            else if (dob.Month == juniorTeamDate.Month &&
+                     dob.Day >= juniorTeamDate.Day)
             {
                 age++;
             }
@@ -466,22 +453,35 @@ namespace ivNet.Club.Services
             return age;           
         }
 
+        public void GetAgeGroupSearchDates(string ageGroup, out DateTime startDate, out DateTime endDate)
+        {           
+            var ageYear = Convert.ToInt32(Regex.Replace(ageGroup, "[^0-9]", ""));
+            var juniorTeamDate = GetJuniorTeamDate() ?? new DateTime(2015, 8, 1);
+
+            startDate = DateTime.Now.AddYears(-1 * ageYear);
+            startDate = new DateTime(startDate.Year, juniorTeamDate.Month, juniorTeamDate.Day);
+
+            juniorTeamDate = juniorTeamDate.AddDays(-1);
+            endDate = new DateTime(startDate.Year + 1, juniorTeamDate.Month, juniorTeamDate.Day);
+
+        }
+
         private DateTime? GetJuniorTeamDate()
         {
             using (var session = NHibernateHelper.OpenSession())
             {
 
-                if (HttpContext.Current.Cache["juniourTeamDate"] == null)
+                if (HttpContext.Current.Cache["juniorTeamDate"] == null)
                 {
                     var entity = session.CreateCriteria(typeof(ConfigurationItem))
                    .List<ConfigurationItem>()
                    .FirstOrDefault(
                        x => x.Name.Replace(" ", string.Empty).ToLowerInvariant().Equals("juniorteamdate"));
 
-                    HttpContext.Current.Cache["juniourTeamDate"] = entity == null ? null : entity.Date;
+                    HttpContext.Current.Cache["juniorTeamDate"] = entity == null ? null : entity.Date;
                 }
 
-                return(DateTime?)HttpContext.Current.Cache["juniourTeamDate"];
+                return(DateTime?)HttpContext.Current.Cache["juniorTeamDate"];
             }
         }
     }
