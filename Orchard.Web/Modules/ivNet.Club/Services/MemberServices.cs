@@ -11,6 +11,7 @@ using ivNet.Club.Enums;
 using ivNet.Club.Helpers;
 using ivNet.Club.ViewModel;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NHibernate;
 using NHibernate.Mapping;
 using Orchard;
@@ -18,6 +19,7 @@ using Orchard.Data;
 using Orchard.Roles.Models;
 using Orchard.Roles.Services;
 using Orchard.Security;
+using Extensions = FluentNHibernate.Utils.Extensions;
 
 namespace ivNet.Club.Services
 {
@@ -29,6 +31,8 @@ namespace ivNet.Club.Services
         void UpdateMember(EditMemberViewModel registrationUpdateList);
 
         List<MemberViewModel> GetPaginated(int currentPage, string orderBy, bool orderByReverse, int pageItems, string filterBy, string filterByFields);
+        List<JuniorContactViewModel> GetPaginatedJuniorContacts(int currentPage, string orderBy, bool orderByReverse, int pageItems, string filterBy, string filterByFields, string ageGroup, out int totalItems);
+        
         List<RelatedMemberViewModel> GetAll(byte vetted);
         EditMemberViewModel Get(int id);
         List<GuardianViewModel> GetGuardians(int id);
@@ -326,7 +330,194 @@ namespace ivNet.Club.Services
 
                 return rtnList;
             }
-        }      
+        }
+
+        public List<JuniorContactViewModel> GetPaginatedJuniorContacts(int currentPage, string orderBy,
+            bool orderByReverse, int pageItems,
+            string filterBy,
+            string filterByFields,
+            string ageGroup, 
+            out int totalItems)
+        {
+
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                DateTime startDate;
+                DateTime endDate;
+                _configurationServices.GetAgeGroupSearchDates(ageGroup, out startDate, out endDate);
+
+                IEnumerable<Junior> juniorList = session.CreateCriteria(typeof (Junior))
+                    .List<Junior>().Where(j => 
+                        j.Dob>=startDate && 
+                        j.Dob<=endDate && 
+                        j.Member.IsActive.Equals(1))
+                        .OrderBy(j => j.Member.Surname);
+       
+                totalItems = juniorList.AsQueryable().Count();
+
+                var fields = JsonConvert.DeserializeObject<dynamic>(filterByFields);
+   
+                if (fields.Surname != null)
+                {
+                    juniorList = juniorList
+                        .Where(j => j.Member.Surname.ToLowerInvariant()
+                            .Contains(fields.Value<string>("Surname").ToLowerInvariant()));
+                }
+
+                if (fields.Firstname != null)
+                {
+                    juniorList = juniorList
+                        .Where(j => j.Member.Firstname.ToLowerInvariant()
+                            .Contains(fields.Value<string>("Firstname").ToLowerInvariant()));
+
+                }
+
+                if (fields.Town != null)
+                {
+                    juniorList = juniorList
+                        .Where(j => j.Guardians.First().AddressDetail.Town.ToLowerInvariant()
+                            .Contains(fields.Value<string>("Town").ToLowerInvariant()));
+
+                }
+
+                //if (fields.MemberType != null)
+                //{
+                //    const string guardian = "guardian";
+                //    const string junior = "junior";
+
+                //    if (guardian.Contains(((string)fields.MemberType).ToLowerInvariant()))
+                //    {
+                //        whereClause.Append(string.Format("{0}ivNetGuardian.GuardianId>0 ",
+                //            whereClause.Length == 0 ? string.Empty : " and "));
+                //    }
+
+                //    if (junior.Contains(((string)fields.MemberType).ToLowerInvariant()))
+                //    {
+                //        whereClause.Append(string.Format("{0}ivNetJunior.JuniorId>0 ",
+                //            whereClause.Length == 0 ? string.Empty : " and "));
+                //    }
+                //}
+
+                //if (fields.IsActive != null)
+                //{
+                //    if (Extensions.ToLowerInvariantString(fields.IsActive)=="y")
+                //    {
+                //        whereClause.Append(string.Format("{0}ivnetMember.IsActive=1 ",
+                //            whereClause.Length == 0 ? string.Empty : " and "));
+                //    }
+                //    else if (Extensions.ToLowerInvariantString(fields.IsActive) == "n")
+                //    {
+                //        whereClause.Append(string.Format("{0}ivnetMember.IsActive=0 ",
+                //            whereClause.Length == 0 ? string.Empty : " and "));
+                //    }                  
+                //}
+
+                //if (fields.AgeGroup != null)
+                //{
+                //    DateTime startDate;
+                //    DateTime endDate;
+                //    _configurationServices.GetAgeGroupSearchDates(fields.AgeGroup.ToString(), out startDate, out endDate);
+
+
+                //    whereClause.Append(string.Format("{0}(ivNetJunior.DOB >= '{1}' and ivNetJunior.DOB <= '{2}')",
+                //        whereClause.Length == 0 ? string.Empty : " and ", startDate.ToString("yyyy-MM-dd hh:mm:ss"), endDate.ToString("yyyy-MM-dd hh:mm:ss")));
+                //}
+
+                //if (whereClause.Length>0)
+                //{
+                //    sql = string.Format("{0} where {1}", sql, whereClause);
+                //}
+
+                //var memberContactQuery = session.CreateSQLQuery(sql);
+                //var members = memberContactQuery.DynamicList();
+            
+                //var rtnList = new List<Junior>();
+
+                switch (orderBy)
+                {
+                        //case "IsActive":
+                        //    rtnList = orderByReverse
+                        //        ? returnList.OrderByDescending(m => m.MemberIsActive)
+                        //            .Skip(pageItems*currentPage)
+                        //            .Take(pageItems)
+                        //            .ToList()
+                        //        : returnList.OrderBy(m => m.MemberIsActive)
+                        //            .Skip(pageItems*currentPage)
+                        //            .Take(pageItems)
+                        //            .ToList();
+                        //    break;
+                  
+                        //case "MemberType":
+                        //    rtnList = orderByReverse
+                        //        ? returnList.OrderByDescending(m => m.MemberType)
+                        //            .Skip(pageItems*currentPage)
+                        //            .Take(pageItems)
+                        //            .ToList()
+                        //        : returnList.OrderBy(m => m.MemberType).Skip(pageItems*currentPage).Take(pageItems).ToList();
+                        //    break;
+                    case "Surname":
+                        juniorList = orderByReverse
+                            ? juniorList.OrderByDescending(m => m.Member.Surname)
+                                .Skip(pageItems*currentPage)
+                                .Take(pageItems)
+                                .ToList()
+                            : juniorList.OrderBy(m => m.Member.Surname)
+                                .Skip(pageItems*currentPage)
+                                .Take(pageItems)
+                                .ToList();
+                        break;
+                    case "Firstname":
+                        juniorList = orderByReverse
+                            ? juniorList.OrderByDescending(m => m.Member.Firstname)
+                                .Skip(pageItems * currentPage)
+                                .Take(pageItems)
+                                .ToList()
+                            : juniorList.OrderBy(m => m.Member.Firstname)
+                                .Skip(pageItems * currentPage)
+                                .Take(pageItems)
+                                .ToList();
+                        break;
+                    case "Town":
+                        juniorList = orderByReverse
+                            ? juniorList.OrderByDescending(m => m.Guardians.First().AddressDetail.Town)
+                                .Skip(pageItems * currentPage)
+                                .Take(pageItems)
+                                .ToList()
+                            : juniorList.OrderBy(m => m.Guardians.First().AddressDetail.Town)
+                                .Skip(pageItems * currentPage)
+                                .Take(pageItems)
+                                .ToList();
+                        break;
+                    default:
+                        juniorList = juniorList.Skip(pageItems * currentPage)
+                        .Take(pageItems);
+                        break;
+                }
+
+                //foreach (var member in rtnList)
+                //{
+                //    member.AgeGroup = member.Dob == null
+                //        ? ""
+                //        : string.Format("U{0}", _configurationServices.GetJuniorYear(member.Dob.GetValueOrDefault()));
+                //}
+
+                return juniorList.Select(junior => new JuniorContactViewModel
+                {
+                    Surname = junior.Member.Surname,
+                    Firstname = junior.Member.Firstname,
+                    Dob = junior.Dob.ToShortDateString(),
+                    AgeGroup = string.Format("U{0}",_configurationServices.GetJuniorYear(junior.Dob)),
+                    Notes = junior.JuniorInfo.Notes,
+                    Address = junior.Guardians.First().AddressDetail.Address,
+                    Town = junior.Guardians.First().AddressDetail.Town,
+                    Postcode = junior.Guardians.First().AddressDetail.Postcode,
+                    OtherTelephone = junior.Guardians.First().ContactDetail.OtherTelephone,
+                    Mobile = junior.Guardians.First().ContactDetail.Mobile,
+                    Email = junior.Guardians.First().ContactDetail.Email
+                }).ToList();
+
+            }
+        }
 
         public List<RelatedMemberViewModel> GetAll(byte vetted)
         {
@@ -905,7 +1096,6 @@ namespace ivNet.Club.Services
         {
 
         }
-
 
         private void Add(int memberId)
         {

@@ -94,18 +94,33 @@
     <References>
       <Reference>
         <Name>AutoMapper</Name>
-        <LoaderName>DynamicExtensionLoader</LoaderName>
+        <LoaderName>PrecompiledExtensionLoader</LoaderName>
         <VirtualPath>~/Modules/ivNet.Club/bin/AutoMapper.dll</VirtualPath>
       </Reference>
       <Reference>
         <Name>AutoMapper.Net4</Name>
-        <LoaderName>DynamicExtensionLoader</LoaderName>
+        <LoaderName>PrecompiledExtensionLoader</LoaderName>
         <VirtualPath>~/Modules/ivNet.Club/bin/AutoMapper.Net4.dll</VirtualPath>
+      </Reference>
+      <Reference>
+        <Name>Orchard.Forms</Name>
+        <LoaderName>PrecompiledExtensionLoader</LoaderName>
+        <VirtualPath>~/Modules/Orchard.Forms/bin/Orchard.Forms.dll</VirtualPath>
       </Reference>
       <Reference>
         <Name>Orchard.Roles</Name>
         <LoaderName>PrecompiledExtensionLoader</LoaderName>
         <VirtualPath>~/Modules/Orchard.Roles/bin/Orchard.Roles.dll</VirtualPath>
+      </Reference>
+      <Reference>
+        <Name>Orchard.Tokens</Name>
+        <LoaderName>PrecompiledExtensionLoader</LoaderName>
+        <VirtualPath>~/Modules/Orchard.Tokens/bin/Orchard.Tokens.dll</VirtualPath>
+      </Reference>
+      <Reference>
+        <Name>Orchard.Workflows</Name>
+        <LoaderName>PrecompiledExtensionLoader</LoaderName>
+        <VirtualPath>~/Modules/Orchard.Workflows/bin/Orchard.Workflows.dll</VirtualPath>
       </Reference>
     </References>
   </Dependency>

@@ -21,6 +21,7 @@ namespace ivNet.Club.Services
     public interface IBwccDataServices : IDependency
     {
         List<EditMemberViewModel> GetMembers();
+        List<EditFixtureViewModel> GetFixtures();
     }
 
     public class BwccDataServices : BaseService, IBwccDataServices
@@ -46,6 +47,22 @@ namespace ivNet.Club.Services
                                           ",modifiedby " +
                                           ",modifieddate " +
                                           "FROM bwcc_members";
+
+        private const string FixturesSql = "SELECT bwcc_fixtures.id " +
+                                           ",bwcc_fixtures.venueid " +
+                                           ",bwcc_fixtures.dateplayed " +
+                                           ",bwcc_fixtures.teamid " +
+                                           ",bwcc_teams.name as team " +
+                                           ",bwcc_fixtures.oppositionid " +
+                                           ",bwcc_opposition.name as opposition " +
+                                           ",bwcc_fixtures.competitionid " +
+                                           ",bwcc_fixtures.resultid " +
+                                           ",bwcc_resulttype.name as result" +
+                                           ",bwcc_fixtures.result " +
+                                           "FROM bwcc_fixtures " +
+                                           "INNER JOIN bwcc_teams on bwcc_teams.id = bwcc_fixtures.teamid " +
+                                           "INNER JOIN bwcc_opposition on bwcc_opposition.id = bwcc_fixtures.oppositionid " +
+                                           "INNER JOIN bwcc_resulttype on bwcc_resulttype.id = bwcc_fixtures.resultid ";
 
         public BwccDataServices(IMembershipService membershipService,
             IAuthenticationService authenticationService,
@@ -94,7 +111,34 @@ namespace ivNet.Club.Services
 
             }
         }
-        
+
+        public List<EditFixtureViewModel> GetFixtures()
+        {
+            using (var session = NHibernateHelper.OpenSession())
+            {
+
+                var rtnList = new List<EditFixtureViewModel>();
+
+                var fixtures = GetBwccFixtures(session);
+
+                foreach (var fixture in fixtures)
+                {
+                    var editFixtureViewModel = new EditFixtureViewModel();
+                    editFixtureViewModel.LegacyFixtureId = (int)fixture[0];
+                    editFixtureViewModel.LegacyVenueId = (int)fixture[1];
+                    editFixtureViewModel.Venue = editFixtureViewModel.LegacyVenueId == 1 ? "Home" : "Away";
+                    editFixtureViewModel.DatePlayed = DateTime.Parse(fixture[2].ToString());
+                    editFixtureViewModel.LegacyTeamId = (int)fixture[3];
+                    editFixtureViewModel.Team = fixture[4];
+
+                    rtnList.Add(editFixtureViewModel);
+                }
+
+                return rtnList;
+
+            }
+        }        
+
         private bool ValidGuardian(ISession session, int memberId)
         {
             var memberContactSql =
@@ -241,5 +285,11 @@ namespace ivNet.Club.Services
             var membersQuery = session.CreateSQLQuery(MembersSql);
             return membersQuery.List<dynamic>();
         }
+
+        private static IEnumerable<dynamic> GetBwccFixtures(ISession session)
+        {
+            var fixturesQuery = session.CreateSQLQuery(FixturesSql);
+            return fixturesQuery.List<dynamic>();
+        }        
     }
 }

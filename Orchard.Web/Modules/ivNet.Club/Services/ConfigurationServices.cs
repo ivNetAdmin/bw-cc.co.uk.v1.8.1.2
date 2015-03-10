@@ -435,35 +435,38 @@ namespace ivNet.Club.Services
         public int GetJuniorYear(DateTime dob)
         {
 
-            var juniorTeamDate = GetJuniorTeamDate() ?? new DateTime(2015, 8, 1);
+            var juniorTeamDate = GetJuniorTeamDate() ?? new DateTime(2015, 9, 1);
             // at the 01/01 this year junior would be
             var age = DateTime.Now.Year - dob.Year;
 
-            // if junior's birthday is after juniorTeamDate then junior will play a year older
+            // if junior's birthday is after juniorTeamDate then junior will play a year younger
             if (dob.Month > juniorTeamDate.Month)
             {
-                age++;
+                age--;
             }
             else if (dob.Month == juniorTeamDate.Month &&
                      dob.Day >= juniorTeamDate.Day)
             {
-                age++;
+                age--;
             }
 
             return age;           
         }
 
         public void GetAgeGroupSearchDates(string ageGroup, out DateTime startDate, out DateTime endDate)
-        {           
+        {
             var ageYear = Convert.ToInt32(Regex.Replace(ageGroup, "[^0-9]", ""));
-            var juniorTeamDate = GetJuniorTeamDate() ?? new DateTime(2015, 8, 1);
+            var juniorTeamDate = GetJuniorTeamDate() ?? new DateTime(2015, 9, 1);
 
-            startDate = DateTime.Now.AddYears(-1 * ageYear);
-            startDate = new DateTime(startDate.Year, juniorTeamDate.Month, juniorTeamDate.Day);
+            startDate = DateTime.Now.AddYears(-1*(ageYear + 1));
+            startDate = new DateTime(startDate.Year, juniorTeamDate.Month, juniorTeamDate.Day).AddDays(1);
 
-            juniorTeamDate = juniorTeamDate.AddDays(-1);
             endDate = new DateTime(startDate.Year + 1, juniorTeamDate.Month, juniorTeamDate.Day);
 
+            if (ageGroup.IndexOf("!", System.StringComparison.Ordinal) != -1)
+            {
+                endDate = endDate.AddYears(ageYear);
+            }            
         }
 
         private DateTime? GetJuniorTeamDate()

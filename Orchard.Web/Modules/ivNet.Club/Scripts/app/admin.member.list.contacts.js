@@ -29,21 +29,60 @@ ivNetAdminContactList.factory('adminContactList', function ($resource) {
     });
 });
 
-ivNetAdminContactList.controller('AdminContactListController', function ($scope, adminContactList) {
+ivNetAdminContactList.factory('adminPaginatedContactList', function ($resource) {
+    return $resource('/api/club/admincontact/:id/:gridOptions', null,
+    {
+        'query': { method: 'GET', isArray: false },
+    });
+});
+
+
+ivNetAdminContactList.controller('AdminContactListController', function ($scope, adminContactList, adminPaginatedContactList) {
    
     init();
 
-    function init() {       
+    $scope.onServerSideItemsRequested = function (currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {        
+
         $('#loading-indicator').show();
-        adminContactList.query(
-            function(data) {
-                $scope.contacts = data.JuniorContacts;
-                $('#loading-indicator').hide();
-               
+
+        if (filterBy == null) {
+            filterBy = "";
+        }
+
+        if (orderBy == null) {
+            orderBy = "";
+        }
+
+        var ageGroup = window.location.search.split('=')[1];
+
+        adminPaginatedContactList.query({ CurrentPage: currentPage, OrderBy: orderBy, OrderByReverse: orderByReverse, PageItems: pageItems, FilterBy: filterBy, FilterByFields: angular.toJson(filterByFields), ageGroup: ageGroup },
+            function (data) {
+                $scope.contacts = data.contacts;
+                $scope.itemsTotalCount = data.totalItems;
+         
+                $('#loading-indicator').hide();       
             },
-            function(error) {
-                alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
-            });
+        function (error) {
+            $('#loading-indicator').hide();
+            alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
+        });      
+    };
+
+    function init() {
+   
+        $scope.pageItemsCount = 20;
+        $scope.itemsTotalCount = 0;
+
+        //$('#loading-indicator').show();
+        //adminContactList.query(
+        //    function(data) {
+        //        $scope.contacts = data.JuniorContacts;
+        //        $('#loading-indicator').hide();
+
+        //    },
+        //    function(error) {
+        //        alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
+        //    });
 
     }
 

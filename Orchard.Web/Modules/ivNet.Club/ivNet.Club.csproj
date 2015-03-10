@@ -704,6 +704,7 @@
     <Compile Include="ViewModel\CaptchaViewModel.cs" />
     <Compile Include="ViewModel\AdminFixtureViewModel.cs" />
     <Compile Include="ViewModel\ContactAdminViewModel.cs" />
+    <Compile Include="ViewModel\EditFixtureViewModel.cs" />
     <Compile Include="ViewModel\EditMemberViewModel.cs" />
     <Compile Include="ViewModel\ConfigurationItemViewModel.cs" />
     <Compile Include="ViewModel\ContactViewModel.cs" />

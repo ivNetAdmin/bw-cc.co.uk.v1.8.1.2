@@ -39,11 +39,14 @@ namespace ivNet.Club.Controllers.Api
 
             switch (id)
             {
-                case "load":
-                    LoadData();
+                case "members":
+                    LoadMemberData();
                     break;
-                case "activate":
+                case "activate-members":
                     ActivateData();
+                    break;
+                case "fixtures":
+                    LoadFixtureData();
                     break;
             }
             
@@ -52,11 +55,11 @@ namespace ivNet.Club.Controllers.Api
                 "done!");
         }
 
-        private List<EditMemberViewModel> LoadData()
+        private List<EditMemberViewModel> LoadMemberData()
         {
             // get members
             var editMemberViewModelList = _bwccDataServices.GetMembers();
-
+           
             foreach (var editMemberViewModel in editMemberViewModelList)
             {
                 _memberServices.UpdateMember(editMemberViewModel);
@@ -78,6 +81,11 @@ namespace ivNet.Club.Controllers.Api
 
             return relatedMemberViewModelList;
             
+        }
+
+        private void LoadFixtureData()
+        {
+            var fixtures = _bwccDataServices.GetFixtures();
         }
     }
 }

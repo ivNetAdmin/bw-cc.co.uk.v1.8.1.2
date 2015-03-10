@@ -142,24 +142,15 @@ ivNetAdminMemberList.controller('AdminMemberListController', function ($scope, a
         }
 
         adminPaginatedMemberList.query({ CurrentPage: currentPage, OrderBy: orderBy, OrderByReverse: orderByReverse, PageItems: pageItems, FilterBy: filterBy, FilterByFields: angular.toJson(filterByFields) },
-            function (data) {
+            function(data) {
                 $scope.members = data;
+                $scope.itemsTotalCount = 200;
                 $('#loading-indicator').hide();
             },
-        function (error) {
-            $('#loading-indicator').hide();
-            alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
-        });
-
-        //adminMemberList.query({ id: "all", type: "list" },
-        //function (data) {
-        //    $scope.members = data;
-        //    $('#loading-indicator').hide();
-        //},
-        //function (error) {
-        //    alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
-        //});
-
+            function(error) {
+                $('#loading-indicator').hide();
+                alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
+            });
     };
 
     $scope.getExportMembers = function () {
@@ -174,7 +165,9 @@ ivNetAdminMemberList.controller('AdminMemberListController', function ($scope, a
         return exportMembers;
     };
 
-    function init() {      
+    function init() {
+        $scope.pageItemsCount = 20;
+        $scope.itemsTotalCount = 0;
         $('div#memberDetail').hide();
         $('#loading-indicator').show();    
     }

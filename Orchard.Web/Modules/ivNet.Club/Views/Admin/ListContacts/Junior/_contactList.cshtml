@@ -1,15 +1,26 @@
-﻿<table id="" tr-ng-grid='' items='contacts'>
+﻿@*<table id="" tr-ng-grid='' items='contacts'>*@
+
+<table tr-ng-grid=""
+       enable-filtering="false"
+       enable-sorting="false"
+       items="contacts"
+       page-items="pageItemsCount"
+       total-items="itemsTotalCount"
+       on-data-required="onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)">
+
     <thead>
-        <tr>       
-            <th field-name="Surname" display-name="Surname">
+        <tr>
+            <th field-name="Surname" display-name="Surname" enable-filtering="true" enable-sorting="true">
             </th>
-            <th field-name="Firstname" display-name="Firstname">
-            </th>        
-            <th field-name="Dob" display-name="DOB" enable-sorting="false" enable-filtering="false">
+            <th field-name="Firstname" display-name="Firstname" enable-filtering="true" enable-sorting="true">
+            </th>
+            <th field-name="Dob" display-name="DOB" enable-sorting="false">
+            </th>
+            <th field-name="AgeGroup" display-name="Age">
             </th>
             <th field-name="Address" display-name="Address">
             </th>
-            <th field-name="Town" display-name="Town">
+            <th field-name="Town" display-name="Town" enable-filtering="true" enable-sorting="true">
             </th>
             <th field-name="Postcode" display-name="PostCode">
             </th>
@@ -19,7 +30,7 @@
             </th>
             <th field-name="OtherTelephone" display-name="Telephone">
             </th>
-            <th field-name="Notes" display-name="Notes" enable-sorting="false">
+            <th field-name="Notes" display-name="Notes">
             </th>
         </tr>
     </thead>

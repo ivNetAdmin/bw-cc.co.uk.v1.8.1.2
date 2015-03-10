@@ -1,8 +1,11 @@
 ﻿
-    <table tr-ng-grid="" items="members"
-           page-items="20" total-items="1000"
-           on-data-required="onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)">
-        <thead>
+    <table tr-ng-grid=""
+       items="members"
+       page-items="pageItemsCount"
+       total-items="itemsTotalCount"
+       on-data-required="onServerSideItemsRequested(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse)">
+
+          <thead>
             <tr>
                 <th field-name="MemberId" display-name="Id" display-align="right" enable-filtering="false" enable-sorting="false">
                 </th>
@@ -13,7 +16,7 @@
                 <th field-name="Dob" display-name="DOB" display-format="dateField:gridItem" enable-sorting="false" enable-filtering="false">
                 </th>
                 <th field-name="AgeGroup" display-name="Age Group">
-                </th>                
+                </th>
                 <th field-name="MemberType" display-name="Member Type">
                 </th>
                 <th field-name="MemberIsActive" display-name="Active (Y/N)">
@@ -31,4 +34,3 @@
             </tr>
         </tbody>
     </table>
-  
