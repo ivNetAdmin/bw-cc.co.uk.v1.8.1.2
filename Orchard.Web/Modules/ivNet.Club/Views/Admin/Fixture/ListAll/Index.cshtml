@@ -1,0 +1,27 @@
+﻿@{
+    Script.Require("AngularJS-Resource");
+    Script.Require("Admin.Fixture.List.All");
+    Script.Require("NgCsv");
+    
+    Style.Require("Admin.Fixture.List.All");
+    Style.Require("trNgGrid");
+}
+
+<div data-ng-app="Admin.Fixture.List.All.App" class="col-md-12">
+    <div data-ng-controller="AdminFixtureListController">
+        <div class="col-md-9 fixture-list">
+            @Html.Partial("Admin/Fixture/_Shared/_List")
+        </div>
+
+        <div id ="fixtureDetail" class="col-md-9 selected-fixture">
+            @Html.Partial("Admin/Fixture/_Shared/_Edit")
+        </div>
+
+        <div class="col-md-3 selected-fixture">
+            <div class="col-md-12">
+                {{selectedFixture.Date | date:"dd/MM/yyyy"}}<br />{{selectedFixture.Team}} v {{selectedFixture.Opponent}}<br />{{selectedFixture.HomeAway}}, {{selectedFixture.FixtureType}}
+            </div>
+        </div>
+    </div>
+</div>
+

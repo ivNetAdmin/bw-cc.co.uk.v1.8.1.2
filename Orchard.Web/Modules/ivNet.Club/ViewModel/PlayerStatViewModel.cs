@@ -26,6 +26,8 @@ namespace ivNet.Club.ViewModel
         [DataMember]
         public string HowOut { get; set; }
         [DataMember]
+        public int HowOutId { get; set; }
+        [DataMember]
         public int Overs { get; set; }
         [DataMember]
         public int Runs { get; set; }
@@ -43,7 +45,7 @@ namespace ivNet.Club.ViewModel
         [DataMember]
         public string BattingAverage
         {
-            get { return (Innings - Convert.ToUInt32(HowOut)) == 0 ? "0" : string.Format("{0:.##}", Runs / (Innings - Convert.ToUInt32(HowOut))); }
+            get { return (Innings - Convert.ToUInt32(HowOutId)) == 0 ? "0" : string.Format("{0:.##}", Runs / (Innings - Convert.ToUInt32(HowOutId))); }
             private set { }
         }
 
@@ -67,5 +69,11 @@ namespace ivNet.Club.ViewModel
             get { return Overs == 0 ? "0" : string.Format("{0:.##}", RunsConceeded / Overs); }
             private set { }
         }
+
+        [DataMember]
+        public int Stumpings { get; set; }
+
+        [DataMember]
+        public int BattingPosition { get; set; }
     }
 }

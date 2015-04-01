@@ -389,7 +389,7 @@ INSERT INTO bwcc_members (id, title, firstname, surname, nickname, email, dob, h
 GO;
 INSERT INTO bwcc_members (id, title, firstname, surname, nickname, email, dob, hometelephone, worktelephone, mobiletelephone, agegroup, medicalnotes, medication, diet, school, notactive, createdby, createdate, modifiedby, modifieddate) VALUES (172, 'Mr', 'Peter', 'Leane', '', '', NULL, '01494 433604', '', '07770 648816', '', '', '', '', '', 0, 'bp', '2010-02-11', 'bp', '2010-02-11');
 GO;
-INSERT INTO bwcc_members (id, title, firstname, surname, nickname, email, dob, hometelephone, worktelephone, mobiletelephone, agegroup, medicalnotes, medication, diet, school, notactive, createdby, createdate, modifiedby, modifieddate) VALUES (173, 'Mr', 'Peter', 'Petrie', '', 'heidi.petrie@btinternet.com', '1970-01-01', '01442876036', '', '07719991581', '0', '', '', '', '0', 1, '', '2010-02-11', 'kernig', '2014-06-05');
+INSERT INTO bwcc_members (id, title, firstname, surname, nickname, email, dob, hometelephone, worktelephone, mobiletelephone, agegroup, medicalnotes, medication, diet, school, notactive, createdby, createdate, modifiedby, modifieddate) VALUES (173, 'Mr', 'Peter', 'Petrie', '', 'heidi.petrie@btinternet.com', '1970-01-01', '01442876036', '', '07719991581', 'S', '', '', '', '0', 1, '', '2010-02-11', 'kernig', '2014-06-05');
 GO;
 INSERT INTO bwcc_members (id, title, firstname, surname, nickname, email, dob, hometelephone, worktelephone, mobiletelephone, agegroup, medicalnotes, medication, diet, school, notactive, createdby, createdate, modifiedby, modifieddate) VALUES (174, 'Mr', 'Peter', 'Levitt', '', '', NULL, '01296 620097', '', '07973 194075', '', '', '', '', '', 1, '', '2010-02-11', 'arncar', '2013-09-13');
 GO;

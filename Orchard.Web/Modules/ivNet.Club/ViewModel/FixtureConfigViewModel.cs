@@ -9,7 +9,7 @@ namespace ivNet.Club.ViewModel
         public List<FixtureItemConfigViewModel> Teams { get; set; }
         public List<FixtureItemConfigViewModel> Opponents { get; set; }
         public List<FixtureItemConfigViewModel> FixtureTypes { get; set; }
-        public List<FixtureItemConfigViewModel> FixtureResults { get; set; }
+        public List<FixtureItemConfigViewModel> ResultTypes { get; set; }
         public List<FixtureItemConfigViewModel> Locations { get; set; }
         public List<FixtureItemConfigViewModel> HowOut { get; set; }
     }

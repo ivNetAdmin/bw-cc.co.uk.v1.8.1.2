@@ -26,8 +26,8 @@ namespace ivNet.Club.Entities
         public PlayerMap()
         {
             Id(x => x.Id);
-            Map(x => x.Number).Not.Nullable().Length(50);
-            Map(x => x.Name).Not.Nullable().Length(50);
+            Map(x => x.Number).Not.Nullable().Length(50).Not.Nullable().Length(120).UniqueKey("ix_Player_Unique");
+            Map(x => x.Name).Not.Nullable().Length(50);   
             Map(x => x.Team).Nullable().Length(50);
 
             References(x => x.Kit);

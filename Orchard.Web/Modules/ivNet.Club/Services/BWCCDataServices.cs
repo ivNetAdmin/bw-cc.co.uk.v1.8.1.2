@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using ivNet.Club.Entities;
@@ -21,7 +22,10 @@ namespace ivNet.Club.Services
     public interface IBwccDataServices : IDependency
     {
         List<EditMemberViewModel> GetMembers();
-        List<EditFixtureViewModel> GetFixtures();
+        List<BWCCLoadFixtureViewModel> GetFixtures();
+        List<PlayerStatViewModel> GetFixtureStats(int fixtureId, int legacyFixtureId);
+        List<MatchReport> GetMatchReports();
+        void SaveMatchReport(MatchReport matchReport);
     }
 
     public class BwccDataServices : BaseService, IBwccDataServices
@@ -56,13 +60,52 @@ namespace ivNet.Club.Services
                                            ",bwcc_fixtures.oppositionid " +
                                            ",bwcc_opposition.name as opposition " +
                                            ",bwcc_fixtures.competitionid " +
-                                           ",bwcc_fixtures.resultid " +
-                                           ",bwcc_resulttype.name as result" +
+                                           ",bwcc_fixtures.resultid as resulttypeid " +
+                                           ",bwcc_resulttype.name as resulttype" +
                                            ",bwcc_fixtures.result " +
                                            "FROM bwcc_fixtures " +
                                            "INNER JOIN bwcc_teams on bwcc_teams.id = bwcc_fixtures.teamid " +
                                            "INNER JOIN bwcc_opposition on bwcc_opposition.id = bwcc_fixtures.oppositionid " +
-                                           "INNER JOIN bwcc_resulttype on bwcc_resulttype.id = bwcc_fixtures.resultid ";
+                                           "LEFT OUTER JOIN bwcc_resulttype on bwcc_resulttype.id = bwcc_fixtures.resultid ";
+
+        private const string FixtureStatsSql = "SELECT bwcc_fixturestats.id " +
+                                               ",bwcc_fixtures.teamid " +
+                                               ",bwcc_teams.name as team " +
+                                               ",fixtureid " +
+                                               ",battingposition " +
+                                               ",memberid " +
+                                               ",runsscored " +
+                                               ",howoutid " +
+                                               ",bwcc_howout.name as howout " +
+                                               ",oversbowled " +
+                                               ",maidenovers " +
+                                               ",runsconceeded " +
+                                               ",wicketstaken " +
+                                               ",catches " +
+                                               ",stumpings " +
+                                               ",locked " +
+                                               ",createdby " +
+                                               ",createdate " +
+                                               ",modifiedby " +
+                                               ",modifieddate " +
+                                               "FROM bwcc_fixturestats " +
+                                               "INNER JOIN bwcc_fixtures on bwcc_fixtures.id = bwcc_fixturestats.fixtureId " +
+                                               "INNER JOIN bwcc_teams on bwcc_teams.id = bwcc_fixtures.teamid "+
+                                               "LEFT OUTER JOIN bwcc_howout on bwcc_howout.id = bwcc_fixturestats.howoutid";
+
+        private const string MatchReportSql = "SELECT bwcc_fixtures.[id] " +
+                                              ",bwcc_fixtures.[teamid] " +
+                                              ",bwcc_fixtures.[dateplayed] " +
+                                              ",bwcc_teams.name as team " +
+                                              ",bwcc_matchreports.[createdby] " +
+                                              ",bwcc_matchreports.[createdate] " +
+                                              ",bwcc_matchreports.[modifiedby] " +
+                                              ",bwcc_matchreports.[modifieddate] " +
+                                              ",bwcc_matchreports.[report] " +
+                                              "FROM [bwcc_fixtures] " +
+                                              "INNER JOIN bwcc_teams on bwcc_teams.id = bwcc_fixtures.teamid " +
+                                              "INNER JOIN [bwcc_matchreports] ON bwcc_matchreports.fixtureid=bwcc_fixtures.Id";
+
 
         public BwccDataServices(IMembershipService membershipService,
             IAuthenticationService authenticationService,
@@ -81,63 +124,160 @@ namespace ivNet.Club.Services
                 var members = GetBwccMembers(session);
 
                 foreach (var member in members)
-                {
-                    var editMemberViewModel = new EditMemberViewModel();
+                {                  
+                    // if guardian they will have a contactId in bwcc_member_contact 
+                    // equal to their memberId                  
+                    if (IsGuardian(session, (int) member[0]))
+                    {                        
+                        var editMemberViewModel = new EditMemberViewModel();
+                        editMemberViewModel.Guardians.Add(GetBwccSeniorGuardian(session, member));
+                        // add juniors
+                        var juniors = GetJuniors(session, (int) member[0]);
 
-                    var memberContacts = GetBwccContacts(session, (int) member[0]);
-
-                    var memberContactList = memberContacts as IList<dynamic> ?? memberContacts.ToList();
-
-                    if (!memberContactList.Any())
-                    {
-                        // guardian   
-                        if (ValidGuardian(session, (int) member[0]))
+                        foreach (var junior in juniors)
                         {
-                            editMemberViewModel.Guardians.Add(GetBwccGuardian(session, member));
-                            // add juniors
-                            var juniors = GetJuniors(session, (int) member[0]);
-
-                            foreach (var junior in juniors)
-                            {
-                                editMemberViewModel.Juniors.Add(GetBwccJunior(junior));
-                            }
+                            editMemberViewModel.Juniors.Add(GetBwccJunior(junior));
                         }
-                    }                  
+                        rtnList.Add(editMemberViewModel);
+                    }
 
-                    rtnList.Add(editMemberViewModel);
+                    // if senior they will have a memberId in bwcc_fixturestats 
+                    // equal to their memberId
+                    if (IsSenior(session, (int)member[0]))
+                    {
+                        var editMemberViewModel = new EditMemberViewModel();
+                        editMemberViewModel.Seniors.Add(GetBwccSeniorGuardian(session, member));
+                        rtnList.Add(editMemberViewModel);
+                    }
+
                 }
 
                 return rtnList;
 
             }
         }
-
-        public List<EditFixtureViewModel> GetFixtures()
+       
+        public List<BWCCLoadFixtureViewModel> GetFixtures()
         {
             using (var session = NHibernateHelper.OpenSession())
             {
 
-                var rtnList = new List<EditFixtureViewModel>();
+                var rtnList = new List<BWCCLoadFixtureViewModel>();
 
                 var fixtures = GetBwccFixtures(session);
-
+                var fixtureTypes = new [] {"Unknown", "Friendly", "League", "Cup", "6-a-side"};
                 foreach (var fixture in fixtures)
                 {
-                    var editFixtureViewModel = new EditFixtureViewModel();
-                    editFixtureViewModel.LegacyFixtureId = (int)fixture[0];
-                    editFixtureViewModel.LegacyVenueId = (int)fixture[1];
+                    var editFixtureViewModel = new BWCCLoadFixtureViewModel
+                    {
+                        LegacyFixtureId = (int) fixture[0],
+                        LegacyVenueId = (int) fixture[1],
+                        DatePlayed = DateTime.Parse(fixture[2].ToString()),
+                        LegacyTeamId = (int) fixture[3],
+                        Team = fixture[4],
+                        OppisitionId = (int) fixture[5],
+                        Oppisition = fixture[6],
+                        LegacyFixtureTypeId = (int) fixture[7],
+                        ResultTypeId = (int) fixture[8],
+                        ResultType = fixture[9],
+                        Score = fixture[10]
+                    };
+
                     editFixtureViewModel.Venue = editFixtureViewModel.LegacyVenueId == 1 ? "Home" : "Away";
-                    editFixtureViewModel.DatePlayed = DateTime.Parse(fixture[2].ToString());
-                    editFixtureViewModel.LegacyTeamId = (int)fixture[3];
-                    editFixtureViewModel.Team = fixture[4];
+                    editFixtureViewModel.FixtureType = fixtureTypes[editFixtureViewModel.LegacyFixtureTypeId];
 
                     rtnList.Add(editFixtureViewModel);
                 }
 
                 return rtnList;
-
             }
-        }        
+        }
+
+        public List<PlayerStatViewModel> GetFixtureStats(int fixtureId, int legacyFixtureId)
+        {
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                var rtnList = new List<PlayerStatViewModel>();
+                var fixtureStats = GetBwccFixtureStats(session, legacyFixtureId);
+              
+                foreach (var fixtureStat in fixtureStats)
+                {
+
+                    var player = GetPlayerByLegacyMemberId(session,(int) fixtureStat[5]);
+
+                    var playerStatViewModel = new PlayerStatViewModel
+                    {
+                        FixtureId = fixtureId,
+                        PlayerName = player.Name,
+                        PlayerNumber = player.Number,
+                        Catches = (int) fixtureStat[13],
+                        Maidens = (int) fixtureStat[10],
+                        HowOutId = fixtureStat[7],
+                        HowOut = fixtureStat[8],
+                        Overs = (int) fixtureStat[9],
+                        Runs = (int) fixtureStat[6],
+                        RunsConceeded = (int) fixtureStat[11],
+                        Wickets = (int) fixtureStat[12],
+                        Stumpings = (int) fixtureStat[14],
+                        BattingPosition = (int) fixtureStat[4]
+                    };
+
+                    rtnList.Add(playerStatViewModel);
+                }
+
+                return rtnList;
+            }            
+        }
+
+        public List<MatchReport> GetMatchReports()
+        {
+            var rtnList = new List<MatchReport>();
+
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                var matchReports = GetBwccMatchReports(session);
+
+                foreach (var legacyMatchReport in matchReports)
+                {
+                   var fixture = GetFixturIdByTeamDate(session, legacyMatchReport[3], DateTime.Parse(legacyMatchReport[2].ToString()));
+               
+                    var matchReport = new MatchReport();
+                    matchReport.Init();
+                    matchReport.Report = legacyMatchReport[8];
+                    matchReport.CreateDate = DateTime.Parse(legacyMatchReport[5].ToString());
+                    matchReport.CreatedBy = legacyMatchReport[4];
+                    matchReport.Fixture = fixture;
+                    matchReport.IsActive = 1;
+                    matchReport.ModifiedBy = legacyMatchReport[6];
+                    matchReport.ModifiedDate = DateTime.Parse(legacyMatchReport[7].ToString());
+                
+                    if (string.IsNullOrEmpty(matchReport.CreatedBy)) matchReport.CreatedBy = "ivNetAdmin";
+                    if (string.IsNullOrEmpty(matchReport.ModifiedBy)) matchReport.ModifiedBy = "ivNetAdmin";
+
+                    rtnList.Add(matchReport);
+                }
+            }
+            return rtnList;
+        }
+
+        public void SaveMatchReport(MatchReport matchReport)
+        {
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                using (var transaction = session.BeginTransaction())
+                {
+                    if (matchReport.Report.Length > 4000) matchReport.Report = matchReport.Report.Substring(0, 4000);
+                    session.SaveOrUpdate(matchReport);
+                    transaction.Commit();
+                }
+            }           
+        }
+
+        private Fixture GetFixturIdByTeamDate(ISession session, string team, DateTime datePlayed)
+        {
+            return session.CreateCriteria(typeof(Fixture))
+                  .List<Fixture>().FirstOrDefault(x => x.Date.Equals(datePlayed) && x.Team.Name.Equals(team));
+        }
 
         private bool ValidGuardian(ISession session, int memberId)
         {
@@ -152,7 +292,7 @@ namespace ivNet.Club.Services
             return memberContactQuery.List<dynamic>().Any();
         }      
 
-        private MemberViewModel GetBwccGuardian(ISession session, dynamic member)
+        private MemberViewModel GetBwccSeniorGuardian(ISession session, dynamic member)
         {
             var guardian = new MemberViewModel
             {
@@ -168,7 +308,7 @@ namespace ivNet.Club.Services
             PopulateMemberDetails(guardian, member);          
 
             return guardian;
-        }
+        }              
 
         private MemberViewModel GetBwccJunior(dynamic member)
         {
@@ -176,7 +316,9 @@ namespace ivNet.Club.Services
 
             PopulateMemberDetails(junior, member);
             junior.Dob = DateTime.Parse(member[6].ToString());
-            junior.MemberKey = CustomStringHelper.BuildKey(new[] { junior.Surname, junior.Firstname, junior.Dob.GetValueOrDefault().ToShortDateString() });
+            junior.MemberKey = CustomStringHelper.BuildKey(new[] { junior.Surname, junior.Firstname
+            //    , junior.Dob.GetValueOrDefault().ToShortDateString() 
+            });
             
             junior.School = member[14];
             junior.Notes = string.Format("{0} {1} {2}", member[11], member[12], member[13]);
@@ -197,7 +339,9 @@ namespace ivNet.Club.Services
             member.Firstname = memberDetail[2];
             member.Nickname = memberDetail[4];
             member.MemberIsActive = Convert.ToByte(memberDetail[15]) == 0 ? (byte) 1 : (byte) 0;
-            member.MemberKey = CustomStringHelper.BuildKey(new[] {member.Email});
+            //member.MemberKey = CustomStringHelper.BuildKey(new[] {member.Email});
+            member.MemberKey = CustomStringHelper.BuildKey(new[] { member.Surname, member.Firstname });
+            member.LegacyId = (int)memberDetail[0];
         }
 
         private void PopulateContactDetails(MemberViewModel guardian, dynamic member)
@@ -282,6 +426,7 @@ namespace ivNet.Club.Services
 
         private static IEnumerable<dynamic> GetBwccMembers(ISession session)
         {
+            //var membersQuery = session.CreateSQLQuery(MembersSql + " WHERE agegroup = 'S'");
             var membersQuery = session.CreateSQLQuery(MembersSql);
             return membersQuery.List<dynamic>();
         }
@@ -290,6 +435,97 @@ namespace ivNet.Club.Services
         {
             var fixturesQuery = session.CreateSQLQuery(FixturesSql);
             return fixturesQuery.List<dynamic>();
-        }        
+        }
+
+        private static IEnumerable<dynamic> GetBwccMatchReports(ISession session)
+        {
+            var matchReportsQuery = session.CreateSQLQuery(MatchReportSql);
+            return matchReportsQuery.List<dynamic>();
+        }
+        
+        private static IEnumerable<dynamic> GetBwccFixtureStats(ISession session, int legacyFixtureId)
+        {
+            var statsSql =
+              string.Format(
+                  "{0} WHERE bwcc_fixturestats.fixtureId = {1}", FixtureStatsSql, legacyFixtureId);
+
+            var fixtureStatsQuery = session.CreateSQLQuery(statsSql);
+            return fixtureStatsQuery.List<dynamic>();
+        }
+
+        private static Member GetMemberByLegacyId(ISession session, int memberId)
+        {
+           return session.CreateCriteria(typeof(Member))
+                  .List<Member>().FirstOrDefault(x => x.LegacyId.Equals(memberId));
+        }
+
+        private static Player GetPlayerByNumber(ISession session, string playerNo)
+        {
+            return session.CreateCriteria(typeof(Player))
+                   .List<Player>().FirstOrDefault(x => x.Number.Equals(playerNo));
+        }
+
+        private Player GetPlayerByLegacyMemberId(ISession session, int memberLegacyId)
+        {
+            var member = GetBwccMember(session, memberLegacyId);
+
+            var memberKey = CustomStringHelper.BuildKey(new[] { (string)member[3], (string)member[2] });
+
+            var senior = session.CreateCriteria(typeof(Senior))
+                  .List<Senior>().FirstOrDefault(x => x.SeniorKey.Equals(memberKey));
+
+            if (senior != null) return senior.Player;
+
+            var junior = session.CreateCriteria(typeof(Junior))
+                 .List<Junior>().FirstOrDefault(x => x.JuniorKey.Equals(memberKey));
+
+            return junior != null ? junior.Player : null;
+        }
+
+        private bool IsGuardian(ISession session, int memberId)
+        {
+            var memberContactSql =
+                string.Format(
+                    "SELECT id " +
+                    "FROM bwcc_member_contact " +
+                    "WHERE contactid = {0} AND contacttype in (1,2,6)",
+                    memberId);
+
+            var memberContactQuery = session.CreateSQLQuery(memberContactSql);
+            return memberContactQuery.List<dynamic>().Any();
+        }
+
+        private bool IsJunior(ISession session, int memberId)
+        {
+            var memberContactSql =
+               string.Format(
+                   "SELECT id " +
+                   "FROM bwcc_member_contact " +
+                   "WHERE memberId = {0}",
+                   memberId);
+
+            var memberContactQuery = session.CreateSQLQuery(memberContactSql);
+            return memberContactQuery.List<dynamic>().Any();
+        }
+
+        private bool IsSenior(ISession session, int memberId)
+        {
+            var memberContactSql =
+             string.Format(
+                 "SELECT id " +
+                 "FROM bwcc_fixturestats " +
+                 "WHERE memberId = {0}",
+                 memberId);
+
+            var memberContactQuery = session.CreateSQLQuery(memberContactSql);
+            return memberContactQuery.List<dynamic>().Any();
+        }
+
+        private static dynamic GetBwccMember(ISession session, int memberId)
+        {
+            var membersQuery = session.CreateSQLQuery(MembersSql + " WHERE bwcc_members.id = '" + memberId + "'");
+            //var membersQuery = session.CreateSQLQuery(MembersSql);
+            return membersQuery.List<dynamic>().FirstOrDefault();
+        }
     }
 }

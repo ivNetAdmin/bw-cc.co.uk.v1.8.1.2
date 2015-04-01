@@ -8,6 +8,14 @@ namespace ivNet.Club.Entities
         public virtual Fixture Fixture { get; set; }
         public virtual Player Player { get; set; }
         public virtual CricketStat CricketStat { get; set; }
+
+        public virtual void Init()
+        {
+            Fixture = new Fixture();
+            Player = new Player();
+            CricketStat = new CricketStat();
+        }
+
     }
 
     public class PlayerStatMap : ClassMap<PlayerStat>
@@ -18,7 +26,7 @@ namespace ivNet.Club.Entities
 
             References(x => x.Fixture);
             References(x => x.Player);
-            References(x => x.CricketStat); 
+            References(x => x.CricketStat);
 
             Map(x => x.IsActive);
 
@@ -29,3 +37,4 @@ namespace ivNet.Club.Entities
         }
     }
 }
+     

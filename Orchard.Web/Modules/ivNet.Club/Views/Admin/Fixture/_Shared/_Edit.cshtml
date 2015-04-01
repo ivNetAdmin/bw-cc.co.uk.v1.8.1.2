@@ -1,0 +1,42 @@
+﻿
+<div class="form-group col-md-12">
+    <span class="col-md-2 control-label text-right">Team:</span>
+    <div class="col-md-4">
+        <select ng-options="team.Id as team.Name for team in teams" ng-model="team"></select>
+    </div>
+    <span class="col-md-2 control-label text-right">Opponent:</span>
+    <div class="col-md-4">
+        <select ng-options="opponent.Id as opponent.Name for opponent in opponents" ng-model="opponent"></select>
+    </div>
+</div>
+
+<div class="form-group col-md-12">
+    <span class="col-md-2 control-label text-right">Home/Away:</span>
+    <div class="col-md-4">
+        <select ng-options="homeaway as homeaway for homeaway in homeoraway" ng-model="homeaway"></select>
+    </div>
+    <span class="col-md-2 control-label text-right">Fixture Type:</span>
+    <div class="col-md-4">
+        <select ng-options="fixturetype.Id as fixturetype.Name for fixturetype in fixturetypes" ng-model="fixturetype"></select>
+    </div>
+</div>
+
+<div class="form-group col-md-12">
+    <span class="col-md-2 control-label text-right">Result:</span>
+    <div class="col-md-4">
+        <select ng-options="resulttype.Id as resulttype.Name for resulttype in resulttypes" ng-model="resulttype"></select>
+    </div>
+    <span class="col-md-2 control-label text-right">Score:</span>
+    <div class="col-md-4">
+        <input type="text" ng-model="score" value="{{score}}"/> 
+    </div>   
+</div>
+
+<div class="form-group">
+    <span class="col-md-6">
+        <input id="singlebutton" type="button" value="Save Changes" class="btn btn-success" ng-click="saveChanges()">
+    </span>
+    <span class="col-md-6 text-right">
+        <input type="button" value="Back to List" class="btn btn-warning" ng-click="backToList()" />
+    </span>
+</div>

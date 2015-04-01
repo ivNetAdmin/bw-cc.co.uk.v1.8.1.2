@@ -24,8 +24,8 @@
             </div>
             <div class="col-md-12">
                 Result:
-                <select style="width:115px" ng-model="fixtureResult">
-                    <option ng-selected="{{opt.Id == fixtureResult}}"
+                <select style="width:115px" ng-model="resultType">
+                    <option ng-selected="{{opt.Id == resultType}}"
                             ng-repeat="opt in results"
                             value="{{opt.Id}}">
                         {{opt.Name}}

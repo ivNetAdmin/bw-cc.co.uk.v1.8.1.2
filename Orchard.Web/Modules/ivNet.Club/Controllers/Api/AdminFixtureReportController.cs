@@ -43,7 +43,6 @@ namespace ivNet.Club.Controllers.Api
             return _fixtureServices.GetAdminFixtureReportViewModel(fixtureId);
         }
 
-
         [HttpPut]
         public HttpResponseMessage Put(int id, AdminFixtureReportViewModel matchReport)
         {

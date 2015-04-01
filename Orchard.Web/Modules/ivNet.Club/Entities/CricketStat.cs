@@ -5,6 +5,8 @@ namespace ivNet.Club.Entities
 {
     public class CricketStat : BaseEntity
     {
+        public virtual int BattingPosition { get; set; }
+
         public virtual int Innings { get; set; }
         public virtual int Runs { get; set; }
         public virtual int HowOut { get; set; }
@@ -15,6 +17,7 @@ namespace ivNet.Club.Entities
         public virtual int Wickets { get; set; }
 
         public virtual int Catches { get; set; }
+        public virtual int Stumpings { get; set; }
         public virtual int Keeper { get; set; }
 
         public virtual int Captain { get; set; }
@@ -27,6 +30,7 @@ namespace ivNet.Club.Entities
         {
             Id(x => x.Id);
 
+            Map(x => x.BattingPosition);
             Map(x => x.Innings);
             Map(x => x.Runs);
             Map(x => x.HowOut);
@@ -37,6 +41,7 @@ namespace ivNet.Club.Entities
             Map(x => x.Wickets);
 
             Map(x => x.Catches);
+            Map(x => x.Stumpings);
 
             Map(x => x.Keeper);
             Map(x => x.Captain);

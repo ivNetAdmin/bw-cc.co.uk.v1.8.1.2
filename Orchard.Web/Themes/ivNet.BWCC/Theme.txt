@@ -1,5 +1,5 @@
 Name: ivNet.BWCC
-Author: The Orchard Team
+Author: ivNet
 Website: http://www.ivnet.co.uk
 Description: Ballinger Waggoners Club theme based on PJS.BootstrapVersion: 3.2.0.1
 BaseTheme: PJS.Bootstrap

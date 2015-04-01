@@ -18,6 +18,13 @@ ivNetClubStats.factory('fixture', function ($resource) {
     });
 });
 
+ivNetClubStats.factory('fixturePaginatedList', function ($resource) {
+    return $resource('/api/club/adminfixture/:id/:gridOptions', null,
+    {
+        'query': { method: 'GET', isArray: true },
+    });
+});
+
 ivNetClubStats.factory('fixturestat', function ($resource) {
     return $resource('/api/club/admin/adminfixturestat/:id', null,
     {
@@ -26,27 +33,38 @@ ivNetClubStats.factory('fixturestat', function ($resource) {
     });
 });
 
-ivNetClubStats.controller('AdminStatsController', function ($scope, fixture, fixturestat) {
+ivNetClubStats.controller('AdminStatsController', function ($scope, fixture, fixturePaginatedList, fixturestat) {
     
     init();
 
-    function init() {
+    $scope.onServerSideItemsRequested = function (currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {
 
-        fixture.query(
+        $('#loading-indicator').show();
+
+        if (filterBy == null) {
+            filterBy = "";
+        }
+
+        if (orderBy == null) {
+            orderBy = "Date";
+            orderByReverse = true;
+        }
+
+        fixturePaginatedList.query({ CurrentPage: currentPage, OrderBy: orderBy, OrderByReverse: orderByReverse, PageItems: pageItems, FilterBy: filterBy, FilterByFields: angular.toJson(filterByFields) },
             function (data) {
-                $scope.data = data;
-                $scope.fixtures = data.Fixtures;              
+                $scope.fixtures = data;
+                $scope.itemsTotalCount = 200;
+                $('#loading-indicator').hide();
             },
             function (error) {
+                $('#loading-indicator').hide();
                 alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
             });
-
-        $scope.selectedFixtures = [];
-    }
+    };
 
     $scope.$watch("selectedFixtures.length", function (newLength) {
         if (newLength > 0) {
-            $scope.selectedFixture = $scope.selectedFixtures[newLength - 1];           
+            $scope.selectedFixture = $scope.selectedFixtures[newLength - 1];
 
             fixturestat.query({ Id: $scope.selectedFixture.Id },
               function (data) {
@@ -66,9 +84,9 @@ ivNetClubStats.controller('AdminStatsController', function ($scope, fixture, fix
         }
     });
 
-    $scope.saveItem = function() {
+    $scope.saveItem = function () {
 
-        $('table#playerStatsTable tr').each(function(index, tr) {
+        $('table#playerStatsTable tr').each(function (index, tr) {
 
             if ($(tr).find('td[field-name="PlayerName"]').length > 0) {
                 $scope.playerStats[index - 2].Runs = $(tr).find('td[field-name="Runs"]').find('input').val();
@@ -88,12 +106,33 @@ ivNetClubStats.controller('AdminStatsController', function ($scope, fixture, fix
         });
         //alert(JSON.stringify($scope.playerStats));
         fixturestat.update({ id: $scope.selectedFixture.Id }, JSON.stringify($scope.playerStats),
-            function() {
+            function () {
                 window.location.reload();
             },
-            function(error) {
+            function (error) {
                 alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
             }
         );
     };
+
+    function init() {
+       
+        //fixture.query(
+        //    function (data) {
+        //        $scope.data = data;
+        //        $scope.fixtures = data.Fixtures;              
+        //    },
+        //    function (error) {
+        //        alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
+        //    });
+
+        $scope.pageItemsCount = 20;
+        $scope.itemsTotalCount = 0;
+        $('div#memberDetail').hide();
+        $('#loading-indicator').show();
+
+        $scope.selectedFixtures = [];
+    }
+
+   
 });

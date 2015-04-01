@@ -10,9 +10,14 @@ namespace ivNet.Club.ViewModel
         public string Nickname { get; set; }
         public string Role { get; set; }
 
+        //public string MemberKey
+        //{
+        //    get { return CustomStringHelper.BuildKey(new[] { Email }); }
+        //}
+
         public string MemberKey
         {
-            get { return CustomStringHelper.BuildKey(new[] { Email }); }
+            get { return CustomStringHelper.BuildKey(new[] {Surname, Firstname}); }
         }
 
         public string Address { get; set; }

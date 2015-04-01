@@ -29,16 +29,16 @@ namespace ivNet.Club.Services
         IEnumerable<Team> GetTeams();
         IEnumerable<Opponent> GetOpponents();        
         IEnumerable<FixtureType> GetFixtureTypes();
-        IEnumerable<FixtureResult> GetFixtureResults();
+        IEnumerable<ResultType> GetResultTypes();
         IEnumerable<HowOut> GetHowOut();
         IEnumerable<Location> GetLocations();
         IEnumerable<Location> GetLocationsByOpponentId(int id);
-        void SaveTeam(int id, string name, byte isActive);
-        void SaveOpponent(int id, string name, byte isActive);
-        void SaveFixtureType(int id, string name, byte isActive);
-        void SaveFixtureResult(int id, string name, byte isActive);
-        void SaveHowOut(int id, string name, byte isActive);
-        void SaveLocation(int id, string name, string postcode, decimal latitude, decimal longitude, byte isActive);
+        int SaveTeam(int id, string name, byte isActive);
+        int SaveOpponent(int id, string name, byte isActive);
+        int SaveFixtureType(int id, string name, byte isActive);
+        int SaveResultType(int id, string name, byte isActive);
+        int SaveHowOut(int id, string name, byte isActive);
+        int SaveLocation(int id, string name, string postcode, decimal latitude, decimal longitude, byte isActive);
         void GetAgeGroupSearchDates(string ageGroup, out DateTime startDate, out DateTime endDate);
     }
 
@@ -80,7 +80,7 @@ namespace ivNet.Club.Services
             }            
         }
 
-        public void SaveTeam(int id, string name, byte isActive)
+        public int SaveTeam(int id, string name, byte isActive)
         {
             using (var session = NHibernateHelper.OpenSession())
             {
@@ -96,11 +96,13 @@ namespace ivNet.Club.Services
                     session.SaveOrUpdate(entity);
 
                     transaction.Commit();
+
+                    return entity.Id;
                 }
             }          
         }
 
-        public void SaveOpponent(int id, string name, byte isActive)
+        public int SaveOpponent(int id, string name, byte isActive)
         {
             using (var session = NHibernateHelper.OpenSession())
             {
@@ -116,11 +118,12 @@ namespace ivNet.Club.Services
                     session.SaveOrUpdate(entity);
 
                     transaction.Commit();
+                    return entity.Id;
                 }
             }        
         }
 
-        public void SaveFixtureType(int id, string name, byte isActive)
+        public int SaveFixtureType(int id, string name, byte isActive)
         {
             using (var session = NHibernateHelper.OpenSession())
             {
@@ -136,18 +139,19 @@ namespace ivNet.Club.Services
                     session.SaveOrUpdate(entity);
 
                     transaction.Commit();
+                    return entity.Id;
                 }
             }        
         }
 
-        public void SaveFixtureResult(int id, string name, byte isActive)
+        public int SaveResultType(int id, string name, byte isActive)
         {
             using (var session = NHibernateHelper.OpenSession())
             {
                 using (var transaction = session.BeginTransaction())
                 {
-                    var entity = session.CreateCriteria(typeof(FixtureResult))
-                        .List<FixtureResult>().FirstOrDefault(x => x.Id.Equals(id)) ?? new FixtureResult();
+                    var entity = session.CreateCriteria(typeof(ResultType))
+                        .List<ResultType>().FirstOrDefault(x => x.Id.Equals(id)) ?? new ResultType();
 
                     entity.Name = name;
                     entity.IsActive = isActive;
@@ -156,11 +160,12 @@ namespace ivNet.Club.Services
                     session.SaveOrUpdate(entity);
 
                     transaction.Commit();
+                    return entity.Id;
                 }
             }
         }
 
-        public void SaveHowOut(int id, string name, byte isActive)
+        public int SaveHowOut(int id, string name, byte isActive)
         {
             using (var session = NHibernateHelper.OpenSession())
             {
@@ -176,11 +181,12 @@ namespace ivNet.Club.Services
                     session.SaveOrUpdate(entity);
 
                     transaction.Commit();
+                    return entity.Id;
                 }
             }        
         }
 
-        public void SaveLocation(int id, string name, string postcode, decimal latitude, decimal longitude, byte isActive)
+        public int SaveLocation(int id, string name, string postcode, decimal latitude, decimal longitude, byte isActive)
         {
             using (var session = NHibernateHelper.OpenSession())
             {
@@ -199,6 +205,7 @@ namespace ivNet.Club.Services
                     session.SaveOrUpdate(entity);
 
                     transaction.Commit();
+                    return entity.Id;
                 }
             }        
         }
@@ -394,12 +401,12 @@ namespace ivNet.Club.Services
 
         }
 
-        public IEnumerable<FixtureResult> GetFixtureResults()
+        public IEnumerable<ResultType> GetResultTypes()
         {
             using (var session = NHibernateHelper.OpenSession())
             {
-                return session.CreateCriteria(typeof(FixtureResult))
-                    .List<FixtureResult>().OrderBy(x => x.Name);
+                return session.CreateCriteria(typeof(ResultType))
+                    .List<ResultType>().OrderBy(x => x.Name);
             }
 
         }

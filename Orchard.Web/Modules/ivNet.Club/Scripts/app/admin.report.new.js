@@ -26,14 +26,42 @@ ivNetClubReport.factory('fixturereport', function ($resource) {
     });
 });
 
-ivNetClubReport.controller('AdminReportController', function ($scope, fixture, fixturereport) {
+ivNetClubReport.controller('AdminReportController', function ($scope, fixture, reportPaginatedList, fixturereport) {
 
 	init();
+
+	$scope.onServerSideItemsRequested = function (currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {
+
+	    $('#loading-indicator').show();
+
+	    if (filterBy == null) {
+	        filterBy = "";
+	    }
+
+	    if (orderBy == null) {
+	        orderBy = "Date";
+	        orderByReverse = true;
+	    }
+
+	    reportPaginatedList.query({ CurrentPage: currentPage, OrderBy: orderBy, OrderByReverse: orderByReverse, PageItems: pageItems, FilterBy: filterBy, FilterByFields: angular.toJson(filterByFields) },
+            function (data) {
+
+                $scope.data = data;
+                $scope.fixtures = data.Fixtures;
+
+                $scope.itemsTotalCount = 200;
+                $('#loading-indicator').hide();
+            },
+            function (error) {
+                $('#loading-indicator').hide();
+                alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
+            });
+	};
 
 	function init() {
 
 	    CKEDITOR.replace('MatchReport');
-
+	  
 		fixture.query(
             function (data) {
             	$scope.data = data;
@@ -53,7 +81,7 @@ ivNetClubReport.controller('AdminReportController', function ($scope, fixture, f
 		    fixturereport.query({ Id: $scope.selectedFixture.Id },
 		        function (data) {
 		            $scope.score = data.FixtureScore;
-		            $scope.fixtureResult = data.FixtureResult;
+		            $scope.resultType = data.ResultTypes;
 		            $scope.results = data.Results;
 		            CKEDITOR.instances.MatchReport.setData(data.MatchReport);
 		        },
@@ -73,7 +101,7 @@ ivNetClubReport.controller('AdminReportController', function ($scope, fixture, f
 	$scope.saveItem = function () {
 	    var report = CKEDITOR.instances.MatchReport.getData();
 
-	    fixturereport.update({ id: $scope.selectedFixture.Id }, { FixtureScore: $scope.score, FixtureResult: $scope.fixtureResult, MatchReport: report },
+	    fixturereport.update({ id: $scope.selectedFixture.Id }, { FixtureScore: $scope.score, ResultType: $scope.resultType, MatchReport: report },
            function () {
                window.location.reload();
            },

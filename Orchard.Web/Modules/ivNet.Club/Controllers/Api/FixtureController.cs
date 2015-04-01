@@ -29,7 +29,7 @@ namespace ivNet.Club.Controllers.Api
 
         private FixtureListViewModel GetFixtures()
         {
-            return _fixtureServices.GetFixtureViewModel();          
+            return _fixtureServices.GetFixtureListViewModel();          
         }
     }
 }

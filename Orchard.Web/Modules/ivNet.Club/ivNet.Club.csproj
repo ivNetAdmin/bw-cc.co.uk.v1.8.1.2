@@ -125,7 +125,6 @@
     <Content Include="App_Data\bwcc_resulttype.sql" />
     <Content Include="App_Data\bwcc_teams.sql" />
     <Content Include="App_Data\config.data.sqlce" />
-    <Content Include="App_Data\ivNet.Club - Copy.sdf" />
     <Content Include="App_Data\ivNet.Club.sdf" />
     <Content Include="Scripts\angular-sanitize.js" />
     <Content Include="Scripts\app\admin.member.list.contacts.js" />
@@ -414,6 +413,7 @@
     <Content Include="packages.config" />
     <Content Include="Scripts\angular-resource.min.js.map" />
     <Content Include="Scripts\ui-bootstrap-tpls-0.12.0.js" />
+    <Content Include="Styles\admin.fixture.list.all.min.css" />
     <Content Include="Styles\admin.fixture.new.css">
       <DependentUpon>admin.fixture.new.less</DependentUpon>
     </Content>
@@ -525,6 +525,8 @@
     <Content Include="Scripts\ckeditor\samples\plugins\htmlwriter\assets\outputforflash\outputforflash.fla" />
     <Content Include="Scripts\ckeditor\samples\sample_posteddata.php" />
     <Content Include="Scripts\ckeditor\skins\moono\readme.md" />
+    <Content Include="Styles\admin.fixture.list.all.min.less" />
+    <Content Include="Scripts\app\admin.fixture.list.all.js" />
     <None Include="Styles\admin.member.list.all.less" />
     <Content Include="Styles\membership.my.registration.less" />
     <Content Include="Styles\membership.my.registration.css.map">
@@ -567,6 +569,7 @@
     </Content>
     <Content Include="Styles\new.member.min.css" />
     <Content Include="Styles\trNgGrid.min.css" />
+    <Content Include="App_Data\tidyup.sql" />
     <Content Include="Views\Admin\ActivateNewMembers\Index.cshtml" />
     <Content Include="Views\Admin\ListAll\Index.cshtml" />
     <Content Include="Views\Admin\ListAll\_memberList.cshtml" />
@@ -614,6 +617,8 @@
     <Content Include="Views\Admin\UserStories\_Contacts.cshtml" />
     <Content Include="Views\Admin\ListContacts\Junior\Index.cshtml" />
     <Content Include="Views\Admin\ListContacts\Junior\_contactList.cshtml" />
+    <Content Include="Views\Admin\Fixture\ListAll\Index.cshtml" />
+    <Content Include="Views\Admin\Fixture\_Shared\_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\Api\AdminContactController.cs" />
@@ -641,7 +646,7 @@
     <Compile Include="Entities\ConfigurationItem.cs" />
     <Compile Include="Entities\CricketStat.cs" />
     <Compile Include="Entities\Fixture.cs" />
-    <Compile Include="Entities\FixtureResult.cs" />
+    <Compile Include="Entities\ResultType.cs" />
     <Compile Include="Entities\FixtureType.cs" />
     <Compile Include="Entities\HowOut.cs" />
     <Compile Include="Entities\Location.cs" />
@@ -704,13 +709,13 @@
     <Compile Include="ViewModel\CaptchaViewModel.cs" />
     <Compile Include="ViewModel\AdminFixtureViewModel.cs" />
     <Compile Include="ViewModel\ContactAdminViewModel.cs" />
-    <Compile Include="ViewModel\EditFixtureViewModel.cs" />
+    <Compile Include="ViewModel\BWCCLoadFixtureViewModel.cs" />
     <Compile Include="ViewModel\EditMemberViewModel.cs" />
     <Compile Include="ViewModel\ConfigurationItemViewModel.cs" />
     <Compile Include="ViewModel\ContactViewModel.cs" />
     <Compile Include="ViewModel\FixtureConfigViewModel.cs" />
     <Compile Include="ViewModel\FixtureListViewModel.cs" />
-    <Compile Include="ViewModel\FixtureResultViewModel.cs" />
+    <Compile Include="ViewModel\ResultTypeViewModel.cs" />
     <Compile Include="ViewModel\FixtureTypeViewModel.cs" />
     <Compile Include="ViewModel\FixtureViewModel.cs" />
     <Compile Include="ViewModel\GuardianViewModel.cs">

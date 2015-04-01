@@ -19,14 +19,33 @@ ivNetClubTeam.factory('team', function ($resource) {
     });
 });
 
-ivNetClubTeam.controller('AdminTeamController', function($scope, team) {
+ivNetClubTeam.factory('teamPaginatedList', function ($resource) {
+    return $resource('/api/club/adminTeam/:id/:gridOptions', null,
+    {
+        'query': { method: 'GET', isArray: false },
+    });
+});
+
+ivNetClubTeam.controller('AdminTeamController', function ($scope, team, teamPaginatedList) {
 
     init();
 
-    function init() {
+    $scope.onServerSideItemsRequested = function(currentPage, pageItems, filterBy, filterByFields, orderBy, orderByReverse) {
 
-        team.query(
+        $('#loading-indicator').show();
+
+        if (filterBy == null) {
+            filterBy = "";
+        }
+
+        if (orderBy == null) {
+            orderBy = "Date";
+            orderByReverse = true;
+        }
+
+        teamPaginatedList.query({ CurrentPage: currentPage, OrderBy: orderBy, OrderByReverse: orderByReverse, PageItems: pageItems, FilterBy: filterBy, FilterByFields: angular.toJson(filterByFields) },
             function(data) {
+
                 $scope.data = data;
                 $scope.fixtures = data.AdminFixtureViewModel.Fixtures;
                 $scope.teams = data.AdminFixtureViewModel.Teams;
@@ -38,10 +57,40 @@ ivNetClubTeam.controller('AdminTeamController', function($scope, team) {
 
                 $scope.players = data.Players;
                 $scope.teamSelection = data.TeamSelection;
+
+                $scope.itemsTotalCount = 200;
+                $('#loading-indicator').hide();
             },
             function(error) {
+                $('#loading-indicator').hide();
                 alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
             });
+    };
+
+    function init() {
+
+        //team.query(
+        //    function(data) {
+        //        $scope.data = data;
+        //        $scope.fixtures = data.AdminFixtureViewModel.Fixtures;
+        //        $scope.teams = data.AdminFixtureViewModel.Teams;
+        //        $scope.opponents = data.AdminFixtureViewModel.Opponents;
+        //        $scope.fixturetypes = data.AdminFixtureViewModel.FixtureTypes;
+        //        $scope.locations = data.AdminFixtureViewModel.Locations;
+        //        $scope.homeoraway = data.AdminFixtureViewModel.HomeOrAway;
+        //        $scope.onMediaPlayerStateChange = data.onMediaPlayerStateChange;
+
+        //        $scope.players = data.Players;
+        //        $scope.teamSelection = data.TeamSelection;
+        //    },
+        //    function(error) {
+        //        alert(error.data.Message + ' [' + error.data.MessageDetail + ']');
+        //    });
+
+        $scope.pageItemsCount = 20;
+        $scope.itemsTotalCount = 0;
+        $('div#memberDetail').hide();
+        $('#loading-indicator').show();
 
         $scope.selectedFixtures = [];
     }

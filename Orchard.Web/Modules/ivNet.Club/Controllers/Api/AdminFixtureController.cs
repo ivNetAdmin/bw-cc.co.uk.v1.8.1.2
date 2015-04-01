@@ -1,4 +1,5 @@
 ﻿
+using System.Collections.Generic;
 using ivNet.Club.Services;
 using ivNet.Club.ViewModel;
 using Orchard;
@@ -26,6 +27,33 @@ namespace ivNet.Club.Controllers.Api
         }
 
         public ILogger Logger { get; set; }
+
+        public HttpResponseMessage Get(int currentPage, string orderBy, bool orderByReverse, int pageItems,
+            string filterBy, string filterByFields)
+        {
+            int totalCount;
+            var results = _fixtureServices.GetPaginated(currentPage, orderBy, orderByReverse, pageItems, filterBy,
+                filterByFields,
+                out totalCount);
+
+
+            var rtnMessage = new
+            {
+                totalCount = totalCount,
+                results = results
+            };
+
+            return Request.CreateResponse(HttpStatusCode.OK, rtnMessage);
+        }
+
+        public HttpResponseMessage Get(int id)
+        {
+            if (!_orchardServices.Authorizer.Authorize(Permissions.ivManageFixtures))
+                return Request.CreateResponse(HttpStatusCode.Forbidden);
+
+            return Request.CreateResponse(HttpStatusCode.OK,
+                GetAdminFixtureViewModel(id));
+        }
 
         public HttpResponseMessage Get()
         {
@@ -68,6 +96,11 @@ namespace ivNet.Club.Controllers.Api
             var adminFixtureViewModel = _fixtureServices.GetAdminFixtureViewModel();
                 adminFixtureViewModel.Fixtures.Insert(0, new FixtureViewModel());
             return adminFixtureViewModel;
+        }
+
+        private AdminFixtureViewModel GetAdminFixtureViewModel(int id)
+        {
+            return _fixtureServices.GetAdminFixtureViewModel(id);
         }
     }
 }

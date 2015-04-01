@@ -86,13 +86,13 @@ namespace ivNet.Club.Services
             {
                 using (var transaction = session.BeginTransaction())
                 {
-                    Clear();
-
+                    Clear();                    
                     bool activeGaurdians;
                     var guardianList = UpdateGuardians(session, editMemberViewModel.Guardians, out activeGaurdians);
 
                     var juniorList = UpdateJuniors(session, editMemberViewModel.Juniors, activeGaurdians);
 
+                    var seniorList = UpdateSeniors(session, editMemberViewModel.Seniors);
 
                     foreach (var junior in juniorList)
                     {
@@ -119,6 +119,14 @@ namespace ivNet.Club.Services
                         // save or update guardian
                         SetAudit(guardian);
                         session.SaveOrUpdate(guardian);
+                    }
+
+                    foreach (var senior in seniorList)
+                    {
+                        // save or update junior                        
+                        SetAudit(senior);
+                        session.SaveOrUpdate(senior);
+                        Add(senior.Member.Id);
                     }
 
                     transaction.Commit();
@@ -185,13 +193,13 @@ namespace ivNet.Club.Services
 
             using (var session = NHibernateHelper.OpenSession())
             {
-                var sql = "select ivnetMember.MemberId,ivnetMember.Surname,ivnetMember.Firstname," +
+                var sql = "select ivNetMember.MemberId,ivNetMember.Surname,ivNetMember.Firstname," +
                                    "ivNetJunior.DOB,ivNetJunior.JuniorId," +
                                    "ivNetGuardian.GuardianId," +
-                                   "ivnetMember.IsActive " +
+                                   "ivNetMember.IsActive " +
                                    "from ivnetMember " +
-                                   "left outer join ivNetJunior on ivnetMember.MemberId = ivNetJunior.MemberId " +
-                                   "left outer join ivNetGuardian on ivnetMember.MemberId = ivNetGuardian.MemberId";
+                                   "left outer join ivNetJunior on ivNetMember.MemberId = ivNetJunior.MemberId " +
+                                   "left outer join ivNetGuardian on ivNetMember.MemberId = ivNetGuardian.MemberId";
 
 
                 var fields = JsonConvert.DeserializeObject<dynamic>(filterByFields);
@@ -200,13 +208,13 @@ namespace ivNet.Club.Services
                 var whereClause = new StringBuilder();
                 if (fields.Surname != null)
                 {
-                    whereClause.Append(string.Format("ivnetMember.Surname like '%{0}%' ", fields.Surname));
+                    whereClause.Append(string.Format("ivNetMember.Surname like '%{0}%' ", fields.Surname));
 
                 }
 
                 if (fields.Firstname != null)
                 {
-                    whereClause.Append(string.Format("{0}ivnetMember.Firstname like '%{1}%' ",
+                    whereClause.Append(string.Format("{0}ivNetMember.Firstname like '%{1}%' ",
                         whereClause.Length==0 ? string.Empty : " and ", fields.Firstname));
 
                 }
@@ -233,12 +241,12 @@ namespace ivNet.Club.Services
                 {
                     if (Extensions.ToLowerInvariantString(fields.IsActive)=="y")
                     {
-                        whereClause.Append(string.Format("{0}ivnetMember.IsActive=1 ",
+                        whereClause.Append(string.Format("{0}ivNetMember.IsActive=1 ",
                             whereClause.Length == 0 ? string.Empty : " and "));
                     }
                     else if (Extensions.ToLowerInvariantString(fields.IsActive) == "n")
                     {
-                        whereClause.Append(string.Format("{0}ivnetMember.IsActive=0 ",
+                        whereClause.Append(string.Format("{0}ivNetMember.IsActive=0 ",
                             whereClause.Length == 0 ? string.Empty : " and "));
                     }                  
                 }
@@ -402,12 +410,12 @@ namespace ivNet.Club.Services
                 //{
                 //    if (Extensions.ToLowerInvariantString(fields.IsActive)=="y")
                 //    {
-                //        whereClause.Append(string.Format("{0}ivnetMember.IsActive=1 ",
+                //        whereClause.Append(string.Format("{0}ivNetMember.IsActive=1 ",
                 //            whereClause.Length == 0 ? string.Empty : " and "));
                 //    }
                 //    else if (Extensions.ToLowerInvariantString(fields.IsActive) == "n")
                 //    {
-                //        whereClause.Append(string.Format("{0}ivnetMember.IsActive=0 ",
+                //        whereClause.Append(string.Format("{0}ivNetMember.IsActive=0 ",
                 //            whereClause.Length == 0 ? string.Empty : " and "));
                 //    }                  
                 //}
@@ -962,10 +970,11 @@ namespace ivNet.Club.Services
                     guardianViewModel.MemberKey =
                         CustomStringHelper.BuildKey(new[]
                                 {
-                                    guardianViewModel.Email
+                                    guardianViewModel.Surname,
+                                    guardianViewModel.Firstname
                                 });
                 }
-
+                
                 guardianViewModel.ContactDetailKey = guardianViewModel.MemberKey;
                 guardian.GuardianKey = guardianViewModel.MemberKey;
 
@@ -1038,8 +1047,8 @@ namespace ivNet.Club.Services
                         CustomStringHelper.BuildKey(new[]
                                     {
                                         juniorViewModel.Surname,
-                                        juniorViewModel.Firstname,
-                                        juniorViewModel.Dob.GetValueOrDefault().ToShortDateString()
+                                        juniorViewModel.Firstname//,
+                                        //juniorViewModel.Dob.GetValueOrDefault().ToShortDateString()
                                     });
                 }
 
@@ -1069,19 +1078,30 @@ namespace ivNet.Club.Services
                 SetAudit(junior.JuniorInfo);
                 session.SaveOrUpdate(junior.JuniorInfo);
 
-                MapperHelper.Map(junior.Player.Kit, juniorViewModel);
-                SetAudit(junior.Player.Kit);
-                session.SaveOrUpdate(junior.Player.Kit);              
-
-                junior.Player.Number = junior.Member.Id.ToString(CultureInfo.InvariantCulture)
+                //check for player
+                var playerNumber = junior.Member.Id.ToString(CultureInfo.InvariantCulture)
                     .PadLeft(6, '0');
+                var player = GetPlayerName(session, junior.Member.Surname,junior.Member.Firstname);
 
-                junior.Player.Name = string.Format("{0}, {1}", junior.Member.Surname, junior.Member.Firstname);
+                if (player == null)
+                {
+                    MapperHelper.Map(junior.Player.Kit, juniorViewModel);
+                    SetAudit(junior.Player.Kit);
+                    session.SaveOrUpdate(junior.Player.Kit);
 
-                if (!activeGaurdians) junior.IsActive = 0;
-                
-                SetAudit(junior.Player);
-                session.SaveOrUpdate(junior.Player);
+                    junior.Player.Number = playerNumber;
+
+                    junior.Player.Name = string.Format("{0}, {1}", junior.Member.Surname, junior.Member.Firstname);
+
+                    if (!activeGaurdians) junior.IsActive = 0;
+
+                    SetAudit(junior.Player);
+                    session.SaveOrUpdate(junior.Player);
+                }
+                else
+                {
+                    junior.Player = player;
+                }
 
                 //check if junior already in list
                 var alreadyExists = rtnList.Any(j => j.Member.MemberKey == junior.Member.MemberKey);
@@ -1091,6 +1111,116 @@ namespace ivNet.Club.Services
 
             return rtnList;
         }
+
+        private Player GetPlayerName(ISession session, string surname, string firstname)
+        {
+            var playerName = string.Format("{0}, {1}", surname, firstname);
+
+            return session.CreateCriteria(typeof (Player))
+                .List<Player>().FirstOrDefault(x => x.Name.Equals(playerName));
+        }
+
+        private List<Senior> UpdateSeniors(ISession session, List<MemberViewModel> seniors)
+        {
+            var rtnList = new List<Senior>();
+      
+            // loop through guardians
+            foreach (var seniorViewModel in seniors)
+            {
+                // get senior or create a new one
+                var senior = session.CreateCriteria(typeof(Senior))
+                    .List<Senior>().FirstOrDefault(
+                        x => x.Member.MemberKey.Equals(seniorViewModel.MemberKey)) ??
+                               new Senior();
+
+                if (senior.Id == 0)
+                {
+                    senior.Init();
+                    senior.Player.Init();
+                }
+
+                if (string.IsNullOrEmpty(seniorViewModel.MemberKey))
+                {
+                    seniorViewModel.MemberKey =
+                        CustomStringHelper.BuildKey(new[]
+                                {
+                                    seniorViewModel.Surname,
+                                    seniorViewModel.Firstname
+                                });
+
+                    //seniorViewModel.MemberKey =
+                    //   CustomStringHelper.BuildKey(new[]
+                    //            {
+                    //                seniorViewModel.Email
+                    //            });
+                }
+
+                seniorViewModel.ContactDetailKey = seniorViewModel.MemberKey;
+                senior.SeniorKey = seniorViewModel.MemberKey;
+
+                if (string.IsNullOrEmpty(seniorViewModel.AddressDetailKey))
+                {
+                    seniorViewModel.AddressDetailKey =
+                        CustomStringHelper.BuildKey(new[] { seniorViewModel.Address, seniorViewModel.Postcode });
+                }
+
+                // check data has not already been saved
+                senior.Member = DuplicateCheck(session, senior.Member,
+                    seniorViewModel.MemberKey);
+
+                senior.ContactDetail = DuplicateCheck(session, senior.ContactDetail,
+                    seniorViewModel.ContactDetailKey);
+
+                senior.AddressDetail = DuplicateCheck(session, senior.AddressDetail,
+                    seniorViewModel.AddressDetailKey);
+
+                // update width new user details
+                MapperHelper.Map(senior.Member, seniorViewModel);
+                MapperHelper.Map(senior.ContactDetail, seniorViewModel);
+                MapperHelper.Map(senior.AddressDetail, seniorViewModel);
+                senior.IsActive = seniorViewModel.MemberIsActive;               
+
+                // save or update guardian elements
+                SetAudit(senior.Member);
+                session.SaveOrUpdate(senior.Member);
+                SetAudit(senior.ContactDetail);
+                session.SaveOrUpdate(senior.ContactDetail);
+                SetAudit(senior.AddressDetail);
+                session.SaveOrUpdate(senior.AddressDetail);
+
+                 //check for player
+                var playerNumber = senior.Member.Id.ToString(CultureInfo.InvariantCulture)
+                    .PadLeft(6, '0');
+                var player = GetPlayerName(session, senior.Member.Surname, senior.Member.Firstname);
+
+                if (player == null)
+                {
+                    MapperHelper.Map(senior.Player.Kit, seniorViewModel);
+                    SetAudit(senior.Player.Kit);
+                    session.SaveOrUpdate(senior.Player.Kit);
+
+                    senior.Player.Number = senior.Member.Id.ToString(CultureInfo.InvariantCulture)
+                        .PadLeft(6, '0');
+
+                    senior.Player.Name = string.Format("{0}, {1}", senior.Member.Surname, senior.Member.Firstname);
+
+                    SetAudit(senior.Player);
+                    session.SaveOrUpdate(senior.Player);
+                }
+                else
+                {
+                    senior.Player = player;
+                }
+
+                //check if senior already in list
+                var alreadyExists = rtnList.Any(s => s.Member.MemberKey == senior.Member.MemberKey);
+                if (!alreadyExists)
+                    rtnList.Add(senior);         
+
+            }
+            return rtnList;
+        }
+        
 
         private void AddFee(ISession session, IList<Junior> juniors)
         {

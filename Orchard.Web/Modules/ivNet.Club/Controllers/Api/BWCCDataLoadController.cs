@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using ivNet.Club.Entities;
 using ivNet.Club.Services;
 using ivNet.Club.ViewModel;
 using Orchard;
@@ -17,16 +18,19 @@ namespace ivNet.Club.Controllers.Api
         private readonly IMemberServices _memberServices;        
         private readonly IPlayerServices _playerServices;
         private readonly IFixtureServices _fixtureServices;
+        private readonly IConfigurationServices _configurationServices;
+        
 
         public BwccDataLoadController(IBwccDataServices bwccDataServices, IFixtureServices fixtureServices,
             IOrchardServices orchardServices, IMemberServices memberServices,
-            IPlayerServices playerServices)
+            IPlayerServices playerServices, IConfigurationServices configurationServices)
         {
             _bwccDataServices = bwccDataServices;
             _fixtureServices = fixtureServices;
             _orchardServices = orchardServices;
             _memberServices = memberServices;
             _playerServices = playerServices;
+            _configurationServices = configurationServices;
             Logger = NullLogger.Instance;
         }
 
@@ -47,6 +51,9 @@ namespace ivNet.Club.Controllers.Api
                     break;
                 case "fixtures":
                     LoadFixtureData();
+                    break;
+                case "match-reports":
+                    LoadMatchReportData();
                     break;
             }
             
@@ -85,7 +92,84 @@ namespace ivNet.Club.Controllers.Api
 
         private void LoadFixtureData()
         {
-            var fixtures = _bwccDataServices.GetFixtures();
+            var configItems = new Dictionary<string, int>();
+
+            var loadFixtureViewModelList = _bwccDataServices.GetFixtures();
+
+            foreach (var loadFixtureViewModel in loadFixtureViewModelList)
+            {
+
+                var editFixtureViewModel = new FixtureViewModel
+                {
+                    Team = loadFixtureViewModel.Team,
+                    Opponent = loadFixtureViewModel.Oppisition,
+                    FixtureType = loadFixtureViewModel.FixtureType,
+                    Date = loadFixtureViewModel.DatePlayed,
+                    HomeAway = loadFixtureViewModel.Venue,
+                    ResultType = string.IsNullOrEmpty(loadFixtureViewModel.ResultType) ? "Unknown" : loadFixtureViewModel.ResultType,
+                    Score = loadFixtureViewModel.Score
+                };
+
+                var value = 0;
+                if (configItems.TryGetValue(editFixtureViewModel.Team, out value))
+                {
+                    editFixtureViewModel.TeamId = value;
+                }
+                else
+                {
+                    editFixtureViewModel.TeamId = _configurationServices.SaveTeam(0, editFixtureViewModel.Team, 1);
+                    configItems.Add(editFixtureViewModel.Team, editFixtureViewModel.TeamId);
+                }
+
+                if (configItems.TryGetValue(editFixtureViewModel.Opponent, out value))
+                {
+                    editFixtureViewModel.OpponentId = value;
+                }
+                else
+                {
+                    editFixtureViewModel.OpponentId = _configurationServices.SaveOpponent(0, editFixtureViewModel.Opponent, 1);
+                    configItems.Add(editFixtureViewModel.Opponent, editFixtureViewModel.OpponentId);
+                }
+
+                if (configItems.TryGetValue(editFixtureViewModel.FixtureType, out value))
+                {
+                    editFixtureViewModel.FixtureTypeId = value;
+                }
+                else
+                {
+                    editFixtureViewModel.FixtureTypeId = _configurationServices.SaveFixtureType(0, editFixtureViewModel.FixtureType, 1);
+                    configItems.Add(editFixtureViewModel.FixtureType, editFixtureViewModel.FixtureTypeId);
+                }
+
+                if (configItems.TryGetValue(editFixtureViewModel.ResultType, out value))
+                {
+                    editFixtureViewModel.ResultTypeId = value;
+                }
+                else
+                {
+                    editFixtureViewModel.ResultTypeId = _configurationServices.SaveResultType(0, editFixtureViewModel.ResultType, 1);
+                    configItems.Add(editFixtureViewModel.ResultType, editFixtureViewModel.ResultTypeId);
+                }
+
+                _fixtureServices.SaveFixture(editFixtureViewModel);
+
+                var stats = _bwccDataServices.GetFixtureStats(editFixtureViewModel.Id,
+                    loadFixtureViewModel.LegacyFixtureId);
+
+                if (stats.Count > 0)
+                {
+                    _fixtureServices.SaveFixtureStats(stats);
+                }
+            }
+        }
+
+        private void LoadMatchReportData()
+        {
+            var reports = _bwccDataServices.GetMatchReports();
+            foreach (var matchReport in reports)
+            {
+                _bwccDataServices.SaveMatchReport(matchReport);
+            }                       
         }
     }
 }

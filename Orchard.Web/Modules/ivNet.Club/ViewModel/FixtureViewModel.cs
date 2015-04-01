@@ -17,5 +17,8 @@ namespace ivNet.Club.ViewModel
         public string Location { get; set; }
         public int LocationId { get; set; }
         public int TeamSelectionId { get; set; }
+        public string ResultType { get; set; }
+        public int ResultTypeId { get; set; }
+        public string Score { get; set; }
     }
 }

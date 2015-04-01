@@ -68,7 +68,7 @@
             
             <div class="col-md-12">
                 <h4>Fixture Results</h4>
-                <table id="fixtureresultconfig" tr-ng-grid='' items='fixtureresults' enable-sorting="false" enable-filtering="false">
+                <table id="resulttypeconfig" tr-ng-grid='' items='resulttypes' enable-sorting="false" enable-filtering="false">
                     <thead>
                         <tr>
                             <th field-name="Id" display-name="Id" display-align="right">
@@ -86,7 +86,7 @@
                             <td field-name="IsActive"><input type="checkbox" value="{{gridDisplayItem.IsActive}}" ng-checked="{{gridDisplayItem.IsActive}}" /></td>
 
                             <td>
-                                <button class="btn btn-default" ng-click="saveItem(gridItem,'fixtureresultconfig')">
+                                <button class="btn btn-default" ng-click="saveItem(gridItem,'resulttypeconfig')">
                                     <span>{{gridDisplayItem.Id==0?"Add":"Save"}}</span>
                                 </button>
                             </td>

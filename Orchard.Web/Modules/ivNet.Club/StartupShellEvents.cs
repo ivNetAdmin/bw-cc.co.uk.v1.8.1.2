@@ -14,7 +14,8 @@ namespace ivNet.Club
 
             #region models->entities
 
-            Mapper.CreateMap<PlayerStatViewModel, CricketStat>();
+            Mapper.CreateMap<PlayerStatViewModel, CricketStat>()
+                .ForMember(v => v.HowOut, m => m.MapFrom(e => e.HowOutId));      
 
             Mapper.CreateMap<MemberViewModel, Member>()
                 .ForMember(v => v.IsActive, m => m.MapFrom(e => e.MemberIsActive));        
@@ -43,7 +44,7 @@ namespace ivNet.Club
 
             Mapper.CreateMap<FixtureType, FixtureItemConfigViewModel>();
 
-            Mapper.CreateMap<FixtureResult, FixtureItemConfigViewModel>();
+            Mapper.CreateMap<ResultType, FixtureItemConfigViewModel>();
 
             Mapper.CreateMap<HowOut, FixtureItemConfigViewModel>();
 

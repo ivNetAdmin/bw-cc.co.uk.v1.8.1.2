@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
@@ -30,17 +31,24 @@ namespace ivNet.Club.Helpers
                     CustomStringHelper.BuildKey(new[]
                     {                        
                         form[string.Format("{0}-Surname-{1}", memberType, counter)],
-                        form[string.Format("{0}-Firstname-{1}", memberType, counter)],
-                        DateTime.Parse(form[string.Format("DOB-{0}", counter)]).ToShortDateString()
+                        form[string.Format("{0}-Firstname-{1}", memberType, counter)]//,
+                        //DateTime.Parse(form[string.Format("DOB-{0}", counter)]).ToShortDateString()
                     });
             }
             else
             {
                 viewModel.MemberKey =
                     CustomStringHelper.BuildKey(new[]
-                    {
-                        form[string.Format("Email-{0}", counter)]
+                    {                        
+                        form[string.Format("{0}-Surname-{1}", memberType, counter)],
+                        form[string.Format("{0}-Firstname-{1}", memberType, counter)]
                     });
+
+                //viewModel.MemberKey =
+                //    CustomStringHelper.BuildKey(new[]
+                //    {
+                //        form[string.Format("Email-{0}", counter)]
+                //    });
             }
         }
 
@@ -54,13 +62,16 @@ namespace ivNet.Club.Helpers
                 viewModel.MemberKey =
                     CustomStringHelper.BuildKey(new[]
                     {
-                        viewModel.Surname, viewModel.Firstname,
-                        DateTime.Parse(form["Dob"]).ToShortDateString()
+                        viewModel.Surname, viewModel.Firstname//,
+                        //DateTime.Parse(form["Dob"]).ToShortDateString()
                     });
             }
             else
             {
-                viewModel.MemberKey = CustomStringHelper.BuildKey(new[] {form["Email"]});
+                
+                viewModel.MemberKey = CustomStringHelper.BuildKey(new[] { form["Surname"], form["Firstname"] });
+
+                //viewModel.MemberKey = CustomStringHelper.BuildKey(new[] {form["Email"]});
             }
         }
 
@@ -204,7 +215,7 @@ namespace ivNet.Club.Helpers
 
         public static void Map(Guardian entity, RegistrationViewModel viewModel)
         {
-            // member details
+            // member details 
             if (!string.IsNullOrEmpty(viewModel.MemberViewModel.Firstname))
                 entity.Member.Firstname = viewModel.MemberViewModel.Firstname;
 
@@ -214,7 +225,8 @@ namespace ivNet.Club.Helpers
             entity.Member.Nickname = viewModel.MemberViewModel.Nickname;
 
             if (!string.IsNullOrEmpty(viewModel.ContactViewModel.Email))
-                entity.Member.MemberKey = CustomStringHelper.BuildKey(new[] {viewModel.ContactViewModel.Email});
+                entity.Member.MemberKey = CustomStringHelper.BuildKey(new[] { viewModel.MemberViewModel.Surname, viewModel.MemberViewModel.Firstname });
+                //entity.Member.MemberKey = CustomStringHelper.BuildKey(new[] {viewModel.ContactViewModel.Email});
 
             // contact details
             if (!string.IsNullOrEmpty(viewModel.ContactViewModel.Email))
@@ -279,8 +291,8 @@ namespace ivNet.Club.Helpers
                     CustomStringHelper.BuildKey(new[]
                     {                        
                         entity.Surname,
-                        entity.Firstname,
-                        entity.Surname = viewModel["NewJuniorDob"]
+                        entity.Firstname//,
+                        //entity.Surname = viewModel["NewJuniorDob"]
                     });
             return entity;
         }
@@ -341,12 +353,12 @@ namespace ivNet.Club.Helpers
                 FixtureId = entity.Fixture.Id,
                 PlayerName = entity.Player.Name,
                 PlayerNumber = entity.Player.Number,
-                Captain = entity.CricketStat.Captain.ToString(),
+                Captain = entity.CricketStat.Captain.ToString(CultureInfo.InvariantCulture),
                 Catches = entity.CricketStat.Catches,
                 Innings = entity.CricketStat.Innings,
-                Keeper = entity.CricketStat.Keeper.ToString(),
+                Keeper = entity.CricketStat.Keeper.ToString(CultureInfo.InvariantCulture),
                 Maidens = entity.CricketStat.Maidens,
-                HowOut = entity.CricketStat.HowOut.ToString(),
+                HowOut = entity.CricketStat.HowOut.ToString(CultureInfo.InvariantCulture),
                 Overs = entity.CricketStat.Overs,
                 Runs = entity.CricketStat.Runs,
                 RunsConceeded = entity.CricketStat.RunsConceeded,
@@ -388,9 +400,14 @@ namespace ivNet.Club.Helpers
             return new FixtureTypeViewModel { Id = entity.Id, Name = entity.Name };
         }
 
-        public static FixtureResultViewModel Map(FixtureResultViewModel viewModel, FixtureType entity)
+        public static ResultTypeViewModel Map(ResultTypeViewModel viewModel, ResultType entity)
         {
-            return new FixtureResultViewModel { Id = entity.Id, Name = entity.Name };
+            return new ResultTypeViewModel { Id = entity.Id, Name = entity.Name };
+        }
+
+        public static ResultTypeViewModel Map(ResultTypeViewModel viewModel, FixtureType entity)
+        {
+            return new ResultTypeViewModel { Id = entity.Id, Name = entity.Name };
         }
 
         public static FixtureViewModel Map(FixtureViewModel viewModel, Fixture entity)
@@ -406,8 +423,11 @@ namespace ivNet.Club.Helpers
                 OpponentId = entity.Opponent.Id,
                 FixtureType = entity.FixtureType.Name,
                 FixtureTypeId = entity.FixtureType.Id,
-                Location = entity.Location.Postcode,
-                LocationId = entity.Location.Id,
+                ResultType = entity.ResultType.Name,
+                ResultTypeId = entity.ResultType.Id,
+                Score = entity.Score,
+               // Location = entity.Location.Postcode,
+               // LocationId = entity.Location.Id,
                 TeamSelectionId = entity.TeamSelection == null ? 0 : entity.TeamSelection.Id
             };
 
@@ -452,7 +472,7 @@ namespace ivNet.Club.Helpers
             return Mapper.Map(entity, viewModel);
         }
 
-        public static FixtureItemConfigViewModel Map(FixtureItemConfigViewModel viewModel, FixtureResult entity)
+        public static FixtureItemConfigViewModel Map(FixtureItemConfigViewModel viewModel, ResultType entity)
         {
             return Mapper.Map(entity, viewModel);
         }

@@ -4,12 +4,13 @@ using FluentNHibernate.Mapping;
 namespace ivNet.Club.Entities
 {
     public class Member : BaseEntity
-    {
+    {        
         public virtual string MemberKey { get; set; }
-       
+
         public virtual string Surname { get; set; }
         public virtual string Firstname { get; set; }
         public virtual string Nickname { get; set; }
+        public virtual int LegacyId { get; set; }
         public virtual int UserId { get; set; }
         public virtual int DuplicateCounter { get; set; }       
     }
@@ -19,7 +20,9 @@ namespace ivNet.Club.Entities
         public MemberMap()
         {
             Id(x => x.Id);
-            Map(x => x.MemberKey).Not.Nullable().Length(120).UniqueKey("ix_Member_Unique");
+
+            Map(x => x.LegacyId);
+            Map(x => x.MemberKey).Not.Nullable().Length(120).UniqueKey("ix_Member_Unique");            
 
             Map(x => x.UserId);
             Map(x => x.DuplicateCounter);

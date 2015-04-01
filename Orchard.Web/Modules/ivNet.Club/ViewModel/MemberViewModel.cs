@@ -6,6 +6,7 @@ namespace ivNet.Club.ViewModel
     public class MemberViewModel
     {
         public int MemberId { get; set; }
+        public int LegacyId { get; set; }
         public string MemberKey { get; set; }
         public string MemberType { get; set; }
 
@@ -34,6 +35,5 @@ namespace ivNet.Club.ViewModel
         public DateTime? Dob { get; set; }
         public string AgeGroup { get; set; }
         public byte MemberIsActive { get; set; }
-        
     }
 }

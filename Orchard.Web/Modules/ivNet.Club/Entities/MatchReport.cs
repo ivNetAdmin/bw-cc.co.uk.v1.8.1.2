@@ -1,12 +1,19 @@
 ﻿
 using FluentNHibernate.Mapping;
+using Orchard.Data.Conventions;
 
 namespace ivNet.Club.Entities
 {
     public class MatchReport : BaseEntity
     {
+        [StringLengthMax]
         public virtual string Report { get; set; }
         public virtual Fixture Fixture { get; set; }
+
+        public virtual void Init()
+        {
+            Fixture = new Fixture();
+        }
     }
 
     public class MatchReportMap : ClassMap<MatchReport>
@@ -15,7 +22,8 @@ namespace ivNet.Club.Entities
         {
             Id(x => x.Id);
 
-            Map(x => x.Report).CustomSqlType("ntext");
+            //Map(x => x.Report).CustomType("StringClob").CustomSqlType("nvarchar(max)");
+            Map(x => x.Report).Not.Nullable().Length(10000);
 
             References(x => x.Fixture);
 

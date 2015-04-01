@@ -9,9 +9,11 @@ namespace ivNet.Club.ViewModel
         {
             Guardians=new List<MemberViewModel>();
             Juniors = new List<MemberViewModel>();
+            Seniors = new List<MemberViewModel>();
             NewGuardian=new MemberViewModel();
             NewJunior = new MemberViewModel();
         }
+
         public string Type { get; set; }
         public int MemberType { get; set; }
         public string AuthenticatedUser { get; set; }
@@ -20,8 +22,8 @@ namespace ivNet.Club.ViewModel
         
         public List<MemberViewModel> Guardians { get; set; }
         public List<MemberViewModel> Juniors { get; set; }
+        public List<MemberViewModel> Seniors { get; set; }
         public MemberViewModel NewGuardian { get; set; }
-        public MemberViewModel NewJunior { get; set; }
-        
+        public MemberViewModel NewJunior { get; set; }        
     }
 }

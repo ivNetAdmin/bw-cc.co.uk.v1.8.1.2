@@ -58,6 +58,12 @@ namespace ivNet.Club.Controllers
         #region fixture
 
         [Themed]
+          public ActionResult ListAllFixtures()
+        {
+            return View("Admin/Fixture/ListAll/Index");
+        }
+
+        [Themed]
         public ActionResult CreateNewFixture()
         {
             return View("Admin/Fixture/New/Index");

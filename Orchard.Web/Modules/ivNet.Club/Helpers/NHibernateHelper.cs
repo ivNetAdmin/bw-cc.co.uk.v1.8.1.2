@@ -42,7 +42,7 @@ namespace ivNet.Club.Helpers
             return Fluently.Configure()
                 .Database(MsSqlCeConfiguration.Standard.ShowSql().ConnectionString(c => c.Is(connectionString)))
                 .Mappings(m =>
-                    m.FluentMappings.AddFromAssemblyOf<ContactDetail>()
+                    m.FluentMappings.AddFromAssemblyOf<Member>()
                     .Conventions
                     .Add(Table.Is(x => "ivNet" + x.EntityType.Name), PrimaryKey.Name.Is(x => x.EntityType.Name + "ID"), ForeignKey.EndsWith("ID")))
                 .ExposeConfiguration(cfg => new SchemaUpdate(cfg).Execute(false, true))

@@ -12,10 +12,12 @@ namespace ivNet.Club.ViewModel
             Opponents = new List<OpponentViewModel>();
             Locations = new List<LocationViewModel>();
             FixtureTypes = new List<FixtureTypeViewModel>();
+            ResultTypes = new List<ResultTypeViewModel>();
             //HowOut = new List<HowOutViewModel>();
             HomeOrAway = new List<string>();
         }
 
+        public List<ResultTypeViewModel> ResultTypes { get; set; }
         public List<FixtureViewModel> Fixtures { get; set; }
         public List<TeamViewModel> Teams { get; set; }
         public List<OpponentViewModel> Opponents { get; set; }

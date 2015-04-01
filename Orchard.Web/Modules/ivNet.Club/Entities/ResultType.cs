@@ -3,17 +3,17 @@ using FluentNHibernate.Mapping;
 
 namespace ivNet.Club.Entities
 {
-    public class FixtureResult : BaseEntity
+    public class ResultType : BaseEntity
     {
         public virtual string Name { get; set; }
     }
 
-    public class FixtureResulteMap : ClassMap<FixtureResult>
+    public class ResulteTypeMap : ClassMap<ResultType>
     {
-        public FixtureResulteMap()
+        public ResulteTypeMap()
         {
             Id(x => x.Id);
-            Map(x => x.Name).Not.Nullable().Length(120).UniqueKey("ix_FixtureResult_Unique");
+            Map(x => x.Name).Not.Nullable().Length(120).UniqueKey("ix_ResultType_Unique");
 
             Map(x => x.IsActive);
 
